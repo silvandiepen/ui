@@ -1,8 +1,7 @@
 <template>
   <div :class="bemm('', [`type-${type}`, `size-${size}`])">
-    <!-- Linear Progress Bar -->
     <div v-if="type === 'linear' && showBar" :class="bemm('bar')">
-      <div 
+      <div
         :class="bemm('fill', ['', indeterminate ? 'indeterminate' : '', `variant-${variant}`])"
         :style="!indeterminate ? { width: `${percentage}%` } : undefined"
       >
@@ -12,7 +11,6 @@
       </div>
     </div>
 
-    <!-- Circular Progress -->
     <div v-if="type === 'circular'" :class="bemm('circular')">
       <svg :class="bemm('circular-svg')" viewBox="0 0 100 100">
         <circle
@@ -39,7 +37,6 @@
       </div>
     </div>
 
-    <!-- Progress Label -->
     <div v-if="label || showPercentage" :class="bemm('label')">
       <span v-if="label" :class="bemm('label-text')">{{ label }}</span>
       <span v-if="showPercentage && !showPercentageInBar" :class="bemm('label-percentage')">
@@ -47,10 +44,9 @@
       </span>
     </div>
 
-    <!-- Progress Details -->
     <div v-if="details && details.length > 0" :class="bemm('details')">
-      <span 
-        v-for="(detail, index) in details" 
+      <span
+        v-for="(detail, index) in details"
         :key="index"
         :class="bemm('detail')"
       >
@@ -58,30 +54,21 @@
       </span>
     </div>
 
-    <!-- Slots for custom content -->
     <div v-if="$slots.default" :class="bemm('content')">
       <slot />
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
 
-export interface ProgressProps {
-  value?: number
-  max?: number
-  label?: string
-  details?: string[]
-  showBar?: boolean
-  showPercentage?: boolean
-  showPercentageInBar?: boolean
-  indeterminate?: boolean
-  variant?: 'primary' | 'success' | 'warning' | 'error' | 'info'
-  size?: 'small' | 'medium' | 'large'
-  type?: 'linear' | 'circular'
-}
+import type { ProgressProps } from './Progress.model'
+
+defineOptions({
+  name: 'Progress',
+})
 
 const props = withDefaults(defineProps<ProgressProps>(), {
   value: 0,
@@ -92,13 +79,16 @@ const props = withDefaults(defineProps<ProgressProps>(), {
   indeterminate: false,
   variant: 'primary',
   size: 'medium',
-  type: 'linear'
+  type: 'linear',
 })
 
 const { bemm } = useBemm('progress')
 
 const percentage = computed(() => {
-  if (props.max === 0) return 0
+  if (props.max === 0) {
+    return 0
+  }
+
   return Math.min(100, Math.max(0, (props.value / props.max) * 100))
 })
 </script>
@@ -114,7 +104,7 @@ const percentage = computed(() => {
     .progress__bar {
       height: 4px;
     }
-    
+
     .progress__label,
     .progress__details {
       font-size: var(--font-size-s);
@@ -131,7 +121,7 @@ const percentage = computed(() => {
     .progress__bar {
       height: 12px;
     }
-    
+
     .progress__label {
       font-size: var(--font-size-l);
     }
@@ -214,11 +204,10 @@ const percentage = computed(() => {
   &__detail {
     color: var(--color-foreground-secondary);
     white-space: nowrap;
-    
+
     &::after {
       content: '•';
       margin-left: var(--space-m);
-      opacity: 0.3;
     }
 
     &:last-child::after {
@@ -230,29 +219,18 @@ const percentage = computed(() => {
     margin-top: var(--space-s);
   }
 
-  &--type-circular {
-    align-items: center;
-  }
-
   &__circular {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
   }
 
   &__circular-svg {
-    width: 100px;
-    height: 100px;
+    width: 4rem;
+    height: 4rem;
     transform: rotate(-90deg);
-  }
-
-  &--size-small &__circular-svg {
-    width: 60px;
-    height: 60px;
-  }
-
-  &--size-large &__circular-svg {
-    width: 140px;
-    height: 140px;
   }
 
   &__circular-track {
@@ -260,12 +238,8 @@ const percentage = computed(() => {
   }
 
   &__circular-fill {
+    stroke: var(--color-primary);
     transition: stroke-dasharray 0.3s ease;
-    stroke-linecap: round;
-
-    &--variant-primary {
-      stroke: var(--color-primary);
-    }
 
     &--variant-success {
       stroke: var(--color-success);
@@ -286,29 +260,22 @@ const percentage = computed(() => {
 
   &__circular-label {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: var(--font-size-l);
+    font-size: var(--font-size-s);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-foreground);
-  }
-
-  &--size-small &__circular-label {
-    font-size: var(--font-size-m);
-  }
-
-  &--size-large &__circular-label {
-    font-size: var(--font-size-xl);
   }
 }
 
 @keyframes progress-indeterminate {
   0% {
-    left: -30%;
+    transform: translateX(-100%);
   }
+
+  50% {
+    transform: translateX(220%);
+  }
+
   100% {
-    left: 100%;
+    transform: translateX(360%);
   }
 }
 
@@ -317,13 +284,15 @@ const percentage = computed(() => {
     stroke-dasharray: 1 283;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 212.25 70.75;
-    stroke-dashoffset: -70.75;
+    stroke-dashoffset: -35;
   }
+
   100% {
     stroke-dasharray: 212.25 70.75;
-    stroke-dashoffset: -283;
+    stroke-dashoffset: -248;
   }
 }
 </style>

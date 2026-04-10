@@ -28,6 +28,97 @@
       </div>
     </Card>
 
+    <Card :class="bemm('usage-card')">
+      <header :class="bemm('doc-header')">
+        <h2 :class="bemm('section-title')">Usage</h2>
+        <Badge>root import</Badge>
+      </header>
+
+      <pre :class="bemm('code-block')"><code>{{ sourceDocumentation.usageExample }}</code></pre>
+    </Card>
+
+    <Card v-if="sourceDocumentation.props.length > 0" :class="bemm('props-card')">
+      <header :class="bemm('doc-header')">
+        <h2 :class="bemm('section-title')">Props</h2>
+        <Badge>{{ sourceDocumentation.props.length }}</Badge>
+      </header>
+
+      <div :class="bemm('props-table')">
+        <div :class="[bemm('props-row'), bemm('props-row', 'header')]">
+          <span>Name</span>
+          <span>Type</span>
+          <span>Default</span>
+          <span>Details</span>
+        </div>
+
+        <div
+          v-for="prop in sourceDocumentation.props"
+          :key="prop.name"
+          :class="bemm('props-row')"
+        >
+          <strong :class="bemm('props-name')">
+            {{ prop.name }}
+            <StatusBadge
+              :class="bemm('props-required')"
+              :label="prop.required ? 'required' : 'optional'"
+              :tone="prop.required ? 'danger' : 'accent'"
+            />
+          </strong>
+          <code>{{ prop.type }}</code>
+          <code>{{ prop.defaultValue ?? 'none' }}</code>
+          <span>{{ prop.description || 'No inline prop description yet.' }}</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card v-if="sourceDocumentation.events.length > 0" :class="bemm('events-card')">
+      <header :class="bemm('doc-header')">
+        <h2 :class="bemm('section-title')">Events</h2>
+        <Badge>{{ sourceDocumentation.events.length }}</Badge>
+      </header>
+
+      <div :class="bemm('events-table')">
+        <div :class="[bemm('events-row'), bemm('events-row', 'header')]">
+          <span>Name</span>
+          <span>Payload</span>
+          <span>Details</span>
+        </div>
+
+        <div
+          v-for="event in sourceDocumentation.events"
+          :key="event.name"
+          :class="bemm('events-row')"
+        >
+          <strong>{{ event.name }}</strong>
+          <code>{{ event.payload }}</code>
+          <span>{{ event.description || 'No inline event description yet.' }}</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card v-if="sourceDocumentation.slots.length > 0" :class="bemm('slots-card')">
+      <header :class="bemm('doc-header')">
+        <h2 :class="bemm('section-title')">Slots</h2>
+        <Badge>{{ sourceDocumentation.slots.length }}</Badge>
+      </header>
+
+      <div :class="bemm('slots-table')">
+        <div :class="[bemm('slots-row'), bemm('slots-row', 'header')]">
+          <span>Name</span>
+          <span>Details</span>
+        </div>
+
+        <div
+          v-for="slot in sourceDocumentation.slots"
+          :key="slot.name"
+          :class="bemm('slots-row')"
+        >
+          <strong>{{ slot.name }}</strong>
+          <span>{{ slot.description }}</span>
+        </div>
+      </div>
+    </Card>
+
     <section v-if="compiledDocs.length > 0" :class="bemm('docs')">
       <Card
         v-for="doc in compiledDocs"
@@ -78,6 +169,7 @@ import {
   getDocContent,
   getExampleLoader,
 } from '@ui-docs/lib/componentRegistry'
+import { getSourceDocumentation } from '@ui-docs/lib/sourceDocumentation'
 
 interface Props {
   slug: string
@@ -103,6 +195,21 @@ const asyncExampleComponent = computed(() => {
   }
 
   return defineAsyncComponent(loader)
+})
+
+const sourceDocumentation = computed(() => {
+  if (!componentEntry.value) {
+    return {
+      events: [],
+      modelPath: null,
+      props: [],
+      slots: [],
+      sourcePath: '',
+      usageExample: '',
+    }
+  }
+
+  return getSourceDocumentation(componentEntry.value)
 })
 
 const compiledDocs = computed(() => {
@@ -173,6 +280,9 @@ function getDocTitle(path: string): string {
   }
 
   &__example-card,
+  &__usage-card,
+  &__props-card,
+  &__events-card,
   &__doc-card,
   &__empty-card {
     display: grid;
@@ -233,6 +343,95 @@ function getDocTitle(path: string): string {
     }
   }
 
+  &__code-block {
+    overflow: auto;
+    padding: 1rem;
+    border-radius: 0.9rem;
+    background: #1f1914;
+    color: #fff7ef;
+    margin: 0;
+  }
+
+  &__props-table {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  &__events-table {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  &__slots-table {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  &__props-row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1.1fr) minmax(10rem, 1fr) minmax(8rem, 0.8fr) minmax(0, 1.6fr);
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.9rem 0;
+    border-top: 1px solid rgba(43, 36, 29, 0.08);
+
+    &--header {
+      border-top: 0;
+      padding-top: 0;
+      color: rgba(43, 36, 29, 0.6);
+      font-size: var(--font-size-s);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  &__events-row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) minmax(10rem, 1fr) minmax(0, 1.8fr);
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.9rem 0;
+    border-top: 1px solid rgba(43, 36, 29, 0.08);
+
+    &--header {
+      border-top: 0;
+      padding-top: 0;
+      color: rgba(43, 36, 29, 0.6);
+      font-size: var(--font-size-s);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  &__slots-row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) minmax(0, 2fr);
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.9rem 0;
+    border-top: 1px solid rgba(43, 36, 29, 0.08);
+
+    &--header {
+      border-top: 0;
+      padding-top: 0;
+      color: rgba(43, 36, 29, 0.6);
+      font-size: var(--font-size-s);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  &__props-name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__props-required {
+    flex: 0 0 auto;
+  }
+
   &__empty-copy {
     margin: 0;
     line-height: 1.6;
@@ -261,6 +460,18 @@ function getDocTitle(path: string): string {
     &__doc-header {
       flex-direction: column;
       align-items: start;
+    }
+
+    &__props-row {
+      grid-template-columns: 1fr;
+    }
+
+    &__events-row {
+      grid-template-columns: 1fr;
+    }
+
+    &__slots-row {
+      grid-template-columns: 1fr;
     }
   }
 }

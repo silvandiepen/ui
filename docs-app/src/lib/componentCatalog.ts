@@ -148,7 +148,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   Progress: {
     category: 'Feedback',
     status: 'stable',
-    sourcePath: 'src/components/Progress.vue',
+    sourcePath: 'src/components/Progress',
     summary: 'Generic progress indicator for ongoing work and task state.',
   },
   ReferenceBadge: {
@@ -170,6 +170,16 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     category: 'Forms',
     status: 'transitional',
     summary: 'Standalone Emila-style select component still outside the shared form namespace.',
+  },
+  Sidebar: {
+    category: 'Data and Navigation',
+    status: 'stable',
+    summary: 'Shared vertical shell for sticky sidebars and contextual panels.',
+  },
+  SidebarNavigation: {
+    category: 'Data and Navigation',
+    status: 'stable',
+    summary: 'Grouped navigation surface for sidebar-driven product and docs layouts.',
   },
   Skeleton: {
     category: 'Foundations',
@@ -209,7 +219,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   ThemeToggle: {
     category: 'Foundations',
     status: 'stable',
-    sourcePath: 'src/components/ThemeToggle.vue',
+    sourcePath: 'src/components/ThemeToggle',
     summary: 'Shared theme mode toggle control.',
   },
   Toast: {

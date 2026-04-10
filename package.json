@@ -37,7 +37,7 @@
     "lint": "eslint .",
     "release": "semantic-release",
     "prepublishOnly": "npm run typecheck && npm run build",
-    "test": "vitest run docs-app/src/lib/componentCatalog.test.ts --environment=node",
+    "test": "vitest run docs-app/src/lib/componentCatalog.test.ts docs-app/src/lib/sourceDocumentation.test.ts --environment=node",
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {

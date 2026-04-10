@@ -1,47 +1,15 @@
 <template>
   <div :class="bemm()">
-    <aside :class="bemm('sidebar')">
-      <div :class="bemm('sidebar-header')">
+    <Sidebar :class="bemm('sidebar')" subtitle="Source-driven component docs" title="@sil/ui">
+      <template #header>
         <RouterLink :class="bemm('brand')" to="/">
           <span :class="bemm('brand-title')">@sil/ui</span>
           <span :class="bemm('brand-subtitle')">Component docs</span>
         </RouterLink>
-      </div>
+      </template>
 
-      <div :class="bemm('sidebar-content')">
-        <section
-          v-for="group in catalogGroups"
-          :key="group.name"
-          :class="bemm('sidebar-group')"
-        >
-          <header :class="bemm('sidebar-group-header')">
-            <h2 :class="bemm('sidebar-group-title')">{{ group.name }}</h2>
-            <Badge>{{ group.items.length }}</Badge>
-          </header>
-
-          <nav :class="bemm('sidebar-nav')">
-            <RouterLink
-              v-for="item in group.items"
-              :key="item.slug"
-              :class="bemm('sidebar-link')"
-              :to="{
-                name: 'docs-component',
-                params: {
-                  slug: item.slug,
-                },
-              }"
-            >
-              <span>{{ item.name }}</span>
-              <StatusBadge
-                :class="bemm('sidebar-status')"
-                :label="item.status"
-                :tone="item.statusTone"
-              />
-            </RouterLink>
-          </nav>
-        </section>
-      </div>
-    </aside>
+      <SidebarNavigation :sections="navigationSections" />
+    </Sidebar>
 
     <main :class="bemm('main')">
       <PlatformHeader :class="bemm('header')">
@@ -68,13 +36,13 @@ import { computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useBemm } from 'bemm'
 
-import { Badge, Button, PlatformHeader, StatusBadge } from '@sil/ui'
+import { Button, PlatformHeader, Sidebar, SidebarNavigation } from '@sil/ui'
 
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
 
 const bemm = useBemm('docs-app')
 
-const catalogGroups = computed(() => {
+const navigationSections = computed(() => {
   const groups = new Map<string, ReturnType<typeof getComponentCatalog>>()
 
   for (const item of getComponentCatalog()) {
@@ -86,10 +54,23 @@ const catalogGroups = computed(() => {
 
   return [...groups.entries()]
     .map(([name, items]) => ({
-      name,
-      items,
+      id: name.toLowerCase().replace(/\s+/g, '-'),
+      items: items.map((item) => ({
+        badge: item.status,
+        badgeTone: item.statusTone,
+        description: item.summary,
+        id: item.slug,
+        label: item.name,
+        to: {
+          name: 'docs-component',
+          params: {
+            slug: item.slug,
+          },
+        },
+      })),
+      label: name,
     }))
-    .sort((left, right) => left.name.localeCompare(right.name))
+    .sort((left, right) => left.label.localeCompare(right.label))
 })
 </script>
 
@@ -113,11 +94,6 @@ const catalogGroups = computed(() => {
     backdrop-filter: blur(12px);
   }
 
-  &__sidebar-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid rgba(72, 48, 26, 0.12);
-  }
-
   &__brand {
     display: grid;
     gap: 0.2rem;
@@ -132,61 +108,6 @@ const catalogGroups = computed(() => {
 
   &__brand-subtitle {
     color: rgba(43, 36, 29, 0.7);
-  }
-
-  &__sidebar-content {
-    display: grid;
-    gap: 1.25rem;
-    padding: 1.5rem;
-  }
-
-  &__sidebar-group {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  &__sidebar-group-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  &__sidebar-group-title {
-    margin: 0;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(43, 36, 29, 0.6);
-  }
-
-  &__sidebar-nav {
-    display: grid;
-    gap: 0.45rem;
-  }
-
-  &__sidebar-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.7rem 0.85rem;
-    border-radius: 0.9rem;
-    text-decoration: none;
-    color: inherit;
-    transition:
-      background-color 150ms ease,
-      transform 150ms ease;
-
-    &:hover,
-    &.router-link-active {
-      background: rgba(229, 84, 38, 0.08);
-      transform: translateX(0.12rem);
-    }
-  }
-
-  &__sidebar-status {
-    flex: 0 0 auto;
   }
 
   &__main {

@@ -15,10 +15,9 @@ describe('component catalog', () => {
       folderKeys: [
         '../../../src/components/Card/index.ts',
         '../../../src/components/Form/index.ts',
+        '../../../src/components/Progress/index.ts',
       ],
-      singleFileKeys: [
-        '../../../src/components/Progress.vue',
-      ],
+      singleFileKeys: [],
     })
 
     expect(catalog.map((entry) => entry.name)).toEqual([

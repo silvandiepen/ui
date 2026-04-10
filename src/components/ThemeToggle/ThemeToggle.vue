@@ -1,26 +1,29 @@
 <template>
   <button
     :class="bemm()"
-    @click="$emit('toggle')"
     :aria-label="ariaLabel"
     type="button"
+    @click="$emit('toggle')"
   >
     <Icon :name="iconName" />
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
 import { Icons } from 'open-icon'
-import Icon from './Icon/Icon.vue'
 
-export interface ThemeToggleProps {
-  theme?: 'light' | 'dark' | 'system'
-}
+import { Icon } from '../Icon'
+
+import type { ThemeToggleProps } from './ThemeToggle.model'
+
+defineOptions({
+  name: 'ThemeToggle',
+})
 
 const props = withDefaults(defineProps<ThemeToggleProps>(), {
-  theme: 'light'
+  theme: 'light',
 })
 
 defineEmits<{
@@ -41,6 +44,7 @@ const iconName = computed(() => {
   if (props.theme === 'system') {
     return Icons.DESKTOP
   }
+
   return props.theme === 'dark' ? Icons.SUN : Icons.MOON01
 })
 </script>
