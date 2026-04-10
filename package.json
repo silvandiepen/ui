@@ -25,22 +25,35 @@
     "src/styles",
     "src/vite"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
+    "docs:build": "vite build --config docs-app/vite.config.ts",
+    "docs:dev": "vite --config docs-app/vite.config.ts",
+    "docs:typecheck": "vue-tsc --noEmit -p docs-app/tsconfig.json",
     "lint": "eslint .",
+    "release": "semantic-release",
+    "prepublishOnly": "npm run typecheck && npm run build",
+    "test": "vitest run docs-app/src/lib/componentCatalog.test.ts --environment=node",
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "open-icon": "1.1.2",
-    "vue": "^3.4.21"
+    "open-icon": "1.1.2"
   },
   "devDependencies": {
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/npm": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/node": "^20.11.25",
     "@vitejs/plugin-vue": "^5.0.4",
     "bemm": "^1.2.2",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.22.0",
+    "markdown-it": "^14.1.0",
     "postcss": "^8.4.35",
     "postcss-cli": "^11.0.0",
     "sass": "^1.71.1",
@@ -48,9 +61,12 @@
     "typescript": "^5.3.3",
     "vite": "^5.1.6",
     "vite-plugin-dts": "^4.5.4",
+    "vitest": "^2.1.8",
+    "vue": "^3.4.21",
     "vue-i18n": "^9.14.1",
     "vue-router": "^4.4.5",
-    "vue-tsc": "^2.0.6"
+    "vue-tsc": "^2.0.6",
+    "semantic-release": "^24.2.3"
   },
   "peerDependencies": {
     "vue": "^3.4.0",

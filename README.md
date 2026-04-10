@@ -6,10 +6,21 @@ This repository is the source of truth for reusable UI primitives, shared form b
 
 ## Documentation
 
+- Local docs app: `npm run docs:dev`
+- Docs production build: `npm run docs:build`
 - Component inventory: [docs/COMPONENTS.md](./docs/COMPONENTS.md)
 - AI usage and implementation guide: [AI_GUIDE.md](./AI_GUIDE.md)
 - Migration plan: [MIGRATION_PLAN.md](./MIGRATION_PLAN.md)
 - Migration notes and validation log: [MIGRATION_NOTES.md](./MIGRATION_NOTES.md)
+
+The docs app lives in [docs-app](./docs-app) and discovers markdown documents and example components directly from the component tree. Its catalog is the current organizing layer for the shared surface while the library is still normalizing older compatibility folders.
+
+## Release Flow
+
+- Pushes to `main` or `master` run [release.yml](./.github/workflows/release.yml).
+- Releases are published through `semantic-release`.
+- Every conventional commit type used in this repo produces a release on the default branch.
+- npm publishing is configured for the public scoped package `@sil/ui`.
 
 ## Package Rules
 
