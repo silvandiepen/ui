@@ -1,0 +1,23 @@
+// Export all form components
+export * from './TForm'
+export * from './TInput'
+export * from './TImageInput'
+export * from './TColorPicker'
+export * from './TColorPickerPopup'
+export * from './TNumberPad'
+export * from './TPinInput'
+export * from './TRichTextEditor'
+export * from './TToggle'
+export * from './TFormActions'
+
+// Aliases for backward compatibility
+export { TInput as Input } from './TInput'
+export { TToggle as Toggle } from './TToggle'
+export { TInputSelect as Select } from './TForm/inputs/TInputSelect'
+export { TInputRadio as RadioGroup } from './TForm/inputs/TInputRadio'
+export { TInputCheckbox as Checkbox } from './TForm/inputs/TInputCheckbox'
+export { TFormGroup as CheckboxGroup } from './TForm'
+export { TInputCheckbox as InputCheckbox } from './TForm/inputs/TInputCheckbox'
+export { TToggle as Switch } from './TToggle'
+export { TInputSelect as InputSelect } from './TForm/inputs/TInputSelect'
+export { TInputNumber as InputNumber } from './TForm/inputs/TInputNumber'

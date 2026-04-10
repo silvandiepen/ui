@@ -1,0 +1,2 @@
+export const DEFAULT_TABLE_PAGE_SIZE = 25
+export const DEFAULT_TABLE_PAGE_SIZES = [10, 25, 50, 100]

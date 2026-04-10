@@ -1,0 +1,88 @@
+@forward 'typography';
+@forward 'color/color';
+@forward 'reset';
+@forward 'content';
+@forward 'media';
+@forward 'base';
+@forward 'icon-animations';
+
+@use 'media' as *;
+
+body,
+html {
+	margin: 0;
+	background: var(--color-background);
+
+	height: 100vh;
+	scroll-snap-type: y mandatory;
+	overflow-x: hidden;
+}
+
+body {
+	background-color: var(--color-accent);
+	background-image: radial-gradient(ellipse at center,
+			var(--color-background) 0%,
+			var(--color-background) 50%,
+			black 100%);
+	background-attachment: fixed;
+	background-size: 100% 100%;
+	color: var(--color-foreground);
+	padding: 0;
+	margin: 0;
+	font-size: clamp(var(--font-size-base), 1.25vmin, var(--font-size-xl));
+	font-family: var(--font-family-body);
+
+	scroll-behavior: smooth;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-primary) color-mix(in srgb, var(--color-foreground), transparent 90%);
+}
+
+.hide-mobile {
+	@include desktop-down() {
+		display: none;
+	}
+}
+
+:root{
+	--context-panel-background: var(--color-foreground);
+	--context-panel-color-text: var(--color-background);
+}
+
+
+.id {
+	font-size: var(--font-size-s);
+	font-family: 'Courier New', Courier, monospace;
+	background-color: color-mix(in srgb, var(--color-accent), transparent 75%);
+	width: fit-content;
+	padding: var(--space-xs);
+	border-radius: var(--border-radius-xs);
+	border: var(--border-width-s) solid color-mix(in srgb, var(--color-primary), var(--color-accent) 50%);
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	transition: all 0.2s ease-in-out;
+
+	span {
+		position: relative;
+		left: 0;
+    width: fit-content;
+    transform: translateX(0%);
+		transition: all 0.2s ease-in-out;
+	}
+
+	&:hover {
+		text-overflow: none;
+
+		span{
+			transition: none;
+			left: 100%;
+    position: relative;
+    display: block;
+    transform: translateX(-100%);
+    width: fit-content;
+		}
+	}
+}

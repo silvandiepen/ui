@@ -1,0 +1,37 @@
+@use 'functions';
+@use 'variables';
+
+:root {
+	@each $color-name, $color-value in variables.$colors {
+		--color-#{$color-name}: #{$color-value};
+		// @include functions.hslColors($color-name, $color-value);
+		// @include functions.rgbColors($color-name, $color-value);
+		--color-#{$color-name}-text: #{functions.textColorShade($color-value, $color-name)};
+		--color-#{$color-name}-contrast: #{functions.textColorShade($color-value, $color-name)};
+	}
+	@each $color-name, $color-value in variables.$extended-colors {
+		--color-#{$color-name}: #{$color-value};
+		// @include functions.hslColors($color-name, $color-value);
+		// @include functions.rgbColors($color-name, $color-value);
+		--color-#{$color-name}-text: #{functions.textColorShade($color-value, $color-name)};
+		--color-#{$color-name}-contrast: #{functions.textColorShade($color-value, $color-name)};
+	}
+
+	--color-accent: var(--color-foreground);
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		@include functions.darkModeBase();
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root {
+		@include functions.lightModeBase();
+	}
+}
+[data-theme='dark'] {
+	@include functions.darkModeBase();
+}
+[data-theme='light'] {
+	@include functions.lightModeBase();
+}

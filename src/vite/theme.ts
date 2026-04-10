@@ -1,0 +1,156 @@
+export interface UIThemeConfig {
+  colors?: Record<string, string>
+  variables?: Record<string, string | number>
+}
+
+const DEFAULT_THEME_COLORS: Record<string, string> = {
+  dark: '#020b22',
+  light: '#ffffff',
+  'accent-dark': '#000000',
+  'accent-light': '#f0d8bc',
+  primary: '#55c267',
+  secondary: '#2dcfdc',
+  tertiary: '#2376d3',
+  quaternary: '#a9e14b',
+  quinary: '#f96459',
+  success: '#55c267',
+  warning: '#ff8d22',
+  error: '#f40935',
+  info: '#3bb6f1',
+  border: '#d7d2d9',
+}
+
+interface RgbColor {
+  r: number
+  g: number
+  b: number
+}
+
+export function defineTheme(theme: UIThemeConfig): UIThemeConfig {
+  return theme
+}
+
+export function resolveTheme(theme: UIThemeConfig = {}): Required<UIThemeConfig> {
+  return {
+    colors: {
+      ...DEFAULT_THEME_COLORS,
+      ...theme.colors,
+    },
+    variables: {
+      ...theme.variables,
+    },
+  }
+}
+
+export function generateThemeStyles(theme: UIThemeConfig = {}): string {
+  const resolvedTheme = resolveTheme(theme)
+  const lines = [':root {']
+
+  for (const [token, value] of Object.entries(resolvedTheme.colors)) {
+    const parsed = parseColor(value)
+
+    lines.push(`  --color-${token}: ${value};`)
+
+    if (!parsed) {
+      continue
+    }
+
+    const contrast = formatColor(getContrastColor(parsed))
+    const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
+    const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+
+    lines.push(`  --color-${token}-text: ${contrast};`)
+    lines.push(`  --color-${token}-contrast: ${contrast};`)
+    lines.push(`  --color-${token}-light: ${light};`)
+    lines.push(`  --color-${token}-dark: ${dark};`)
+  }
+
+  for (const [name, value] of Object.entries(resolvedTheme.variables)) {
+    const variableName = name.startsWith('--') ? name : `--${name}`
+    lines.push(`  ${variableName}: ${String(value)};`)
+  }
+
+  lines.push('}')
+
+  return lines.join('\n')
+}
+
+function parseColor(value: string): RgbColor | null {
+  const normalizedValue = value.trim()
+
+  if (normalizedValue.startsWith('#')) {
+    return parseHexColor(normalizedValue)
+  }
+
+  const rgbMatch = normalizedValue.match(/^rgba?\(([^)]+)\)$/i)
+  if (!rgbMatch) {
+    return null
+  }
+
+  const channels = rgbMatch[1]
+    .split(',')
+    .slice(0, 3)
+    .map((channel) => Number.parseFloat(channel.trim()))
+
+  if (channels.length !== 3 || channels.some((channel) => Number.isNaN(channel))) {
+    return null
+  }
+
+  return {
+    r: clamp(channels[0]),
+    g: clamp(channels[1]),
+    b: clamp(channels[2]),
+  }
+}
+
+function parseHexColor(value: string): RgbColor | null {
+  const hex = value.replace('#', '')
+
+  if (hex.length === 3 || hex.length === 4) {
+    const [r, g, b] = hex.slice(0, 3).split('').map((part) => Number.parseInt(part.repeat(2), 16))
+    return { r, g, b }
+  }
+
+  if (hex.length === 6 || hex.length === 8) {
+    return {
+      r: Number.parseInt(hex.slice(0, 2), 16),
+      g: Number.parseInt(hex.slice(2, 4), 16),
+      b: Number.parseInt(hex.slice(4, 6), 16),
+    }
+  }
+
+  return null
+}
+
+function mix(a: RgbColor, b: RgbColor, weight: number): RgbColor {
+  return {
+    r: clamp(a.r + (b.r - a.r) * weight),
+    g: clamp(a.g + (b.g - a.g) * weight),
+    b: clamp(a.b + (b.b - a.b) * weight),
+  }
+}
+
+function getContrastColor(color: RgbColor): RgbColor {
+  return getLuminance(color) > 0.42
+    ? { r: 19, g: 18, b: 22 }
+    : { r: 248, g: 244, b: 236 }
+}
+
+function getLuminance(color: RgbColor): number {
+  const channels = [color.r, color.g, color.b].map((channel) => {
+    const normalizedChannel = channel / 255
+    return normalizedChannel <= 0.03928
+      ? normalizedChannel / 12.92
+      : ((normalizedChannel + 0.055) / 1.055) ** 2.4
+  })
+
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+}
+
+function formatColor(color: RgbColor): string {
+  return `rgb(${color.r}, ${color.g}, ${color.b})`
+}
+
+function clamp(value: number): number {
+  return Math.max(0, Math.min(255, Math.round(value)))
+}

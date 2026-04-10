@@ -1,15 +1,60 @@
 {
   "name": "@sil/ui",
   "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "description": "Shared UI components for SIL applications",
+  "main": "./dist/sil-ui.umd.js",
+  "module": "./dist/sil-ui.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/sil-ui.mjs",
+      "require": "./dist/sil-ui.umd.js"
+    },
+    "./vite": "./src/vite/index.ts",
+    "./style.css": "./dist/style.css",
+    "./styles/index.scss": "./src/styles/index.scss",
+    "./styles/global.scss": "./src/styles/global.scss",
+    "./styles/main.scss": "./src/styles/main.scss",
+    "./src/styles/index.scss": "./src/styles/index.scss",
+    "./src/styles/global.scss": "./src/styles/global.scss",
+    "./src/styles/main.scss": "./src/styles/main.scss"
+  },
   "files": [
-    "src"
+    "dist",
+    "src/styles",
+    "src/vite"
   ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint .",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "open-icon": "1.1.2",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.25",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "bemm": "^1.2.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.22.0",
+    "postcss": "^8.4.35",
+    "postcss-cli": "^11.0.0",
+    "sass": "^1.71.1",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.6",
+    "vite-plugin-dts": "^4.5.4",
+    "vue-i18n": "^9.14.1",
+    "vue-router": "^4.4.5",
+    "vue-tsc": "^2.0.6"
+  },
   "peerDependencies": {
-    "vue": "^3.5.0"
+    "vue": "^3.4.0",
+    "vue-i18n": "^9.14.1",
+    "vue-router": "^4.4.5"
   }
 }

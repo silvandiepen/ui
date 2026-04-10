@@ -1,0 +1,59 @@
+:root {
+	// Spacing system
+	--space: 1em;
+	--space-m: var(--space);
+	--space-s: calc(var(--space) / 2);
+	--space-xs: calc(var(--space) / 3);
+	--space-l: calc(var(--space) * 2);
+	--space-xl: calc(var(--space) * 3);
+	--spacing: clamp(2em, 8vw, 6em);
+
+	// Border radius
+	--border-radius-xs: calc(var(--border-radius) / 3);
+	--border-radius-s: calc(var(--border-radius) / 2);
+	--border-radius: 1em;
+	--border-radius-m: var(--border-radius);
+	--border-radius-l: calc(var(--border-radius) * 1.5);
+	--border-radius-xl: calc(var(--border-radius) * 3);
+	--border-radius-round: 50%;
+
+	// Animation
+	--bezier: cubic-bezier(0, 0.75, 0.5, 1.5);
+
+	// Layout
+	--max-post-width: 640px;
+	--max-content-width: 1200px;
+
+	--shadow: 0 1px 2px 1px var(--drop-shadow-color, var(--color-black));
+
+	--bezier: cubic-bezier(0, 0.75, 0.5, 1.5);
+
+	// Typography fonts are defined in fonts.scss (Space Grotesk for headings, Inter for body)
+	// Mono font stack
+	--font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+
+	--border-width: 1px;
+	--border-width-m: 1px;
+
+
+  --font-size: 1em;
+  --font-size-m: 1em;
+  --font-size-s: .75em;
+  --font-size-xs: .66em;
+  --font-size-l: 1.25em;
+  --font-size-xl: 1.5em;
+  --font-size-xxl: 2em;
+  --font-size-xxxl: 3em;
+  --font-size-xxxxl: clamp(2em, 6vw, 8em);
+
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-normal: 400;
+  --font-weight-light: 300
+
+	--transition-fast: .15s;
+	--transition-normal: .3s;
+	--transition-slow: 1s;
+}
+
+body {}

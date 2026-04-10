@@ -1,0 +1,8 @@
+export interface LezuHeaderUserProps {
+  name: string
+  email?: string
+  href?: string
+  to?: string
+  element?: string
+  trailingIcon?: string
+}

@@ -1,0 +1,319 @@
+// Import Cabinet Grotesk for headings
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Thin.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Thin.woff') format('woff');
+//   font-weight: 100;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Extralight.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Extralight.woff') format('woff');
+//   font-weight: 200;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Light.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Light.woff') format('woff');
+//   font-weight: 300;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff') format('woff');
+//   font-weight: 400;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Medium.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Medium.woff') format('woff');
+//   font-weight: 500;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Bold.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Bold.woff') format('woff');
+//   font-weight: 600;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff') format('woff');
+//   font-weight: 700;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Cabinet Grotesk';
+//   src: url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Black.woff2') format('woff2'),
+//        url('../assets/fonts/cabinet-grotesk/CabinetGrotesk-Black.woff') format('woff');
+//   font-weight: 900;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// // Import Satoshi for body text
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-Light.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-Light.woff') format('woff');
+//   font-weight: 300;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-Regular.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-Regular.woff') format('woff');
+//   font-weight: 400;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-Medium.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-Medium.woff') format('woff');
+//   font-weight: 500;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-Bold.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-Bold.woff') format('woff');
+//   font-weight: 600;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-Black.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-Black.woff') format('woff');
+//   font-weight: 900;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// // Import Satoshi Italic variants
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-LightItalic.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-LightItalic.woff') format('woff');
+//   font-weight: 300;
+//   font-style: italic;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-Italic.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-Italic.woff') format('woff');
+//   font-weight: 400;
+//   font-style: italic;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-MediumItalic.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-MediumItalic.woff') format('woff');
+//   font-weight: 500;
+//   font-style: italic;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-BoldItalic.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-BoldItalic.woff') format('woff');
+//   font-weight: 600;
+//   font-style: italic;
+//   font-display: swap;
+// }
+
+// @font-face {
+//   font-family: 'Satoshi';
+//   src: url('../assets/fonts/satoshi/Satoshi-BlackItalic.woff2') format('woff2'),
+//        url('../assets/fonts/satoshi/Satoshi-BlackItalic.woff') format('woff');
+//   font-weight: 900;
+//   font-style: italic;
+//   font-display: swap;
+// }
+
+
+// Font variables with Inter for body and Space Grotesk for headings
+:root {
+  /* Heading font: Space Grotesk with comprehensive Noto fallbacks */
+  --font-family-heading: 'Space Grotesk',
+                         /* Comprehensive Noto Sans variants */
+                         'Noto Sans',
+                         'Noto Sans SC',
+                         'Noto Sans TC',
+                         'Noto Sans JP',
+                         'Noto Sans KR',
+                         'Noto Sans Arabic',
+                         'Noto Sans Hebrew',
+                         'Noto Sans Thai',
+                         'Noto Sans Devanagari',
+                         'Noto Sans Bengali',
+                         'Noto Sans Georgian',
+                         'Noto Sans Armenian',
+                         /* System fallbacks */
+                         system-ui,
+                         -apple-system,
+                         BlinkMacSystemFont,
+                         'Segoe UI',
+                         sans-serif;
+
+  /* Body font: Inter with comprehensive Noto fallbacks */
+  --font-family-body: 'Inter',
+                      /* Comprehensive Noto Sans variants */
+                      'Noto Sans',
+                      'Noto Sans SC',
+                      'Noto Sans TC',
+                      'Noto Sans JP',
+                      'Noto Sans KR',
+                      'Noto Sans Arabic',
+                      'Noto Sans Hebrew',
+                      'Noto Sans Thai',
+                      'Noto Sans Devanagari',
+                      'Noto Sans Bengali',
+                      'Noto Sans Georgian',
+                      'Noto Sans Armenian',
+                      /* System fallbacks */
+                      system-ui,
+                      -apple-system,
+                      BlinkMacSystemFont,
+                      'Segoe UI',
+                      sans-serif;
+
+  /* Monospace font for code */
+  --font-family-mono: 'SF Mono',
+                      'Monaco',
+                      'Inconsolata',
+                      'Roboto Mono',
+                      'Noto Sans Mono',
+                      'Source Code Pro',
+                      Consolas,
+                      'Liberation Mono',
+                      Menlo,
+                      Courier,
+                      monospace;
+
+  /* Language-specific font stacks for better script support */
+  --font-family-armenian: 'Noto Sans Armenian', 'Inter', 'Arial Unicode MS', sans-serif;
+  --font-family-chinese-sc: 'Noto Sans SC', 'Inter', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --font-family-chinese-tc: 'Noto Sans TC', 'Inter', 'PingFang TC', 'Hiragino Sans CNS', sans-serif;
+  --font-family-japanese: 'Noto Sans JP', 'Inter', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  --font-family-korean: 'Noto Sans KR', 'Inter', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-family-arabic: 'Noto Sans Arabic', 'Inter', 'Tahoma', 'Arial Unicode MS', sans-serif;
+  --font-family-hebrew: 'Noto Sans Hebrew', 'Inter', 'Arial Hebrew', 'Arial Unicode MS', sans-serif;
+  --font-family-thai: 'Noto Sans Thai', 'Inter', 'Thonburi', 'Arial Unicode MS', sans-serif;
+  --font-family-devanagari: 'Noto Sans Devanagari', 'Inter', 'Mangal', 'Arial Unicode MS', sans-serif;
+  --font-family-bengali: 'Noto Sans Bengali', 'Inter', 'Vrinda', 'Arial Unicode MS', sans-serif;
+  --font-family-georgian: 'Noto Sans Georgian', 'Inter', 'Sylfaen', 'Arial Unicode MS', sans-serif;
+
+}
+
+/* Language-specific font optimization */
+
+/* Armenian */
+:lang(hy) {
+  font-family: var(--font-family-armenian);
+}
+
+/* Chinese Simplified */
+:lang(zh), :lang(zh-CN), :lang(zh-Hans) {
+  font-family: var(--font-family-chinese-sc);
+}
+
+/* Chinese Traditional */
+:lang(zh-TW), :lang(zh-HK), :lang(zh-Hant) {
+  font-family: var(--font-family-chinese-tc);
+}
+
+/* Japanese */
+:lang(ja) {
+  font-family: var(--font-family-japanese);
+}
+
+/* Korean */
+:lang(ko) {
+  font-family: var(--font-family-korean);
+}
+
+/* Arabic and Persian */
+:lang(ar), :lang(fa) {
+  font-family: var(--font-family-arabic);
+  direction: rtl;
+  text-align: right;
+}
+
+/* Urdu */
+:lang(ur) {
+  font-family: var(--font-family-arabic);
+  direction: rtl;
+  text-align: right;
+}
+
+/* Hebrew */
+:lang(he) {
+  font-family: var(--font-family-hebrew);
+  direction: rtl;
+  text-align: right;
+}
+
+/* Thai */
+:lang(th) {
+  font-family: var(--font-family-thai);
+}
+
+/* Devanagari scripts (Hindi, Nepali) */
+:lang(hi), :lang(ne) {
+  font-family: var(--font-family-devanagari);
+}
+
+/* Bengali */
+:lang(bn) {
+  font-family: var(--font-family-bengali);
+}
+
+/* Georgian */
+:lang(ka) {
+  font-family: var(--font-family-georgian);
+}
+
+/* Ensure proper text direction for RTL languages */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Improve font rendering for all scripts */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

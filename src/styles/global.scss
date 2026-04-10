@@ -1,0 +1,102 @@
+@use './reset.scss';
+@use './utility-classes.scss';
+
+:root {
+  --app-header-height: 5.5rem;
+  --game-container-max-width: 960px;
+  --main-max-width: 1560px;
+
+  --space-xs: calc(var(--space) / 4);
+  --space-s: calc(var(--space) / 2);
+  --space: 1rem;
+  --space-m: calc(var(--space) * 1);
+  --space-l: calc(var(--space) * 2);
+  --space-xl: calc(var(--space) * 4);
+  --space-xxl: calc(var(--space) * 8);
+  --spacing: clamp(var(--space), 6vw, var(--space-xxl));
+
+  --border-radius-s: calc(var(--border-radius) / 2);
+  --border-radius: 0.25em;
+  --border-radius-l: calc(var(--border-radius) * 2);
+  --border-radius-xl: calc(var(--border-radius) * 3);
+  --border-radius-xxl: calc(var(--border-radius) * 6);
+  --border-width: 1px;
+
+  --font-size-xs: calc(var(--font-size) * 0.75);
+  --font-size-s: calc(var(--font-size) * 0.875);
+  --font-size: 1em;
+  --font-size-m: calc(var(--font-size) * 1);
+  --font-size-l: calc(var(--font-size) * 1.25);
+  --font-size-xl: calc(var(--font-size) * 1.5);
+  --font-size-xxl: calc(var(--font-size) * 2);
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 600;
+  --font-weight-extra-bold: 700;
+  --font-weight-black: 900;
+
+  --font-family:
+    "Space Grotesk", "Manrope", "Avenir Next", "Segoe UI", Arial, sans-serif;
+  --font-family-heading:
+    "Space Grotesk", "Manrope", "Avenir Next", "Segoe UI", Arial, sans-serif;
+  --font-family-monospace:
+    "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+  --cubic-bezier: cubic-bezier(0, 0.5, 0.5, 1.5);
+  --bezier: var(--cubic-bezier);
+  --transition: 0.2s ease;
+  --transition-fast: 0.12s ease;
+
+  --shadow-s: 0 1px 2px color-mix(in srgb, var(--color-dark), transparent 90%);
+  --shadow-m:
+    0 var(--space) var(--spacing) color-mix(in srgb, var(--color-dark), transparent 95%),
+    0 var(--space-xs) var(--space-s) color-mix(in srgb, var(--color-dark), transparent 90%);
+  --shadow-l:
+    0 8px 24px color-mix(in srgb, var(--color-dark), transparent 90%),
+    0 2px 6px color-mix(in srgb, var(--color-dark), transparent 90%);
+}
+
+:root[data-color-mode="dark"] {
+  color-scheme: dark;
+  --color-background: var(--color-dark);
+  --color-foreground: var(--color-light);
+}
+
+:root[data-color-mode="light"] {
+  color-scheme: light;
+  --color-background: var(--color-light);
+  --color-foreground: var(--color-dark);
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-family);
+  line-height: 1.5;
+  padding: 0;
+  scrollbar-color: color-mix(in srgb, var(--color-primary), transparent 90%) transparent;
+  scrollbar-width: thin;
+}
+
+body {
+  margin: 0;
+}
+
+#app {
+  min-height: 100vh;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-family-heading);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
