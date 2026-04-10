@@ -179,7 +179,9 @@ function normalizeEventPayload(payload?: string): string {
 }
 
 function resolveModelPath(entry: UIComponentCatalogEntry): string | null {
-  const folderPath = `../../../src/components/${entry.name}/${entry.name}.model.ts`
+  const componentFolder = getComponentFolder(entry)
+  const componentName = getComponentFileBaseName(entry)
+  const folderPath = `${componentFolder}/${componentName}.model.ts`
 
   if (componentModelModules[folderPath]) {
     return folderPath
@@ -189,13 +191,15 @@ function resolveModelPath(entry: UIComponentCatalogEntry): string | null {
 }
 
 function resolveVuePath(entry: UIComponentCatalogEntry): string | null {
-  const folderPath = `../../../src/components/${entry.name}/${entry.name}.vue`
+  const componentFolder = getComponentFolder(entry)
+  const componentName = getComponentFileBaseName(entry)
+  const folderPath = `${componentFolder}/${componentName}.vue`
 
   if (componentVueModules[folderPath]) {
     return folderPath
   }
 
-  const singleFilePath = `../../../src/components/${entry.name}.vue`
+  const singleFilePath = `${componentFolder}.vue`
 
   return componentVueModules[singleFilePath] ? singleFilePath : null
 }
@@ -271,4 +275,14 @@ function toKebabSentence(value: string): string {
   return value
     .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
     .toLowerCase()
+}
+
+function getComponentFolder(entry: UIComponentCatalogEntry): string {
+  return `../../../${entry.sourcePath}`
+}
+
+function getComponentFileBaseName(entry: UIComponentCatalogEntry): string {
+  const pathSegments = entry.sourcePath.split('/')
+
+  return pathSegments[pathSegments.length - 1] ?? entry.name
 }

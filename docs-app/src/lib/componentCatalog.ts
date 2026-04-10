@@ -8,8 +8,11 @@ import type {
 
 const EXCLUDED_FOLDERS = new Set([
   'Molecules',
-  'Popup',
   'media',
+])
+
+const EXCLUDED_SOURCE_PATHS = new Set([
+  'Feedback/Popup/components',
 ])
 
 const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
@@ -93,22 +96,10 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Empty state presentation block for lists and dashboards.',
   },
-  Feedback: {
-    category: 'Feedback',
-    status: 'legacy',
-    summary: 'Legacy feedback namespace that still owns popup, tooltip, and toast compatibility exports.',
-    includeNestedDocs: true,
-  },
   Field: {
     category: 'Foundations',
     status: 'stable',
     summary: 'Shared wrapper for labels, hints, errors, and form content.',
-  },
-  Form: {
-    category: 'Forms',
-    status: 'transitional',
-    summary: 'Large form surface that contains both stable controls and migration-era compatibility inputs.',
-    includeNestedDocs: true,
   },
   Icon: {
     category: 'Foundations',
@@ -242,42 +233,41 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
 export function buildComponentCatalog(input: UIComponentCatalogInput): UIComponentCatalogEntry[] {
   const docKeysByFolder = groupDocsByFolder(input.docKeys)
   const exampleKeysByFolder = groupExamplesByFolder(input.exampleKeys)
-
   const folderEntries = [...new Set(input.folderKeys
-    .map((key) => key.match(/src\/components\/([^/]+)\/index\.ts$/)?.[1])
+    .map(extractFolderSourcePath)
     .filter((key): key is string => Boolean(key))
-    .filter((key) => !EXCLUDED_FOLDERS.has(key)))]
-
+    .filter((key) => isSourcePathIncluded(key)))]
   const singleFileEntries = [...new Set(input.singleFileKeys
-    .map((key) => key.match(/src\/components\/([^/]+)\.vue$/)?.[1])
+    .map(extractSingleFileSourcePath)
     .filter((key): key is string => Boolean(key))
     .filter((key) => COMPONENT_OVERRIDES[key]))]
 
   return [...folderEntries, ...singleFileEntries]
-    .map((componentKey) => {
-      const override = COMPONENT_OVERRIDES[componentKey]
+    .map((sourcePath) => {
+      const override = resolveComponentOverride(sourcePath)
 
       if (!override) {
         return null
       }
 
-      const docs = (docKeysByFolder.get(componentKey) ?? []).filter((path) => {
+      const docs = (docKeysByFolder.get(sourcePath) ?? []).filter((path) => {
         if (override.includeNestedDocs) {
           return true
         }
 
-        const nestedPath = path.replace(`../../../src/components/${componentKey}/`, '')
+        const nestedPath = path.replace(`../../../src/components/${sourcePath}/`, '')
 
         return !nestedPath.includes('/')
       })
+      const componentName = override.name ?? getSourcePathLeaf(sourcePath)
 
       return {
         category: override.category,
         docs,
-        examplePath: exampleKeysByFolder.get(componentKey) ?? null,
-        name: override.name ?? componentKey,
-        slug: slugifyComponentName(override.name ?? componentKey),
-        sourcePath: override.sourcePath ?? `src/components/${componentKey}`,
+        examplePath: exampleKeysByFolder.get(sourcePath) ?? null,
+        name: componentName,
+        slug: slugifyComponentPath(sourcePath),
+        sourcePath: override.sourcePath ?? `src/components/${sourcePath}`,
         status: override.status,
         statusTone: getStatusTone(override.status),
         summary: override.summary,
@@ -289,9 +279,17 @@ export function buildComponentCatalog(input: UIComponentCatalogInput): UICompone
 
 export function slugifyComponentName(name: string): string {
   return name
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
     .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
     .replace(/\s+/g, '-')
     .toLowerCase()
+}
+
+export function slugifyComponentPath(path: string): string {
+  return path
+    .split('/')
+    .map((segment) => slugifyComponentName(segment))
+    .join('-')
 }
 
 function getStatusTone(status: UIComponentStatus): UIComponentStatusTone {
@@ -310,9 +308,9 @@ function groupDocsByFolder(paths: string[]): Map<string, string[]> {
   const docsByFolder = new Map<string, string[]>()
 
   for (const path of paths) {
-    const folderName = path.match(/src\/components\/([^/]+)\//)?.[1]
+    const folderName = extractFolderPath(path)
 
-    if (!folderName || EXCLUDED_FOLDERS.has(folderName)) {
+    if (!folderName || !isSourcePathIncluded(folderName)) {
       continue
     }
 
@@ -329,9 +327,9 @@ function groupExamplesByFolder(paths: string[]): Map<string, string> {
   const examplesByFolder = new Map<string, string>()
 
   for (const path of paths) {
-    const folderName = path.match(/src\/components\/([^/]+)\//)?.[1]
+    const folderName = extractFolderPath(path)
 
-    if (!folderName || EXCLUDED_FOLDERS.has(folderName) || examplesByFolder.has(folderName)) {
+    if (!folderName || !isSourcePathIncluded(folderName) || examplesByFolder.has(folderName)) {
       continue
     }
 
@@ -339,4 +337,102 @@ function groupExamplesByFolder(paths: string[]): Map<string, string> {
   }
 
   return examplesByFolder
+}
+
+function extractFolderPath(path: string): string | null {
+  return path.match(/src\/components\/(.+)\/[^/]+$/)?.[1] ?? null
+}
+
+function extractFolderSourcePath(path: string): string | null {
+  return path.match(/src\/components\/(.+)\/index\.ts$/)?.[1] ?? null
+}
+
+function extractSingleFileSourcePath(path: string): string | null {
+  return path.match(/src\/components\/([^/]+)\.vue$/)?.[1] ?? null
+}
+
+function isSourcePathIncluded(sourcePath: string): boolean {
+  if (EXCLUDED_SOURCE_PATHS.has(sourcePath)) {
+    return false
+  }
+
+  return !EXCLUDED_FOLDERS.has(sourcePath.split('/')[0] ?? '')
+}
+
+function resolveComponentOverride(sourcePath: string): UIComponentOverride | null {
+  const override = COMPONENT_OVERRIDES[sourcePath]
+
+  if (override) {
+    return override
+  }
+
+  if (sourcePath === 'Feedback') {
+    return {
+      category: 'Feedback',
+      status: 'legacy',
+      summary: 'Legacy feedback namespace that still owns popup, tooltip, and toast compatibility exports.',
+    }
+  }
+
+  if (sourcePath === 'Form') {
+    return {
+      category: 'Forms',
+      status: 'transitional',
+      summary: 'Large form surface that contains both stable controls and migration-era compatibility inputs.',
+    }
+  }
+
+  if (sourcePath.startsWith('Form/TForm/inputs/')) {
+    return {
+      category: 'Forms',
+      status: 'transitional',
+      summary: `Nested TForm input control for ${getSourcePathLeaf(sourcePath)}.`,
+    }
+  }
+
+  if (sourcePath.startsWith('Form/TForm/')) {
+    return {
+      category: 'Forms',
+      status: 'transitional',
+      summary: `Nested TForm surface for ${getSourcePathLeaf(sourcePath)}.`,
+    }
+  }
+
+  if (sourcePath.startsWith('Form/')) {
+    return {
+      category: 'Forms',
+      status: 'transitional',
+      summary: `Legacy form namespace surface for ${getSourcePathLeaf(sourcePath)}.`,
+    }
+  }
+
+  if (sourcePath === 'Feedback/Toast') {
+    return {
+      category: 'Feedback',
+      status: 'transitional',
+      summary: 'Toast notification surface and helpers from the legacy feedback namespace.',
+    }
+  }
+
+  if (sourcePath === 'Feedback/ToolTip') {
+    return {
+      category: 'Legacy and Compatibility',
+      status: 'transitional',
+      summary: 'Legacy tooltip namespace that overlaps with the newer shared tooltip surface.',
+    }
+  }
+
+  if (sourcePath === 'Feedback/Popup') {
+    return {
+      category: 'Legacy and Compatibility',
+      status: 'legacy',
+      summary: 'Legacy popup orchestration surface with service-driven modal behavior.',
+    }
+  }
+
+  return null
+}
+
+function getSourcePathLeaf(sourcePath: string): string {
+  return sourcePath.split('/').pop() ?? sourcePath
 }

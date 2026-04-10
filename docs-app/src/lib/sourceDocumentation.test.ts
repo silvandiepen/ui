@@ -71,6 +71,47 @@ describe('source documentation', () => {
     )
   })
 
+  it('extracts model props and emits from nested component paths', () => {
+    const docs = getSourceDocumentation({
+      category: 'Forms',
+      docs: [],
+      examplePath: null,
+      name: 'TInput',
+      slug: 'form-t-input',
+      sourcePath: 'src/components/Form/TInput',
+      status: 'transitional',
+      statusTone: 'accent',
+      summary: 'TInput',
+    })
+
+    expect(docs.props).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          defaultValue: "'text'",
+          name: 'type',
+          required: false,
+        }),
+        expect.objectContaining({
+          defaultValue: 'true',
+          name: 'showSpinners',
+          required: false,
+        }),
+      ]),
+    )
+    expect(docs.events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'update:modelValue',
+          payload: 'value: string | number',
+        }),
+        expect.objectContaining({
+          name: 'enter',
+          payload: 'event: KeyboardEvent',
+        }),
+      ]),
+    )
+  })
+
   it('extracts component slots from template source', () => {
     const docs = getSourceDocumentation({
       category: 'Data and Navigation',
