@@ -1,10 +1,15 @@
 # Skeleton
 
-Reusable shimmering placeholder component for loading states.
+Loading placeholder primitive for text blocks, cards, and avatar shells.
 
-## Props
+## Usage
 
-- `width: string | number` (default: `100%`)
-- `height: string | number` (default: `16`)
-- `shape: 'rect' | 'pill' | 'circle'` (default: `rect`)
-- `animated: boolean` (default: `true`)
+```vue
+<Skeleton width="12rem" :height="16" />
+```
+
+## Notes
+
+- Supports rectangle, pill, and circle shapes
+- Can be animated or static
+- Useful while async content is loading

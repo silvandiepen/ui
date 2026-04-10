@@ -88,6 +88,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Dropdown: {
     category: 'Data and Navigation',
+    name: 'DropdownMenu',
     status: 'stable',
     summary: 'Menu-style dropdown shell for contextual navigation and actions.',
   },

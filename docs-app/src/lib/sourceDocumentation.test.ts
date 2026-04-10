@@ -133,4 +133,32 @@ describe('source documentation', () => {
       ]),
     )
   })
+
+  it('resolves source files when the folder exports a differently named component file', () => {
+    const docs = getSourceDocumentation({
+      category: 'Data and Navigation',
+      docs: [],
+      examplePath: null,
+      name: 'DropdownMenu',
+      slug: 'dropdown-menu',
+      sourcePath: 'src/components/Dropdown',
+      status: 'stable',
+      statusTone: 'success',
+      summary: 'Dropdown menu',
+    })
+
+    expect(docs.sourcePath).toBe('../../../src/components/Dropdown/DropdownMenu.vue')
+    expect(docs.events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'select' }),
+        expect.objectContaining({ name: 'close' }),
+      ]),
+    )
+    expect(docs.slots).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'trigger' }),
+        expect.objectContaining({ name: 'menu' }),
+      ]),
+    )
+  })
 })

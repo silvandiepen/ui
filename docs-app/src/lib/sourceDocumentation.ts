@@ -83,11 +83,11 @@ function extractEvents(modelSource: string, componentSource: string): UIComponen
 }
 
 function extractSlots(source: string): UIComponentSlotDefinition[] {
-  const slotPattern = /<slot(?:\s+name="([^"]+)")?/g
+  const slotPattern = /<slot\b([^>]*)>/g
   const slots = new Map<string, UIComponentSlotDefinition>()
 
   for (const match of source.matchAll(slotPattern)) {
-    const slotName = match[1] ?? 'default'
+    const slotName = match[1]?.match(/\bname="([^"]+)"/)?.[1] ?? 'default'
 
     slots.set(slotName, {
       description: slotName === 'default'
@@ -201,7 +201,16 @@ function resolveVuePath(entry: UIComponentCatalogEntry): string | null {
 
   const singleFilePath = `${componentFolder}.vue`
 
-  return componentVueModules[singleFilePath] ? singleFilePath : null
+  if (componentVueModules[singleFilePath]) {
+    return singleFilePath
+  }
+
+  const directVueFiles = Object.keys(componentVueModules)
+    .filter((path) => path.startsWith(`${componentFolder}/`))
+    .filter((path) => !path.endsWith('.example.vue'))
+    .filter((path) => !path.slice(`${componentFolder}/`.length).includes('/'))
+
+  return directVueFiles.length === 1 ? directVueFiles[0] : null
 }
 
 function buildUsageExample(entry: UIComponentCatalogEntry, props: UIComponentPropDefinition[]): string {
