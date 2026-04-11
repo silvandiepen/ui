@@ -62,7 +62,7 @@ const toolbarStyles = (toolbar: ToolbarInstance) => ({
 		max-width: min(1280px, 100%);
 		border-radius: var(--border-radius-xxl);
 		background: color-mix(in srgb, var(--color-background), transparent 8%);
-		box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+		box-shadow: 0 18px 48px color-mix(in srgb, var(--color-foreground), transparent 78%);
 		backdrop-filter: blur(8px);
 		padding: var(--space);
 		overflow: visible;

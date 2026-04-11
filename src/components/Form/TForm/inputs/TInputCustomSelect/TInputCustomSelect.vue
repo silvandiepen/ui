@@ -544,7 +544,7 @@ watch(model, () => {
     background: var(--color-background);
     border: 1px solid var(--color-accent);
     border-radius: var(--border-radius-m);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-foreground), transparent 85%);
     z-index: 9999;
     max-height: var(--input-custom-select-max-height);
     overflow: hidden;

@@ -326,8 +326,8 @@ The component uses BEM methodology with customizable CSS variables:
 
 <style>
 .custom-input {
-  --input-border-color: #8b5cf6;
-  --input-focus-color: #7c3aed;
+  --input-border-color: var(--color-primary);
+  --input-focus-color: color-mix(in srgb, var(--color-primary), var(--color-foreground) 20%);
 
   .t-input__field {
     border-radius: 9999px;

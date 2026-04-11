@@ -323,7 +323,7 @@ The popup uses BEM classes for styling:
   /* Background overlay */
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: color-mix(in srgb, var(--color-foreground), transparent 50%);
 }
 
 .popup__wrapper {
@@ -354,7 +354,7 @@ The popup uses BEM classes for styling:
 .popup--stack-custom-id {
   .popup__container {
     border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 40px color-mix(in srgb, var(--color-foreground), transparent 80%);
   }
 }
 </style>

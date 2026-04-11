@@ -182,12 +182,12 @@ defineExpose({
         right: 0;
         bottom: 0;
         z-index: var(--z-index-overlay, 999);
-        background-color: var(--context-panel-overlay, rgba(0, 0, 0, 0));
+        background-color: var(--context-panel-overlay, transparent);
     }
 
     .panel {
-        --panel-shadow: var(--color-primary-text, #000);
-        background: var(--context-panel-background, var(--color-accent, #fff));
+        --panel-shadow: var(--color-primary-text, var(--color-foreground));
+        background: var(--context-panel-background, var(--color-accent));
         border-radius: var(--context-panel-border-radius, var(--border-radius, 8px));
         box-shadow: 0 0 100px 0px color-mix(in srgb, var(--panel-shadow), transparent 75%),.25em .25em .5em 0px color-mix(in srgb, var(--panel-shadow), transparent 75%), -0.125em -.125em .5em color-mix(in srgb, var(--color-foreground), transparent 90%) inset;
         padding: var(--context-panel-padding);
@@ -226,7 +226,7 @@ defineExpose({
             right: var(--context-panel-pointer-right, auto);
             transform: translate(var(--context-panel-pointer-x, 0), var(--context-panel-pointer-y, 0))
                 rotate(var(--context-panel-pointer-rotation, 45deg)) scale(var(--context-panel-pointer-scale, 0));
-            background-color: var(--context-panel-pointer-color, var(--context-panel-background, var(--color-accent, #fff)));
+            background-color: var(--context-panel-pointer-color, var(--context-panel-background, var(--color-accent)));
             border-radius: var(--context-panel-pointer-border-radius, 0.25em) 0 0 0;
             border-bottom-color: transparent;
             border-right-color: transparent;

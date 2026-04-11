@@ -96,13 +96,13 @@ const openColorPicker = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
     position: relative;
     overflow: hidden;
 
     &--has-color {
       // When a color is selected, add a subtle inner shadow for depth
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-foreground), transparent 90%);
     }
 
     &--no-color {

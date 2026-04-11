@@ -254,7 +254,7 @@ const handleSelectionAction = (item: DropdownItem) => {
 		border: 1px solid
 			color-mix(in srgb, var(--color-foreground), transparent 80%);
 		background: color-mix(in srgb, var(--color-background), transparent 4%);
-		box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 14px 34px color-mix(in srgb, var(--color-foreground), transparent 84%);
 		padding: var(--space-s);
 		display: flex;
 		flex-direction: column;

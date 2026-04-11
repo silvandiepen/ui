@@ -142,7 +142,7 @@ const reset = () => {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(255, 255, 255, 0.7);
+      background: color-mix(in srgb, var(--color-background), transparent 30%);
       display: flex;
       align-items: center;
       justify-content: center;

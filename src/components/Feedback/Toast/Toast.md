@@ -318,7 +318,7 @@ The toast component uses CSS custom properties based on the toast type:
 <style>
 /* Custom toast appearance */
 .toast--custom {
-  --toast-color: #8b5cf6;
+  --toast-color: var(--color-primary);
   border-width: 2px;
   font-weight: bold;
 }

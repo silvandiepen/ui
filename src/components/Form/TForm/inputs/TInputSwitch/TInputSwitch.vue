@@ -156,7 +156,7 @@ onMounted(() => {
     min-width: 1.5em;
     height: 1.5em;
     padding: 0 0.25em;
-    background: rgba(0, 0, 0, 0.1);
+    background: color-mix(in srgb, var(--color-foreground), transparent 90%);
     border-radius: var(--border-radius-s);
     font-size: 0.75em;
     font-weight: 600;

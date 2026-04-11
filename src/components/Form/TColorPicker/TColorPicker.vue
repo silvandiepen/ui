@@ -119,7 +119,7 @@ const selectColor = (color: string) => {
     color: var(--color-white);
 
     // Add subtle shadow for better visibility
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--color-foreground), transparent 90%);
 
     &:hover {
       transform: scale(1.1);

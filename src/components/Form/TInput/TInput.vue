@@ -199,7 +199,7 @@ const decrement = () => {
     &:focus {
       outline: none;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary), transparent 90%);
     }
 
     &::placeholder {
@@ -336,7 +336,7 @@ const decrement = () => {
 
       &:focus {
         border-color: var(--color-error);
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error), transparent 90%);
       }
     }
   }

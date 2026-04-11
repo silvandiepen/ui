@@ -25,7 +25,7 @@ const bemm = useBemm('chip');
   gap: 0.5rem;
   padding: 0.25rem 0.75rem;
   border-radius: var(--border-radius, 4px);
-  background-color: var(--color-gray-light, #f5f5f5);
+  background-color: var(--color-gray-light, color-mix(in srgb, var(--color-foreground), transparent 92%));
   font-size: 0.875rem;
   
   &__pre {
@@ -43,7 +43,7 @@ const bemm = useBemm('chip');
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    background-color: var(--dot-color, #ccc);
+    background-color: var(--dot-color, color-mix(in srgb, var(--color-foreground), transparent 72%));
   }
 }
 </style>

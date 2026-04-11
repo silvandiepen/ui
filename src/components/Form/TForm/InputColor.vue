@@ -119,7 +119,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-	value: '#000000',
+	value: '',
 	label: '',
 	placeholder: '',
 	options: () => [],

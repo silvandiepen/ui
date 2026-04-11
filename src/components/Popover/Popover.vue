@@ -149,7 +149,7 @@ const panelStyle = computed(() => {
 		border: 1px solid
 			color-mix(in srgb, var(--color-foreground), transparent 86%);
 		border-radius: var(--border-radius);
-		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+		box-shadow: 0 12px 32px color-mix(in srgb, var(--color-foreground), transparent 88%);
 		padding: var(--space-s);
 		min-width: 180px;
 	}

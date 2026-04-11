@@ -655,8 +655,8 @@
 			border-radius: 50%;
 			background-image: linear-gradient(to right bottom,
 					transparent,
-					rgba(255, 255, 255, 0.5),
-					rgba(0, 0, 0, 0.125),
+					color-mix(in srgb, var(--color-background), transparent 50%),
+					color-mix(in srgb, var(--color-foreground), transparent 87.5%),
 					transparent);
 		}
 

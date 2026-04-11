@@ -388,7 +388,7 @@ The tooltip uses CSS custom properties for styling:
   --tooltip-font-size: 0.875rem;
   background: var(--color-primary);
   color: var(--color-primary-text);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-foreground), transparent 80%);
 }
 
 /* Custom positioning */

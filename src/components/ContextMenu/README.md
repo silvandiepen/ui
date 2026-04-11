@@ -475,7 +475,7 @@ The component uses BEM classes for styling:
   background: var(--color-background);
   border: 1px solid var(--color-accent);
   border-radius: var(--border-radius);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-foreground), transparent 90%);
 }
 
 .context-menu-item {

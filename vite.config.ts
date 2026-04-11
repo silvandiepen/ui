@@ -17,18 +17,18 @@ export default defineConfig({
     })
   ],
   resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
-      '@/components/ui': resolve(__dirname, './src/components'),
-      '@/common': resolve(__dirname, './src/common'),
-      '@/constants': resolve(__dirname, './src/constants'),
-      '@/mixins': resolve(__dirname, './src/mixins'),
-      '@components': resolve(__dirname, './src/components'),
-      '@composables': resolve(__dirname, './src/composables'),
-      '@utils': resolve(__dirname, './src/utils'),
-      '@stores': resolve(__dirname, './src/stores'),
-      '@types': resolve(__dirname, './src/types')
-    }
+    alias: [
+      { find: '@/components/ui', replacement: resolve(__dirname, './src/components') },
+      { find: '@/common', replacement: resolve(__dirname, './src/common') },
+      { find: '@/constants', replacement: resolve(__dirname, './src/constants') },
+      { find: '@/mixins', replacement: resolve(__dirname, './src/mixins') },
+      { find: '@components', replacement: resolve(__dirname, './src/components') },
+      { find: '@composables', replacement: resolve(__dirname, './src/composables') },
+      { find: '@utils', replacement: resolve(__dirname, './src/utils') },
+      { find: '@stores', replacement: resolve(__dirname, './src/stores') },
+      { find: '@types', replacement: resolve(__dirname, './src/types') },
+      { find: '@', replacement: resolve(__dirname, './src') },
+    ]
   },
   build: {
     lib: {

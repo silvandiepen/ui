@@ -76,27 +76,27 @@ function dismiss() {
 }
 
 .sil-notification--type-success {
-  background: color-mix(in srgb, var(--color-success, #22c55e), transparent 85%);
-  color: var(--color-success, #22c55e);
-  border: 1px solid color-mix(in srgb, var(--color-success, #22c55e), transparent 60%);
+  background: color-mix(in srgb, var(--color-success), transparent 85%);
+  color: var(--color-success);
+  border: 1px solid color-mix(in srgb, var(--color-success), transparent 60%);
 }
 
 .sil-notification--type-error {
-  background: color-mix(in srgb, var(--color-error, #ef4444), transparent 85%);
-  color: var(--color-error, #ef4444);
-  border: 1px solid color-mix(in srgb, var(--color-error, #ef4444), transparent 60%);
+  background: color-mix(in srgb, var(--color-error), transparent 85%);
+  color: var(--color-error);
+  border: 1px solid color-mix(in srgb, var(--color-error), transparent 60%);
 }
 
 .sil-notification--type-warning {
-  background: color-mix(in srgb, var(--color-warning, #f59e0b), transparent 85%);
-  color: var(--color-warning, #f59e0b);
-  border: 1px solid color-mix(in srgb, var(--color-warning, #f59e0b), transparent 60%);
+  background: color-mix(in srgb, var(--color-warning), transparent 85%);
+  color: var(--color-warning);
+  border: 1px solid color-mix(in srgb, var(--color-warning), transparent 60%);
 }
 
 .sil-notification--type-info {
-  background: color-mix(in srgb, var(--color-info, #3b82f6), transparent 85%);
-  color: var(--color-info, #3b82f6);
-  border: 1px solid color-mix(in srgb, var(--color-info, #3b82f6), transparent 60%);
+  background: color-mix(in srgb, var(--color-info), transparent 85%);
+  color: var(--color-info);
+  border: 1px solid color-mix(in srgb, var(--color-info), transparent 60%);
 }
 
 .sil-notification__message {

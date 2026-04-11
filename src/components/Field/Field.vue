@@ -104,7 +104,7 @@ const fieldClasses = computed(() =>
 }
 
 .sil-field__required {
-  color: var(--color-error, #ef4444);
+  color: var(--color-error);
   margin-inline-start: var(--space-xs);
 }
 
@@ -124,7 +124,7 @@ const fieldClasses = computed(() =>
 
 .sil-field__error {
   font-size: var(--font-size-xs, 0.75rem);
-  color: var(--color-error, #ef4444);
+  color: var(--color-error);
 }
 
 .sil-field--is-disabled {

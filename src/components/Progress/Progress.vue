@@ -174,7 +174,7 @@ const percentage = computed(() => {
     font-size: var(--font-size-xs);
     color: var(--color-white);
     font-weight: var(--font-weight-semibold);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 2px color-mix(in srgb, var(--color-foreground), transparent 80%);
   }
 
   &__label {

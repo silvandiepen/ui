@@ -21,7 +21,7 @@
 }
 
 @mixin glass() {
-  background: var(--glass-background, rgba(255, 255, 255, 0.1));
+  background: var(--glass-background, color-mix(in srgb, var(--color-background), transparent 12%));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid color-mix(in srgb, var(--color-dark), transparent 70%);
