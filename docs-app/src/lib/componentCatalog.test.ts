@@ -30,6 +30,12 @@ describe('component catalog', () => {
       'Progress',
       'TInput',
     ])
+    expect(catalog.map((entry) => entry.apiName)).toEqual([
+      'UICard',
+      'UIForms',
+      'UIProgress',
+      'UIInput',
+    ])
     expect(catalog.find((entry) => entry.name === 'Card')?.examplePath).toBe(
       '../../../src/components/Card/Card.example.vue',
     )
@@ -38,6 +44,9 @@ describe('component catalog', () => {
     ])
     expect(catalog.find((entry) => entry.name === 'TInput')).toEqual(
       expect.objectContaining({
+        aliases: ['TInput'],
+        apiName: 'UIInput',
+        categoryId: 'forms',
         examplePath: '../../../src/components/Form/TInput/TInput.example.vue',
         slug: 'form-t-input',
         sourcePath: 'src/components/Form/TInput',

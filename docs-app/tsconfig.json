@@ -5,6 +5,7 @@
     "baseUrl": ".",
     "paths": {
       "@sil/ui": ["../src/index.ts"],
+      "@ui-lib/*": ["../src/*"],
       "@ui-docs/*": ["./src/*"],
       "@/*": ["../src/*"],
       "@/components/ui/*": ["../src/components/*"]

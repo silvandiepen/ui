@@ -6,7 +6,15 @@
       :class="bemm('section')"
     >
       <header :class="bemm('section-header')">
-        <span :class="bemm('section-label')">{{ section.label }}</span>
+        <span :class="bemm('section-copy')">
+          <span :class="bemm('section-label')">{{ section.label }}</span>
+          <span
+            v-if="section.description"
+            :class="bemm('section-description')"
+          >
+            {{ section.description }}
+          </span>
+        </span>
         <Badge>{{ section.items.length }}</Badge>
       </header>
 
@@ -148,9 +156,14 @@ function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
 
   &__section-header {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     gap: calc(var(--space) * 0.5);
+  }
+
+  &__section-copy {
+    display: grid;
+    gap: 0.2rem;
   }
 
   &__section-label {
@@ -158,6 +171,12 @@ function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
     letter-spacing: 0.08em;
     font-size: var(--font-size-xs);
     color: color-mix(in srgb, var(--color-foreground), transparent 42%);
+  }
+
+  &__section-description {
+    color: color-mix(in srgb, var(--color-foreground), transparent 34%);
+    font-size: var(--font-size-xs);
+    line-height: 1.5;
   }
 
   &__items {

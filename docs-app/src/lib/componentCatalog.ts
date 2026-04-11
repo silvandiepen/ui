@@ -5,6 +5,7 @@ import type {
   UIComponentStatus,
   UIComponentStatusTone,
 } from './componentCatalog.model'
+import { getComponentCategoryDefinition } from './componentCategories'
 
 const EXCLUDED_FOLDERS = new Set([
   'Molecules',
@@ -14,6 +15,15 @@ const EXCLUDED_FOLDERS = new Set([
 const EXCLUDED_SOURCE_PATHS = new Set([
   'Feedback/Popup/components',
 ])
+
+const API_NAME_OVERRIDES: Record<string, string> = {
+  Display: 'UIDisplayHelpers',
+  Feedback: 'UIFeedback',
+  Form: 'UIForms',
+  Input: 'UITextInput',
+  Select: 'UINativeSelect',
+  Textarea: 'UITextareaField',
+}
 
 const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   Actions: {
@@ -261,9 +271,14 @@ export function buildComponentCatalog(input: UIComponentCatalogInput): UICompone
         return !nestedPath.includes('/')
       })
       const componentName = override.name ?? getSourcePathLeaf(sourcePath)
+      const categoryDefinition = getComponentCategoryDefinition(override.category)
+      const apiName = override.apiName ?? getPreferredApiName(sourcePath, componentName)
 
       return {
+        aliases: apiName === componentName ? [] : [componentName],
+        apiName,
         category: override.category,
+        categoryId: categoryDefinition.id,
         docs,
         examplePath: exampleKeysByFolder.get(sourcePath) ?? null,
         name: componentName,
@@ -387,7 +402,7 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
     return {
       category: 'Forms',
       status: 'transitional',
-      summary: `Nested TForm input control for ${getSourcePathLeaf(sourcePath)}.`,
+      summary: `Nested form input control for ${getSourcePathLeaf(sourcePath)}.`,
     }
   }
 
@@ -395,7 +410,7 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
     return {
       category: 'Forms',
       status: 'transitional',
-      summary: `Nested TForm surface for ${getSourcePathLeaf(sourcePath)}.`,
+      summary: `Nested form surface for ${getSourcePathLeaf(sourcePath)}.`,
     }
   }
 
@@ -436,4 +451,22 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
 
 function getSourcePathLeaf(sourcePath: string): string {
   return sourcePath.split('/').pop() ?? sourcePath
+}
+
+function getPreferredApiName(sourcePath: string, componentName: string): string {
+  const overriddenName = API_NAME_OVERRIDES[sourcePath]
+
+  if (overriddenName) {
+    return overriddenName
+  }
+
+  if (componentName.startsWith('UI')) {
+    return componentName
+  }
+
+  const normalizedName = componentName.startsWith('T')
+    ? componentName.slice(1)
+    : componentName
+
+  return `UI${normalizedName}`
 }

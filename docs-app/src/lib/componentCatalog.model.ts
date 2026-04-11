@@ -17,7 +17,10 @@ export interface UIComponentCatalogInput {
 }
 
 export interface UIComponentCatalogEntry {
+  aliases: string[]
+  apiName: string
   category: UIComponentCategory
+  categoryId: string
   docs: string[]
   examplePath: string | null
   name: string
@@ -29,6 +32,7 @@ export interface UIComponentCatalogEntry {
 }
 
 export interface UIComponentOverride {
+  apiName?: string
   category: UIComponentCategory
   docsBasePath?: string
   includeNestedDocs?: boolean
@@ -36,4 +40,11 @@ export interface UIComponentOverride {
   sourcePath?: string
   status: UIComponentStatus
   summary: string
+}
+
+export interface UIComponentCategoryDefinition {
+  description: string
+  id: string
+  label: UIComponentCategory
+  order: number
 }

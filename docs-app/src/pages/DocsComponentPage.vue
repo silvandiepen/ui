@@ -3,16 +3,27 @@
     <header :class="bemm('header')">
       <div :class="bemm('header-copy')">
         <p :class="bemm('eyebrow')">{{ componentEntry.category }}</p>
-        <h1 :class="bemm('title')">{{ componentEntry.name }}</h1>
+        <h1 :class="bemm('title')">{{ componentEntry.apiName }}</h1>
         <p :class="bemm('summary')">{{ componentEntry.summary }}</p>
+        <div :class="bemm('api-badges')">
+          <Badge>preferred: {{ componentEntry.apiName }}</Badge>
+          <Badge v-if="componentEntry.aliases.length > 0">
+            aliases: {{ componentEntry.aliases.join(', ') }}
+          </Badge>
+        </div>
       </div>
 
       <div :class="bemm('meta')">
         <StatusBadge :label="componentEntry.status" :tone="componentEntry.statusTone" />
         <ReferenceBadge
+          :label="componentEntry.name"
+          :copy-value="componentEntry.name"
+          tooltip-text="Underlying source surface"
+        />
+        <ReferenceBadge
           :label="componentEntry.sourcePath"
           :copy-value="componentEntry.sourcePath"
-          tooltip-text="Component source location"
+          tooltip-text="Source location"
         />
       </div>
     </header>
@@ -31,7 +42,7 @@
     <Card :class="bemm('usage-card')">
       <header :class="bemm('doc-header')">
         <h2 :class="bemm('section-title')">Usage</h2>
-        <Badge>root import</Badge>
+        <Badge>preferred import</Badge>
       </header>
 
       <pre :class="bemm('code-block')"><code>{{ sourceDocumentation.usageExample }}</code></pre>
@@ -161,11 +172,16 @@
 import { computed, defineAsyncComponent } from 'vue'
 import { useBemm } from 'bemm'
 
-import { Badge, Card, Container, ReferenceBadge, StatusBadge } from '@sil/ui'
+import { Badge } from '@ui-lib/components/Badge'
+import { Card } from '@ui-lib/components/Card'
+import { Container } from '@ui-lib/components/Container'
+import { ReferenceBadge } from '@ui-lib/components/ReferenceBadge'
+import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 
-import { renderMarkdown } from '@ui-docs/lib/markdown'
+import { normalizeMarkdownContent, renderMarkdown } from '@ui-docs/lib/markdown'
 import {
   getComponentBySlug,
+  getComponentNameReplacements,
   getDocContent,
   getExampleLoader,
 } from '@ui-docs/lib/componentRegistry'
@@ -215,12 +231,16 @@ const sourceDocumentation = computed(() => {
 const compiledDocs = computed(() => {
   return (componentEntry.value?.docs ?? []).map((docPath) => {
     const rawContent = getDocContent(docPath) ?? '# Missing document'
+    const normalizedContent = normalizeMarkdownContent(
+      rawContent,
+      getComponentNameReplacements(),
+    )
 
     return {
       path: docPath,
       pathLabel: docPath.replace('../../../src/components/', ''),
       title: getDocTitle(docPath),
-      html: renderMarkdown(rawContent),
+      html: renderMarkdown(normalizedContent),
     }
   })
 })
@@ -234,6 +254,14 @@ function getDocTitle(path: string): string {
 
 <style lang="scss">
 .docs-component-page {
+  --docs-component-surface: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
+  --docs-component-surface-strong: color-mix(in srgb, var(--color-background), var(--color-foreground) 5%);
+  --docs-component-code-background: color-mix(in srgb, var(--color-foreground), var(--color-background) 82%);
+  --docs-component-code-foreground: color-mix(in srgb, var(--color-background), var(--color-foreground) 8%);
+  --docs-component-border: color-mix(in srgb, var(--color-foreground), transparent 88%);
+  --docs-component-muted: color-mix(in srgb, var(--color-foreground), transparent 24%);
+  --docs-component-soft: color-mix(in srgb, var(--color-foreground), transparent 40%);
+
   display: grid;
   gap: 1.5rem;
   padding: 2rem;
@@ -254,7 +282,7 @@ function getDocTitle(path: string): string {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: rgba(43, 36, 29, 0.6);
+    color: var(--docs-component-soft);
     font-size: 0.85rem;
   }
 
@@ -268,7 +296,13 @@ function getDocTitle(path: string): string {
     margin: 0;
     max-width: 46rem;
     line-height: 1.6;
-    color: rgba(43, 36, 29, 0.76);
+    color: var(--docs-component-muted);
+  }
+
+  &__api-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   &__meta {
@@ -306,7 +340,7 @@ function getDocTitle(path: string): string {
   &__example-preview {
     padding: 1rem;
     border-radius: 1rem;
-    background: rgba(250, 245, 238, 0.9);
+    background: var(--docs-component-surface);
   }
 
   &__docs {
@@ -334,8 +368,8 @@ function getDocTitle(path: string): string {
       overflow: auto;
       padding: 1rem;
       border-radius: 0.9rem;
-      background: #1f1914;
-      color: #fff7ef;
+      background: var(--docs-component-code-background);
+      color: var(--docs-component-code-foreground);
     }
 
     code {
@@ -347,8 +381,8 @@ function getDocTitle(path: string): string {
     overflow: auto;
     padding: 1rem;
     border-radius: 0.9rem;
-    background: #1f1914;
-    color: #fff7ef;
+    background: var(--docs-component-code-background);
+    color: var(--docs-component-code-foreground);
     margin: 0;
   }
 
@@ -373,12 +407,12 @@ function getDocTitle(path: string): string {
     gap: 0.8rem;
     align-items: start;
     padding: 0.9rem 0;
-    border-top: 1px solid rgba(43, 36, 29, 0.08);
+    border-top: 1px solid var(--docs-component-border);
 
     &--header {
       border-top: 0;
       padding-top: 0;
-      color: rgba(43, 36, 29, 0.6);
+      color: var(--docs-component-soft);
       font-size: var(--font-size-s);
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -391,12 +425,12 @@ function getDocTitle(path: string): string {
     gap: 0.8rem;
     align-items: start;
     padding: 0.9rem 0;
-    border-top: 1px solid rgba(43, 36, 29, 0.08);
+    border-top: 1px solid var(--docs-component-border);
 
     &--header {
       border-top: 0;
       padding-top: 0;
-      color: rgba(43, 36, 29, 0.6);
+      color: var(--docs-component-soft);
       font-size: var(--font-size-s);
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -409,12 +443,12 @@ function getDocTitle(path: string): string {
     gap: 0.8rem;
     align-items: start;
     padding: 0.9rem 0;
-    border-top: 1px solid rgba(43, 36, 29, 0.08);
+    border-top: 1px solid var(--docs-component-border);
 
     &--header {
       border-top: 0;
       padding-top: 0;
-      color: rgba(43, 36, 29, 0.6);
+      color: var(--docs-component-soft);
       font-size: var(--font-size-s);
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -435,7 +469,7 @@ function getDocTitle(path: string): string {
   &__empty-copy {
     margin: 0;
     line-height: 1.6;
-    color: rgba(43, 36, 29, 0.76);
+    color: var(--docs-component-muted);
   }
 
   &__missing {

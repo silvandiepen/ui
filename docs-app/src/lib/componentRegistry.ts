@@ -25,6 +25,10 @@ const exampleLoaders = new Map<string, () => Promise<Component>>(
   Object.entries(componentExampleModules) as Array<[string, () => Promise<Component>]>,
 )
 
+const componentNameReplacements = catalog
+  .filter((entry) => entry.apiName !== entry.name)
+  .flatMap((entry) => [{ from: entry.name, to: entry.apiName }])
+
 export function getComponentCatalog(): UIComponentCatalogEntry[] {
   return catalog
 }
@@ -39,4 +43,8 @@ export function getDocContent(path: string): string | undefined {
 
 export function getExampleLoader(path: string): (() => Promise<Component>) | undefined {
   return exampleLoaders.get(path)
+}
+
+export function getComponentNameReplacements() {
+  return componentNameReplacements
 }

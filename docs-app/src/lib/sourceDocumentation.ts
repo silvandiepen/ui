@@ -214,12 +214,47 @@ function resolveVuePath(entry: UIComponentCatalogEntry): string | null {
 }
 
 function buildUsageExample(entry: UIComponentCatalogEntry, props: UIComponentPropDefinition[]): string {
-  const componentTag = entry.name
+  if (entry.sourcePath === 'src/components/Form') {
+    return [
+      "import { UIForm, UIInput, UIToggle } from '@sil/ui'",
+      '',
+      '<template>',
+      '  <UIForm>',
+      '    <UIInput v-model="name" label="Name" />',
+      '    <UIToggle v-model="enabled" label="Enabled" />',
+      '  </UIForm>',
+      '</template>',
+    ].join('\n')
+  }
+
+  if (entry.sourcePath === 'src/components/Feedback') {
+    return [
+      "import { UINotification, UIToast } from '@sil/ui'",
+      '',
+      '<template>',
+      '  <UINotification message="Saved changes" />',
+      '  <UIToast />',
+      '</template>',
+    ].join('\n')
+  }
+
+  if (entry.sourcePath === 'src/components/Display') {
+    return [
+      "import { UIBadge, UIStatusBadge } from '@sil/ui'",
+      '',
+      '<template>',
+      '  <UIBadge>Stable</UIBadge>',
+      '  <UIStatusBadge label="Ready" tone="success" />',
+      '</template>',
+    ].join('\n')
+  }
+
+  const componentTag = entry.apiName
   const requiredProps = props.filter((prop) => prop.required)
 
   if (requiredProps.length === 0) {
     return [
-      `import { ${entry.name} } from '@sil/ui'`,
+      `import { ${entry.apiName} } from '@sil/ui'`,
       '',
       '<template>',
       `  <${componentTag} />`,
@@ -230,7 +265,7 @@ function buildUsageExample(entry: UIComponentCatalogEntry, props: UIComponentPro
   const propLines = requiredProps.map((prop) => `    ${buildPropBinding(prop)}`)
 
   return [
-    `import { ${entry.name} } from '@sil/ui'`,
+    `import { ${entry.apiName} } from '@sil/ui'`,
     '',
     '<template>',
     `  <${componentTag}`,

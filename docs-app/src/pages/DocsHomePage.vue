@@ -3,11 +3,11 @@
     <section :class="bemm('hero')">
       <div :class="bemm('hero-copy')">
         <StatusBadge label="Source of truth" tone="success" />
-        <h1 :class="bemm('title')">Shared Vue UI docs for SIL products</h1>
+        <h1 :class="bemm('title')">Shared Vue UI docs with a consistent UI-prefixed API</h1>
         <p :class="bemm('summary')">
           This app reflects the current state of the library as it exists in the repo:
-          stable primitives, transitional compatibility surfaces, and the markdown docs
-          that still live next to components.
+          stable primitives, transitional compatibility surfaces, category groupings, and
+          the preferred `UI*` import names exposed by `@sil/ui`.
         </p>
       </div>
 
@@ -30,12 +30,18 @@
     <section :class="bemm('groups')">
       <Card
         v-for="group in groupedComponents"
-        :key="group.name"
+        :key="group.id"
         :class="bemm('group-card')"
       >
         <header :class="bemm('group-header')">
           <div>
-            <h2 :class="bemm('group-title')">{{ group.name }}</h2>
+            <RouterLink
+              :class="bemm('group-title-link')"
+              :to="{ name: 'docs-category', params: { categoryId: group.id } }"
+            >
+              <h2 :class="bemm('group-title')">{{ group.label }}</h2>
+            </RouterLink>
+            <p :class="bemm('group-description')">{{ group.description }}</p>
             <p :class="bemm('group-meta')">{{ group.items.length }} entries</p>
           </div>
           <Badge>{{ group.items.length }}</Badge>
@@ -54,7 +60,10 @@
             }"
           >
             <div :class="bemm('group-link-copy')">
-              <strong>{{ item.name }}</strong>
+              <strong>{{ item.apiName }}</strong>
+              <span v-if="item.aliases.length > 0" :class="bemm('group-link-aliases')">
+                aliases: {{ item.aliases.join(', ') }}
+              </span>
               <span>{{ item.summary }}</span>
             </div>
             <StatusBadge :label="item.status" :tone="item.statusTone" />
@@ -70,8 +79,12 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useBemm } from 'bemm'
 
-import { Badge, Card, Container, StatusBadge } from '@sil/ui'
+import { Badge } from '@ui-lib/components/Badge'
+import { Card } from '@ui-lib/components/Card'
+import { Container } from '@ui-lib/components/Container'
+import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 
+import { UI_COMPONENT_CATEGORIES } from '@ui-docs/lib/componentCategories'
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
 
 const bemm = useBemm('docs-home-page')
@@ -82,18 +95,18 @@ const groupedComponents = computed(() => {
   const groups = new Map<string, typeof components>()
 
   for (const component of components) {
-    const items = groups.get(component.category) ?? []
+    const items = groups.get(component.categoryId) ?? []
 
     items.push(component)
-    groups.set(component.category, items)
+    groups.set(component.categoryId, items)
   }
 
-  return [...groups.entries()]
-    .map(([name, items]) => ({
-      name,
-      items,
-    }))
-    .sort((left, right) => left.name.localeCompare(right.name))
+  return UI_COMPONENT_CATEGORIES.map((category) => ({
+    description: category.description,
+    id: category.id,
+    items: groups.get(category.id) ?? [],
+    label: category.label,
+  })).filter((group) => group.items.length > 0)
 })
 
 const documentedCount = computed(() => components.filter((item) => item.docs.length > 0).length)
@@ -102,6 +115,14 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
 
 <style lang="scss">
 .docs-home-page {
+  --docs-home-card-background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
+  --docs-home-card-border: color-mix(in srgb, var(--color-foreground), transparent 88%);
+  --docs-home-card-hover-background: color-mix(in srgb, var(--color-primary), transparent 94%);
+  --docs-home-copy-muted: color-mix(in srgb, var(--color-foreground), transparent 24%);
+  --docs-home-copy-soft: color-mix(in srgb, var(--color-foreground), transparent 32%);
+  --docs-home-copy-faint: color-mix(in srgb, var(--color-foreground), transparent 40%);
+  --docs-home-shadow: 0 1rem 2rem color-mix(in srgb, var(--color-foreground), transparent 94%);
+
   display: grid;
   gap: 2rem;
   padding: 2rem;
@@ -129,7 +150,7 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
     max-width: 48rem;
     font-size: 1.05rem;
     line-height: 1.6;
-    color: rgba(43, 36, 29, 0.78);
+    color: var(--docs-home-copy-muted);
   }
 
   &__stat-card {
@@ -142,7 +163,7 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
     }
 
     span {
-      color: rgba(43, 36, 29, 0.7);
+      color: var(--docs-home-copy-soft);
     }
   }
 
@@ -170,9 +191,21 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
     font-size: 1.1rem;
   }
 
+  &__group-title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__group-description {
+    margin: 0.35rem 0 0;
+    color: var(--docs-home-copy-soft);
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+
   &__group-meta {
     margin: 0.2rem 0 0;
-    color: rgba(43, 36, 29, 0.68);
+    color: var(--docs-home-copy-faint);
   }
 
   &__group-items {
@@ -187,16 +220,19 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
     gap: 0.75rem;
     padding: 0.85rem;
     border-radius: 0.85rem;
-    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid var(--docs-home-card-border);
+    background: var(--docs-home-card-background);
     text-decoration: none;
     color: inherit;
     transition:
       transform 150ms ease,
-      box-shadow 150ms ease;
+      box-shadow 150ms ease,
+      background-color 150ms ease;
 
     &:hover {
       transform: translateY(-0.08rem);
-      box-shadow: 0 1rem 2rem rgba(43, 36, 29, 0.08);
+      background: var(--docs-home-card-hover-background);
+      box-shadow: var(--docs-home-shadow);
     }
   }
 
@@ -205,10 +241,16 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
     gap: 0.3rem;
 
     span {
-      color: rgba(43, 36, 29, 0.7);
+      color: var(--docs-home-copy-soft);
       font-size: 0.94rem;
       line-height: 1.45;
     }
+  }
+
+  &__group-link-aliases {
+    color: var(--docs-home-copy-faint);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.02em;
   }
 }
 

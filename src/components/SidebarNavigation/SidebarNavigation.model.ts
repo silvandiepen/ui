@@ -15,6 +15,7 @@ export interface SidebarNavigationItem {
 }
 
 export interface SidebarNavigationSection {
+  description?: string
   id: string
   items: SidebarNavigationItem[]
   label: string

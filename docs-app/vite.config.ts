@@ -14,12 +14,39 @@ export default defineConfig({
   resolve: {
     alias: {
       '@sil/ui': resolve(__dirname, '../src/index.ts'),
+      '@ui-lib': resolve(__dirname, '../src'),
       '@ui-docs': resolve(__dirname, './src'),
       ...getUIAliases(),
     },
   },
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/open-icon')) {
+            return 'open-icon'
+          }
+
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
+
+          if (id.includes('/src/components/')) {
+            return 'ui-components'
+          }
+
+          return undefined
+        },
+      },
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
   },
   server: {
     port: 4173,

@@ -5,7 +5,10 @@ import { getSourceDocumentation } from './sourceDocumentation'
 describe('source documentation', () => {
   it('extracts props from component model files and defaults from component source', () => {
     const docs = getSourceDocumentation({
+      aliases: ['ThemeToggle'],
+      apiName: 'UIThemeToggle',
       category: 'Foundations',
+      categoryId: 'foundations',
       docs: [],
       examplePath: '../../../src/components/ThemeToggle/ThemeToggle.example.vue',
       name: 'ThemeToggle',
@@ -38,7 +41,10 @@ describe('source documentation', () => {
 
   it('extracts inline props and emits from component source', () => {
     const docs = getSourceDocumentation({
+      aliases: ['Notification'],
+      apiName: 'UINotification',
       category: 'Feedback',
+      categoryId: 'feedback',
       docs: [],
       examplePath: null,
       name: 'Notification',
@@ -73,7 +79,10 @@ describe('source documentation', () => {
 
   it('extracts model props and emits from nested component paths', () => {
     const docs = getSourceDocumentation({
+      aliases: ['TInput'],
+      apiName: 'UIInput',
       category: 'Forms',
+      categoryId: 'forms',
       docs: [],
       examplePath: null,
       name: 'TInput',
@@ -114,7 +123,10 @@ describe('source documentation', () => {
 
   it('extracts component slots from template source', () => {
     const docs = getSourceDocumentation({
+      aliases: ['Sidebar'],
+      apiName: 'UISidebar',
       category: 'Data and Navigation',
+      categoryId: 'data-and-navigation',
       docs: ['../../../src/components/Sidebar/README.md'],
       examplePath: '../../../src/components/Sidebar/Sidebar.example.vue',
       name: 'Sidebar',
@@ -136,7 +148,10 @@ describe('source documentation', () => {
 
   it('resolves source files when the folder exports a differently named component file', () => {
     const docs = getSourceDocumentation({
+      aliases: ['DropdownMenu'],
+      apiName: 'UIDropdownMenu',
       category: 'Data and Navigation',
+      categoryId: 'data-and-navigation',
       docs: [],
       examplePath: null,
       name: 'DropdownMenu',
