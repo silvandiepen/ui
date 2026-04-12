@@ -88,8 +88,8 @@ describe('source documentation', () => {
       name: 'TInput',
       slug: 'form-t-input',
       sourcePath: 'src/components/Form/TInput',
-      status: 'transitional',
-      statusTone: 'accent',
+      status: 'stable',
+      statusTone: 'success',
       summary: 'TInput',
     })
 

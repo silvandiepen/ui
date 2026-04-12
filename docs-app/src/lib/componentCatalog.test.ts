@@ -59,4 +59,25 @@ describe('component catalog', () => {
     expect(slugifyComponentName('Theme Toggle')).toBe('theme-toggle')
     expect(slugifyComponentPath('Form/TInput')).toBe('form-t-input')
   })
+
+  it('keeps native T-prefixed component names intact when they are not compatibility T* wrappers', () => {
+    const catalog = buildComponentCatalog({
+      docKeys: [],
+      exampleKeys: [],
+      folderKeys: [
+        '../../../src/components/Tabs/index.ts',
+        '../../../src/components/Toast/index.ts',
+        '../../../src/components/Toolbar/index.ts',
+        '../../../src/components/Tooltip/index.ts',
+      ],
+      singleFileKeys: [],
+    })
+
+    expect(catalog.map((entry) => entry.apiName)).toEqual([
+      'UITabs',
+      'UIToast',
+      'UIToolbar',
+      'UITooltip',
+    ])
+  })
 })

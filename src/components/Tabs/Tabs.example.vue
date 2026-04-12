@@ -4,7 +4,7 @@
       Overview content for the shared UI library.
     </TabPane>
     <TabPane id="usage" title="Usage">
-      Usage notes and migration guidance.
+      Usage notes and implementation guidance.
     </TabPane>
   </Tabs>
 </template>

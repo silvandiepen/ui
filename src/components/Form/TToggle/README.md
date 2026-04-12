@@ -1,6 +1,6 @@
 # TToggle
 
-Legacy boolean toggle surface from the shared form namespace.
+Boolean toggle surface from the shared form namespace.
 
 ## Usage
 
@@ -12,4 +12,4 @@ Legacy boolean toggle surface from the shared form namespace.
 
 - Emits `update:modelValue`
 - Supports small, medium, and large size variants
-- Kept for compatibility with the older `T*` form family
+- Works alongside the rest of the `T*` form family

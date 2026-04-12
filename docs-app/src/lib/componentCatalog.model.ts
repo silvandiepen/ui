@@ -3,9 +3,8 @@ export type UIComponentCategory =
   | 'Feedback'
   | 'Forms'
   | 'Foundations'
-  | 'Legacy and Compatibility'
 
-export type UIComponentStatus = 'legacy' | 'stable' | 'transitional'
+export type UIComponentStatus = 'stable' | 'transitional'
 
 export type UIComponentStatusTone = 'accent' | 'danger' | 'success'
 
@@ -35,6 +34,7 @@ export interface UIComponentOverride {
   apiName?: string
   category: UIComponentCategory
   docsBasePath?: string
+  examplePath?: string
   includeNestedDocs?: boolean
   name?: string
   sourcePath?: string

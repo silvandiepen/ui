@@ -3,8 +3,8 @@
     <TInput
       v-model="name"
       label="Project name"
-      placeholder="Shared UI migration"
-      description="This example uses the legacy TInput surface."
+      placeholder="Shared UI docs"
+      description="Compact text input for shared project metadata."
     />
 
     <TInput

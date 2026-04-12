@@ -6,7 +6,7 @@
     </Row>
 
     <Note type="info">
-      Legacy display helpers still exist for compatibility, but newer work should prefer the top-level primitives.
+      Display helpers stay available for compact metadata and supporting content layouts.
     </Note>
 
     <Spacer direction="row" align="center">

@@ -13,17 +13,32 @@ const EXCLUDED_FOLDERS = new Set([
 ])
 
 const EXCLUDED_SOURCE_PATHS = new Set([
+  'Display',
   'Feedback/Popup/components',
+  'Feedback/Toast',
+  'Feedback/ToolTip',
 ])
 
 const API_NAME_OVERRIDES: Record<string, string> = {
-  Display: 'UIDisplayHelpers',
   Feedback: 'UIFeedback',
   Form: 'UIForms',
   Input: 'UITextInput',
   Select: 'UINativeSelect',
   Textarea: 'UITextareaField',
 }
+
+const MANUAL_SOURCE_PATHS = [
+  'ContextMenu/ContextPanel',
+  'Display/Chip',
+  'Display/ChipGroup',
+  'Display/Columns',
+  'Display/DL',
+  'Display/Empty',
+  'Display/ID',
+  'Display/Note',
+  'Display/Row',
+  'Display/TruncatedChipList',
+] as const
 
 const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   Actions: {
@@ -48,8 +63,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Breadcrumb: {
     category: 'Data and Navigation',
-    status: 'transitional',
-    summary: 'Breadcrumb navigation shell that still needs API cleanup.',
+    status: 'stable',
+    summary: 'Breadcrumb navigation shell for hierarchical page paths.',
   },
   Button: {
     category: 'Foundations',
@@ -68,8 +83,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   ContextMenu: {
     category: 'Data and Navigation',
-    status: 'transitional',
-    summary: 'Context menus and side panels that still expose legacy compatibility contracts.',
+    status: 'stable',
+    summary: 'Context menus and side panels for anchored actions and supporting content.',
   },
   CopyValueButton: {
     category: 'Foundations',
@@ -78,22 +93,107 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   DataList: {
     category: 'Data and Navigation',
-    status: 'transitional',
-    summary: 'Data list surface with routing and selection behavior from app migrations.',
+    status: 'stable',
+    summary: 'Data list surface with routing, selection, and row-level interaction support.',
   },
   DataListSelectionToolbar: {
     category: 'Data and Navigation',
-    status: 'transitional',
+    status: 'stable',
     summary: 'Bulk action toolbar used alongside data list selection state.',
   },
-  Display: {
+  'Display/Chip': {
+    apiName: 'UIChip',
     category: 'Foundations',
-    status: 'legacy',
-    summary: 'Display helpers collected in one folder and still awaiting consolidation.',
+    examplePath: '../../../src/components/Display/Chip.example.vue',
+    name: 'Chip',
+    sourcePath: 'src/components/Display/Chip.vue',
+    status: 'stable',
+    summary: 'Display helper chip surface with optional icons, removal, and tooltip support.',
+  },
+  'Display/ChipGroup': {
+    apiName: 'UIChipGroup',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/ChipGroup.example.vue',
+    name: 'ChipGroup',
+    sourcePath: 'src/components/Display/ChipGroup.vue',
+    status: 'stable',
+    summary: 'Display helper for arranging multiple chips as one grouped value.',
+  },
+  'Display/Columns': {
+    apiName: 'UIColumns',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/Columns.example.vue',
+    name: 'Columns',
+    sourcePath: 'src/components/Display/Columns.vue',
+    status: 'stable',
+    summary: 'Display helper for simple multi-column metadata layouts.',
+  },
+  'Display/DL': {
+    apiName: 'UIDL',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/DL.example.vue',
+    name: 'DL',
+    sourcePath: 'src/components/Display/DL.vue',
+    status: 'stable',
+    summary: 'Display helper for label-detail rows with optional icons and tooltip content.',
+  },
+  'Display/Empty': {
+    apiName: 'UIEmpty',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/Empty.example.vue',
+    name: 'Empty',
+    sourcePath: 'src/components/Display/Empty.vue',
+    status: 'stable',
+    summary: 'Display helper for empty values and placeholder content inside dense layouts.',
+  },
+  'Display/ID': {
+    apiName: 'UIID',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/ID.example.vue',
+    name: 'ID',
+    sourcePath: 'src/components/Display/ID.vue',
+    status: 'stable',
+    summary: 'Display helper for rendering an identifier with a built-in copy affordance.',
+  },
+  'Display/Note': {
+    apiName: 'UINote',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/Note.example.vue',
+    name: 'Note',
+    sourcePath: 'src/components/Display/Note.vue',
+    status: 'stable',
+    summary: 'Display helper for secondary notes and supporting inline context.',
+  },
+  'Display/Row': {
+    apiName: 'UIRow',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/Row.example.vue',
+    name: 'Row',
+    sourcePath: 'src/components/Display/Row.vue',
+    status: 'stable',
+    summary: 'Display helper row wrapper for dense metadata and inline layout pairings.',
+  },
+  'Display/TruncatedChipList': {
+    apiName: 'UITruncatedChipList',
+    category: 'Foundations',
+    examplePath: '../../../src/components/Display/TruncatedChipList.example.vue',
+    name: 'TruncatedChipList',
+    sourcePath: 'src/components/Display/TruncatedChipList.vue',
+    status: 'stable',
+    summary: 'Display helper for chip collections that collapse overflow into a compact summary.',
+  },
+  'ContextMenu/ContextPanel': {
+    apiName: 'UIContextPanel',
+    category: 'Data and Navigation',
+    examplePath: '../../../src/components/ContextMenu/ContextPanel.example.vue',
+    name: 'ContextPanel',
+    sourcePath: 'src/components/ContextMenu/ContextPanel.vue',
+    status: 'stable',
+    summary: 'Anchored context panel primitive that powers menu and flyout interactions.',
   },
   DraggableVisibilityMenu: {
     category: 'Data and Navigation',
-    status: 'transitional',
+    status: 'stable',
     summary: 'Visibility ordering control for configurable table and list views.',
   },
   Dropdown: {
@@ -119,12 +219,12 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Input: {
     category: 'Forms',
-    status: 'transitional',
-    summary: 'Standalone Emila-style input surface still separate from the broader form namespace.',
+    status: 'stable',
+    summary: 'Standalone text input surface for shared form flows.',
   },
   ItemList: {
     category: 'Data and Navigation',
-    status: 'transitional',
+    status: 'stable',
     summary: 'List surface for selectable and descriptive items.',
   },
   Notification: {
@@ -160,8 +260,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Scroller: {
     category: 'Foundations',
-    status: 'transitional',
-    summary: 'Scrollable container helper that still needs a tighter surface.',
+    status: 'stable',
+    summary: 'Scrollable container helper for bounded content regions.',
   },
   Section: {
     category: 'Foundations',
@@ -170,8 +270,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Select: {
     category: 'Forms',
-    status: 'transitional',
-    summary: 'Standalone Emila-style select component still outside the shared form namespace.',
+    status: 'stable',
+    summary: 'Standalone select surface for shared form flows.',
   },
   Sidebar: {
     category: 'Data and Navigation',
@@ -190,8 +290,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Spacer: {
     category: 'Foundations',
-    status: 'legacy',
-    summary: 'Legacy spacing helper that should eventually become layout tokens instead of a component.',
+    status: 'stable',
+    summary: 'Spacing helper for deliberate vertical and horizontal layout gaps.',
   },
   StatusBadge: {
     category: 'Foundations',
@@ -200,8 +300,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   TabBar: {
     category: 'Data and Navigation',
-    status: 'transitional',
-    summary: 'Compact tab bar surface with a narrower compatibility history.',
+    status: 'stable',
+    summary: 'Compact tab bar surface for dense navigation patterns.',
   },
   Table: {
     category: 'Data and Navigation',
@@ -225,35 +325,38 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Shared theme mode toggle control.',
   },
   Toast: {
-    category: 'Legacy and Compatibility',
-    status: 'transitional',
-    summary: 'Emila-style toast surface that coexists with the older feedback namespace.',
+    category: 'Feedback',
+    status: 'stable',
+    summary: 'Toast notification surface for transient feedback and service-driven status messages.',
   },
   Toolbar: {
     category: 'Data and Navigation',
-    status: 'legacy',
-    summary: 'Large toolbar surface that still carries strong app-level assumptions.',
+    status: 'stable',
+    summary: 'Large toolbar surface for grouped actions, filters, and contextual controls.',
   },
   Tooltip: {
-    category: 'Legacy and Compatibility',
-    status: 'transitional',
-    summary: 'Newer tooltip primitive that currently overlaps with the legacy ToolTip namespace.',
+    category: 'Feedback',
+    status: 'stable',
+    summary: 'Tooltip surface for concise contextual guidance and supporting copy.',
   },
 }
 
 export function buildComponentCatalog(input: UIComponentCatalogInput): UIComponentCatalogEntry[] {
+  const discoveredFolderEntries = [...new Set(input.folderKeys
+    .map(extractFolderSourcePath)
+    .filter((key): key is string => Boolean(key)))]
   const docKeysByFolder = groupDocsByFolder(input.docKeys)
   const exampleKeysByFolder = groupExamplesByFolder(input.exampleKeys)
-  const folderEntries = [...new Set(input.folderKeys
-    .map(extractFolderSourcePath)
-    .filter((key): key is string => Boolean(key))
+  const folderEntries = discoveredFolderEntries.filter((key) => isSourcePathIncluded(key))
+  const manualEntries = [...new Set(MANUAL_SOURCE_PATHS
+    .filter((sourcePath) => discoveredFolderEntries.includes(sourcePath.split('/').slice(0, -1).join('/')))
     .filter((key) => isSourcePathIncluded(key)))]
   const singleFileEntries = [...new Set(input.singleFileKeys
     .map(extractSingleFileSourcePath)
     .filter((key): key is string => Boolean(key))
     .filter((key) => COMPONENT_OVERRIDES[key]))]
 
-  return [...folderEntries, ...singleFileEntries]
+  return [...folderEntries, ...manualEntries, ...singleFileEntries]
     .map((sourcePath) => {
       const override = resolveComponentOverride(sourcePath)
 
@@ -280,7 +383,7 @@ export function buildComponentCatalog(input: UIComponentCatalogInput): UICompone
         category: override.category,
         categoryId: categoryDefinition.id,
         docs,
-        examplePath: exampleKeysByFolder.get(sourcePath) ?? null,
+        examplePath: override.examplePath ?? exampleKeysByFolder.get(sourcePath) ?? null,
         name: componentName,
         slug: slugifyComponentPath(sourcePath),
         sourcePath: override.sourcePath ?? `src/components/${sourcePath}`,
@@ -311,10 +414,6 @@ export function slugifyComponentPath(path: string): string {
 function getStatusTone(status: UIComponentStatus): UIComponentStatusTone {
   if (status === 'stable') {
     return 'success'
-  }
-
-  if (status === 'legacy') {
-    return 'danger'
   }
 
   return 'accent'
@@ -385,23 +484,23 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
   if (sourcePath === 'Feedback') {
     return {
       category: 'Feedback',
-      status: 'legacy',
-      summary: 'Legacy feedback namespace that still owns popup, tooltip, and toast compatibility exports.',
+      status: 'stable',
+      summary: 'Feedback namespace for popup, tooltip, toast, and supporting status surfaces.',
     }
   }
 
   if (sourcePath === 'Form') {
     return {
       category: 'Forms',
-      status: 'transitional',
-      summary: 'Large form surface that contains both stable controls and migration-era compatibility inputs.',
+      status: 'stable',
+      summary: 'Large form surface that composes shared controls, validation, and orchestration helpers.',
     }
   }
 
   if (sourcePath.startsWith('Form/TForm/inputs/')) {
     return {
       category: 'Forms',
-      status: 'transitional',
+      status: 'stable',
       summary: `Nested form input control for ${getSourcePathLeaf(sourcePath)}.`,
     }
   }
@@ -409,7 +508,7 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
   if (sourcePath.startsWith('Form/TForm/')) {
     return {
       category: 'Forms',
-      status: 'transitional',
+      status: 'stable',
       summary: `Nested form surface for ${getSourcePathLeaf(sourcePath)}.`,
     }
   }
@@ -417,32 +516,32 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
   if (sourcePath.startsWith('Form/')) {
     return {
       category: 'Forms',
-      status: 'transitional',
-      summary: `Legacy form namespace surface for ${getSourcePathLeaf(sourcePath)}.`,
+      status: 'stable',
+      summary: `Form namespace surface for ${getSourcePathLeaf(sourcePath)}.`,
     }
   }
 
   if (sourcePath === 'Feedback/Toast') {
     return {
       category: 'Feedback',
-      status: 'transitional',
-      summary: 'Toast notification surface and helpers from the legacy feedback namespace.',
+      status: 'stable',
+      summary: 'Feedback-namespace toast surface for service-driven transient messages.',
     }
   }
 
   if (sourcePath === 'Feedback/ToolTip') {
     return {
-      category: 'Legacy and Compatibility',
-      status: 'transitional',
-      summary: 'Legacy tooltip namespace that overlaps with the newer shared tooltip surface.',
+      category: 'Feedback',
+      status: 'stable',
+      summary: 'Feedback-namespace tooltip surface for concise contextual guidance.',
     }
   }
 
   if (sourcePath === 'Feedback/Popup') {
     return {
-      category: 'Legacy and Compatibility',
-      status: 'legacy',
-      summary: 'Legacy popup orchestration surface with service-driven modal behavior.',
+      category: 'Feedback',
+      status: 'stable',
+      summary: 'Popup orchestration surface with service-driven modal behavior.',
     }
   }
 
@@ -464,7 +563,7 @@ function getPreferredApiName(sourcePath: string, componentName: string): string 
     return componentName
   }
 
-  const normalizedName = componentName.startsWith('T')
+  const normalizedName = /^T[A-Z]/.test(componentName)
     ? componentName.slice(1)
     : componentName
 

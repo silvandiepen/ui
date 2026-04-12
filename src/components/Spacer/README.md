@@ -1,6 +1,6 @@
 # Spacer
 
-`Spacer` is the legacy flex-layout helper re-exported from the older `Display` namespace.
+`Spacer` is the flex-layout helper re-exported from the `Display` namespace.
 
 ## When to use
 
@@ -9,5 +9,5 @@
 
 ## Notes
 
-- The top-level export exists for compatibility.
-- The implementation still lives under `Display/Spacer.vue`, which is why this surface is marked legacy in the catalog.
+- The top-level export keeps the helper easy to import directly.
+- The implementation still lives under `Display/Spacer.vue`, which is why the docs describe it as a namespace-backed surface.

@@ -1,6 +1,14 @@
 <template>
   <div :class="bemm()">
-    <Actions :actions="actions" :context-menu-items="contextMenuItems" />
+    <section :class="bemm('group')">
+      <p :class="bemm('label')">Compact card actions</p>
+      <Actions :actions="actions" :context-menu-items="contextMenuItems" />
+    </section>
+
+    <section :class="bemm('group')">
+      <p :class="bemm('label')">Dense row actions</p>
+      <Actions :actions="secondaryActions" />
+    </section>
   </div>
 </template>
 
@@ -30,11 +38,37 @@ const contextMenuItems: ContextMenuItem[] = [
     label: 'Archive',
   },
 ]
+
+const secondaryActions: Action[] = [
+  {
+    label: 'Open',
+    variant: 'ghost',
+  },
+  {
+    label: 'Approve',
+  },
+  {
+    label: 'Reject',
+    variant: 'secondary',
+  },
+]
 </script>
 
 <style lang="scss">
 .actions-example {
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  gap: var(--space);
+
+  &__group {
+    display: grid;
+    gap: var(--space-xs);
+    justify-items: start;
+  }
+
+  &__label {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-foreground), transparent 35%);
+    font-size: var(--font-size-s);
+  }
 }
 </style>

@@ -1,8 +1,18 @@
 <template>
   <div :class="bemm()">
-    <ContextMenu :config="menuConfig">
-      <Button variant="outline">Open menu</Button>
-    </ContextMenu>
+    <section :class="bemm('group')">
+      <p :class="bemm('label')">Short click menu</p>
+      <ContextMenu :config="menuConfig">
+        <Button variant="outline">Open menu</Button>
+      </ContextMenu>
+    </section>
+
+    <section :class="bemm('group')">
+      <p :class="bemm('label')">Right click menu</p>
+      <ContextMenu :config="rightClickMenuConfig">
+        <div :class="bemm('target')">Right click this surface</div>
+      </ContextMenu>
+    </section>
   </div>
 </template>
 
@@ -31,10 +41,45 @@ const menuConfig: Partial<ContextMenuConfig> = {
     },
   ],
 }
+
+const rightClickMenuConfig: Partial<ContextMenuConfig> = {
+  clickMode: 'right',
+  menu: [
+    {
+      id: 'inspect',
+      label: 'Inspect',
+    },
+    {
+      id: 'duplicate',
+      label: 'Duplicate',
+    },
+  ],
+}
 </script>
 
 <style lang="scss">
 .context-menu-example {
-  display: inline-flex;
+  display: grid;
+  gap: var(--space);
+
+  &__group {
+    display: grid;
+    gap: var(--space-xs);
+    justify-items: start;
+  }
+
+  &__label {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-foreground), transparent 35%);
+    font-size: var(--font-size-s);
+  }
+
+  &__target {
+    min-width: 14rem;
+    padding: var(--space);
+    border: 1px dashed color-mix(in srgb, var(--color-foreground), transparent 72%);
+    border-radius: var(--border-radius);
+    background: color-mix(in srgb, var(--color-background), var(--color-foreground) 2%);
+  }
 }
 </style>

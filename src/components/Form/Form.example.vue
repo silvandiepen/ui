@@ -1,6 +1,6 @@
 <template>
   <div :class="bemm()">
-    <TInput v-model="name" label="Project name" placeholder="Shared UI migration" />
+    <TInput v-model="name" label="Project name" placeholder="Shared UI docs" />
     <TToggle v-model="enabled" label="Release on merge" />
   </div>
 </template>

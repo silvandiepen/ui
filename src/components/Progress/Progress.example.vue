@@ -1,8 +1,8 @@
 <template>
   <Progress
-    label="Migration progress"
+    label="Release progress"
     :value="68"
-    :details="['14 components reviewed', '6 still transitional']"
+    :details="['14 components reviewed', '6 follow-up items left']"
   />
 </template>
 

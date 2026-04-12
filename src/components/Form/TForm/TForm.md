@@ -1,6 +1,18 @@
 # TForm
 
-A comprehensive form wrapper component that provides form state management, validation, and context to child form components. It integrates seamlessly with all Tiko input components and provides a consistent form experience.
+`TForm` is the concrete form container exported as `UIForm`. It provides submission handling, shared field context, validation hooks, and layout structure for the shared `T*` input family.
+
+## What It Does
+
+- Wraps related `T*` inputs in one form surface.
+- Coordinates submit handling and browser `FormData`.
+- Exposes shared context used by nested fields, validation, and grouped controls.
+- Works as the concrete component behind the broader `UIForms` namespace.
+
+## `UIForms` vs `UIForm`
+
+- `UIForms` is the namespace export that groups `TForm`, `TFormField`, `TInputText`, `TInputSelect`, and the rest of the shared form primitives.
+- `UIForm` is the specific form wrapper component documented on this page.
 
 ## Basic Usage
 

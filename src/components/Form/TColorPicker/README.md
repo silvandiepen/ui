@@ -1,6 +1,6 @@
 # TColorPicker
 
-Legacy color token picker built on the older `TForm` input base.
+Color token picker built on the shared `TForm` input base.
 
 ## Usage
 

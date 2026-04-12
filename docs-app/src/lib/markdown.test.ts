@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { normalizeMarkdownContent } from './markdown'
 
 describe('normalizeMarkdownContent', () => {
-  it('rewrites legacy package references and component names to the preferred API', () => {
+  it('rewrites package references and component names to the preferred API', () => {
     const markdown = [
       "import { TInput, Button } from '@tiko/ui'",
       '',

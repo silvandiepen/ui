@@ -1,6 +1,6 @@
 # Display
 
-`Display` is a legacy compatibility namespace that groups small presentation helpers like chips, notes, rows, and spacing utilities.
+`Display` is a shared namespace export, not a single Vue component. It groups small presentation helpers like chips, notes, rows, and spacing utilities.
 
 ## When to use
 
@@ -9,5 +9,5 @@
 
 ## Notes
 
-- This folder is intentionally marked legacy in the docs catalog so cleanup work stays visible.
+- This folder is documented as a namespace so the grouped exports stay explicit in the docs.
 - The overview example highlights a few of the still-common helpers without hiding the fact that the namespace is mixed.

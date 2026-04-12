@@ -35,7 +35,7 @@ function showSuccessToast() {
 }
 
 function showWarningToast() {
-  toastService.warning('A legacy component still needs migration.', {
+  toastService.warning('One component still needs follow-up work.', {
     title: 'Attention',
     position: 'top',
   })

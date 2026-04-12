@@ -13,7 +13,7 @@ export const UI_COMPONENT_CATEGORIES: UIComponentCategoryDefinition[] = [
   {
     id: 'forms',
     label: 'Forms',
-    description: 'Input controls, validation surfaces, and form orchestration APIs, including compatibility-era field contracts.',
+    description: 'Input controls, validation surfaces, and form orchestration APIs used across shared product flows.',
     order: 2,
   },
   {
@@ -25,14 +25,8 @@ export const UI_COMPONENT_CATEGORIES: UIComponentCategoryDefinition[] = [
   {
     id: 'feedback',
     label: 'Feedback',
-    description: 'Progress, notifications, popovers, and transient status surfaces that communicate state back to the user.',
+    description: 'Progress, notifications, tooltips, popovers, and transient status surfaces that communicate state back to the user.',
     order: 4,
-  },
-  {
-    id: 'legacy-and-compatibility',
-    label: 'Legacy and Compatibility',
-    description: 'Migration-era or older APIs that still ship for compatibility but are not the preferred long-term surface.',
-    order: 5,
   },
 ]
 

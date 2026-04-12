@@ -179,6 +179,12 @@ function normalizeEventPayload(payload?: string): string {
 }
 
 function resolveModelPath(entry: UIComponentCatalogEntry): string | null {
+  if (entry.sourcePath.endsWith('.vue')) {
+    const modelPath = `../../../${entry.sourcePath.replace(/\.vue$/, '.model.ts')}`
+
+    return componentModelModules[modelPath] ? modelPath : null
+  }
+
   const componentFolder = getComponentFolder(entry)
   const componentName = getComponentFileBaseName(entry)
   const folderPath = `${componentFolder}/${componentName}.model.ts`
@@ -191,6 +197,12 @@ function resolveModelPath(entry: UIComponentCatalogEntry): string | null {
 }
 
 function resolveVuePath(entry: UIComponentCatalogEntry): string | null {
+  if (entry.sourcePath.endsWith('.vue')) {
+    const directVuePath = `../../../${entry.sourcePath}`
+
+    return componentVueModules[directVuePath] ? directVuePath : null
+  }
+
   const componentFolder = getComponentFolder(entry)
   const componentName = getComponentFileBaseName(entry)
   const folderPath = `${componentFolder}/${componentName}.vue`
@@ -216,12 +228,13 @@ function resolveVuePath(entry: UIComponentCatalogEntry): string | null {
 function buildUsageExample(entry: UIComponentCatalogEntry, props: UIComponentPropDefinition[]): string {
   if (entry.sourcePath === 'src/components/Form') {
     return [
-      "import { UIForm, UIInput, UIToggle } from '@sil/ui'",
+      "import { UIForms, UIForm, UIInputText, UIInputToggle } from '@sil/ui'",
       '',
       '<template>',
+      '  <!-- UIForms is the namespace export; UIForm is the actual form container -->',
       '  <UIForm>',
-      '    <UIInput v-model="name" label="Name" />',
-      '    <UIToggle v-model="enabled" label="Enabled" />',
+      '    <UIInputText v-model="name" label="Name" />',
+      '    <UIInputToggle v-model="enabled" label="Enabled" />',
       '  </UIForm>',
       '</template>',
     ].join('\n')

@@ -1,6 +1,6 @@
 # TPinInput
 
-Legacy PIN and verification-code input from the older shared form namespace.
+PIN and verification-code input for shared confirmation and sign-in flows.
 
 ## Usage
 
