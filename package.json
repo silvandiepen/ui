@@ -1,6 +1,6 @@
 {
   "name": "@sil/ui",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "description": "Shared UI components for SIL applications",
   "main": "./dist/sil-ui.umd.js",
   "module": "./dist/sil-ui.mjs",
@@ -37,7 +37,7 @@
     "lint": "eslint .",
     "release": "semantic-release",
     "prepublishOnly": "npm run typecheck && npm run build",
-    "test": "vitest run docs-app/src/lib/componentCatalog.test.ts docs-app/src/lib/sourceDocumentation.test.ts docs-app/src/lib/useColorMode.test.ts docs-app/src/lib/markdown.test.ts --environment=node",
+    "test": "vitest run docs-app/src/lib/componentCatalog.test.ts docs-app/src/lib/componentRegistry.test.ts docs-app/src/lib/homeSections.test.ts docs-app/src/lib/sourceDocumentation.test.ts docs-app/src/lib/useColorMode.test.ts docs-app/src/lib/markdown.test.ts src/vite/theme.test.ts --environment=node",
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
