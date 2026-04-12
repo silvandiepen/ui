@@ -6,8 +6,8 @@
         <h1 :class="bemm('title')">Shared Vue UI docs with a consistent UI-prefixed API</h1>
         <p :class="bemm('summary')">
           This app reflects the current state of the library as it exists in the repo:
-          stable primitives, transitional compatibility surfaces, category groupings, and
-          the preferred `UI*` import names exposed by `@sil/ui`.
+          shared primitives, maintained surfaces, category groupings, and the preferred
+          `UI*` import names exposed by `@sil/ui`.
         </p>
       </div>
 
@@ -84,30 +84,13 @@ import { Card } from '@ui-lib/components/Card'
 import { Container } from '@ui-lib/components/Container'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 
-import { UI_COMPONENT_CATEGORIES } from '@ui-docs/lib/componentCategories'
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
+import { buildDocsHomeSections } from '@ui-docs/lib/homeSections'
 
 const bemm = useBemm('docs-home-page')
 
 const components = getComponentCatalog()
-
-const groupedComponents = computed(() => {
-  const groups = new Map<string, typeof components>()
-
-  for (const component of components) {
-    const items = groups.get(component.categoryId) ?? []
-
-    items.push(component)
-    groups.set(component.categoryId, items)
-  }
-
-  return UI_COMPONENT_CATEGORIES.map((category) => ({
-    description: category.description,
-    id: category.id,
-    items: groups.get(category.id) ?? [],
-    label: category.label,
-  })).filter((group) => group.items.length > 0)
-})
+const groupedComponents = computed(() => buildDocsHomeSections(components))
 
 const documentedCount = computed(() => components.filter((item) => item.docs.length > 0).length)
 const exampleCount = computed(() => components.filter((item) => item.examplePath).length)
@@ -169,14 +152,13 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
 
   &__groups {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   &__group-card {
     display: grid;
     gap: 1rem;
-    padding: 1.1rem;
+    padding: 1.25rem;
   }
 
   &__group-header {
@@ -184,6 +166,8 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
     align-items: start;
     justify-content: space-between;
     gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--docs-home-card-border);
   }
 
   &__group-title {
@@ -210,7 +194,8 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
 
   &__group-items {
     display: grid;
-    gap: 0.65rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 0.75rem;
   }
 
   &__group-link {

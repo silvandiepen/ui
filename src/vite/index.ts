@@ -1,6 +1,18 @@
 import { fileURLToPath } from 'node:url'
 
-import { defineTheme, generateThemeStyles, type UIThemeConfig } from './theme'
+import {
+  buildThemeConfig,
+  DEFAULT_THEME_COLORS,
+  DEFAULT_THEME_FONTS,
+  defineTheme,
+  generateThemeStyles,
+  resolveTheme,
+  SYSTEM_MONO_STACK,
+  SYSTEM_SANS_STACK,
+  UI_THEME_FONT_PRESETS,
+  type ResolvedUIThemeConfig,
+  type UIThemeConfig,
+} from './theme'
 
 const SIL_UI_THEME_ID = 'virtual:sil-ui/theme.scss'
 const SIL_UI_THEME_RESOLVED_ID = `\0${SIL_UI_THEME_ID}`
@@ -13,7 +25,19 @@ export interface UIPluginOptions {
   theme?: UIThemeConfig
 }
 
-export { defineTheme, type UIThemeConfig }
+export {
+  buildThemeConfig,
+  DEFAULT_THEME_COLORS,
+  DEFAULT_THEME_FONTS,
+  defineTheme,
+  generateThemeStyles,
+  resolveTheme,
+  SYSTEM_MONO_STACK,
+  SYSTEM_SANS_STACK,
+  UI_THEME_FONT_PRESETS,
+  type ResolvedUIThemeConfig,
+  type UIThemeConfig,
+}
 
 export function getUIAliases() {
   return {

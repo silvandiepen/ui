@@ -53,6 +53,7 @@ describe('useColorMode helpers', () => {
     applyColorMode('dark')
 
     expect(document.documentElement.dataset.colorMode).toBe('dark')
+    expect(document.documentElement.dataset.theme).toBe('dark')
   })
 
   it('prefers the document color mode when present', () => {

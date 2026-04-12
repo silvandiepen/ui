@@ -26,6 +26,7 @@ export function applyColorMode(mode: DocsColorMode) {
   }
 
   document.documentElement.dataset.colorMode = mode
+  document.documentElement.dataset.theme = mode
 }
 
 export function getInitialColorMode(): DocsColorMode {
@@ -49,7 +50,7 @@ export function getInitialColorMode(): DocsColorMode {
 }
 
 export function useColorMode() {
-  const colorMode = ref<DocsColorMode>('light')
+  const colorMode = ref<DocsColorMode>(getInitialColorMode())
 
   const setColorMode = (mode: DocsColorMode) => {
     colorMode.value = mode
@@ -64,8 +65,10 @@ export function useColorMode() {
     setColorMode(colorMode.value === 'dark' ? 'light' : 'dark')
   }
 
+  applyColorMode(colorMode.value)
+
   onMounted(() => {
-    setColorMode(getInitialColorMode())
+    applyColorMode(colorMode.value)
   })
 
   return {

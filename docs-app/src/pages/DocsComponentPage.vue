@@ -256,7 +256,7 @@ function getDocTitle(path: string): string {
 .docs-component-page {
   --docs-component-surface: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
   --docs-component-surface-strong: color-mix(in srgb, var(--color-background), var(--color-foreground) 5%);
-  --docs-component-code-background: color-mix(in srgb, var(--color-foreground), var(--color-background) 82%);
+  --docs-component-code-background: color-mix(in srgb, var(--color-foreground), var(--color-background) 20%);
   --docs-component-code-foreground: color-mix(in srgb, var(--color-background), var(--color-foreground) 8%);
   --docs-component-border: color-mix(in srgb, var(--color-foreground), transparent 88%);
   --docs-component-muted: color-mix(in srgb, var(--color-foreground), transparent 24%);
@@ -374,6 +374,46 @@ function getDocTitle(path: string): string {
 
     code {
       font-family: 'SFMono-Regular', 'Menlo', 'Monaco', monospace;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      display: table;
+    }
+
+    thead {
+      background: color-mix(in srgb, var(--color-foreground), transparent 97%);
+    }
+
+    th,
+    td {
+      padding: 0.8rem 0.9rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--docs-component-border);
+    }
+
+    th {
+      color: var(--color-foreground);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    td code,
+    th code {
+      white-space: nowrap;
+    }
+
+    p + table,
+    h2 + table,
+    h3 + table {
+      margin-top: 0.75rem;
     }
   }
 

@@ -1,9 +1,28 @@
 export interface UIThemeConfig {
   colors?: Record<string, string>
+  fonts?: UIThemeFonts
   variables?: Record<string, string | number>
 }
 
-const DEFAULT_THEME_COLORS: Record<string, string> = {
+export interface UIThemeFonts {
+  body?: string
+  heading?: string
+  mono?: string
+}
+
+export interface ResolvedUIThemeConfig {
+  colors: Record<string, string>
+  fonts: Required<UIThemeFonts>
+  variables: Record<string, string | number>
+}
+
+export const SYSTEM_SANS_STACK =
+  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+
+export const SYSTEM_MONO_STACK =
+  '"SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace'
+
+export const DEFAULT_THEME_COLORS: Record<string, string> = {
   dark: '#020b22',
   light: '#ffffff',
   'accent-dark': '#000000',
@@ -20,6 +39,35 @@ const DEFAULT_THEME_COLORS: Record<string, string> = {
   border: '#d7d2d9',
 }
 
+export const DEFAULT_THEME_FONTS: Required<UIThemeFonts> = {
+  body: SYSTEM_SANS_STACK,
+  heading: SYSTEM_SANS_STACK,
+  mono: SYSTEM_MONO_STACK,
+}
+
+export const UI_THEME_FONT_PRESETS: Record<string, Required<UIThemeFonts>> = {
+  system: {
+    body: SYSTEM_SANS_STACK,
+    heading: SYSTEM_SANS_STACK,
+    mono: SYSTEM_MONO_STACK,
+  },
+  product: {
+    body: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    heading: '"Manrope", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    mono: SYSTEM_MONO_STACK,
+  },
+  friendly: {
+    body: '"Nunito Sans", "Avenir Next", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    heading: '"Avenir Next", "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    mono: SYSTEM_MONO_STACK,
+  },
+  editorial: {
+    body: '"Newsreader", "Iowan Old Style", Georgia, serif',
+    heading: '"Fraunces", "Newsreader", Georgia, serif',
+    mono: SYSTEM_MONO_STACK,
+  },
+}
+
 interface RgbColor {
   r: number
   g: number
@@ -30,11 +78,15 @@ export function defineTheme(theme: UIThemeConfig): UIThemeConfig {
   return theme
 }
 
-export function resolveTheme(theme: UIThemeConfig = {}): Required<UIThemeConfig> {
+export function buildThemeConfig(theme: UIThemeConfig = {}): ResolvedUIThemeConfig {
   return {
     colors: {
       ...DEFAULT_THEME_COLORS,
       ...theme.colors,
+    },
+    fonts: {
+      ...DEFAULT_THEME_FONTS,
+      ...theme.fonts,
     },
     variables: {
       ...theme.variables,
@@ -42,9 +94,17 @@ export function resolveTheme(theme: UIThemeConfig = {}): Required<UIThemeConfig>
   }
 }
 
+export const resolveTheme = buildThemeConfig
+
 export function generateThemeStyles(theme: UIThemeConfig = {}): string {
-  const resolvedTheme = resolveTheme(theme)
+  const resolvedTheme = buildThemeConfig(theme)
   const lines = [':root {']
+
+  lines.push(`  --font-family: ${resolvedTheme.fonts.body};`)
+  lines.push(`  --font-family-body: ${resolvedTheme.fonts.body};`)
+  lines.push(`  --font-family-heading: ${resolvedTheme.fonts.heading};`)
+  lines.push(`  --font-family-mono: ${resolvedTheme.fonts.mono};`)
+  lines.push(`  --font-family-monospace: ${resolvedTheme.fonts.mono};`)
 
   for (const [token, value] of Object.entries(resolvedTheme.colors)) {
     const parsed = parseColor(value)

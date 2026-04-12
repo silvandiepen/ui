@@ -163,48 +163,16 @@
 //   font-display: swap;
 // }
 
-
-// Font variables with Inter for body and Space Grotesk for headings
+// Default font variables stay on system stacks. Consumers can override these
+// through the Vite theme config or plain CSS variables.
 :root {
-  /* Heading font: Space Grotesk with comprehensive Noto fallbacks */
-  --font-family-heading: 'Space Grotesk',
-                         /* Comprehensive Noto Sans variants */
-                         'Noto Sans',
-                         'Noto Sans SC',
-                         'Noto Sans TC',
-                         'Noto Sans JP',
-                         'Noto Sans KR',
-                         'Noto Sans Arabic',
-                         'Noto Sans Hebrew',
-                         'Noto Sans Thai',
-                         'Noto Sans Devanagari',
-                         'Noto Sans Bengali',
-                         'Noto Sans Georgian',
-                         'Noto Sans Armenian',
-                         /* System fallbacks */
-                         system-ui,
+  --font-family-heading: system-ui,
                          -apple-system,
                          BlinkMacSystemFont,
                          'Segoe UI',
                          sans-serif;
 
-  /* Body font: Inter with comprehensive Noto fallbacks */
-  --font-family-body: 'Inter',
-                      /* Comprehensive Noto Sans variants */
-                      'Noto Sans',
-                      'Noto Sans SC',
-                      'Noto Sans TC',
-                      'Noto Sans JP',
-                      'Noto Sans KR',
-                      'Noto Sans Arabic',
-                      'Noto Sans Hebrew',
-                      'Noto Sans Thai',
-                      'Noto Sans Devanagari',
-                      'Noto Sans Bengali',
-                      'Noto Sans Georgian',
-                      'Noto Sans Armenian',
-                      /* System fallbacks */
-                      system-ui,
+  --font-family-body: system-ui,
                       -apple-system,
                       BlinkMacSystemFont,
                       'Segoe UI',
@@ -224,17 +192,17 @@
                       monospace;
 
   /* Language-specific font stacks for better script support */
-  --font-family-armenian: 'Noto Sans Armenian', 'Inter', 'Arial Unicode MS', sans-serif;
-  --font-family-chinese-sc: 'Noto Sans SC', 'Inter', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-  --font-family-chinese-tc: 'Noto Sans TC', 'Inter', 'PingFang TC', 'Hiragino Sans CNS', sans-serif;
-  --font-family-japanese: 'Noto Sans JP', 'Inter', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
-  --font-family-korean: 'Noto Sans KR', 'Inter', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  --font-family-arabic: 'Noto Sans Arabic', 'Inter', 'Tahoma', 'Arial Unicode MS', sans-serif;
-  --font-family-hebrew: 'Noto Sans Hebrew', 'Inter', 'Arial Hebrew', 'Arial Unicode MS', sans-serif;
-  --font-family-thai: 'Noto Sans Thai', 'Inter', 'Thonburi', 'Arial Unicode MS', sans-serif;
-  --font-family-devanagari: 'Noto Sans Devanagari', 'Inter', 'Mangal', 'Arial Unicode MS', sans-serif;
-  --font-family-bengali: 'Noto Sans Bengali', 'Inter', 'Vrinda', 'Arial Unicode MS', sans-serif;
-  --font-family-georgian: 'Noto Sans Georgian', 'Inter', 'Sylfaen', 'Arial Unicode MS', sans-serif;
+  --font-family-armenian: 'Noto Sans Armenian', system-ui, 'Arial Unicode MS', sans-serif;
+  --font-family-chinese-sc: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', system-ui, sans-serif;
+  --font-family-chinese-tc: 'Noto Sans TC', 'PingFang TC', 'Hiragino Sans CNS', system-ui, sans-serif;
+  --font-family-japanese: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
+  --font-family-korean: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --font-family-arabic: 'Noto Sans Arabic', Tahoma, 'Arial Unicode MS', system-ui, sans-serif;
+  --font-family-hebrew: 'Noto Sans Hebrew', 'Arial Hebrew', 'Arial Unicode MS', system-ui, sans-serif;
+  --font-family-thai: 'Noto Sans Thai', Thonburi, 'Arial Unicode MS', system-ui, sans-serif;
+  --font-family-devanagari: 'Noto Sans Devanagari', Mangal, 'Arial Unicode MS', system-ui, sans-serif;
+  --font-family-bengali: 'Noto Sans Bengali', Vrinda, 'Arial Unicode MS', system-ui, sans-serif;
+  --font-family-georgian: 'Noto Sans Georgian', Sylfaen, 'Arial Unicode MS', system-ui, sans-serif;
 
 }
 
