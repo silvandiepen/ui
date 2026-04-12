@@ -45,7 +45,19 @@ jobs:
       - name: Build docs app
         run: npm run docs:build
 
+      - name: Get version before release
+        id: pre-version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Publish release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run release
+
+      - name: Get version after release
+        id: post-version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Publish to npm
+        if: steps.pre-version.outputs.version != steps.post-version.outputs.version
+        run: npm publish --provenance
