@@ -10,7 +10,7 @@ export * from './TRichTextEditor'
 export * from './TToggle'
 export * from './TFormActions'
 
-// Aliases for backward compatibility
+// Alternate aliases used by existing imports
 export { TInput as Input } from './TInput'
 export { TToggle as Toggle } from './TToggle'
 export { TInputSelect as Select } from './TForm/inputs/TInputSelect'

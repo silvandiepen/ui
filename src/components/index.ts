@@ -31,7 +31,39 @@ export * from './Form'
 export * from './Icon'
 export * from './Dropdown'
 export { Input as TextInput } from './Input'
-export * from './Feedback'
+export {
+  Chip,
+  ChipGroup,
+  Columns,
+  DL,
+  Empty,
+  ID,
+  Note,
+  Row,
+  TruncatedChipList,
+} from './Display'
+export { Feedback } from './Feedback'
+export {
+  Popup,
+  PopupWrapper,
+  popupService,
+  popupRefs,
+  closeAllPopups,
+} from './Feedback/Popup'
+export type {
+  PopupAction,
+  PopupInstance,
+  PopupOptions,
+  PopupPosition,
+  PopupService,
+} from './Feedback/Popup'
+export { ToolTip, TooltipWrapper as ToolTipWrapper, TContexToolTip } from './Feedback'
+export type {
+  TooltipAction as ToolTipAction,
+  TooltipOptions as ToolTipOptions,
+  TooltipPlacement as ToolTipPlacement,
+  TooltipTrigger as ToolTipTrigger,
+} from './Feedback'
 export * from './Notification'
 export * from './PlatformHeader'
 export * from './ReferenceBadge'
@@ -68,6 +100,15 @@ export { CopyValueButton as UICopyValueButton } from './CopyValueButton'
 export { DataList as UIDataList } from './DataList'
 export { DataListSelectionToolbar as UIDataListSelectionToolbar } from './DataListSelectionToolbar'
 export * as UIDisplayHelpers from './Display'
+export { Chip as UIChip } from './Display'
+export { ChipGroup as UIChipGroup } from './Display'
+export { Columns as UIColumns } from './Display'
+export { DL as UIDL } from './Display'
+export { Empty as UIEmpty } from './Display'
+export { ID as UIID } from './Display'
+export { Note as UINote } from './Display'
+export { Row as UIRow } from './Display'
+export { TruncatedChipList as UITruncatedChipList } from './Display'
 export { DraggableVisibilityMenu as UIDraggableVisibilityMenu } from './DraggableVisibilityMenu'
 export { DropdownMenu as UIDropdownMenu } from './Dropdown'
 export { EmptyState as UIEmptyState } from './EmptyState'

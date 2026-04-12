@@ -23,23 +23,22 @@
       ref="inputRef"
       :value="modelValue"
       type="text"
-      inputmode="none"
+      inputmode="numeric"
+      autocomplete="one-time-code"
       pattern="[0-9]*"
       :maxlength="length"
       :disabled="disabled"
-      :readonly="isMobile"
       :class="bemm('input')"
       @input="handleInput"
       @keydown="handleKeydown"
       @focus="handleFocus"
       @blur="handleBlur"
-      @touchstart.prevent="handleTouchStart"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { useBemm } from 'bemm'
 import type { TPinInputProps, TPinInputEmits } from './TPinInput.model'
 
@@ -60,14 +59,6 @@ const bemm = useBemm('pin-input')
 // Refs
 const inputRef = ref<HTMLInputElement | null>(null)
 const isFocused = ref(false)
-
-// Check if mobile device
-const isMobile = computed(() => {
-  if (typeof window === 'undefined') return false
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-         'ontouchstart' in window ||
-         window.innerWidth <= 768
-})
 
 // Methods
 const handleInput = (event: Event) => {
@@ -118,11 +109,6 @@ const handleBlur = () => {
   emit('blur')
 }
 
-const handleTouchStart = () => {
-  // Prevent default to avoid showing keyboard on mobile
-  // Input will handle digit entry through keydown events
-}
-
 // Public methods
 const focus = () => {
   inputRef.value?.focus()
@@ -158,6 +144,7 @@ defineExpose({
 .pin-input {
   position: relative;
   display: inline-block;
+  cursor: text;
 
   &__display {
     display: flex;
@@ -229,7 +216,7 @@ defineExpose({
     width: 100%;
     height: 100%;
     opacity: 0;
-    pointer-events: none;
+    pointer-events: auto;
     border: none;
     outline: none;
     background: transparent;

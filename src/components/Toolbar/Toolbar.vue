@@ -23,7 +23,7 @@ import { useBemm } from 'bemm';
 import { toolbarService } from './Toolbar.service';
 import type { ToolbarInstance } from './Toolbar.model';
 
-const { bemm } = useBemm('ar-toolbar-shell');
+const bemm = useBemm('ar-toolbar-shell');
 
 const toolbars = computed(() => toolbarService.toolbars.value);
 const toolbarStyles = (toolbar: ToolbarInstance) => ({

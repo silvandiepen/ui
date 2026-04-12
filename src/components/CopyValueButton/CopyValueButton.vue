@@ -1,11 +1,12 @@
 <template>
   <button
-    :class="bemm()"
+    :class="[bemm(), copied && bemm('', 'copied')]"
     type="button"
     :title="copied ? 'Copied' : resolvedLabel"
+    :aria-label="copied ? 'Copied' : resolvedLabel"
     @click="copyValue"
   >
-    {{ copied ? "Copied" : resolvedLabel }}
+    <Icon :name="copied ? 'check' : 'clipboard'" size="small" />
   </button>
 </template>
 
@@ -13,6 +14,7 @@
 import { useBemm } from "bemm";
 import { computed, onBeforeUnmount, ref } from "vue";
 
+import Icon from "../Icon/Icon.vue";
 import { toast } from "../Toast";
 
 import type { CopyValueButtonProps } from "./CopyValueButton.model";
@@ -58,28 +60,42 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .copy-value-button {
+  --copy-value-button-color: color-mix(in srgb, var(--color-foreground), transparent 34%);
+  --copy-value-button-border: color-mix(in srgb, var(--color-foreground), transparent 88%);
+  --copy-value-button-background: transparent;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 2rem;
-  min-width: 2rem;
-  padding: 0 calc(var(--space) * 0.45);
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
-  background: transparent;
-  color: color-mix(in srgb, var(--color-foreground), transparent 34%);
-  font-size: calc(var(--font-size) * 0.78);
-  font-weight: var(--font-weight-extra-bold);
+  width: 2rem;
+  padding: 0;
+  border-radius: 999rem;
+  border: 1px solid var(--copy-value-button-border);
+  background: var(--copy-value-button-background);
+  color: var(--copy-value-button-color);
   cursor: pointer;
   transition:
     color 140ms ease,
     border-color 140ms ease,
-    background 140ms ease;
+    background 140ms ease,
+    transform 140ms ease;
 
   &:hover {
     color: var(--color-foreground);
     border-color: color-mix(in srgb, var(--color-foreground), transparent 76%);
     background: color-mix(in srgb, var(--color-foreground), transparent 96%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus, var(--color-primary));
+    outline-offset: 2px;
+  }
+
+  &--copied {
+    --copy-value-button-color: var(--color-success);
+    --copy-value-button-border: color-mix(in srgb, var(--color-success), transparent 68%);
+    --copy-value-button-background: color-mix(in srgb, var(--color-success), transparent 92%);
   }
 }
 </style>

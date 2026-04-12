@@ -65,7 +65,7 @@ function onChange(event: Event) {
 .sil-select:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 var(--border-width) color-mix(in srgb, var(--color-primary), transparent 14%);
-  background: white;
+  background: color-mix(in srgb, var(--color-background), var(--color-primary) 6%);
 }
 
 .sil-select--is-disabled {

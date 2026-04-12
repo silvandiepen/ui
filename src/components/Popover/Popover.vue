@@ -115,9 +115,6 @@ const closeIfNeeded = () => {
 };
 
 const handleTriggerClick = () => {
-	if (slots.trigger) {
-		return;
-	}
 	if (props.trigger === 'click') {
 		toggle();
 	}

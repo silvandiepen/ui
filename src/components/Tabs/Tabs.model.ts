@@ -52,6 +52,7 @@ export type TabNavigationItem = {
 	id: string | number;
 	label: string;
 	icon?: string;
+	badge?: string | number;
 	color?: string;
 	disabled?: boolean;
 };

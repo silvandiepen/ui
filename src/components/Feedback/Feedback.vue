@@ -7,8 +7,7 @@
 import { provide } from 'vue';
 import Popup from './Popup/Popup.vue';
 import { popupService } from './Popup/Popup.service';
-import Toast from './Toast/Toast.vue';
-import { toastService } from './Toast/Toast.service';
+import { Toast, toastService } from '../Toast';
 
 defineOptions({
 	name: 'SilFeedback',

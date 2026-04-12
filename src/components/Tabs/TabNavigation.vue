@@ -36,6 +36,12 @@
 		>
 			<Icon :class="bemm('button-icon')" v-if="item.icon" :name="item.icon" />
 			<span :class="bemm('button-label')">{{ item.label }}</span>
+			<span
+				v-if="item.badge !== undefined && item.badge !== null"
+				:class="bemm('button-badge')"
+			>
+				{{ item.badge }}
+			</span>
 		</button>
 	</div>
 </template>
@@ -344,6 +350,21 @@ onBeforeUnmount(() => {
 		@media screen and (max-width: 960px) {
 			font-size: var(--font-size-xs);
 		}
+	}
+
+	&__button-badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 1.4rem;
+		height: 1.4rem;
+		padding-inline: 0.4rem;
+		border-radius: 999em;
+		background: color-mix(in srgb, currentColor, transparent 86%);
+		color: inherit;
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-semibold);
+		line-height: 1;
 	}
 
 	&__button-icon {
