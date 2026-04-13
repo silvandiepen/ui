@@ -101,7 +101,7 @@ const emit = defineEmits<{
 	(e: 'action', payload: { item: ItemListItem; action: ItemListAction }): void;
 }>();
 
-const bemm = useBemm('ar-item-list', {
+const bemm = useBemm('ui-item-list', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -140,7 +140,7 @@ const handleActionClick = (item: ItemListItem, action: ItemListAction) => {
 </script>
 
 <style lang="scss">
-.ar-item-list {
+.ui-item-list {
 	$b: &;
 
 	&__list {

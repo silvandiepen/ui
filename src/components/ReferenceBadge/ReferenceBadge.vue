@@ -2,13 +2,6 @@
   <span :class="bemm()">
     <span :class="bemm('surface')" :title="resolvedTooltip">
       <span :class="bemm('label')">{{ label }}</span>
-      <Tooltip
-        v-if="resolvedTooltip"
-        :class="bemm('tooltip')"
-        :text="resolvedTooltip"
-        :show-on-parent-hover="true"
-        :open="false"
-      />
 
       <span v-if="copyValue || href" :class="bemm('actions')">
         <button
@@ -35,6 +28,14 @@
         </a>
       </span>
     </span>
+
+    <Tooltip
+      v-if="resolvedTooltip"
+      :class="bemm('tooltip')"
+      :text="resolvedTooltip"
+      :show-on-parent-hover="true"
+      :open="false"
+    />
   </span>
 </template>
 
@@ -98,6 +99,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .reference-badge {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-width: 0;

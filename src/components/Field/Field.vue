@@ -58,7 +58,7 @@ const props = withDefaults(
 
 const fieldId = computed(() => props.id ?? `field-${Math.random().toString(36).slice(2, 8)}`)
 
-const bemm = useBemm('sil-field', { return: 'string', includeBaseClass: true })
+const bemm = useBemm('ui-field', { return: 'string', includeBaseClass: true })
 
 const displayValue = computed(() => {
   if (typeof props.format === 'function') {
@@ -89,13 +89,13 @@ const fieldClasses = computed(() =>
 </script>
 
 <style>
-.sil-field {
+.ui-field {
   display: flex;
   flex-direction: column;
   gap: calc(var(--space) * 0.4);
 }
 
-.sil-field__label {
+.ui-field__label {
   font-size: calc(var(--font-size) * 0.9);
   font-weight: var(--font-weight-extra-bold);
   letter-spacing: 0.05em;
@@ -103,31 +103,31 @@ const fieldClasses = computed(() =>
   color: color-mix(in srgb, var(--color-foreground), transparent 44%);
 }
 
-.sil-field__required {
+.ui-field__required {
   color: var(--color-error);
   margin-inline-start: var(--space-xs);
 }
 
-.sil-field__control {
+.ui-field__control {
   display: flex;
   flex-direction: column;
 }
 
-.sil-field__value {
+.ui-field__value {
   color: var(--color-foreground);
 }
 
-.sil-field__hint {
+.ui-field__hint {
   font-size: calc(var(--font-size) * 0.9);
   color: color-mix(in srgb, var(--color-foreground), transparent 52%);
 }
 
-.sil-field__error {
+.ui-field__error {
   font-size: var(--font-size-xs, 0.75rem);
   color: var(--color-error);
 }
 
-.sil-field--is-disabled {
+.ui-field--is-disabled {
   opacity: 0.5;
   pointer-events: none;
 }

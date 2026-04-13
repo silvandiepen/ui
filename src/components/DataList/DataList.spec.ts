@@ -94,7 +94,7 @@ describe('DataList', () => {
 			},
 		});
 
-		const firstRow = wrapper.findAll('.ar-data-list__row').at(0);
+		const firstRow = wrapper.findAll('.ui-data-list__row').at(0);
 		expect(firstRow.exists()).toBe(true);
 		await firstRow.trigger('click');
 		expect(wrapper.emitted('row-click')?.[0]).toEqual([data[0]]);
@@ -131,7 +131,7 @@ describe('DataList', () => {
 			},
 		});
 
-		const rows = wrapper.findAll('.ar-data-list__row');
+		const rows = wrapper.findAll('.ui-data-list__row');
 		expect(rows.at(0).classes()).not.toContain('ar-data-list__row--active');
 		expect(rows.at(1).classes()).toContain('ar-data-list__row--active');
 	});
@@ -164,7 +164,7 @@ describe('DataList', () => {
 			},
 		});
 
-		const rows = wrapper.findAll('.ar-data-list__row');
+		const rows = wrapper.findAll('.ui-data-list__row');
 		expect(rows.at(0).attributes('style')).toContain(
 			'--datalist-row-accent: transparent;'
 		);
@@ -271,10 +271,10 @@ describe('DataList', () => {
 			},
 		});
 
-		const header = wrapper.findAll('.ar-data-list__cell--header').at(0);
+		const header = wrapper.findAll('.ui-data-list__cell--header').at(0);
 		expect(header.exists()).toBe(true);
 
-		const sortIcons = wrapper.findAll('.ar-data-list__sort-icon');
+		const sortIcons = wrapper.findAll('.ui-data-list__sort-icon');
 		expect(sortIcons).toHaveLength(1);
 		expect(sortIcons.at(0).classes()).toContain(
 			'ar-data-list__sort-icon--inactive'
@@ -285,7 +285,7 @@ describe('DataList', () => {
 		expect(wrapper.emitted('sort-change')?.[0]?.[0].order).toBe('ascending');
 		expect(
 			wrapper
-				.find('.ar-data-list__sort-icon')
+				.find('.ui-data-list__sort-icon')
 				.classes('ar-data-list__sort-icon--ascending')
 		).toBe(true);
 
@@ -293,7 +293,7 @@ describe('DataList', () => {
 		expect(wrapper.emitted('sort-change')?.[1]?.[0].order).toBe('descending');
 		expect(
 			wrapper
-				.find('.ar-data-list__sort-icon')
+				.find('.ui-data-list__sort-icon')
 				.classes('ar-data-list__sort-icon--descending')
 		).toBe(true);
 	});
@@ -336,14 +336,14 @@ describe('DataList', () => {
 			configurable: true,
 		});
 
-		const handle = header.find('.ar-data-list__resize-handle');
+		const handle = header.find('.ui-data-list__resize-handle');
 		expect(handle.exists()).toBe(true);
 		await handle.trigger('mousedown', { button: 0, clientX: 100 });
 		window.dispatchEvent(new MouseEvent('mousemove', { clientX: 140 }));
 		window.dispatchEvent(new MouseEvent('mouseup'));
 		await nextTick();
 
-		const gridStyle = wrapper.find('.ar-data-list__grid').attributes('style');
+		const gridStyle = wrapper.find('.ui-data-list__grid').attributes('style');
 		expect(gridStyle).toContain('200px');
 	});
 
@@ -376,7 +376,7 @@ describe('DataList', () => {
 			},
 		});
 
-		const gridStyle = wrapper.find('.ar-data-list__grid').attributes('style');
+		const gridStyle = wrapper.find('.ui-data-list__grid').attributes('style');
 		expect(gridStyle).toContain('220px');
 	});
 
@@ -423,7 +423,7 @@ describe('DataList', () => {
 		});
 
 		await header
-			.find('.ar-data-list__resize-handle')
+			.find('.ui-data-list__resize-handle')
 			.trigger('mousedown', { button: 0, clientX: 100 });
 		window.dispatchEvent(new MouseEvent('mousemove', { clientX: 130 }));
 		window.dispatchEvent(new MouseEvent('mouseup'));
@@ -583,12 +583,12 @@ describe('DataList', () => {
 
 		expect(
 			wrapper
-				.find('.ar-data-list__sort-icon')
+				.find('.ui-data-list__sort-icon')
 				.classes('ar-data-list__sort-icon--descending')
 		).toBe(true);
 		expect(
 			wrapper
-				.find('.ar-data-list__sort-icon')
+				.find('.ui-data-list__sort-icon')
 				.classes('ar-data-list__sort-icon--active')
 		).toBe(true);
 
@@ -660,7 +660,7 @@ describe('DataList', () => {
 		});
 
 		const headerKeys = wrapper
-			.findAll('.ar-data-list__header [data-col-key]')
+			.findAll('.ui-data-list__header [data-col-key]')
 			.map((cell) => cell.attributes('data-col-key'));
 		expect(headerKeys).toEqual(['name']);
 	});
@@ -699,7 +699,7 @@ describe('DataList', () => {
 		});
 
 		const headerKeys = wrapper
-			.findAll('.ar-data-list__header [data-col-key]')
+			.findAll('.ui-data-list__header [data-col-key]')
 			.map((cell) => cell.attributes('data-col-key'));
 		expect(headerKeys).toEqual(['status']);
 
@@ -735,11 +735,11 @@ describe('DataList', () => {
 		});
 
 		expect(
-			wrapperWithoutPrefs.find('.ar-data-list__column-menu-reset').exists()
+			wrapperWithoutPrefs.find('.ui-data-list__column-menu-reset').exists()
 		).toBe(false);
 		expect(
 			wrapperWithoutPrefs
-				.find('.ar-data-list__column-menu-visibility-toggle')
+				.find('.ui-data-list__column-menu-visibility-toggle')
 				.exists()
 		).toBe(true);
 		wrapperWithoutPrefs.unmount();
@@ -773,11 +773,11 @@ describe('DataList', () => {
 		});
 
 		expect(
-			wrapperWithPrefs.find('.ar-data-list__column-menu-reset').exists()
+			wrapperWithPrefs.find('.ui-data-list__column-menu-reset').exists()
 		).toBe(true);
 		expect(
 			wrapperWithPrefs
-				.find('.ar-data-list__column-menu-visibility-toggle')
+				.find('.ui-data-list__column-menu-visibility-toggle')
 				.exists()
 		).toBe(true);
 	});
@@ -821,11 +821,11 @@ describe('DataList', () => {
 
 		expect(
 			wrapper
-				.findAll('.ar-data-list__header [data-col-key]')
+				.findAll('.ui-data-list__header [data-col-key]')
 				.map((cell) => cell.attributes('data-col-key'))
 		).toEqual(['status']);
 
-		await wrapper.find('.ar-data-list__column-menu-reset').trigger('click');
+		await wrapper.find('.ui-data-list__column-menu-reset').trigger('click');
 		await nextTick();
 
 		expect(settingsStore.getColumnOrder(key)).toBeNull();
@@ -834,11 +834,11 @@ describe('DataList', () => {
 
 		expect(
 			wrapper
-				.findAll('.ar-data-list__header [data-col-key]')
+				.findAll('.ui-data-list__header [data-col-key]')
 				.map((cell) => cell.attributes('data-col-key'))
 		).toEqual(['name', 'status']);
 		expect(
-			wrapper.find('.ar-data-list__grid').attributes('style')
+			wrapper.find('.ui-data-list__grid').attributes('style')
 		).not.toContain('220px');
 	});
 
@@ -871,7 +871,7 @@ describe('DataList', () => {
 
 		expect(
 			wrapper
-				.findAll('.ar-data-list__header [data-col-key]')
+				.findAll('.ui-data-list__header [data-col-key]')
 				.map((cell) => cell.attributes('data-col-key'))
 		).toEqual(['name', 'status']);
 
@@ -882,7 +882,7 @@ describe('DataList', () => {
 
 		expect(
 			wrapper
-				.findAll('.ar-data-list__header [data-col-key]')
+				.findAll('.ui-data-list__header [data-col-key]')
 				.map((cell) => cell.attributes('data-col-key'))
 		).toEqual([]);
 
@@ -893,7 +893,7 @@ describe('DataList', () => {
 
 		expect(
 			wrapper
-				.findAll('.ar-data-list__header [data-col-key]')
+				.findAll('.ui-data-list__header [data-col-key]')
 				.map((cell) => cell.attributes('data-col-key'))
 		).toEqual(['name', 'status']);
 	});
@@ -1002,7 +1002,7 @@ describe('DataList', () => {
 			},
 		});
 
-		expect(wrapper.find('.ar-data-list__footer').exists()).toBe(false);
+		expect(wrapper.find('.ui-data-list__footer').exists()).toBe(false);
 	});
 
 	it('keeps pagination visible when total exceeds default page size even on single page', () => {
@@ -1032,7 +1032,7 @@ describe('DataList', () => {
 			},
 		});
 
-		expect(wrapper.find('.ar-data-list__footer').exists()).toBe(true);
+		expect(wrapper.find('.ui-data-list__footer').exists()).toBe(true);
 	});
 
 	it('restores selection rows and panel-open state from settings memory', async () => {

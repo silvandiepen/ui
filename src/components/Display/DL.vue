@@ -1,38 +1,38 @@
 <template>
-	<Tooltip :disabled="!hasTooltip" v-bind="tooltipBindings">
-		<dl v-bind="$attrs" :class="bemm()">
-			<Icon :name="preIcon" v-if="preIcon" :class="bemm('pre-icon')" />
-			<dt :class="bemm('title')">
-				<Icon :name="icon" v-if="icon" :class="bemm('icon')" />
-				<span :class="bemm('label')">
-					{{ label }}
-				</span>
-			</dt>
-			<dd :class="bemm('detail')">
-				<template v-if="groupValue">
-					<ChipGroup>
-						<Chip v-for="(item, index) in groupValue" :key="index">
-							{{ item }}
-						</Chip>
-					</ChipGroup>
-				</template>
-				<template v-else-if="hasValue">
-					{{ scalarValue }}
-				</template>
-				<slot></slot>
-			</dd>
-		</dl>
-		<template v-if="$slots.tooltip" #content>
-			<slot name="tooltip"></slot>
-		</template>
-	</Tooltip>
+	<dl v-bind="$attrs" :class="bemm()">
+		<Icon :name="preIcon" v-if="preIcon" :class="bemm('pre-icon')" />
+		<dt :class="bemm('title')">
+			<Icon :name="icon" v-if="icon" :class="bemm('icon')" />
+			<span :class="bemm('label')">
+				{{ label }}
+			</span>
+		</dt>
+		<dd :class="bemm('detail')">
+			<template v-if="groupValue">
+				<ChipGroup>
+					<Chip v-for="(item, index) in groupValue" :key="index">
+						{{ item }}
+					</Chip>
+				</ChipGroup>
+			</template>
+			<template v-else-if="hasValue">
+				{{ scalarValue }}
+			</template>
+			<slot></slot>
+		</dd>
+		<Tooltip v-if="hasTooltip" v-bind="tooltipBindings" :show-on-parent-hover="true">
+			<template v-if="$slots.tooltip" #content>
+				<slot name="tooltip"></slot>
+			</template>
+		</Tooltip>
+	</dl>
 </template>
 
 <script lang="ts" setup>
 import { computed, PropType, useSlots } from 'vue';
 import { useBemm } from 'bemm';
 import { Icon } from '@/components/ui/Icon';
-import { TooltipWrapper as Tooltip } from '@/components/ui/Tooltip';
+import { Tooltip } from '@/components/ui/Tooltip';
 import type { TooltipOptions } from '@/components/ui/Tooltip';
 import Chip from './Chip.vue';
 import ChipGroup from './ChipGroup.vue';
@@ -66,7 +66,7 @@ const props = defineProps({
 });
 
 const slots = useSlots();
-const bemm = useBemm('ar-dl', {
+const bemm = useBemm('ui-dl', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -99,7 +99,7 @@ const hasTooltip = computed(() => {
 </script>
 
 <style lang="scss">
-.ar-dl {
+.ui-dl {
 	$b: &;
 	margin: 0;
 	display: flex;
@@ -171,8 +171,8 @@ const hasTooltip = computed(() => {
 }
 
 .spacer,
-.ar-columns {
-	.ar-dl {
+.ui-columns {
+	.ui-dl {
 		margin: 0;
 	}
 }

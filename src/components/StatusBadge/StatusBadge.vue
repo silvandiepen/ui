@@ -11,7 +11,7 @@ import { computed } from "vue";
 import type { StatusBadgeProps } from "./StatusBadge.model";
 
 const props = withDefaults(defineProps<StatusBadgeProps>(), {
-  tone: "neutral"
+  tone: "default"
 });
 
 const bemm = useBemm("status-badge", {
@@ -19,25 +19,20 @@ const bemm = useBemm("status-badge", {
 });
 
 const badgeStyle = computed(() => {
-  const toneToken = (() => {
-    switch (props.tone) {
-      case "success":
-        return "success";
-      case "warning":
-        return "warning";
-      case "danger":
-        return "danger";
-      case "accent":
-        return "primary";
-      default:
-        return "foreground";
-    }
-  })();
+  if(props.tone ==  'default'){
+    return {
+      "--status-badge-color": `var(--color-foreground)`,
+      "--status-badge-border-color": `color-mix(in srgb, var(--color-foreground), transparent 75%)`,
+      "--status-badge-text": `var(--color-foreground)`,
+      "--status-badge-background-opacity": "100%",
+    };
+  }
 
   return {
-    "--status-badge-color": `var(--color-${toneToken})`,
-    "--status-badge-text": `var(--color-${toneToken}-contrast)`,
-    "--status-badge-background-opacity": props.tone === "neutral" ? "10%" : "15%"
+    "--status-badge-color": `var(--color-${props.tone})`,
+    "--status-badge-border-color":`var(--color-${props.tone})`,
+    "--status-badge-text": `var(--color-${props.tone}-contrast)`,
+    "--status-badge-background-opacity": "50%",
   };
 });
 </script>
@@ -46,12 +41,16 @@ const badgeStyle = computed(() => {
 .status-badge {
   display: inline-flex;
   align-items: center;
+  flex-grow: 0;
+  height: fit-content;
   padding: var(--space-xs) var(--space-s);
-  border-radius: var(--border-radius);
+  border-radius: var(--status-badge-border-radius, var(--border-radius-l));
   font-size: var(--font-size-s);
   font-weight: var(--font-weight-medium);
+  border: var(--status-badge-border, var(--status-badge-border-color, transparent) solid 1px);
   letter-spacing: 0.04em;
   background: color-mix(in srgb, var(--status-badge-color), transparent var(--status-badge-background-opacity));
   color: var(--status-badge-text);
+  width: var(--status-badge-width, fit-content);
 }
 </style>

@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<SkeletonProps>(), {
 	animated: true,
 });
 
-const bemm = useBemm('ar-skeleton', {
+const bemm = useBemm('ui-skeleton', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -36,7 +36,7 @@ const className = computed(() =>
 </script>
 
 <style lang="scss">
-.ar-skeleton {
+.ui-skeleton {
 	position: relative;
 	display: block;
 	width: var(--skeleton-width);

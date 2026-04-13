@@ -242,6 +242,9 @@ const hasSlot = (name: string): boolean => {
 		z-index: 5;
 		border-radius: var(--popup-border-radius, var(--border-radius));
 		padding: 1px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 		// animation: goAroundShine 10s infinite;
 
 
@@ -267,11 +270,9 @@ const hasSlot = (name: string): boolean => {
 
 	&__content {
 		padding: var(--popup-padding, var(--space));
-		margin: auto;
 		overflow-y: auto;
 		flex: 1;
 		min-height: 0;
-		border-radius: var(--popup-border-radius, var(--border-radius));
 		background: var(--popup-container-background, var(--color-background));
 
 		@include media.desktop-up() {

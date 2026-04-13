@@ -6,19 +6,51 @@
       :class="bemm('section')"
     >
       <header :class="bemm('section-header')">
-        <span :class="bemm('section-copy')">
-          <span :class="bemm('section-label')">{{ section.label }}</span>
-          <span
-            v-if="section.description"
-            :class="bemm('section-description')"
-          >
-            {{ section.description }}
+        <button
+          v-if="isSectionCollapsible(section)"
+          type="button"
+          :class="bemm('section-toggle')"
+          :aria-controls="getSectionItemsId(section)"
+          :aria-expanded="isSectionExpanded(section) ? 'true' : 'false'"
+          @click="toggleSection(section)"
+        >
+          <span :class="bemm('section-copy')">
+            <span :class="bemm('section-label')">{{ section.label }}</span>
+            <span
+              v-if="section.description"
+              :class="bemm('section-description')"
+            >
+              {{ section.description }}
+            </span>
           </span>
-        </span>
-        <Badge>{{ section.items.length }}</Badge>
+          <span :class="bemm('section-meta')">
+            <Badge>{{ section.items.length }}</Badge>
+            <Icon
+              :name="Icons.CHEVRON_DOWN"
+              :class="bemm('section-icon', { expanded: isSectionExpanded(section) })"
+            />
+          </span>
+        </button>
+
+        <div v-else :class="bemm('section-summary')">
+          <span :class="bemm('section-copy')">
+            <span :class="bemm('section-label')">{{ section.label }}</span>
+            <span
+              v-if="section.description"
+              :class="bemm('section-description')"
+            >
+              {{ section.description }}
+            </span>
+          </span>
+          <Badge>{{ section.items.length }}</Badge>
+        </div>
       </header>
 
-      <div :class="bemm('items')">
+      <div
+        v-show="isSectionExpanded(section)"
+        :id="getSectionItemsId(section)"
+        :class="bemm('items')"
+      >
         <template v-for="item in section.items" :key="item.id">
           <RouterLink
             v-if="item.to"
@@ -106,10 +138,14 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 import { RouterLink } from 'vue-router'
+import { Icons } from 'open-icon'
+import { useSettingsStore } from '@/stores/settings'
 
 import { Badge } from '../Badge'
+import { Icon } from '../Icon'
 import { StatusBadge } from '../StatusBadge'
 
 import type { SidebarNavigationProps } from './SidebarNavigation.model'
@@ -118,21 +154,68 @@ defineOptions({
   name: 'SidebarNavigation',
 })
 
-withDefaults(defineProps<SidebarNavigationProps>(), {
+const props = withDefaults(defineProps<SidebarNavigationProps>(), {
   ariaLabel: 'Sidebar navigation',
 })
 
 const bemm = useBemm('sidebar-navigation', {
   includeBaseClass: true,
 })
+const expandedSections = ref<Record<string, boolean>>({})
+const settingsStore = useSettingsStore()
+const navigationSettingsKey = computed(() => {
+  if (props.settingsKey) {
+    return props.settingsKey
+  }
 
-function handleNavigate(event: MouseEvent, navigate: () => void, disabled?: boolean) {
+  return [
+    'sidebar-navigation',
+    props.ariaLabel,
+    ...props.sections.map((section) => section.id),
+  ].join(':')
+})
+
+watch(
+  [() => props.sections, navigationSettingsKey],
+  ([sections, settingsKey]) => {
+    const storedState = settingsStore.getSidebarNavigationSections(settingsKey) ?? {}
+    const nextState: Record<string, boolean> = {}
+
+    for (const section of sections) {
+      nextState[section.id] = section.collapsible === false
+        ? true
+        : storedState[section.id] ?? expandedSections.value[section.id] ?? !section.defaultCollapsed
+    }
+
+    expandedSections.value = nextState
+  },
+  {
+    deep: true,
+    immediate: true,
+  }
+)
+
+watch(
+  [expandedSections, navigationSettingsKey],
+  ([sectionState, settingsKey]) => {
+    settingsStore.setSidebarNavigationSections(settingsKey, sectionState)
+  },
+  {
+    deep: true,
+  }
+)
+
+function handleNavigate(
+  event: MouseEvent,
+  navigate: (event?: MouseEvent) => void,
+  disabled?: boolean,
+) {
   if (disabled) {
     event.preventDefault()
     return
   }
 
-  navigate()
+  navigate(event)
 }
 
 function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
@@ -141,6 +224,33 @@ function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
   }
 
   event.preventDefault()
+}
+
+function isSectionCollapsible(section: SidebarNavigationProps['sections'][number]) {
+  return section.collapsible !== false
+}
+
+function isSectionExpanded(section: SidebarNavigationProps['sections'][number]) {
+  if (!isSectionCollapsible(section)) {
+    return true
+  }
+
+  return expandedSections.value[section.id] ?? !section.defaultCollapsed
+}
+
+function toggleSection(section: SidebarNavigationProps['sections'][number]) {
+  if (!isSectionCollapsible(section)) {
+    return
+  }
+
+  expandedSections.value = {
+    ...expandedSections.value,
+    [section.id]: !isSectionExpanded(section),
+  }
+}
+
+function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) {
+  return `sidebar-navigation-items-${section.id}`
 }
 </script>
 
@@ -155,15 +265,43 @@ function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
   }
 
   &__section-header {
+    display: block;
+  }
+
+  &__section-toggle,
+  &__section-summary {
+    width: 100%;
     display: flex;
     align-items: start;
     justify-content: space-between;
     gap: calc(var(--space) * 0.5);
   }
 
+  &__section-toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: calc(var(--border-radius, 1rem) * 0.4);
+    }
+  }
+
   &__section-copy {
     display: grid;
     gap: 0.2rem;
+  }
+
+  &__section-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
   }
 
   &__section-label {
@@ -177,6 +315,15 @@ function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
     color: color-mix(in srgb, var(--color-foreground), transparent 34%);
     font-size: var(--font-size-xs);
     line-height: 1.5;
+  }
+
+  &__section-icon {
+    color: color-mix(in srgb, var(--color-foreground), transparent 42%);
+    transition: transform 160ms ease;
+
+    &--expanded {
+      transform: rotate(180deg);
+    }
   }
 
   &__items {

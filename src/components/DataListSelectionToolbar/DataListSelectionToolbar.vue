@@ -131,7 +131,7 @@ const props = withDefaults(defineProps<DataListSelectionToolbarProps>(), {
 });
 
 const { t } = useI18n();
-const { bemm } = useBemm('ar-data-list-selection-toolbar');
+const { bemm } = useBemm('ui-data-list-selection-toolbar');
 const isPanelOpen = ref(Boolean(props.panelOpen));
 
 const selectedPreviewRows = computed(() =>
@@ -209,7 +209,7 @@ const handleSelectionAction = (item: DropdownItem) => {
 </script>
 
 <style lang="scss">
-.ar-data-list-selection-toolbar {
+.ui-data-list-selection-toolbar {
 	display: inline-flex;
 	width: auto;
 
@@ -302,7 +302,7 @@ const handleSelectionAction = (item: DropdownItem) => {
 			var(--color-foreground) 4%
 		);
 		&:hover {
-			.ar-data-list-selection-toolbar__item-remove-button {
+			.ui-data-list-selection-toolbar__item-remove-button {
 				opacity: 1;
 				transform: scale(1);
 			}
@@ -362,15 +362,15 @@ const handleSelectionAction = (item: DropdownItem) => {
 	}
 }
 
-.ar-data-list-selection-toolbar-panel-enter-active,
-.ar-data-list-selection-toolbar-panel-leave-active {
+.ui-data-list-selection-toolbar-panel-enter-active,
+.ui-data-list-selection-toolbar-panel-leave-active {
 	transition:
 		opacity 160ms ease,
 		transform 180ms ease;
 }
 
-.ar-data-list-selection-toolbar-panel-enter-from,
-.ar-data-list-selection-toolbar-panel-leave-to {
+.ui-data-list-selection-toolbar-panel-enter-from,
+.ui-data-list-selection-toolbar-panel-leave-to {
 	opacity: 0;
 	transform: translateY(8px);
 }

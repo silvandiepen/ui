@@ -11,7 +11,7 @@ import { useBemm } from 'bemm'
 
 import DL from './DL.vue'
 
-const bemm = useBemm('display-dl-example')
+const { bemm } = useBemm('display-dl-example')
 </script>
 
 <style lang="scss">

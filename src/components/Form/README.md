@@ -4,12 +4,12 @@
 
 ## `UIForms` vs `UIForm`
 
-- `UIForms` is the grouped namespace export. Use it when you want namespaced access such as `UIForms.TInputText`, `UIForms.TInputSelect`, or `UIForms.TFormField`.
+- `UIForms` is the grouped namespace export. Use it when you want namespaced access such as `UIForms.InputText`, `UIForms.InputSelect`, or `UIForms.FormField`.
 - `UIForm` is the concrete form container component exported from that namespace. It is the actual wrapper that owns submission, validation, and form context.
 
 ## Scope
 
-- Namespace exports for `TForm`, `TInput`, `TToggle`, `TNumberPad`, `TPinInput`, and related field controls.
+- Namespace exports for `Form`, `Input`, `Toggle`, `NumberPad`, `PinInput`, and related field controls.
 - Alternate aliases used by existing app surfaces.
 - Shared form building blocks that still back several existing products.
 

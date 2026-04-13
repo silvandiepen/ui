@@ -1,7 +1,7 @@
 <template>
   <div :class="bemm()">
-    <TInput v-model="name" label="Project name" placeholder="Shared UI docs" />
-    <TToggle v-model="enabled" label="Release on merge" />
+    <Input v-model="name" label="Project name" placeholder="Shared UI docs" />
+    <Toggle v-model="enabled" label="Release on merge" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import { ref } from 'vue'
 import { useBemm } from 'bemm'
 
-import { TInput, TToggle } from './index'
+import { Input, Toggle } from './index'
 
 const bemm = useBemm('form-example')
 

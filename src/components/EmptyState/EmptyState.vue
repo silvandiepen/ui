@@ -6,28 +6,45 @@
       :class="bemm('icon')"
     />
     <h3 v-if="title" :class="bemm('title')">{{ title }}</h3>
-    <p v-if="description" :class="bemm('description')">{{ description }}</p>
-    <div v-if="$slots.default || $slots.actions" :class="bemm('actions')">
+    <p v-if="description || message" :class="bemm('description')">{{ description ?? message }}</p>
+    <div v-if="$slots.default || $slots.actions || action" :class="bemm('actions')">
       <slot name="actions">
         <slot />
       </slot>
+      <Button
+        v-if="action && !$slots.default && !$slots.actions"
+        v-bind="actionButtonProps"
+        @click="action.action"
+      >
+        {{ action.label }}
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useBemm } from 'bemm'
+
 import Icon from '../Icon/Icon.vue'
+import { Button } from '../Button'
+import type { EmptyStateProps } from './EmptyState.model'
 
-interface Props {
-  icon?: string
-  title?: string
-  description?: string
-}
-
-defineProps<Props>()
+const props = withDefaults(defineProps<EmptyStateProps>(), {
+  icon: undefined,
+  title: undefined,
+  description: undefined,
+  message: undefined,
+  action: undefined,
+})
 
 const { bemm } = useBemm('empty-state')
+
+const actionButtonProps = computed(() => {
+  if (!props.action) return {}
+  const { action, label, ...buttonProps } = props.action
+  return buttonProps
+})
 </script>
 
 <style lang="scss">

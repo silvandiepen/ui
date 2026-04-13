@@ -3,7 +3,7 @@
     <h3 :class="bemm('title')">{{ title }}</h3>
     <p v-if="message" :class="bemm('message')">{{ message }}</p>
     
-    <TInputText
+    <InputText
       v-model="inputValue"
       :placeholder="placeholder"
       :type="type"
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useBemm } from 'bemm'
-import { TInputText } from '../../../Form/TForm/inputs/TInputText'
+import { InputText } from '../../../Form/Form/inputs/InputText'
 import { Button, ButtonVariant } from '../../../Button'
 import { Colors } from '../../../../types'
 

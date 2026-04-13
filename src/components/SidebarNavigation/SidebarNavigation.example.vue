@@ -31,5 +31,29 @@ const sections: SidebarNavigationSection[] = [
       },
     ],
   },
+  {
+    id: 'feedback',
+    label: 'Feedback',
+    description: 'Expandable section groups can be collapsed by default.',
+    defaultCollapsed: true,
+    items: [
+      {
+        id: 'toast',
+        label: 'Toast',
+        description: 'Transient status messages',
+        badge: 'stable',
+        badgeTone: 'success',
+        href: '#toast',
+      },
+      {
+        id: 'tooltip',
+        label: 'Tooltip',
+        description: 'Contextual help surface',
+        badge: 'stable',
+        badgeTone: 'success',
+        href: '#tooltip',
+      },
+    ],
+  },
 ]
 </script>

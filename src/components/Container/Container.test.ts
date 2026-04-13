@@ -50,4 +50,28 @@ describe('Container', () => {
     expect(actions.props('size')).toBe('small')
     expect(actions.props('align')).toBe('end')
   })
+
+  it('uses resilient padding fallbacks and lets noPadding disable all section padding', () => {
+    const wrapper = shallowMount(Container, {
+      props: {
+        noPadding: true,
+        title: 'Projects',
+      },
+      slots: {
+        default: '<div>Body</div>',
+        footer: '<div>Footer</div>',
+      },
+      global: {
+        stubs: {
+          Actions: true,
+          Button: true,
+        },
+      },
+    })
+
+    expect(wrapper.attributes('style')).toContain('--int-container-padding: var(--container-padding, var(--space-l, 2rem) var(--spacing, 2rem));')
+    expect(wrapper.find('.container__header').classes()).toContain('container__header--no-padding')
+    expect(wrapper.find('.container__content').classes()).toContain('container__content--no-padding')
+    expect(wrapper.find('.container__footer').classes()).toContain('container__footer--no-padding')
+  })
 })

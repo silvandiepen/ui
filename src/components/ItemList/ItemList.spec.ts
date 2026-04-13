@@ -25,7 +25,7 @@ describe('ItemList', () => {
 			},
 		});
 
-		await wrapper.find('.ar-item-list__item').trigger('click');
+		await wrapper.find('.ui-item-list__item').trigger('click');
 
 		expect(action).toHaveBeenCalled();
 		expect(wrapper.emitted('select')?.[0]).toEqual([item]);
@@ -49,7 +49,7 @@ describe('ItemList', () => {
 			},
 		});
 
-		await wrapper.find('.ar-item-list__actions .ar-button').trigger('click');
+		await wrapper.find('.ui-item-list__actions .ui-button').trigger('click');
 
 		expect(action).toHaveBeenCalledWith(item);
 		expect(wrapper.emitted('action')?.[0]?.[0]).toEqual({
@@ -71,7 +71,7 @@ describe('ItemList', () => {
 			},
 		});
 
-		await wrapper.find('.ar-item-list__item').trigger('click');
+		await wrapper.find('.ui-item-list__item').trigger('click');
 		expect(wrapper.emitted('select')).toBeUndefined();
 	});
 
@@ -96,7 +96,7 @@ describe('ItemList', () => {
 
 		expect(wrapper.classes()).toContain('ar-item-list--actions-on-hover');
 		expect(
-			wrapper.find('.ar-item-list__actions .ar-button').attributes('data-color')
+			wrapper.find('.ui-item-list__actions .ui-button').attributes('data-color')
 		).toBe('error');
 	});
 });

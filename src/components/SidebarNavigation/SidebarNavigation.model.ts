@@ -15,6 +15,8 @@ export interface SidebarNavigationItem {
 }
 
 export interface SidebarNavigationSection {
+  collapsible?: boolean
+  defaultCollapsed?: boolean
   description?: string
   id: string
   items: SidebarNavigationItem[]
@@ -23,5 +25,6 @@ export interface SidebarNavigationSection {
 
 export interface SidebarNavigationProps {
   ariaLabel?: string
+  settingsKey?: string
   sections: SidebarNavigationSection[]
 }

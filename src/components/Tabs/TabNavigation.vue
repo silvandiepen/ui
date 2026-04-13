@@ -83,7 +83,7 @@ const emit = defineEmits<{
 	(e: 'change', value: string | number, item: TabNavigationItem): void;
 }>();
 
-const bemm = useBemm('ar-tab-nav', {
+const bemm = useBemm('ui-tab-nav', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -118,7 +118,7 @@ const updateIndicator = () => {
 	if (!root) return;
 
 	const activeButton = root.querySelector(
-		'.ar-tab-nav__button--active'
+		'.ui-tab-nav__button--active'
 	) as HTMLElement | null;
 	if (!activeButton) return;
 
@@ -240,7 +240,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-.ar-tab-nav {
+.ui-tab-nav {
 	--tab-border-radius: 999em;
 
 	$b: &;

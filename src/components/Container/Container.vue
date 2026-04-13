@@ -1,7 +1,7 @@
 <template>
   <div :class="bemm('', ['', fluid ? 'fluid' : ''])" :style="containerStyle">
     <header v-if="showHeader && (title || subtitle || headerActions?.length || $slots.header || back || next)"
-      :class="bemm('header', { 'no-padding': noHeaderPadding })">
+      :class="bemm('header', { 'no-padding': disableHeaderPadding })">
       <Button v-if="back" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROW_LEFT" @click="handleBack"
         :class="bemm('back-button')" />
 
@@ -27,12 +27,12 @@
       </div>
     </header>
 
-    <main :class="bemm('content', ['', noContentPadding ? 'no-padding' : ''])">
+    <main :class="bemm('content', ['', disableContentPadding ? 'no-padding' : ''])">
       <slot />
     </main>
 
     <footer v-if="showFooter && (footerActions?.length || $slots.footer)"
-      :class="bemm('footer', { 'no-padding': noFooterPadding })">
+      :class="bemm('footer', { 'no-padding': disableFooterPadding })">
       <slot name="footer" />
       <Actions v-if="footerActions?.length" :actions="footerActions" layout="horizontal" alignment="center"
         :class="bemm('footer-actions')" />
@@ -61,6 +61,10 @@ const props = withDefaults(defineProps<ContainerProps>(), {
 const bemm = useBemm('container',{
   includeBaseClass: true
 })
+
+const disableHeaderPadding = computed(() => props.noPadding || props.noHeaderPadding)
+const disableContentPadding = computed(() => props.noPadding || props.noContentPadding)
+const disableFooterPadding = computed(() => props.noPadding || props.noFooterPadding)
 
 // Try to get router from Vue app context
 const router = inject<any>('router', null)
@@ -99,7 +103,7 @@ const handleNext = () => {
 
 const containerStyle = computed(() => ({
   '--int-container-max-width': props.maxWidth || 'var(--container-max-width, var(--max-content-width, 1200px))',
-  '--int-container-padding': props.padding || 'var(--container-padding, var(--space-l) var(--spacing, 2rem))'
+  '--int-container-padding': props.padding || 'var(--container-padding, var(--space-l, 2rem) var(--spacing, 2rem))'
 }))
 </script>
 
@@ -110,7 +114,6 @@ const containerStyle = computed(() => ({
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
 
   &--fluid {
     max-width: 100%;

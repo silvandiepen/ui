@@ -156,7 +156,7 @@ export const useDataListLayout = (
 		}
 
 		const headerCell = rootRef.value?.querySelector<HTMLElement>(
-			`.ar-data-list__header [data-col-key="${columnKey}"]`
+			`.ui-data-list__header [data-col-key="${columnKey}"]`
 		);
 		const domWidth = headerCell?.getBoundingClientRect().width || 0;
 		if (Number.isFinite(domWidth) && domWidth > 0) {
@@ -245,9 +245,9 @@ export const useDataListLayout = (
 
 		const sampleLimit = Math.max(1, props.autoWidthSample || 15);
 		const next: Record<string, number> = {};
-		const headerRow = rootRef.value.querySelector('.ar-data-list__header');
+		const headerRow = rootRef.value.querySelector('.ui-data-list__header');
 		const bodyRows = Array.from(
-			rootRef.value.querySelectorAll('.ar-data-list__row')
+			rootRef.value.querySelectorAll('.ui-data-list__row')
 		).slice(0, sampleLimit);
 
 		visibleColumns.value.forEach((column) => {

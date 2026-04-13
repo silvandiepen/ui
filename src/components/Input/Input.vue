@@ -40,7 +40,7 @@ const emit = defineEmits<{
   change: [value: string];
 }>();
 
-const bemm = useBemm('sil-input', { return: 'string', includeBaseClass: true });
+const bemm = useBemm('ui-input', { return: 'string', includeBaseClass: true });
 
 const inputClasses = computed(() =>
   bemm('', { 'is-disabled': props.disabled })
@@ -51,7 +51,7 @@ const onChange = (e: Event) => emit('change', (e.target as HTMLInputElement).val
 </script>
 
 <style>
-.sil-input {
+.ui-input {
   width: 100%;
   min-height: 3.3rem;
   padding: calc(var(--space) * 0.92) var(--space);
@@ -69,18 +69,18 @@ const onChange = (e: Event) => emit('change', (e.target as HTMLInputElement).val
   appearance: none;
 }
 
-.sil-input:focus {
+.ui-input:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 var(--border-width) color-mix(in srgb, var(--color-primary), transparent 14%);
   background: color-mix(in srgb, var(--color-background), var(--color-primary) 6%);
 }
 
-.sil-input--is-disabled {
+.ui-input--is-disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.sil-input::placeholder {
+.ui-input::placeholder {
   color: color-mix(in srgb, var(--color-foreground), transparent 50%);
 }
 </style>

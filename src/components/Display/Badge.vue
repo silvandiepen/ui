@@ -32,7 +32,7 @@ const props = defineProps({
 	},
 });
 
-const bemm = useBemm('ar-badge', {
+const bemm = useBemm('ui-badge', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -50,7 +50,7 @@ const displayValue = computed(() => {
 </script>
 
 <style lang="scss">
-.ar-badge {
+.ui-badge {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;

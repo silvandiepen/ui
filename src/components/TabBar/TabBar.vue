@@ -48,53 +48,53 @@ function handleTabInput(value: string | number) {
 .tab-bar {
   display: block;
 
-  &__nav.ar-tab-nav {
+  &__nav.ui-tab-nav {
     width: 100%;
     max-width: 100%;
     margin: 0;
   }
 
-  &--default .ar-tab-nav {
+  &--default .ui-tab-nav {
     background: color-mix(in srgb, var(--color-foreground), transparent 95%);
   }
 
-  &--pills .ar-tab-nav {
+  &--pills .ui-tab-nav {
     padding: var(--space-xs);
     background: color-mix(in srgb, var(--color-primary), transparent 92%);
   }
 
-  &--pills .ar-tab-nav__button--active {
+  &--pills .ui-tab-nav__button--active {
     color: var(--color-primary-contrast, var(--color-primary-text));
   }
 
-  &--underline .ar-tab-nav {
+  &--underline .ui-tab-nav {
     padding: 0;
     border-bottom: 1px solid var(--color-border);
     border-radius: 0;
     background: transparent;
   }
 
-  &--underline .ar-tab-nav__button {
+  &--underline .ui-tab-nav__button {
     padding: var(--space-m) var(--space-s);
     border-radius: 0;
   }
 
-  &--underline .ar-tab-nav__button--active {
+  &--underline .ui-tab-nav__button--active {
     color: var(--color-foreground);
   }
 
-  &--underline .ar-tab-nav__indicator {
+  &--underline .ui-tab-nav__indicator {
     top: auto;
     bottom: -1px;
     height: 2px;
     border-radius: 999em;
   }
 
-  &--underline .ar-tab-nav__hover {
+  &--underline .ui-tab-nav__hover {
     inset-block: 0.35rem;
   }
 
-  &--underline .ar-tab-nav__button-badge {
+  &--underline .ui-tab-nav__button-badge {
     background: color-mix(in srgb, var(--color-foreground), transparent 90%);
   }
 }

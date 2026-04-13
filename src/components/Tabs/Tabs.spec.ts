@@ -34,7 +34,7 @@ describe('Tabs', () => {
 		const wrapper = makeWrapper();
 
 		await nextTick();
-		await wrapper.findAll('.ar-tab-nav__button')[1].trigger('click');
+		await wrapper.findAll('.ui-tab-nav__button')[1].trigger('click');
 		await nextTick();
 
 		expect(wrapper.find('#two').exists()).toBe(true);

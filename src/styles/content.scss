@@ -82,10 +82,13 @@ hr {
 }
 
 
-p code:not([class]){
-	max-width: 100%; width: fit-content; border-radius:calc(var(--border-radius) / 2);
+p code:not([class]) {
+	max-width: 100%;
+	width: fit-content;
+	border-radius: calc(var(--border-radius) / 2);
 	overflow: hidden;
 	text-overflow: ellipsis;
-
-display: inline-block;
+	line-height: 1.5;
+	transform: translateY(33.33%);
+	display: inline-block;
 }

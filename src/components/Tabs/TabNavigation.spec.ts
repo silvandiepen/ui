@@ -22,7 +22,7 @@ describe('TabNavigation', () => {
 			},
 		});
 
-		await wrapper.findAll('.ar-tab-nav__button')[1].trigger('click');
+		await wrapper.findAll('.ui-tab-nav__button')[1].trigger('click');
 
 		expect(wrapper.emitted('input')?.[0]).toEqual(['b']);
 		expect(wrapper.emitted('change')?.[0]).toEqual([
@@ -42,7 +42,7 @@ describe('TabNavigation', () => {
 			},
 		});
 
-		await wrapper.findAll('.ar-tab-nav__button')[1].trigger('click');
+		await wrapper.findAll('.ui-tab-nav__button')[1].trigger('click');
 
 		expect(wrapper.emitted('input')).toBeUndefined();
 		expect(wrapper.emitted('change')).toBeUndefined();

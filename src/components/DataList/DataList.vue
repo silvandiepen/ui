@@ -422,7 +422,7 @@ const emit = defineEmits([
 ]);
 const { t } = useI18n();
 
-const bemm = useBemm('ar-data-list', {
+const bemm = useBemm('ui-data-list', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -926,7 +926,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 </script>
 
 <style lang="scss">
-.ar-data-list {
+.ui-data-list {
 	$b: &;
 	display: flex;
 	flex-direction: column;
@@ -1055,7 +1055,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 			background: color-mix(in srgb, var(--color-secondary), transparent 94%);
 		}
 
-		&:hover .ar-data-list__cell--row-checkbox {
+		&:hover .ui-data-list__cell--row-checkbox {
 			opacity: 1;
 			pointer-events: auto;
 		}
@@ -1222,14 +1222,14 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 	}
 
 	&--selection {
-		.ar-data-list__cell--row-checkbox {
+		.ui-data-list__cell--row-checkbox {
 			opacity: 1;
 			pointer-events: auto;
 		}
 	}
 
 	&--loading {
-		.ar-data-list__content {
+		.ui-data-list__content {
 			filter: blur(2px);
 			opacity: 0.25;
 			pointer-events: none;
@@ -1243,7 +1243,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 		transform: scale(0);
 	}
 
-	&__row:hover .ar-data-list__row-actions-trigger {
+	&__row:hover .ui-data-list__row-actions-trigger {
 		transform: scale(1);
 		pointer-events: auto;
 	}
@@ -1309,16 +1309,16 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 		// --checkbox-size: 0.85em;
 	}
 
-	&__checkbox .ar-field {
+	&__checkbox .ui-field {
 		min-width: 0;
 		gap: 0;
 	}
 
-	&__checkbox .ar-field__container {
+	&__checkbox .ui-field__container {
 		gap: 0;
 	}
 
-	&__checkbox .ar-field__control {
+	&__checkbox .ui-field__control {
 		min-height: 0;
 	}
 }

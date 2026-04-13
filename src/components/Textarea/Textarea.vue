@@ -31,7 +31,7 @@ const emit = defineEmits<{
   change: [value: string];
 }>();
 
-const bemm = useBemm("sil-textarea", { return: "string", includeBaseClass: true });
+const bemm = useBemm("ui-textarea", { return: "string", includeBaseClass: true });
 
 const textareaClasses = computed(() =>
   bemm("", { "is-disabled": props.disabled })
@@ -47,7 +47,7 @@ function onChange(event: Event) {
 </script>
 
 <style>
-.sil-textarea {
+.ui-textarea {
   width: 100%;
   min-height: 7rem;
   padding: calc(var(--space) * 0.92) var(--space);
@@ -65,13 +65,13 @@ function onChange(event: Event) {
   resize: vertical;
 }
 
-.sil-textarea:focus {
+.ui-textarea:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 var(--border-width) color-mix(in srgb, var(--color-primary), transparent 14%);
   background: color-mix(in srgb, var(--color-background), var(--color-primary) 6%);
 }
 
-.sil-textarea--is-disabled {
+.ui-textarea--is-disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

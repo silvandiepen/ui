@@ -4,6 +4,12 @@ import { describe, expect, it } from "vitest";
 import Textarea from "./Textarea.vue";
 
 describe("Textarea", () => {
+  it("applies the shared textarea class", () => {
+    const wrapper = mount(Textarea);
+
+    expect(wrapper.find("textarea").classes()).toContain("ui-textarea");
+  });
+
   it("emits updates from textarea input", async () => {
     const wrapper = mount(Textarea, {
       props: {

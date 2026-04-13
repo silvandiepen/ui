@@ -89,7 +89,7 @@ const props = defineProps({
 
 const emit = defineEmits<TabsRootEmit>();
 
-const bemm = useBemm('ar-tabs', {
+const bemm = useBemm('ui-tabs', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -108,7 +108,7 @@ const tabsClasses = computed(() =>
 </script>
 
 <style lang="scss">
-.ar-tabs {
+.ui-tabs {
 	$b: &;
 	display: flex;
 	flex-direction: column;

@@ -112,7 +112,7 @@ const { pageSizes } = toRefs(props);
 
 const emit = defineEmits<PaginationEmit>();
 
-const bemm = useBemm('ar-pagination', {
+const bemm = useBemm('ui-pagination', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -259,7 +259,7 @@ watch(pageCount, () => {
 </script>
 
 <style lang="scss">
-.ar-pagination {
+.ui-pagination {
 	display: flex;
 	align-items: center;
 	gap: var(--space);

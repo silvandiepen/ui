@@ -21,7 +21,7 @@ const props = defineProps({
 	},
 });
 
-const bemm = useBemm('ar-columns', {
+const bemm = useBemm('ui-columns', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -33,7 +33,7 @@ const styleVars = computed(() => ({
 </script>
 
 <style lang="scss">
-.ar-columns {
+.ui-columns {
 	display: grid;
 	gap: var(--space-m);
 

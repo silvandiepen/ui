@@ -1,7 +1,9 @@
 <template>
   <div v-if="visible" :class="notificationClasses" role="alert">
     <Icon v-if="iconName" :name="iconName" :class="bemm('icon')" />
-    <span :class="bemm('message')">{{ message }}</span>
+    <span :class="bemm('message')">
+      <slot>{{ message }}</slot>
+    </span>
     <button
       v-if="dismissible"
       :class="bemm('close')"
@@ -25,15 +27,18 @@ defineOptions({ name: 'SilNotification' });
 
 const props = withDefaults(
   defineProps<{
-    message: string;
+    message?: string;
     type?: NotificationVariant;
     dismissible?: boolean;
     dismissLabel?: string;
+    showIcon?: boolean;
   }>(),
   {
+    message: undefined,
     type: 'info',
     dismissible: false,
     dismissLabel: 'Dismiss',
+    showIcon: true,
   }
 );
 
@@ -43,7 +48,7 @@ const emit = defineEmits<{
 
 const visible = ref(true);
 
-const bemm = useBemm('sil-notification', { return: 'string', includeBaseClass: true });
+const bemm = useBemm('ui-notification', { return: 'string', includeBaseClass: true });
 
 const iconMap: Record<string, string> = {
   success: Icons.CHECK_L,
@@ -52,7 +57,9 @@ const iconMap: Record<string, string> = {
   info: Icons.CIRCLED_INFO,
 };
 
-const iconName = computed(() => iconMap[props.type ?? 'info']);
+const iconName = computed(() =>
+  props.showIcon ? (iconMap[props.type ?? 'info'] ?? null) : null
+);
 
 const notificationClasses = computed(() =>
   bemm('', { [`type-${props.type}`]: true, dismissible: props.dismissible })
@@ -65,7 +72,7 @@ function dismiss() {
 </script>
 
 <style>
-.sil-notification {
+.ui-notification {
   display: flex;
   align-items: center;
   gap: var(--space-s, 8px);
@@ -75,40 +82,40 @@ function dismiss() {
   line-height: 1.5;
 }
 
-.sil-notification--type-success {
+.ui-notification--type-success {
   background: color-mix(in srgb, var(--color-success), transparent 85%);
   color: var(--color-success);
   border: 1px solid color-mix(in srgb, var(--color-success), transparent 60%);
 }
 
-.sil-notification--type-error {
+.ui-notification--type-error {
   background: color-mix(in srgb, var(--color-error), transparent 85%);
   color: var(--color-error);
   border: 1px solid color-mix(in srgb, var(--color-error), transparent 60%);
 }
 
-.sil-notification--type-warning {
+.ui-notification--type-warning {
   background: color-mix(in srgb, var(--color-warning), transparent 85%);
   color: var(--color-warning);
   border: 1px solid color-mix(in srgb, var(--color-warning), transparent 60%);
 }
 
-.sil-notification--type-info {
+.ui-notification--type-info {
   background: color-mix(in srgb, var(--color-info), transparent 85%);
   color: var(--color-info);
   border: 1px solid color-mix(in srgb, var(--color-info), transparent 60%);
 }
 
-.sil-notification__message {
+.ui-notification__message {
   flex: 1;
   font-weight: 500;
 }
 
-.sil-notification__icon {
+.ui-notification__icon {
   flex-shrink: 0;
 }
 
-.sil-notification__close {
+.ui-notification__close {
   background: none;
   border: none;
   cursor: pointer;
@@ -120,7 +127,7 @@ function dismiss() {
   opacity: 0.7;
 }
 
-.sil-notification__close:hover {
+.ui-notification__close:hover {
   opacity: 1;
 }
 </style>

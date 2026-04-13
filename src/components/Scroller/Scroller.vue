@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<ScrollerProps>(), {
 	height: undefined,
 });
 
-const bemm = useBemm('ar-scroller', {
+const bemm = useBemm('ui-scroller', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -177,7 +177,7 @@ watch(
 </script>
 
 <style lang="scss">
-.ar-scroller {
+.ui-scroller {
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -278,12 +278,12 @@ watch(
 		overflow-y: hidden;
 		scroll-snap-type: x proximity;
 
-		.ar-scroller__track {
+		.ui-scroller__track {
 			flex-direction: row;
 			align-items: stretch;
 		}
 
-		.ar-scroller__track > * {
+		.ui-scroller__track > * {
 			scroll-snap-align: start;
 			scroll-snap-stop: always;
 		}
@@ -294,11 +294,11 @@ watch(
 		overflow-x: hidden;
 		scroll-snap-type: y proximity;
 
-		.ar-scroller__track {
+		.ui-scroller__track {
 			flex-direction: column;
 		}
 
-		.ar-scroller__track > * {
+		.ui-scroller__track > * {
 			scroll-snap-align: start;
 			scroll-snap-stop: always;
 		}

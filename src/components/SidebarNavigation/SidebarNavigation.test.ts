@@ -47,4 +47,48 @@ describe('SidebarNavigation', () => {
     expect(wrapper.text()).toContain('stable')
     expect(wrapper.find('.sidebar-navigation__item--active').exists()).toBe(true)
   })
+
+  it('supports collapsible sections with default collapsed state', async () => {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        {
+          path: '/toast',
+          component: { template: '<div />' },
+        },
+      ],
+    })
+
+    await router.push('/toast')
+    await router.isReady()
+
+    const wrapper = mount(SidebarNavigation, {
+      global: {
+        plugins: [router],
+      },
+      props: {
+        sections: [
+          {
+            id: 'feedback',
+            label: 'Feedback',
+            defaultCollapsed: true,
+            items: [
+              {
+                id: 'toast',
+                label: 'Toast',
+                to: '/toast',
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    expect(wrapper.find('.sidebar-navigation__items').isVisible()).toBe(false)
+
+    await wrapper.get('.sidebar-navigation__section-toggle').trigger('click')
+
+    expect(wrapper.find('.sidebar-navigation__items').isVisible()).toBe(true)
+    expect(wrapper.find('.sidebar-navigation__section-icon--expanded').exists()).toBe(true)
+  })
 })

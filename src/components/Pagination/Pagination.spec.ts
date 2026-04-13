@@ -26,7 +26,7 @@ describe('Pagination', () => {
 		});
 
 		await wrapper
-			.findAll('.ar-pagination__button')
+			.findAll('.ui-pagination__button')
 			.find((item) => item.text() === '3')
 			?.trigger('click');
 
@@ -75,7 +75,7 @@ describe('Pagination', () => {
 			},
 		});
 
-		expect(wrapper.find('.ar-pagination__button--active').text()).toBe('3');
+		expect(wrapper.find('.ui-pagination__button--active').text()).toBe('3');
 	});
 
 	it('passes current page value to the go-to input', () => {

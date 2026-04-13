@@ -16,7 +16,7 @@
       <td>Stable</td>
     </tr>
     <tr>
-      <td>TInput</td>
+      <td>Input</td>
       <td>Transitional</td>
     </tr>
   </Table>

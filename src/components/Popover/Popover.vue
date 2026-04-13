@@ -72,7 +72,7 @@ const emit = defineEmits<{
 }>();
 const slots = useSlots();
 
-const bemm = useBemm('ar-popover', {
+const bemm = useBemm('ui-popover', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -135,7 +135,7 @@ const panelStyle = computed(() => {
 </script>
 
 <style lang="scss">
-.ar-popover {
+.ui-popover {
 	position: relative;
 	display: inline-flex;
 

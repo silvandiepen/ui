@@ -23,7 +23,7 @@ import { useBemm } from 'bemm';
 import { toolbarService } from './Toolbar.service';
 import type { ToolbarInstance } from './Toolbar.model';
 
-const bemm = useBemm('ar-toolbar-shell');
+const bemm = useBemm('ui-toolbar-shell');
 
 const toolbars = computed(() => toolbarService.toolbars.value);
 const toolbarStyles = (toolbar: ToolbarInstance) => ({
@@ -32,7 +32,7 @@ const toolbarStyles = (toolbar: ToolbarInstance) => ({
 </script>
 
 <style lang="scss">
-.ar-toolbar-shell {
+.ui-toolbar-shell {
 	position: fixed;
 	left: 0;
 	right: 0;

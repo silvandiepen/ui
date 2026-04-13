@@ -65,15 +65,15 @@ describe('DataListSelectionToolbar', () => {
 
 		expect(wrapper.text()).toContain('2 selected');
 		expect(
-			wrapper.find('.ar-data-list-selection-toolbar__panel').exists()
+			wrapper.find('.ui-data-list-selection-toolbar__panel').exists()
 		).toBe(false);
 
 		await wrapper
-			.find('.ar-data-list-selection-toolbar__summary-button')
+			.find('.ui-data-list-selection-toolbar__summary-button')
 			.trigger('click');
 		expect(onPanelOpenChange).toHaveBeenCalledWith(true);
 		expect(
-			wrapper.find('.ar-data-list-selection-toolbar__panel').exists()
+			wrapper.find('.ui-data-list-selection-toolbar__panel').exists()
 		).toBe(true);
 
 		const buttons = wrapper.findAll('.btn-stub');
@@ -104,14 +104,14 @@ describe('DataListSelectionToolbar', () => {
 		expect(onDeselectRow).toHaveBeenCalledTimes(1);
 
 		await wrapper
-			.find('.ar-data-list-selection-toolbar__single-action')
+			.find('.ui-data-list-selection-toolbar__single-action')
 			.trigger('click');
 		expect(wrapper.find('.dropdown-select').exists()).toBe(false);
 		expect(onActionSelect).toHaveBeenCalledWith(deleteAction);
 		expect(deleteAction.action).toHaveBeenCalledWith(deleteAction);
 
 		await wrapper
-			.find('.ar-data-list-selection-toolbar__summary-button')
+			.find('.ui-data-list-selection-toolbar__summary-button')
 			.trigger('click');
 		expect(onPanelOpenChange).toHaveBeenCalledWith(false);
 	});
@@ -149,7 +149,7 @@ describe('DataListSelectionToolbar', () => {
 		});
 
 		expect(
-			wrapper.find('.ar-data-list-selection-toolbar__single-action').exists()
+			wrapper.find('.ui-data-list-selection-toolbar__single-action').exists()
 		).toBe(false);
 
 		await wrapper.find('.dropdown-select').trigger('click');

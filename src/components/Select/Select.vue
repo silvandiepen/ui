@@ -44,7 +44,7 @@ function onChange(event: Event) {
 </script>
 
 <style>
-.sil-select {
+.ui-select {
   width: 100%;
   min-height: 3.3rem;
   padding: calc(var(--space) * 0.92) var(--space);
@@ -62,13 +62,13 @@ function onChange(event: Event) {
   appearance: none;
 }
 
-.sil-select:focus {
+.ui-select:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 var(--border-width) color-mix(in srgb, var(--color-primary), transparent 14%);
   background: color-mix(in srgb, var(--color-background), var(--color-primary) 6%);
 }
 
-.sil-select--is-disabled {
+.ui-select--is-disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

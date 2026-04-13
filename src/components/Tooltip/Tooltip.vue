@@ -55,8 +55,8 @@ const props = withDefaults(
 		showArrow: true,
 		actions: () => [],
 		disabled: false,
-		open: true,
-		showOnParentHover: false,
+		open: false,
+		showOnParentHover: true,
 	}
 );
 
@@ -65,7 +65,7 @@ const emit = defineEmits<{
 }>();
 const slots = useSlots();
 
-const bemm = useBemm('sil-tooltip', {
+const bemm = useBemm('ui-tooltip', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -140,7 +140,7 @@ const onActionClick = (action: TooltipAction) => {
 </script>
 
 <style lang="scss">
-.sil-tooltip {
+.ui-tooltip {
 	&__panel {
 		position: absolute;
 		z-index: 100;

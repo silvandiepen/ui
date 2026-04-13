@@ -47,4 +47,20 @@ describe("ReferenceBadge", () => {
 
     expect(wrapper.get("a").attributes("href")).toBe("https://github.com/silvandiepen/recipes");
   });
+
+  it("renders the tooltip outside the clipped surface container", () => {
+    const wrapper = mount(ReferenceBadge, {
+      props: {
+        label: "emila/job_123",
+        tooltipText: "Job reference"
+      }
+    });
+
+    const root = wrapper.get(".reference-badge");
+    const surface = wrapper.get(".reference-badge__surface");
+    const tooltip = wrapper.get(".reference-badge__tooltip");
+
+    expect(root.element.contains(tooltip.element)).toBe(true);
+    expect(surface.element.contains(tooltip.element)).toBe(false);
+  });
 });

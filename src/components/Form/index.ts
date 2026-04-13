@@ -1,68 +1,72 @@
 // Export all form components
-export * from './TForm'
-export * from './TInput'
-export * from './TImageInput'
-export * from './TColorPicker'
-export * from './TColorPickerPopup'
-export * from './TNumberPad'
-export * from './TPinInput'
-export * from './TRichTextEditor'
-export * from './TToggle'
-export * from './TFormActions'
+export * from './Form'
+export * from './Input'
+export * from './ImageInput'
+export * from './ColorPicker'
+export * from './ColorPickerPopup'
+export * from './NumberPad'
+export * from './PinInput'
+export * from './RichTextEditor'
+export * from './Toggle'
+export * from './FormActions'
 
 // Alternate aliases used by existing imports
-export { TInput as Input } from './TInput'
-export { TToggle as Toggle } from './TToggle'
-export { TInputSelect as Select } from './TForm/inputs/TInputSelect'
-export { TInputRadio as RadioGroup } from './TForm/inputs/TInputRadio'
-export { TInputCheckbox as Checkbox } from './TForm/inputs/TInputCheckbox'
-export { TFormGroup as CheckboxGroup } from './TForm'
-export { TInputCheckbox as InputCheckbox } from './TForm/inputs/TInputCheckbox'
-export { TToggle as Switch } from './TToggle'
-export { TInputSelect as InputSelect } from './TForm/inputs/TInputSelect'
-export { TInputNumber as InputNumber } from './TForm/inputs/TInputNumber'
+export { Input as Input } from './Input'
+export { Toggle as Toggle } from './Toggle'
+export { InputSelect as Select } from './Form/inputs/InputSelect'
+export { InputRadio as RadioGroup } from './Form/inputs/InputRadio'
+export { InputCheckbox as Checkbox } from './Form/inputs/InputCheckbox'
+export { FormGroup as CheckboxGroup } from './Form'
+export { InputCheckbox as InputCheckbox } from './Form/inputs/InputCheckbox'
+export { Toggle as Switch } from './Toggle'
+export { InputSelect as InputSelect } from './Form/inputs/InputSelect'
+export { InputNumber as InputNumber } from './Form/inputs/InputNumber'
 
 // Preferred UI-prefixed API
-export * as UIForms from './TForm'
-export { TForm as UIForm } from './TForm'
-export { TFormField as UIFormField } from './TForm'
-export { TFormGroup as UIFormGroup } from './TForm'
-export { TInputBase as UIInputBase } from './TForm'
-export { TInput as UIInput } from './TInput'
-export { default as UIImageInput } from './TImageInput'
-export { default as UIColorPicker } from './TColorPicker'
-export { TColorPickerPopup as UIColorPickerPopup } from './TColorPickerPopup'
-export { TNumberPad as UINumberPad } from './TNumberPad'
-export { TPinInput as UIPinInput } from './TPinInput'
-export { TRichTextEditor as UIRichTextEditor } from './TRichTextEditor'
-export { TToggle as UIToggle } from './TToggle'
-export { TFormActions as UIFormActions } from './TFormActions'
+export * as UIForms from './Form'
+export { Form as UIForm } from './Form'
+export { FormField as UIFormField } from './Form'
+export { FormGroup as UIFormGroup } from './Form'
+export { InputBase as UIInputBase } from './Form'
+export { Input as UIInput } from './Input'
+export { default as UIImageInput } from './ImageInput'
+export { default as UIColorPicker } from './ColorPicker'
+export { ColorPickerPopup as UIColorPickerPopup } from './ColorPickerPopup'
+export { NumberPad as UINumberPad } from './NumberPad'
+export { PinInput as UIInputPin } from './PinInput'
+export { PinInput as UIPinInput } from './PinInput'
+export { RichTextEditor as UIRichTextEditor } from './RichTextEditor'
+export { Toggle as UIToggle } from './Toggle'
+export { FormActions as UIFormActions } from './FormActions'
 export {
-  TInputText as UIInputText,
-  TInputNumber as UIInputNumber,
-  TInputTextArea as UIInputTextArea,
-  TInputCheckbox as UIInputCheckbox,
-  TInputSelect as UIInputSelect,
-  TInputCustomSelect as UIInputCustomSelect,
-  TInputSwitch as UIInputSwitch,
-  TInputRadio as UIInputRadio,
-  TInputRange as UIInputRange,
-  TInputSearch as UIInputSearch,
-  TInputPassword as UIInputPassword,
-  TInputDate as UIInputDate,
-  TInputColor as UIInputColor,
-  TInputOptions as UIInputOptions,
-  TInputToggle as UIInputToggle,
-  TInputSelectColor as UIInputSelectColor,
-  TInputSelectIcon as UIInputSelectIcon,
-  TInputImage as UIInputImage,
-  TInputBirthday as UIInputBirthday,
-  TInputCalendar as UIInputCalendar,
-  TInputVerificationCode as UIInputVerificationCode,
-  TInputEmail as UIInputEmail,
-  TDatePicker as UIDatePicker,
-} from './TForm'
-export { TInputCheckbox as UICheckbox } from './TForm'
-export { TInputRadio as UIRadioGroup } from './TForm'
-export { TInputSelect as UISelect } from './TForm'
-export { TInputSwitch as UISwitch } from './TForm'
+  InputCascader as UIInputCascader,
+  InputText as UIInputText,
+  InputNumber as UIInputNumber,
+  InputTextArea as UIInputTextArea,
+  InputCheckbox as UIInputCheckbox,
+  InputSelect as UIInputSelect,
+  InputCustomSelect as UIInputCustomSelect,
+  InputSwitch as UIInputSwitch,
+  InputSwitchOptions as UIInputSwitchOptions,
+  InputRadio as UIInputRadio,
+  InputRange as UIInputRange,
+  InputSearch as UIInputSearch,
+  InputPassword as UIInputPassword,
+  InputDate as UIInputDate,
+  InputColor as UIInputColor,
+  InputOptions as UIInputOptions,
+  InputToggle as UIInputToggle,
+  InputSelectColor as UIInputSelectColor,
+  InputSelectIcon as UIInputSelectIcon,
+  InputImage as UIInputImage,
+  InputBirthday as UIInputBirthday,
+  InputCalendar as UIInputCalendar,
+  InputVerificationCode as UIInputVerificationCode,
+  InputEmail as UIInputEmail,
+  DatePicker as UIDatePicker,
+} from './Form'
+export { InputCheckbox as UICheckbox } from './Form'
+export { InputRadio as UIRadioGroup } from './Form'
+export { InputSelect as UISelect } from './Form'
+export { InputSwitch as UISwitch } from './Form'
+export { InputSwitchOptions as UISwitchOptions } from './Form'

@@ -13,7 +13,7 @@ describe('Scroller', () => {
 		});
 
 		expect(wrapper.classes()).toContain('ar-scroller--horizontal');
-		expect(wrapper.find('.ar-scroller__track').exists()).toBe(true);
+		expect(wrapper.find('.ui-scroller__track').exists()).toBe(true);
 	});
 
 	it('renders vertical mode by default', () => {

@@ -61,7 +61,7 @@ const props = defineProps({
 	},
 });
 
-const b = useBemm('ar-breadcrumb', {
+const b = useBemm('ui-breadcrumb', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -72,7 +72,7 @@ const handleCopyBreadcrumb = async () => {
 </script>
 
 <style lang="scss">
-.ar-breadcrumb {
+.ui-breadcrumb {
 	height: fit-content;
 	display: flex;
 	align-items: center;

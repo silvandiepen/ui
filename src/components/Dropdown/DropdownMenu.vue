@@ -114,7 +114,7 @@ const emit = defineEmits<{
 }>();
 
 const slots = useSlots();
-const bemm = useBemm('sil-dropdown-menu', {
+const bemm = useBemm('ui-dropdown-menu', {
 	return: 'string',
 	includeBaseClass: true,
 });
@@ -298,7 +298,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.sil-dropdown-menu {
+.ui-dropdown-menu {
 	$b: &;
 
 	background: var(--color-background);

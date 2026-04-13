@@ -43,14 +43,14 @@ const actionButtonProps = computed(() => {
 	return buttonProps;
 });
 
-const bemm = useBemm('ar-empty', {
+const bemm = useBemm('ui-empty', {
 	return: 'string',
 	includeBaseClass: true,
 });
 </script>
 
 <style lang="scss">
-.ar-empty {
+.ui-empty {
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<TabPaneProps>(), {
 	icon: '',
 });
 
-const bemm = useBemm('ar-tabs', {
+const bemm = useBemm('ui-tabs', {
 	return: 'string',
 	includeBaseClass: false,
 });
