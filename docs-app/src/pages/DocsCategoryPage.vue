@@ -1,15 +1,15 @@
 <template>
-  <Container v-if="category" :class="bemm()">
+  <div v-if="category" :class="bemm()">
     <header :class="bemm('header')">
       <div :class="bemm('header-copy')">
-        <p :class="bemm('eyebrow')">Category</p>
-        <h1 :class="bemm('title')">{{ category.label }}</h1>
-        <p :class="bemm('summary')">{{ category.description }}</p>
+        <p :class="bemm('eyebrow')">{{ t('docs.category.eyebrow') }}</p>
+        <h1 :class="bemm('title')">{{ t(`docs.categories.${category.id}.label`) }}</h1>
+        <p :class="bemm('summary')">{{ t(`docs.categories.${category.id}.description`) }}</p>
       </div>
 
       <Card :class="bemm('meta-card')">
         <strong>{{ components.length }}</strong>
-        <span>cataloged surfaces in this category</span>
+        <span>{{ t('docs.category.meta') }}</span>
       </Card>
     </header>
 
@@ -29,46 +29,46 @@
             </RouterLink>
             <p :class="bemm('card-summary')">{{ component.summary }}</p>
           </div>
-          <StatusBadge :label="component.status" :tone="component.statusTone" />
+          <StatusBadge :label="t(`docs.common.status.${component.status}`)" :tone="component.statusTone" />
         </header>
 
         <dl :class="bemm('card-meta')">
           <div>
-            <dt>Source</dt>
+            <dt>{{ t('docs.common.labels.source') }}</dt>
             <dd>{{ component.name }}</dd>
           </div>
           <div>
-            <dt>Aliases</dt>
-            <dd>{{ component.aliases.length > 0 ? component.aliases.join(', ') : 'none' }}</dd>
+            <dt>{{ t('docs.common.labels.aliases') }}</dt>
+            <dd>{{ component.aliases.length > 0 ? component.aliases.join(', ') : t('docs.common.labels.none') }}</dd>
           </div>
           <div>
-            <dt>Docs</dt>
+            <dt>{{ t('docs.common.labels.docs') }}</dt>
             <dd>{{ component.docs.length }}</dd>
           </div>
           <div>
-            <dt>Example</dt>
-            <dd>{{ component.examplePath ? 'available' : 'missing' }}</dd>
+            <dt>{{ t('docs.common.labels.example') }}</dt>
+            <dd>{{ component.examplePath ? t('docs.common.labels.available') : t('docs.common.labels.missing') }}</dd>
           </div>
         </dl>
       </Card>
     </section>
-  </Container>
+  </div>
 
-  <Container v-else :class="bemm('missing')">
+  <div v-else :class="bemm('missing')">
     <Card :class="bemm('meta-card')">
-      <h1 :class="bemm('title')">Unknown category</h1>
-      <p :class="bemm('summary')">The requested docs category does not exist.</p>
+      <h1 :class="bemm('title')">{{ t('docs.category.missingTitle') }}</h1>
+      <p :class="bemm('summary')">{{ t('docs.category.missingSummary') }}</p>
     </Card>
-  </Container>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useBemm } from 'bemm'
+import { useI18n } from 'vue-i18n'
 
 import { Card } from '@ui-lib/components/Card'
-import { Container } from '@ui-lib/components/Container'
 import { StatusBadge } from '@ui-lib/components/StatusBadge'
 
 import { getComponentCategoryDefinitionById } from '@ui-docs/lib/componentCategories'
@@ -81,6 +81,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const bemm = useBemm('docs-category-page')
+const { t } = useI18n()
 
 const category = computed(() => getComponentCategoryDefinitionById(props.categoryId))
 

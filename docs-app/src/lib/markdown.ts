@@ -1,9 +1,11 @@
-import MarkdownIt from 'markdown-it'
+import { createMarkdownRenderer } from '../../../src/components/Markdown'
 
-const renderer = new MarkdownIt({
-  html: false,
-  linkify: true,
-  typographer: true,
+import { renderCodeBlock } from './codeBlock'
+
+const renderer = createMarkdownRenderer({
+  highlight(code: string, language: string) {
+    return renderCodeBlock(code, language)
+  },
 })
 
 export interface MarkdownReplacement {

@@ -17,14 +17,15 @@ const EXCLUDED_SOURCE_PATHS = new Set([
   'Feedback/Popup/components',
   'Feedback/Toast',
   'Feedback/ToolTip',
+  'Input',
 ])
 
 const API_NAME_OVERRIDES: Record<string, string> = {
   Feedback: 'UIFeedback',
   Form: 'UIForms',
-  Input: 'UITextInput',
-  Select: 'UINativeSelect',
+  Select: 'Select',
   Textarea: 'UITextareaField',
+  'Form/PinInput': 'UIInputPin',
 }
 
 const MANUAL_SOURCE_PATHS = [
@@ -37,7 +38,7 @@ const MANUAL_SOURCE_PATHS = [
   'Display/ID',
   'Display/Note',
   'Display/Row',
-  'Display/TruncatedChipList',
+  'Display/TruncatedList',
 ] as const
 
 const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
@@ -76,8 +77,13 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Reusable surface container for content blocks and panels.',
   },
+  Carousel: {
+    category: 'Layout',
+    status: 'stable',
+    summary: 'Scroll-snap-powered carousel with responsive item counts, navigation, indicators, and autoplay.',
+  },
   Container: {
-    category: 'Foundations',
+    category: 'Layout',
     status: 'stable',
     summary: 'Layout wrapper for page sections and bounded content.',
   },
@@ -87,6 +93,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Context menus and side panels for anchored actions and supporting content.',
   },
   CopyValueButton: {
+    apiName: 'UICopyButton',
     category: 'Foundations',
     status: 'stable',
     summary: 'Small copy-to-clipboard action surface.',
@@ -121,12 +128,12 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   'Display/Columns': {
     apiName: 'UIColumns',
-    category: 'Foundations',
+    category: 'Layout',
     examplePath: '../../../src/components/Display/Columns.example.vue',
     name: 'Columns',
     sourcePath: 'src/components/Display/Columns.vue',
     status: 'stable',
-    summary: 'Display helper for simple multi-column metadata layouts.',
+    summary: 'Multi-column layout helper for metadata and inline content grids.',
   },
   'Display/DL': {
     apiName: 'UIDL',
@@ -144,7 +151,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     name: 'Empty',
     sourcePath: 'src/components/Display/Empty.vue',
     status: 'stable',
-    summary: 'Display helper for empty values and placeholder content inside dense layouts.',
+    summary: 'Display helper for empty values and lightweight placeholder states in dense layouts.',
   },
   'Display/ID': {
     apiName: 'UIID',
@@ -173,14 +180,14 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Display helper row wrapper for dense metadata and inline layout pairings.',
   },
-  'Display/TruncatedChipList': {
-    apiName: 'UITruncatedChipList',
+  'Display/TruncatedList': {
+    apiName: 'UITruncatedList',
     category: 'Foundations',
-    examplePath: '../../../src/components/Display/TruncatedChipList.example.vue',
-    name: 'TruncatedChipList',
-    sourcePath: 'src/components/Display/TruncatedChipList.vue',
+    examplePath: '../../../src/components/Display/TruncatedList.example.vue',
+    name: 'TruncatedList',
+    sourcePath: 'src/components/Display/TruncatedList.vue',
     status: 'stable',
-    summary: 'Display helper for chip collections that collapse overflow into a compact summary.',
+    summary: 'Display helper for collections that collapse overflow into a compact summary. Supports chips by default or any component via the #item slot.',
   },
   'ContextMenu/ContextPanel': {
     apiName: 'UIContextPanel',
@@ -205,7 +212,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   EmptyState: {
     category: 'Foundations',
     status: 'stable',
-    summary: 'Empty state presentation block for lists and dashboards.',
+    summary: 'Empty state presentation block for lists and dashboards. Also exported as UIEmpty for compact usage.',
   },
   Field: {
     category: 'Foundations',
@@ -222,23 +229,53 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Standalone text input surface for shared form flows.',
   },
+  InputSwitch: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Legacy segmented multi-option selector alias. Prefer InputSwitchOptions for new work.',
+  },
+  InputSwitchOptions: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Segmented selector with written-out options for choosing one value from a small visible set.',
+  },
+  InputToggle: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Boolean on/off toggle control for immediate settings and feature flags.',
+  },
   ItemList: {
     category: 'Data and Navigation',
     status: 'stable',
     summary: 'List surface for selectable and descriptive items.',
   },
+  LanguageSwitch: {
+    category: 'App Shell',
+    status: 'stable',
+    summary: 'Shared locale switch with grouped options, optional flags, and inline, popover, or context-panel surfaces.',
+  },
+  Markdown: {
+    category: 'Foundations',
+    status: 'stable',
+    summary: 'Reusable markdown renderer with markdown-it plugins and built-in content styling.',
+  },
   Notification: {
     category: 'Feedback',
     status: 'stable',
-    summary: 'Inline dismissible feedback component.',
+    summary: 'Inline feedback surface with optional icon and dismiss. Supports message prop or slot content. Also exported as UINote for simple usage.',
   },
   Pagination: {
     category: 'Data and Navigation',
     status: 'stable',
     summary: 'Shared pagination presentation and helper contracts.',
   },
+  PlatformFooter: {
+    category: 'App Shell',
+    status: 'stable',
+    summary: 'Product-neutral footer shell with slots for brand, navigation, meta content, and supporting copy.',
+  },
   PlatformHeader: {
-    category: 'Data and Navigation',
+    category: 'App Shell',
     status: 'stable',
     summary: 'Product-neutral header shell with slots for brand, nav, and actions.',
   },
@@ -259,14 +296,29 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Reference chip with copy and external-link affordances.',
   },
   Scroller: {
-    category: 'Foundations',
+    category: 'Layout',
     status: 'stable',
     summary: 'Scrollable container helper for bounded content regions.',
   },
   Section: {
-    category: 'Foundations',
+    category: 'Layout',
     status: 'stable',
     summary: 'Generic content section wrapper used across surfaces.',
+  },
+  SigninForm: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Ready-made sign-in surface with provider buttons, helper links, remember-me support, and message states.',
+  },
+  StatCard: {
+    category: 'Foundations',
+    status: 'stable',
+    summary: 'Large-format metric surface with optional icon, supporting text, and count-up number animation.',
+  },
+  SignupForm: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Ready-made registration surface with provider buttons, confirm-password flow, terms handling, and message states.',
   },
   Select: {
     category: 'Forms',
@@ -274,12 +326,12 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Standalone select surface for shared form flows.',
   },
   Sidebar: {
-    category: 'Data and Navigation',
+    category: 'App Shell',
     status: 'stable',
     summary: 'Shared vertical shell for sticky sidebars and contextual panels.',
   },
   SidebarNavigation: {
-    category: 'Data and Navigation',
+    category: 'App Shell',
     status: 'stable',
     summary: 'Grouped navigation surface for sidebar-driven product and docs layouts.',
   },
@@ -289,7 +341,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Loading placeholder component for content and list states.',
   },
   Spacer: {
-    category: 'Foundations',
+    category: 'Layout',
     status: 'stable',
     summary: 'Spacing helper for deliberate vertical and horizontal layout gaps.',
   },
@@ -330,7 +382,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Toast notification surface for transient feedback and service-driven status messages.',
   },
   Toolbar: {
-    category: 'Data and Navigation',
+    category: 'App Shell',
     status: 'stable',
     summary: 'Large toolbar surface for grouped actions, filters, and contextual controls.',
   },
@@ -338,6 +390,11 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     category: 'Feedback',
     status: 'stable',
     summary: 'Tooltip surface for concise contextual guidance and supporting copy.',
+  },
+  VideoPlayer: {
+    category: 'Foundations',
+    status: 'stable',
+    summary: 'Generic video surface with poster image support, hover or eager loading, autoplay or hover playback, and contain or cover fitting.',
   },
 }
 
@@ -497,7 +554,7 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
     }
   }
 
-  if (sourcePath.startsWith('Form/TForm/inputs/')) {
+  if (sourcePath.startsWith('Form/Form/inputs/')) {
     return {
       category: 'Forms',
       status: 'stable',
@@ -505,7 +562,7 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
     }
   }
 
-  if (sourcePath.startsWith('Form/TForm/')) {
+  if (sourcePath.startsWith('Form/Form/')) {
     return {
       category: 'Forms',
       status: 'stable',

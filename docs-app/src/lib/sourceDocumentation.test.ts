@@ -79,18 +79,18 @@ describe('source documentation', () => {
 
   it('extracts model props and emits from nested component paths', () => {
     const docs = getSourceDocumentation({
-      aliases: ['TInput'],
+      aliases: ['Input'],
       apiName: 'UIInput',
       category: 'Forms',
       categoryId: 'forms',
       docs: [],
       examplePath: null,
-      name: 'TInput',
+      name: 'Input',
       slug: 'form-t-input',
-      sourcePath: 'src/components/Form/TInput',
+      sourcePath: 'src/components/Form/Input',
       status: 'stable',
       statusTone: 'success',
-      summary: 'TInput',
+      summary: 'Input',
     })
 
     expect(docs.props).toEqual(

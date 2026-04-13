@@ -1,0 +1,12 @@
+export type CodeBlockLanguage =
+  | 'bash'
+  | 'css'
+  | 'html'
+  | 'javascript'
+  | 'json'
+  | 'plaintext'
+  | 'scss'
+  | 'typescript'
+  | 'vue'
+  | 'xml'
+  | 'yaml'

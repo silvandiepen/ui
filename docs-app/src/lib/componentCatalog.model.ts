@@ -1,8 +1,10 @@
 export type UIComponentCategory =
+  | 'App Shell'
   | 'Data and Navigation'
   | 'Feedback'
   | 'Forms'
   | 'Foundations'
+  | 'Layout'
 
 export type UIComponentStatus = 'stable' | 'transitional'
 

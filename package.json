@@ -49,7 +49,7 @@
     "lint": "eslint .",
     "release": "semantic-release",
     "prepublishOnly": "npm run typecheck && npm run build",
-    "test": "vitest run docs-app/src/lib/componentCatalog.test.ts docs-app/src/lib/componentRegistry.test.ts docs-app/src/lib/homeSections.test.ts docs-app/src/lib/sourceDocumentation.test.ts docs-app/src/lib/useColorMode.test.ts docs-app/src/lib/markdown.test.ts src/vite/theme.test.ts --environment=node",
+    "test": "vitest run docs-app/src/lib/codeBlock.test.ts docs-app/src/lib/componentCatalog.test.ts docs-app/src/lib/componentRegistry.test.ts docs-app/src/lib/docsSearchContent.test.ts docs-app/src/lib/homeSections.test.ts docs-app/src/lib/sourceDocumentation.test.ts docs-app/src/lib/useColorMode.test.ts docs-app/src/lib/useDocsLocale.test.ts docs-app/src/lib/markdown.test.ts src/components/LanguageSwitch/LanguageSwitch.test.ts src/components/Markdown/Markdown.test.ts src/composables/useContent.test.ts src/composables/useSearch.test.ts src/stores/settings.test.ts src/vite/theme.test.ts --environment=node",
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
@@ -67,6 +67,7 @@
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.22.0",
+    "highlight.js": "^11.11.1",
     "markdown-it": "^14.1.0",
     "postcss": "^8.4.35",
     "postcss-cli": "^11.0.0",

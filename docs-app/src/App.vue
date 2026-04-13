@@ -1,33 +1,92 @@
 <template>
   <div :class="bemm()">
-    <Sidebar :class="bemm('sidebar')" title="@sil/ui" width="15rem">
+    <Sidebar :class="bemm('sidebar')" width="15rem">
       <template #header>
         <RouterLink :class="bemm('brand')" to="/">
           <span :class="bemm('brand-logo')" aria-hidden="true" v-html="logoSvg" />
-          <span :class="bemm('brand-copy')">
-            <span :class="bemm('brand-title')">@sil/ui</span>
-            <span :class="bemm('brand-subtitle')">UI-prefixed component docs</span>
-          </span>
         </RouterLink>
       </template>
 
-      <SidebarNavigation :class="bemm('nav')" :sections="navigationSections" />
+      <SidebarNavigation
+        :class="bemm('nav')"
+        :sections="navigationSections"
+        settings-key="docs-app-sidebar-navigation"
+      />
     </Sidebar>
 
     <main :class="bemm('main')">
+      <Popup />
       <PlatformHeader :class="bemm('header')">
         <template #brand>
           <RouterLink :class="bemm('header-brand')" to="/">
             <span :class="bemm('header-brand-logo')" aria-hidden="true" v-html="logoSvg" />
-            <span>Shared UI library</span>
           </RouterLink>
         </template>
 
         <template #actions>
           <div :class="bemm('header-actions')">
+            <div
+              ref="searchRef"
+              :class="bemm('search', {
+                open: searchOpen,
+              })"
+            >
+              <div :class="bemm('search-input-shell')">
+                <Icon name="search" :class="bemm('search-icon')" />
+                <input
+                  v-model="query"
+                  :class="bemm('search-input')"
+                  :placeholder="t('docs.search.placeholder')"
+                  type="search"
+                  @focus="searchFocused = true"
+                  @keydown="handleSearchKeydown"
+                />
+                <button
+                  v-if="query"
+                  :class="bemm('search-clear')"
+                  type="button"
+                  @click="clearSearch"
+                >
+                  <Icon name="close" />
+                </button>
+              </div>
+
+              <div v-if="searchOpen" :class="bemm('search-panel')">
+                <div :class="bemm('search-status')">{{ searchStatus }}</div>
+
+                <RouterLink
+                  v-for="result in searchResults"
+                  :key="result.id"
+                  :class="bemm('search-result')"
+                  :to="getSearchResultTarget(result.route)"
+                  @click="clearSearch"
+                >
+                  <span :class="bemm('search-result-kind')">
+                    {{ getSearchKindLabel(result.kind) }}
+                  </span>
+                  <strong :class="bemm('search-result-title')">{{ result.title }}</strong>
+                  <span :class="bemm('search-result-summary')">
+                    {{ result.summary || result.excerpt }}
+                  </span>
+                </RouterLink>
+
+                <div v-if="searchResults.length === 0" :class="bemm('search-empty')">
+                  {{ t('docs.search.noResults') }}
+                </div>
+              </div>
+            </div>
+
+            <UILanguageSwitch
+              :model-value="docsLocale"
+              :options="DOCS_LANGUAGE_OPTIONS"
+              display-mode="label"
+              :title="t('docs.common.language.title')"
+              :trigger-label="t('docs.common.language.trigger')"
+              @update:model-value="setLocale"
+            />
             <ThemeToggle :theme="colorMode" @toggle="toggleColorMode" />
             <Button href="https://github.com/silvandiepen" target="_blank">
-              GitHub
+              {{ t('docs.common.actions.github') }}
             </Button>
           </div>
         </template>
@@ -39,25 +98,120 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { computed, onMounted, onUnmounted, provide, ref, watch } from 'vue'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 import { useBemm } from 'bemm'
+import { useI18n } from 'vue-i18n'
 
 import logoSvg from '@ui-lib/assets/logo.svg?raw'
 import { Button } from '@ui-lib/components/Button'
+import { Icon } from '@ui-lib/components/Icon'
+import { LanguageSwitch as UILanguageSwitch } from '@ui-lib/components/LanguageSwitch'
 import { PlatformHeader } from '@ui-lib/components/PlatformHeader'
+import Popup from '@ui-lib/components/Feedback/Popup/Popup.vue'
+import { popupService } from '@ui-lib/components/Feedback/Popup/Popup.service'
 import { Sidebar } from '@ui-lib/components/Sidebar'
 import { SidebarNavigation } from '@ui-lib/components/SidebarNavigation'
 import { ThemeToggle } from '@ui-lib/components/ThemeToggle'
+import { useSearch } from '@sil/ui'
+import type { ContentRouteTarget } from '@sil/ui'
 
 import { UI_COMPONENT_CATEGORIES } from '@ui-docs/lib/componentCategories'
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
+import { buildDocsSearchSources } from '@ui-docs/lib/docsSearchContent'
 import { useColorMode } from '@ui-docs/lib/useColorMode'
+import { useDocsLocale } from '@ui-docs/lib/useDocsLocale'
 import { useDocsTheme } from '@ui-docs/lib/docsTheme'
+import { DOCS_LANGUAGE_OPTIONS } from './i18n'
 
 const bemm = useBemm('docs-app')
+const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
 const { colorMode, toggleColorMode } = useColorMode()
+const { locale: docsLocale, setLocale } = useDocsLocale()
 useDocsTheme()
+
+provide('popupService', popupService)
+
+const searchRef = ref<HTMLElement | null>(null)
+const searchFocused = ref(false)
+const searchQuery = ref('')
+const { hasQuery, query, results: searchResults, totalResults } = useSearch({
+  limit: 8,
+  query: searchQuery,
+  sources: computed(() => buildDocsSearchSources(t)),
+})
+
+const searchOpen = computed(() => searchFocused.value && hasQuery.value)
+const searchStatus = computed(() => (
+  hasQuery.value
+    ? (
+      totalResults.value > 0
+        ? t('docs.search.results', { count: totalResults.value })
+        : t('docs.search.noResults')
+    )
+    : ''
+))
+
+function getSearchKindLabel(kind?: string) {
+  return t(`docs.search.kinds.${kind || 'page'}`)
+}
+
+function closeSearch() {
+  searchFocused.value = false
+}
+
+function clearSearch() {
+  query.value = ''
+  closeSearch()
+}
+
+function getSearchResultTarget(target?: ContentRouteTarget): RouteLocationRaw {
+  return (target || '/') as RouteLocationRaw
+}
+
+function navigateToSearchResult(target?: ContentRouteTarget) {
+  if (!target) {
+    return
+  }
+
+  router.push(getSearchResultTarget(target))
+  clearSearch()
+}
+
+function handleSearchKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    clearSearch()
+    return
+  }
+
+  if (event.key === 'Enter' && searchResults.value[0]?.route) {
+    event.preventDefault()
+    navigateToSearchResult(searchResults.value[0].route)
+  }
+}
+
+function handleDocumentClick(event: MouseEvent) {
+  const target = event.target as Node | null
+
+  if (!target || !searchRef.value?.contains(target)) {
+    closeSearch()
+  }
+}
+
+watch(() => route.fullPath, () => {
+  clearSearch()
+})
+
+onMounted(() => {
+  document.addEventListener('click', handleDocumentClick)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleDocumentClick)
+})
 
 const navigationSections = computed(() => {
   const groups = new Map<string, ReturnType<typeof getComponentCatalog>>()
@@ -72,20 +226,27 @@ const navigationSections = computed(() => {
   return [
     {
       id: 'guides',
-      label: 'Guides',
+      label: t('docs.navigation.guides'),
       items: [
         {
           id: 'guides-getting-started',
-          label: 'Getting Started',
+          label: t('docs.navigation.gettingStarted'),
           to: {
             name: 'docs-guide-getting-started',
           },
         },
         {
           id: 'guides-theme-builder',
-          label: 'Theme Builder',
+          label: t('docs.navigation.themeBuilder'),
           to: {
             name: 'docs-guide-theme-builder',
+          },
+        },
+        {
+          id: 'guides-composables',
+          label: t('docs.navigation.composables'),
+          to: {
+            name: 'docs-guide-composables',
           },
         },
       ],
@@ -96,7 +257,7 @@ const navigationSections = computed(() => {
       items: [
         {
           id: `${category.id}-overview`,
-          label: 'Overview',
+          label: t('docs.common.labels.overview'),
           to: {
             name: 'docs-category',
             params: {
@@ -115,7 +276,7 @@ const navigationSections = computed(() => {
           },
         })),
       ],
-      label: category.label,
+      label: t(`docs.categories.${category.id}.label`),
     })),
   ]
 })
@@ -144,6 +305,9 @@ const navigationSections = computed(() => {
   min-height: 100vh;
   background: var(--docs-shell-background);
   color: var(--color-foreground);
+  overflow-x: hidden;
+  height: 100vh;
+  overflow-y: scroll;
 
   &__sidebar {
     position: sticky;
@@ -161,20 +325,14 @@ const navigationSections = computed(() => {
   &__brand {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    justify-content: center;
     text-decoration: none;
     color: inherit;
   }
 
-  &__brand-copy {
-    display: grid;
-    gap: 0.1rem;
-    min-width: 0;
-  }
-
   &__brand-logo {
-    width: 2.1rem;
-    height: 2.1rem;
+    width: 2.6rem;
+    height: 2.6rem;
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
@@ -185,16 +343,6 @@ const navigationSections = computed(() => {
       height: 100%;
       display: block;
     }
-  }
-
-  &__brand-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-  }
-
-  &__brand-subtitle {
-    color: var(--docs-shell-muted);
-    font-size: 0.8rem;
   }
 
   &__main {
@@ -216,13 +364,137 @@ const navigationSections = computed(() => {
     gap: 0.75rem;
   }
 
+  &__search {
+    position: relative;
+    width: min(30rem, 46vw);
+    min-width: 18rem;
+  }
+
+  &__search-input-shell {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.5rem 0.35rem 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
+    transition:
+      border-color 140ms ease,
+      background-color 140ms ease,
+      box-shadow 140ms ease;
+
+    .docs-app__search--open &,
+    &:focus-within {
+      border-color: color-mix(in srgb, var(--color-primary), transparent 55%);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary), transparent 90%);
+      background: color-mix(in srgb, var(--color-background), var(--color-foreground) 1%);
+    }
+  }
+
+  &__search-icon {
+    color: color-mix(in srgb, var(--color-foreground), transparent 44%);
+    font-size: 0.95rem;
+  }
+
+  &__search-input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+
+    &::placeholder {
+      color: color-mix(in srgb, var(--color-foreground), transparent 52%);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__search-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: color-mix(in srgb, var(--color-foreground), transparent 42%);
+    cursor: pointer;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-foreground), transparent 94%);
+      color: inherit;
+    }
+  }
+
+  &__search-panel {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    left: 0;
+    width: 100%;
+    max-height: min(70vh, 34rem);
+    overflow: auto;
+    padding: 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--color-background), var(--color-foreground) 2%);
+    box-shadow: 0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 90%);
+  }
+
+  &__search-status {
+    padding: 0.35rem 0.55rem 0.55rem;
+    color: var(--docs-shell-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__search-result {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.8rem;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-primary), transparent 94%);
+    }
+  }
+
+  &__search-result-kind {
+    color: var(--docs-shell-muted);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__search-result-title {
+    font-size: 0.98rem;
+  }
+
+  &__search-result-summary,
+  &__search-empty {
+    color: color-mix(in srgb, var(--color-foreground), transparent 30%);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  &__search-empty {
+    padding: 0.85rem;
+  }
+
   &__header-brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
     text-decoration: none;
     color: inherit;
-    font-weight: 600;
   }
 
   &__header-brand-logo {
@@ -308,6 +580,11 @@ const navigationSections = computed(() => {
       height: auto;
       border-right: 0;
       border-bottom: 1px solid var(--docs-shell-border);
+    }
+
+    &__search {
+      width: min(100%, 24rem);
+      min-width: 0;
     }
   }
 }

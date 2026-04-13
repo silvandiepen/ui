@@ -1,37 +1,37 @@
 <template>
-  <Container v-if="componentEntry" :class="bemm()">
+  <div v-if="componentEntry" :class="bemm()">
     <header :class="bemm('header')">
       <div :class="bemm('header-copy')">
-        <p :class="bemm('eyebrow')">{{ componentEntry.category }}</p>
+        <p :class="bemm('eyebrow')">{{ t(`docs.categories.${componentEntry.categoryId}.label`) }}</p>
         <h1 :class="bemm('title')">{{ componentEntry.apiName }}</h1>
         <p :class="bemm('summary')">{{ componentEntry.summary }}</p>
         <div :class="bemm('api-badges')">
-          <Badge>preferred: {{ componentEntry.apiName }}</Badge>
+          <Badge>{{ t('docs.component.preferred', { name: componentEntry.apiName }) }}</Badge>
           <Badge v-if="componentEntry.aliases.length > 0">
-            aliases: {{ componentEntry.aliases.join(', ') }}
+            {{ t('docs.component.aliases', { aliases: componentEntry.aliases.join(', ') }) }}
           </Badge>
         </div>
       </div>
 
       <div :class="bemm('meta')">
-        <StatusBadge :label="componentEntry.status" :tone="componentEntry.statusTone" />
+        <StatusBadge :label="t(`docs.common.status.${componentEntry.status}`)" :tone="componentEntry.statusTone" />
         <ReferenceBadge
           :label="componentEntry.name"
           :copy-value="componentEntry.name"
-          tooltip-text="Underlying source surface"
+          :tooltip-text="t('docs.component.sourceSurface')"
         />
         <ReferenceBadge
           :label="componentEntry.sourcePath"
           :copy-value="componentEntry.sourcePath"
-          tooltip-text="Source location"
+          :tooltip-text="t('docs.component.sourceLocation')"
         />
       </div>
     </header>
 
     <Card v-if="asyncExampleComponent" :class="bemm('example-card')">
       <header :class="bemm('example-header')">
-        <h2 :class="bemm('section-title')">Live Example</h2>
-        <Badge>rendered from .example.vue</Badge>
+        <h2 :class="bemm('section-title')">{{ t('docs.component.liveExample') }}</h2>
+        <Badge>{{ t('docs.component.renderedFromExample') }}</Badge>
       </header>
 
       <div :class="bemm('example-preview')">
@@ -41,25 +41,28 @@
 
     <Card :class="bemm('usage-card')">
       <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">Usage</h2>
-        <Badge>preferred import</Badge>
+        <h2 :class="bemm('section-title')">{{ t('docs.component.usage') }}</h2>
+        <Badge>{{ t('docs.component.preferredImport') }}</Badge>
       </header>
 
-      <pre :class="bemm('code-block')"><code>{{ sourceDocumentation.usageExample }}</code></pre>
+      <div
+        :class="bemm('code-block')"
+        v-html="renderedUsageExample"
+      />
     </Card>
 
     <Card v-if="sourceDocumentation.props.length > 0" :class="bemm('props-card')">
       <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">Props</h2>
+        <h2 :class="bemm('section-title')">{{ t('docs.component.props') }}</h2>
         <Badge>{{ sourceDocumentation.props.length }}</Badge>
       </header>
 
       <div :class="bemm('props-table')">
         <div :class="[bemm('props-row'), bemm('props-row', 'header')]">
-          <span>Name</span>
-          <span>Type</span>
-          <span>Default</span>
-          <span>Details</span>
+          <span>{{ t('docs.common.labels.name') }}</span>
+          <span>{{ t('docs.common.labels.type') }}</span>
+          <span>{{ t('docs.common.labels.default') }}</span>
+          <span>{{ t('docs.common.labels.details') }}</span>
         </div>
 
         <div
@@ -71,28 +74,28 @@
             {{ prop.name }}
             <StatusBadge
               :class="bemm('props-required')"
-              :label="prop.required ? 'required' : 'optional'"
+              :label="prop.required ? t('docs.component.required') : t('docs.component.optional')"
               :tone="prop.required ? 'danger' : 'accent'"
             />
           </strong>
           <code>{{ prop.type }}</code>
-          <code>{{ prop.defaultValue ?? 'none' }}</code>
-          <span>{{ prop.description || 'No inline prop description yet.' }}</span>
+          <code>{{ prop.defaultValue ?? t('docs.common.labels.none') }}</code>
+          <span>{{ prop.description || t('docs.component.noPropDescription') }}</span>
         </div>
       </div>
     </Card>
 
     <Card v-if="sourceDocumentation.events.length > 0" :class="bemm('events-card')">
       <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">Events</h2>
+        <h2 :class="bemm('section-title')">{{ t('docs.component.events') }}</h2>
         <Badge>{{ sourceDocumentation.events.length }}</Badge>
       </header>
 
       <div :class="bemm('events-table')">
         <div :class="[bemm('events-row'), bemm('events-row', 'header')]">
-          <span>Name</span>
-          <span>Payload</span>
-          <span>Details</span>
+          <span>{{ t('docs.common.labels.name') }}</span>
+          <span>{{ t('docs.common.labels.payload') }}</span>
+          <span>{{ t('docs.common.labels.details') }}</span>
         </div>
 
         <div
@@ -102,21 +105,21 @@
         >
           <strong>{{ event.name }}</strong>
           <code>{{ event.payload }}</code>
-          <span>{{ event.description || 'No inline event description yet.' }}</span>
+          <span>{{ event.description || t('docs.component.noEventDescription') }}</span>
         </div>
       </div>
     </Card>
 
     <Card v-if="sourceDocumentation.slots.length > 0" :class="bemm('slots-card')">
       <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">Slots</h2>
+        <h2 :class="bemm('section-title')">{{ t('docs.component.slots') }}</h2>
         <Badge>{{ sourceDocumentation.slots.length }}</Badge>
       </header>
 
       <div :class="bemm('slots-table')">
         <div :class="[bemm('slots-row'), bemm('slots-row', 'header')]">
-          <span>Name</span>
-          <span>Details</span>
+          <span>{{ t('docs.common.labels.name') }}</span>
+          <span>{{ t('docs.common.labels.details') }}</span>
         </div>
 
         <div
@@ -141,44 +144,39 @@
           <Badge>{{ doc.pathLabel }}</Badge>
         </header>
 
-        <article
-          :class="bemm('doc-content')"
-          v-html="doc.html"
-        />
+        <article :class="bemm('doc-content')">
+          <Markdown :content="doc.content" />
+        </article>
       </Card>
     </section>
 
     <Card v-else :class="bemm('empty-card')">
-      <h2 :class="bemm('section-title')">Documentation</h2>
-      <p :class="bemm('empty-copy')">
-        No markdown documentation is attached to this surface yet. The catalog entry still
-        gives it a stable place in the docs app so the missing docs are visible instead of
-        hidden in the tree.
-      </p>
+      <h2 :class="bemm('section-title')">{{ t('docs.component.documentation') }}</h2>
+      <p :class="bemm('empty-copy')">{{ t('docs.component.emptyCopy') }}</p>
     </Card>
-  </Container>
+  </div>
 
-  <Container v-else :class="bemm('missing')">
+  <div v-else :class="bemm('missing')">
     <Card :class="bemm('empty-card')">
-      <h1 :class="bemm('section-title')">Unknown component</h1>
-      <p :class="bemm('empty-copy')">
-        The requested component does not exist in the current docs catalog.
-      </p>
+      <h1 :class="bemm('section-title')">{{ t('docs.component.missingTitle') }}</h1>
+      <p :class="bemm('empty-copy')">{{ t('docs.component.missingSummary') }}</p>
     </Card>
-  </Container>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent } from 'vue'
 import { useBemm } from 'bemm'
+import { useI18n } from 'vue-i18n'
 
 import { Badge } from '@ui-lib/components/Badge'
 import { Card } from '@ui-lib/components/Card'
-import { Container } from '@ui-lib/components/Container'
+import { Markdown } from '../../../src/components'
 import { ReferenceBadge } from '@ui-lib/components/ReferenceBadge'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 
-import { normalizeMarkdownContent, renderMarkdown } from '@ui-docs/lib/markdown'
+import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
+import { normalizeMarkdownContent } from '@ui-docs/lib/markdown'
 import {
   getComponentBySlug,
   getComponentNameReplacements,
@@ -194,6 +192,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const bemm = useBemm('docs-component-page')
+const { t } = useI18n()
 
 const componentEntry = computed(() => getComponentBySlug(props.slug))
 
@@ -228,9 +227,11 @@ const sourceDocumentation = computed(() => {
   return getSourceDocumentation(componentEntry.value)
 })
 
+const renderedUsageExample = computed(() => renderCodeBlock(sourceDocumentation.value.usageExample, 'vue'))
+
 const compiledDocs = computed(() => {
   return (componentEntry.value?.docs ?? []).map((docPath) => {
-    const rawContent = getDocContent(docPath) ?? '# Missing document'
+    const rawContent = getDocContent(docPath) ?? t('docs.component.missingDocument')
     const normalizedContent = normalizeMarkdownContent(
       rawContent,
       getComponentNameReplacements(),
@@ -240,7 +241,7 @@ const compiledDocs = computed(() => {
       path: docPath,
       pathLabel: docPath.replace('../../../src/components/', ''),
       title: getDocTitle(docPath),
-      html: renderMarkdown(normalizedContent),
+      content: normalizedContent,
     }
   })
 })
@@ -349,80 +350,12 @@ function getDocTitle(path: string): string {
   }
 
   &__doc-content {
-    line-height: 1.7;
-
-    h1,
-    h2,
-    h3 {
-      margin-top: 1.4rem;
-    }
-
-    h1:first-child,
-    h2:first-child,
-    h3:first-child,
-    p:first-child {
-      margin-top: 0;
-    }
-
-    pre {
-      overflow: auto;
-      padding: 1rem;
-      border-radius: 0.9rem;
-      background: var(--docs-component-code-background);
-      color: var(--docs-component-code-foreground);
-    }
-
-    code {
-      font-family: 'SFMono-Regular', 'Menlo', 'Monaco', monospace;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0 1.5rem;
-      font-size: 0.98rem;
-      line-height: 1.55;
-      display: table;
-    }
-
-    thead {
-      background: color-mix(in srgb, var(--color-foreground), transparent 97%);
-    }
-
-    th,
-    td {
-      padding: 0.8rem 0.9rem;
-      text-align: left;
-      vertical-align: top;
-      border-bottom: 1px solid var(--docs-component-border);
-    }
-
-    th {
-      color: var(--color-foreground);
-      font-size: 0.84rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    td code,
-    th code {
-      white-space: nowrap;
-    }
-
-    p + table,
-    h2 + table,
-    h3 + table {
-      margin-top: 0.75rem;
+    :deep(.ui-markdown) {
+      --markdown-border: var(--docs-component-border);
     }
   }
 
   &__code-block {
-    overflow: auto;
-    padding: 1rem;
-    border-radius: 0.9rem;
-    background: var(--docs-component-code-background);
-    color: var(--docs-component-code-foreground);
     margin: 0;
   }
 

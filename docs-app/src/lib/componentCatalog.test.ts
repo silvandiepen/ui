@@ -8,17 +8,17 @@ describe('component catalog', () => {
       docKeys: [
         '../../../src/components/Card/README.md',
         '../../../src/components/Form/README.md',
-        '../../../src/components/Form/TForm/TForm.md',
-        '../../../src/components/Form/TInput/README.md',
+        '../../../src/components/Form/Form/Form.md',
+        '../../../src/components/Form/Input/README.md',
       ],
       exampleKeys: [
         '../../../src/components/Card/Card.example.vue',
-        '../../../src/components/Form/TInput/TInput.example.vue',
+        '../../../src/components/Form/Input/Input.example.vue',
       ],
       folderKeys: [
         '../../../src/components/Card/index.ts',
         '../../../src/components/Form/index.ts',
-        '../../../src/components/Form/TInput/index.ts',
+        '../../../src/components/Form/Input/index.ts',
         '../../../src/components/Progress/index.ts',
       ],
       singleFileKeys: [],
@@ -27,14 +27,14 @@ describe('component catalog', () => {
     expect(catalog.map((entry) => entry.name)).toEqual([
       'Card',
       'Form',
+      'Input',
       'Progress',
-      'TInput',
     ])
     expect(catalog.map((entry) => entry.apiName)).toEqual([
       'UICard',
       'UIForms',
-      'UIProgress',
       'UIInput',
+      'UIProgress',
     ])
     expect(catalog.find((entry) => entry.name === 'Card')?.examplePath).toBe(
       '../../../src/components/Card/Card.example.vue',
@@ -42,14 +42,14 @@ describe('component catalog', () => {
     expect(catalog.find((entry) => entry.name === 'Form')?.docs).toEqual([
       '../../../src/components/Form/README.md',
     ])
-    expect(catalog.find((entry) => entry.name === 'TInput')).toEqual(
+    expect(catalog.find((entry) => entry.name === 'Input')).toEqual(
       expect.objectContaining({
-        aliases: ['TInput'],
+        aliases: ['Input'],
         apiName: 'UIInput',
         categoryId: 'forms',
-        examplePath: '../../../src/components/Form/TInput/TInput.example.vue',
-        slug: 'form-t-input',
-        sourcePath: 'src/components/Form/TInput',
+        examplePath: '../../../src/components/Form/Input/Input.example.vue',
+        slug: 'form-input',
+        sourcePath: 'src/components/Form/Input',
       }),
     )
   })
@@ -57,7 +57,7 @@ describe('component catalog', () => {
   it('slugifies component names consistently', () => {
     expect(slugifyComponentName('StatusBadge')).toBe('status-badge')
     expect(slugifyComponentName('Theme Toggle')).toBe('theme-toggle')
-    expect(slugifyComponentPath('Form/TInput')).toBe('form-t-input')
+    expect(slugifyComponentPath('Form/Input')).toBe('form-input')
   })
 
   it('keeps native T-prefixed component names intact when they are not compatibility T* wrappers', () => {

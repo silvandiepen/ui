@@ -19,6 +19,9 @@ export default defineConfig({
       ...getUIAliases(),
     },
   },
+  optimizeDeps: {
+    exclude: ['fsevents'],
+  },
   build: {
     chunkSizeWarningLimit: 1600,
     outDir: 'dist',

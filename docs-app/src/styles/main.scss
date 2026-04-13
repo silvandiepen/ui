@@ -9,3 +9,107 @@ body,
 body {
   margin: 0;
 }
+
+:root {
+  --docs-code-background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3.5%);
+  --docs-code-background-strong: color-mix(in srgb, var(--color-background), var(--color-foreground) 5%);
+  --docs-code-border: color-mix(in srgb, var(--color-foreground), transparent 88%);
+  --docs-code-foreground: color-mix(in srgb, var(--color-foreground), transparent 10%);
+  --docs-code-muted: color-mix(in srgb, var(--color-foreground), transparent 42%);
+  --docs-code-selection: color-mix(in srgb, var(--color-primary), transparent 82%);
+  --docs-code-keyword: color-mix(in srgb, var(--color-primary), var(--color-foreground) 26%);
+  --docs-code-type: color-mix(in srgb, var(--color-secondary), var(--color-foreground) 22%);
+  --docs-code-string: color-mix(in srgb, var(--color-success), var(--color-foreground) 26%);
+  --docs-code-number: color-mix(in srgb, var(--color-warning), var(--color-foreground) 24%);
+  --docs-code-title: color-mix(in srgb, var(--color-tertiary), var(--color-foreground) 24%);
+  --docs-code-attribute: color-mix(in srgb, var(--color-info), var(--color-foreground) 20%);
+  --docs-code-tag: color-mix(in srgb, var(--color-quinary), var(--color-foreground) 24%);
+  --docs-code-meta: color-mix(in srgb, var(--color-secondary), var(--color-foreground) 30%);
+}
+
+.docs-code-block {
+  margin: 0;
+  overflow: auto;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--docs-code-border);
+  border-radius: var(--border-radius-l);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--docs-code-background-strong), transparent 2%) 0%,
+      var(--docs-code-background) 100%
+    );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-background), transparent 20%);
+
+  &::selection,
+  *::selection {
+    background: var(--docs-code-selection);
+  }
+
+  code.hljs {
+    display: block;
+    padding: 0;
+    background: transparent;
+    color: var(--docs-code-foreground);
+    font-family: var(--font-family-mono);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--docs-code-muted);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-name,
+.hljs-section {
+  color: var(--docs-code-keyword);
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-type,
+.hljs-built_in {
+  color: var(--docs-code-title);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--docs-code-attribute);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-bullet {
+  color: var(--docs-code-string);
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-link {
+  color: var(--docs-code-number);
+}
+
+.hljs-tag,
+.hljs-selector-pseudo,
+.hljs-subst {
+  color: var(--docs-code-tag);
+}
+
+.hljs-doctag,
+.hljs-formula {
+  color: var(--docs-code-meta);
+}

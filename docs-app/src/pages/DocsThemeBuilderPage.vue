@@ -1,18 +1,15 @@
 <template>
-  <Container :class="bemm()">
+  <div :class="bemm()">
     <section :class="bemm('hero')">
       <div :class="bemm('hero-copy')">
-        <StatusBadge label="Builder" tone="success" />
-        <h1 :class="bemm('title')">Theme builder</h1>
-        <p :class="bemm('summary')">
-          Edit the live docs theme, try font stacks, and copy the generated `defineTheme(...)`
-          config straight into your Vite setup.
-        </p>
+        <StatusBadge :label="t('docs.common.status.builder')" tone="success" />
+        <h1 :class="bemm('title')">{{ t('docs.themeBuilder.title') }}</h1>
+        <p :class="bemm('summary')">{{ t('docs.themeBuilder.summary') }}</p>
       </div>
 
       <Card :class="bemm('preset-card')">
         <label :class="bemm('label')">
-          <span>Preset</span>
+          <span>{{ t('docs.themeBuilder.preset') }}</span>
           <select :value="themeState.presetId" @change="handlePresetChange">
             <option
               v-for="(preset, presetId) in docsThemePresets"
@@ -26,10 +23,10 @@
 
         <div :class="bemm('preset-actions')">
           <Button variant="secondary" @click="applyFontPreset('system')">
-            System fonts
+            {{ t('docs.common.actions.systemFonts') }}
           </Button>
           <Button variant="secondary" @click="resetTheme">
-            Reset
+            {{ t('docs.common.actions.reset') }}
           </Button>
         </div>
       </Card>
@@ -38,43 +35,31 @@
     <section :class="bemm('grid')">
       <Card :class="bemm('panel')">
         <header :class="bemm('panel-header')">
-          <h2>Colors</h2>
-          <p>These values are applied to the docs app immediately.</p>
+          <h2>{{ t('docs.themeBuilder.colors') }}</h2>
+          <p>{{ t('docs.themeBuilder.colorsBody') }}</p>
         </header>
 
         <div :class="bemm('color-grid')">
-          <label
+          <ThemeColorField
             v-for="token in colorKeys"
             :key="token"
-            :class="bemm('field')"
-          >
-            <span>{{ token }}</span>
-            <div :class="bemm('color-input')">
-              <input
-                :value="themeState.colors[token]"
-                type="color"
-                @input="updateColor(token, ($event.target as HTMLInputElement).value)"
-              />
-              <input
-                :value="themeState.colors[token]"
-                type="text"
-                @input="updateColor(token, ($event.target as HTMLInputElement).value)"
-              />
-            </div>
-          </label>
+            :model-value="themeState.colors[token]"
+            :label="token"
+            @update:model-value="updateColor(token, $event)"
+          />
         </div>
       </Card>
 
       <Card :class="bemm('panel')">
         <header :class="bemm('panel-header')">
-          <h2>Fonts</h2>
-          <p>Custom families are opt-in only. Load any external fonts yourself in your app.</p>
+          <h2>{{ t('docs.themeBuilder.fonts') }}</h2>
+          <p>{{ t('docs.themeBuilder.fontsBody') }}</p>
         </header>
 
         <label :class="bemm('field')">
-          <span>Preset stack</span>
+          <span>{{ t('docs.themeBuilder.presetStack') }}</span>
           <select @change="handleFontPresetChange">
-            <option value="">Choose a font preset</option>
+            <option value="">{{ t('docs.common.actions.chooseFontPreset') }}</option>
             <option v-for="presetName in fontPresetNames" :key="presetName" :value="presetName">
               {{ presetName }}
             </option>
@@ -82,7 +67,7 @@
         </label>
 
         <label :class="bemm('field')">
-          <span>Body</span>
+          <span>{{ t('docs.themeBuilder.body') }}</span>
           <textarea
             rows="3"
             :value="themeState.fonts.body"
@@ -91,7 +76,7 @@
         </label>
 
         <label :class="bemm('field')">
-          <span>Heading</span>
+          <span>{{ t('docs.themeBuilder.heading') }}</span>
           <textarea
             rows="3"
             :value="themeState.fonts.heading"
@@ -100,7 +85,7 @@
         </label>
 
         <label :class="bemm('field')">
-          <span>Mono</span>
+          <span>{{ t('docs.themeBuilder.mono') }}</span>
           <textarea
             rows="2"
             :value="themeState.fonts.mono"
@@ -112,27 +97,30 @@
 
     <Card :class="bemm('panel')">
       <header :class="bemm('panel-header')">
-        <h2>Generated config</h2>
-        <p>Paste this into `ui({ theme: defineTheme(...) })`.</p>
+        <h2>{{ t('docs.themeBuilder.generatedConfig') }}</h2>
+        <p>{{ t('docs.themeBuilder.configBody') }}</p>
       </header>
 
-      <pre><code>{{ themeSnippet }}</code></pre>
+      <div v-html="renderedThemeSnippet" />
     </Card>
-  </Container>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
+import { useI18n } from 'vue-i18n'
 
 import { Button } from '@ui-lib/components/Button'
 import { Card } from '@ui-lib/components/Card'
-import { Container } from '@ui-lib/components/Container'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
+import ThemeColorField from '@ui-docs/components/ThemeColorField.vue'
 
+import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
 import { useDocsTheme } from '@ui-docs/lib/docsTheme'
 
 const bemm = useBemm('docs-theme-builder-page')
+const { t } = useI18n()
 
 const {
   colorKeys,
@@ -151,6 +139,8 @@ const themeSnippet = computed(() => `defineTheme({
   colors: ${JSON.stringify(themeState.value.colors, null, 2)},
   fonts: ${JSON.stringify(themeState.value.fonts, null, 2)},
 })`)
+
+const renderedThemeSnippet = computed(() => renderCodeBlock(themeSnippet.value, 'typescript'))
 
 function handlePresetChange(event: Event) {
   const presetId = (event.target as HTMLSelectElement).value as keyof typeof docsThemePresets
@@ -227,7 +217,7 @@ function applyFontPreset(presetName: keyof typeof fontPresets) {
 
   &__color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     gap: 0.85rem;
   }
 
@@ -241,19 +231,12 @@ function applyFontPreset(presetName: keyof typeof fontPresets) {
     }
   }
 
-  &__color-input {
-    display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
-    gap: 0.5rem;
-  }
-
   &__preset-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  input,
   select,
   textarea {
     width: 100%;
@@ -266,21 +249,8 @@ function applyFontPreset(presetName: keyof typeof fontPresets) {
     box-sizing: border-box;
   }
 
-  input[type='color'] {
-    padding: 0.2rem;
-    min-height: 2.8rem;
-  }
-
   textarea {
     resize: vertical;
-  }
-
-  pre {
-    margin: 0;
-    overflow: auto;
-    padding: 1rem;
-    border-radius: var(--border-radius-l);
-    background: color-mix(in srgb, var(--color-foreground), transparent 96%);
   }
 
   code {

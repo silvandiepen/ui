@@ -7,26 +7,38 @@ export const UI_COMPONENT_CATEGORIES: UIComponentCategoryDefinition[] = [
   {
     id: 'foundations',
     label: 'Foundations',
-    description: 'Core building blocks for actions, surfaces, badges, layout wrappers, and shared product primitives.',
+    description: 'Core building blocks for actions, surfaces, badges, and shared product primitives.',
     order: 1,
+  },
+  {
+    id: 'layout',
+    label: 'Layout',
+    description: 'Layout primitives for spacing, scrolling, columns, and page structure.',
+    order: 2,
+  },
+  {
+    id: 'app-shell',
+    label: 'App Shell',
+    description: 'Structural chrome components: headers, sidebars, navigation, and footers.',
+    order: 3,
   },
   {
     id: 'forms',
     label: 'Forms',
     description: 'Input controls, validation surfaces, and form orchestration APIs used across shared product flows.',
-    order: 2,
+    order: 4,
   },
   {
     id: 'data-and-navigation',
     label: 'Data and Navigation',
-    description: 'Navigation shells, lists, tables, tabs, and higher-level browsing patterns used across products.',
-    order: 3,
+    description: 'Lists, tables, tabs, pagination, and higher-level browsing patterns used across products.',
+    order: 5,
   },
   {
     id: 'feedback',
     label: 'Feedback',
     description: 'Progress, notifications, tooltips, popovers, and transient status surfaces that communicate state back to the user.',
-    order: 4,
+    order: 6,
   },
 ]
 

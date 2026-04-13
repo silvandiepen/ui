@@ -1,28 +1,26 @@
 <template>
-  <Container :class="bemm()">
+  <div :class="bemm()">
     <section :class="bemm('hero')">
       <div :class="bemm('hero-copy')">
-        <StatusBadge label="Source of truth" tone="success" />
-        <h1 :class="bemm('title')">Shared Vue UI docs with a consistent UI-prefixed API</h1>
+        <StatusBadge :label="t('docs.common.status.sourceOfTruth')" />
+        <h1 :class="bemm('title')">{{ t('docs.home.title') }}</h1>
         <p :class="bemm('summary')">
-          This app reflects the current state of the library as it exists in the repo:
-          shared primitives, maintained surfaces, category groupings, and the preferred
-          `UI*` import names exposed by `@sil/ui`.
+          {{ t('docs.home.summary') }}
         </p>
       </div>
 
       <div :class="bemm('hero-stats')">
         <Card :class="bemm('stat-card')">
           <strong>{{ components.length }}</strong>
-          <span>cataloged surfaces</span>
+          <span>{{ t('docs.home.totalCount') }}</span>
         </Card>
         <Card :class="bemm('stat-card')">
           <strong>{{ documentedCount }}</strong>
-          <span>with markdown docs</span>
+          <span>{{ t('docs.home.withDocsCount') }}</span>
         </Card>
         <Card :class="bemm('stat-card')">
           <strong>{{ exampleCount }}</strong>
-          <span>with live examples</span>
+          <span>{{ t('docs.home.exampleCount') }}</span>
         </Card>
       </div>
     </section>
@@ -37,15 +35,15 @@
           <div>
             <RouterLink
               :class="bemm('group-title-link')"
-              :to="{ name: 'docs-category', params: { categoryId: group.id } }"
-            >
-              <h2 :class="bemm('group-title')">{{ group.label }}</h2>
-            </RouterLink>
-            <p :class="bemm('group-description')">{{ group.description }}</p>
-            <p :class="bemm('group-meta')">{{ group.items.length }} entries</p>
-          </div>
-          <Badge>{{ group.items.length }}</Badge>
-        </header>
+            :to="{ name: 'docs-category', params: { categoryId: group.id } }"
+          >
+            <h2 :class="bemm('group-title')">{{ group.label }}</h2>
+          </RouterLink>
+          <p :class="bemm('group-description')">{{ group.description }}</p>
+          <p :class="bemm('group-meta')">{{ t('docs.home.groupEntries', { count: group.items.length }) }}</p>
+        </div>
+        <Badge>{{ group.items.length }}</Badge>
+      </header>
 
         <div :class="bemm('group-items')">
           <RouterLink
@@ -62,35 +60,42 @@
             <div :class="bemm('group-link-copy')">
               <strong>{{ item.apiName }}</strong>
               <span v-if="item.aliases.length > 0" :class="bemm('group-link-aliases')">
-                aliases: {{ item.aliases.join(', ') }}
+                {{ t('docs.home.aliases', { aliases: item.aliases.join(', ') }) }}
               </span>
               <span>{{ item.summary }}</span>
             </div>
-            <StatusBadge :label="item.status" :tone="item.statusTone" />
+            <StatusBadge :label="t(`docs.common.status.${item.status}`)" :tone="item.statusTone" />
           </RouterLink>
         </div>
       </Card>
     </section>
-  </Container>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useBemm } from 'bemm'
+import { useI18n } from 'vue-i18n'
 
 import { Badge } from '@ui-lib/components/Badge'
 import { Card } from '@ui-lib/components/Card'
-import { Container } from '@ui-lib/components/Container'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
 import { buildDocsHomeSections } from '@ui-docs/lib/homeSections'
 
 const bemm = useBemm('docs-home-page')
+const { t } = useI18n()
 
 const components = getComponentCatalog()
-const groupedComponents = computed(() => buildDocsHomeSections(components))
+const groupedComponents = computed(() =>
+  buildDocsHomeSections(components).map((group) => ({
+    ...group,
+    description: t(`docs.categories.${group.id}.description`),
+    label: t(`docs.categories.${group.id}.label`),
+  })),
+)
 
 const documentedCount = computed(() => components.filter((item) => item.docs.length > 0).length)
 const exampleCount = computed(() => components.filter((item) => item.examplePath).length)

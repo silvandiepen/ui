@@ -2,56 +2,48 @@
   <Container :class="bemm()">
     <section :class="bemm('hero')">
       <div :class="bemm('hero-copy')">
-        <StatusBadge label="Guide" tone="accent" />
-        <h1 :class="bemm('title')">Use `@sil/ui` in a Vite project</h1>
-        <p :class="bemm('summary')">
-          The shared Vite plugin injects the UI theme layer and shared global styles.
-          Add the plugin, wire the aliases, then define colors and fonts through one theme config.
-        </p>
+        <StatusBadge :label="t('docs.common.status.guide')" tone="accent" />
+        <h1 :class="bemm('title')">{{ t('docs.gettingStarted.title') }}</h1>
+        <p :class="bemm('summary')">{{ t('docs.gettingStarted.summary') }}</p>
       </div>
       <Card :class="bemm('callout')">
-        <strong>What this gives you</strong>
-        <p>
-          Shared CSS variables, generated contrast tokens, consistent font globals,
-          and the same component aliases the docs app uses internally.
-        </p>
+        <strong>{{ t('docs.gettingStarted.calloutTitle') }}</strong>
+        <p>{{ t('docs.gettingStarted.calloutBody') }}</p>
       </Card>
     </section>
 
     <section :class="bemm('grid')">
       <Card :class="bemm('panel')">
-        <h2>1. Install</h2>
-        <pre><code>npm install @sil/ui</code></pre>
+        <h2>{{ t('docs.gettingStarted.install') }}</h2>
+        <div v-html="installSnippet" />
       </Card>
 
       <Card :class="bemm('panel')">
-        <h2>2. Add the Vite plugin</h2>
-        <pre><code>{{ viteConfigSnippet }}</code></pre>
+        <h2>{{ t('docs.gettingStarted.plugin') }}</h2>
+        <div v-html="renderedViteConfigSnippet" />
       </Card>
 
       <Card :class="bemm('panel')">
-        <h2>3. Import components</h2>
-        <pre><code>{{ componentSnippet }}</code></pre>
+        <h2>{{ t('docs.gettingStarted.importComponents') }}</h2>
+        <div v-html="renderedComponentSnippet" />
       </Card>
 
       <Card :class="bemm('panel')">
-        <h2>Theme config shape</h2>
-        <pre><code>{{ themeShapeSnippet }}</code></pre>
+        <h2>{{ t('docs.gettingStarted.themeShape') }}</h2>
+        <div v-html="renderedThemeShapeSnippet" />
       </Card>
     </section>
 
     <section :class="bemm('tokens')">
       <Card :class="bemm('panel')">
-        <h2>Color tokens</h2>
-        <p>
-          Define only the tokens you want to override. The theme builder fills in the rest from the shared defaults.
-        </p>
+        <h2>{{ t('docs.gettingStarted.colorTokens') }}</h2>
+        <p>{{ t('docs.gettingStarted.colorBody') }}</p>
         <table>
           <thead>
             <tr>
-              <th>Token</th>
-              <th>Default</th>
-              <th>Generated helpers</th>
+              <th>{{ t('docs.common.labels.token') }}</th>
+              <th>{{ t('docs.common.labels.default') }}</th>
+              <th>{{ t('docs.common.labels.generatedHelpers') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -65,17 +57,14 @@
       </Card>
 
       <Card :class="bemm('panel')">
-        <h2>Font tokens</h2>
-        <p>
-          No fonts are loaded by default. The library ships with system stacks only.
-          If you want custom families, load them in your app and set them through the theme config.
-        </p>
+        <h2>{{ t('docs.gettingStarted.fontTokens') }}</h2>
+        <p>{{ t('docs.gettingStarted.fontBody') }}</p>
         <table>
           <thead>
             <tr>
-              <th>Key</th>
-              <th>Generated CSS variable</th>
-              <th>Default</th>
+              <th>{{ t('docs.common.labels.key') }}</th>
+              <th>{{ t('docs.gettingStarted.generatedCssVariable') }}</th>
+              <th>{{ t('docs.common.labels.default') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -94,13 +83,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
+import { useI18n } from 'vue-i18n'
 
 import { Card } from '@ui-lib/components/Card'
 import { Container } from '@ui-lib/components/Container'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 import { DEFAULT_THEME_COLORS, DEFAULT_THEME_FONTS } from '@ui-lib/vite/theme'
+import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
 
 const bemm = useBemm('docs-getting-started-page')
+const { t } = useI18n()
 
 const colorRows = computed(() =>
   Object.entries(DEFAULT_THEME_COLORS).map(([name, value]) => ({ name, value }))
@@ -123,6 +115,8 @@ const fontRows = computed(() => [
     value: DEFAULT_THEME_FONTS.mono,
   },
 ])
+
+const installSnippet = renderCodeBlock('npm install @sil/ui', 'bash')
 
 const viteConfigSnippet = `import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
@@ -175,6 +169,10 @@ const themeShapeSnippet = `defineTheme({
     space: '1rem',
   },
 })`
+
+const renderedViteConfigSnippet = computed(() => renderCodeBlock(viteConfigSnippet, 'typescript'))
+const renderedComponentSnippet = computed(() => renderCodeBlock(componentSnippet, 'typescript'))
+const renderedThemeShapeSnippet = computed(() => renderCodeBlock(themeShapeSnippet, 'typescript'))
 </script>
 
 <style lang="scss">
@@ -215,14 +213,6 @@ const themeShapeSnippet = `defineTheme({
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
     gap: 1rem;
-  }
-
-  pre {
-    margin: 0;
-    overflow: auto;
-    padding: 1rem;
-    border-radius: var(--border-radius-l);
-    background: color-mix(in srgb, var(--color-foreground), transparent 96%);
   }
 
   code {
