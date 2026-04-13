@@ -8,6 +8,7 @@ This repository is the source of truth for reusable UI primitives, shared form b
 
 - Local docs app: `npm run docs:dev`
 - Docs production build: `npm run docs:build`
+- Cloudflare Pages deployment: [docs/CLOUDFLARE_PAGES.md](./docs/CLOUDFLARE_PAGES.md)
 - Component inventory: [docs/COMPONENTS.md](./docs/COMPONENTS.md)
 - AI usage and implementation guide: [AI_GUIDE.md](./AI_GUIDE.md)
 - Migration plan: [MIGRATION_PLAN.md](./MIGRATION_PLAN.md)
