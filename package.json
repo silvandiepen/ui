@@ -19,7 +19,11 @@
       "import": "./dist/sil-ui.mjs",
       "require": "./dist/sil-ui.umd.js"
     },
-    "./vite": "./src/vite/index.ts",
+    "./vite": {
+      "types": "./src/vite/index.ts",
+      "import": "./src/vite/index.js",
+      "default": "./src/vite/index.js"
+    },
     "./style.css": "./dist/style.css",
     "./styles/index.scss": "./src/styles/index.scss",
     "./styles/global.scss": "./src/styles/global.scss",
