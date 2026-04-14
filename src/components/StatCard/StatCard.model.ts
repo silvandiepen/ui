@@ -1,11 +1,10 @@
-import { Colors } from '../../types'
-import type { IconNameOrString } from '../../types'
+import type { Color, IconNameOrString } from '../../types'
 
 export interface StatCardProps {
   value: number | string
   label?: string
   description?: string
-  color?: Colors
+  color?: Color
   icon?: IconNameOrString
   countUp?: boolean
   countUpDuration?: number
