@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import { Status } from '../../types'
 import { SidebarNavigation } from '../SidebarNavigation'
 
 import Sidebar from './Sidebar.vue'
@@ -17,7 +18,7 @@ const sections: SidebarNavigationSection[] = [
     items: [
       {
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         description: 'Shared action primitive.',
         id: 'button',
         label: 'Button',
@@ -25,7 +26,7 @@ const sections: SidebarNavigationSection[] = [
       },
       {
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         description: 'Surface container for content.',
         id: 'card',
         label: 'Card',
@@ -39,7 +40,7 @@ const sections: SidebarNavigationSection[] = [
     items: [
       {
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         description: 'Inline feedback surface.',
         id: 'notification',
         label: 'Notification',

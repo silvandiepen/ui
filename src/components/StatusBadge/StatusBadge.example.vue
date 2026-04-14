@@ -1,15 +1,16 @@
 <template>
   <div :class="bemm()">
-    <StatusBadge label="Stable" tone="success" />
-    <StatusBadge label="Queued" tone="accent" />
-    <StatusBadge label="Needs Review" tone="warning" />
-    <StatusBadge label="Failed" tone="danger" />
-    <StatusBadge label="Draft" tone="neutral" />
+    <StatusBadge label="Stable" :tone="Status.SUCCESS" />
+    <StatusBadge label="Queued" :tone="Status.INFO" />
+    <StatusBadge label="Needs Review" :tone="Status.WARNING" />
+    <StatusBadge label="Failed" :tone="Status.ERROR" />
+    <StatusBadge label="Draft" :tone="Status.DEFAULT" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useBemm } from 'bemm'
+import { Status } from '../../types'
 
 import { StatusBadge } from './index'
 

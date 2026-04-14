@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Status } from '../../types'
 import { Sidebar } from '../Sidebar'
 import { SidebarNavigation, type SidebarNavigationSection } from './index'
 
@@ -18,7 +19,7 @@ const sections: SidebarNavigationSection[] = [
         label: 'Button',
         description: 'Primary action primitive',
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         href: '#button',
       },
       {
@@ -26,7 +27,7 @@ const sections: SidebarNavigationSection[] = [
         label: 'Card',
         description: 'Surface container',
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         href: '#card',
       },
     ],
@@ -42,7 +43,7 @@ const sections: SidebarNavigationSection[] = [
         label: 'Toast',
         description: 'Transient status messages',
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         href: '#toast',
       },
       {
@@ -50,7 +51,7 @@ const sections: SidebarNavigationSection[] = [
         label: 'Tooltip',
         description: 'Contextual help surface',
         badge: 'stable',
-        badgeTone: 'success',
+        badgeTone: Status.SUCCESS,
         href: '#tooltip',
       },
     ],

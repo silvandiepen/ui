@@ -78,7 +78,7 @@
               <StatusBadge
                 v-if="item.badge"
                 :label="item.badge"
-                :tone="item.badgeTone ?? 'accent'"
+                :tone="item.badgeTone ?? Status.INFO"
               />
             </a>
           </RouterLink>
@@ -105,7 +105,7 @@
             <StatusBadge
               v-if="item.badge"
               :label="item.badge"
-              :tone="item.badgeTone ?? 'accent'"
+              :tone="item.badgeTone ?? Status.INFO"
             />
           </a>
 
@@ -128,7 +128,7 @@
             <StatusBadge
               v-if="item.badge"
               :label="item.badge"
-              :tone="item.badgeTone ?? 'accent'"
+              :tone="item.badgeTone ?? Status.INFO"
             />
           </button>
         </template>
@@ -142,6 +142,7 @@ import { computed, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 import { RouterLink } from 'vue-router'
 import { Icons } from 'open-icon'
+import { Status } from '../../types'
 import { useSettingsStore } from '@/stores/settings'
 
 import { Badge } from '../Badge'
