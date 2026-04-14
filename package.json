@@ -20,9 +20,14 @@
       "require": "./dist/sil-ui.umd.js"
     },
     "./vite": {
-      "types": "./src/vite/index.ts",
+      "types": "./dist/vite/index.d.ts",
       "import": "./src/vite/index.js",
       "default": "./src/vite/index.js"
+    },
+    "./vite/theme": {
+      "types": "./dist/vite/theme.d.ts",
+      "import": "./src/vite/theme.js",
+      "default": "./src/vite/theme.js"
     },
     "./style.css": "./dist/style.css",
     "./styles/index.scss": "./src/styles/index.scss",
@@ -35,7 +40,8 @@
   "files": [
     "dist",
     "src/styles",
-    "src/vite"
+    "src/vite/index.js",
+    "src/vite/theme.js"
   ],
   "publishConfig": {
     "access": "public"
