@@ -66,9 +66,18 @@ const englishMessages = {
       },
       noResults: 'No results found',
       placeholder: 'Search docs, components, guides, and composables',
+      ready: 'Type to search the docs',
       results: '{count} results',
     },
+    categorySections: {
+      core: 'Core',
+      features: 'Features',
+    },
     categories: {
+      auth: {
+        description: 'Authentication surfaces such as sign-in and sign-up flows.',
+        label: 'Auth',
+      },
       'app-shell': {
         description: 'Structural chrome components: headers, sidebars, navigation, and footers.',
         label: 'App Shell',
@@ -92,6 +101,10 @@ const englishMessages = {
       layout: {
         description: 'Layout primitives for spacing, scrolling, columns, and page structure.',
         label: 'Layout',
+      },
+      search: {
+        description: 'Search inputs, result lists, and other discovery-focused UI surfaces.',
+        label: 'Search',
       },
     },
     home: {
@@ -169,6 +182,14 @@ const englishMessages = {
       summary: 'These composables are the non-visual part of the shared UI surface: popup helpers, translation fallbacks, ids, and settings persistence.',
       title: 'Shared composables',
     },
+    composable: {
+      documentation: 'Documentation',
+      missingSummary: 'The requested composable does not exist in the current docs catalog.',
+      missingTitle: 'Unknown composable',
+      preferredImport: 'preferred import',
+      readDocumentation: 'Read documentation',
+      sourceLocation: 'Composable source location',
+    },
   },
 }
 
@@ -236,9 +257,18 @@ const dutchMessages = {
       },
       noResults: 'Geen resultaten gevonden',
       placeholder: 'Zoek in docs, componenten, gidsen en composables',
+      ready: 'Typ om in de docs te zoeken',
       results: '{count} resultaten',
     },
+    categorySections: {
+      core: 'Core',
+      features: 'Features',
+    },
     categories: {
+      auth: {
+        description: 'Authenticatie-oppervlakken zoals inlog- en registratiestromen.',
+        label: 'Auth',
+      },
       'app-shell': {
         description: 'Structurele chrome-componenten: headers, sidebars, navigatie en footers.',
         label: 'App Shell',
@@ -262,6 +292,10 @@ const dutchMessages = {
       layout: {
         description: 'Layoutprimitieven voor spacing, scrolling, kolommen en paginastructuur.',
         label: 'Layout',
+      },
+      search: {
+        description: 'Zoekinvoer, resultatenlijsten en andere discovery-gerichte UI-oppervlakken.',
+        label: 'Search',
       },
     },
     home: {
@@ -339,6 +373,14 @@ const dutchMessages = {
       summary: 'Deze composables zijn het niet-visuele deel van het gedeelde UI-oppervlak: popuphelpers, vertaalfallbacks, ids en instellingenopslag.',
       title: 'Gedeelde composables',
     },
+    composable: {
+      documentation: 'Documentatie',
+      missingSummary: 'De gevraagde composable bestaat niet in de huidige docs-catalogus.',
+      missingTitle: 'Onbekende composable',
+      preferredImport: 'voorkeursimport',
+      readDocumentation: 'Lees documentatie',
+      sourceLocation: 'Bronlocatie van composable',
+    },
   },
 }
 
@@ -406,9 +448,18 @@ const frenchMessages = {
       },
       noResults: 'Aucun resultat',
       placeholder: 'Rechercher dans les docs, composants, guides et composables',
+      ready: 'Tapez pour rechercher dans la doc',
       results: '{count} resultats',
     },
+    categorySections: {
+      core: 'Core',
+      features: 'Features',
+    },
     categories: {
+      auth: {
+        description: 'Surfaces d authentification comme les flux de connexion et d inscription.',
+        label: 'Auth',
+      },
       'app-shell': {
         description: 'Composants structurels: headers, sidebars, navigation et footers.',
         label: 'App Shell',
@@ -432,6 +483,10 @@ const frenchMessages = {
       layout: {
         description: 'Primitives de layout pour spacing, scrolling, colonnes et structure de page.',
         label: 'Layout',
+      },
+      search: {
+        description: 'Champs de recherche, listes de resultats et autres surfaces UI orientees decouverte.',
+        label: 'Search',
       },
     },
     home: {
@@ -509,6 +564,14 @@ const frenchMessages = {
       summary: 'Ces composables sont la partie non visuelle de la surface UI partagee: helpers popup, fallbacks de traduction, ids et persistance des reglages.',
       title: 'Composables partages',
     },
+    composable: {
+      documentation: 'Documentation',
+      missingSummary: 'Le composable demande n existe pas dans le catalogue actuel.',
+      missingTitle: 'Composable inconnu',
+      preferredImport: 'import prefere',
+      readDocumentation: 'Lire la documentation',
+      sourceLocation: 'Emplacement source du composable',
+    },
   },
 }
 
@@ -528,32 +591,26 @@ export type DocsLocale = (typeof DOCS_SUPPORTED_LOCALES)[number]
 export const DOCS_LANGUAGE_OPTIONS: LanguageSwitchOption[] = [
   {
     label: 'English',
-    description: 'Base language with locale-specific variants.',
     children: [
       {
         value: 'en',
         label: 'English',
-        code: 'EN',
         regionCode: 'GB',
-        description: 'Default shared docs copy.',
       },
       {
         value: 'en-GB',
         label: 'English (United Kingdom)',
         regionCode: 'GB',
-        description: 'English locale for the UK.',
       },
       {
         value: 'en-US',
         label: 'English (United States)',
         regionCode: 'US',
-        description: 'English locale for the US.',
       },
       {
         value: 'en-AU',
         label: 'English (Australia)',
         regionCode: 'AU',
-        description: 'English locale for Australia.',
       },
     ],
   },
@@ -561,13 +618,11 @@ export const DOCS_LANGUAGE_OPTIONS: LanguageSwitchOption[] = [
     value: 'nl',
     label: 'Nederlands',
     regionCode: 'NL',
-    description: 'Dutch docs chrome and navigation copy.',
   },
   {
     value: 'fr',
     label: 'Francais',
     regionCode: 'FR',
-    description: 'French docs chrome and navigation copy.',
   },
 ]
 

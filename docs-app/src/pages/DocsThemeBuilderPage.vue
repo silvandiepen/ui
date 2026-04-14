@@ -2,7 +2,7 @@
   <div :class="bemm()">
     <section :class="bemm('hero')">
       <div :class="bemm('hero-copy')">
-        <StatusBadge :label="t('docs.common.status.builder')" tone="success" />
+        <StatusBadge :label="t('docs.common.status.builder')" :tone="Status.SUCCESS" />
         <h1 :class="bemm('title')">{{ t('docs.themeBuilder.title') }}</h1>
         <p :class="bemm('summary')">{{ t('docs.themeBuilder.summary') }}</p>
       </div>
@@ -114,6 +114,7 @@ import { useI18n } from 'vue-i18n'
 import { Button } from '@ui-lib/components/Button'
 import { Card } from '@ui-lib/components/Card'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
+import { Status } from '@ui-lib/types'
 import ThemeColorField from '@ui-docs/components/ThemeColorField.vue'
 
 import { renderCodeBlock } from '@ui-docs/lib/codeBlock'

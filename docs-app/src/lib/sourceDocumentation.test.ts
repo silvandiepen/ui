@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { Status } from '../../../src/types'
 
 import { getSourceDocumentation } from './sourceDocumentation'
 
@@ -15,7 +16,7 @@ describe('source documentation', () => {
       slug: 'theme-toggle',
       sourcePath: 'src/components/ThemeToggle',
       status: 'stable',
-      statusTone: 'success',
+      statusTone: Status.SUCCESS,
       summary: 'Theme toggle',
     })
 
@@ -51,7 +52,7 @@ describe('source documentation', () => {
       slug: 'notification',
       sourcePath: 'src/components/Notification',
       status: 'stable',
-      statusTone: 'success',
+      statusTone: Status.SUCCESS,
       summary: 'Notification',
     })
 
@@ -89,7 +90,7 @@ describe('source documentation', () => {
       slug: 'form-t-input',
       sourcePath: 'src/components/Form/Input',
       status: 'stable',
-      statusTone: 'success',
+      statusTone: Status.SUCCESS,
       summary: 'Input',
     })
 
@@ -133,7 +134,7 @@ describe('source documentation', () => {
       slug: 'sidebar',
       sourcePath: 'src/components/Sidebar',
       status: 'stable',
-      statusTone: 'success',
+      statusTone: Status.SUCCESS,
       summary: 'Sidebar',
     })
 
@@ -158,7 +159,7 @@ describe('source documentation', () => {
       slug: 'dropdown-menu',
       sourcePath: 'src/components/Dropdown',
       status: 'stable',
-      statusTone: 'success',
+      statusTone: Status.SUCCESS,
       summary: 'Dropdown menu',
     })
 

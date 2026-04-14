@@ -75,7 +75,7 @@
             <StatusBadge
               :class="bemm('props-required')"
               :label="prop.required ? t('docs.component.required') : t('docs.component.optional')"
-              :tone="prop.required ? 'danger' : 'accent'"
+              :tone="prop.required ? Status.ERROR : Status.INFO"
             />
           </strong>
           <code>{{ prop.type }}</code>
@@ -174,6 +174,7 @@ import { Card } from '@ui-lib/components/Card'
 import { Markdown } from '../../../src/components'
 import { ReferenceBadge } from '@ui-lib/components/ReferenceBadge'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
+import { Status } from '@ui-lib/types'
 
 import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
 import { normalizeMarkdownContent } from '@ui-docs/lib/markdown'

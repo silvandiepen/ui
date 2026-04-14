@@ -33,6 +33,7 @@
       >
         <header :class="bemm('group-header')">
           <div>
+            <p :class="bemm('group-eyebrow')">{{ t(`docs.categorySections.${group.sectionId}`) }}</p>
             <RouterLink
               :class="bemm('group-title-link')"
             :to="{ name: 'docs-category', params: { categoryId: group.id } }"
@@ -178,6 +179,14 @@ const exampleCount = computed(() => components.filter((item) => item.examplePath
   &__group-title {
     margin: 0;
     font-size: 1.1rem;
+  }
+
+  &__group-eyebrow {
+    margin: 0 0 0.35rem;
+    color: var(--docs-home-copy-faint);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   &__group-title-link {

@@ -18,6 +18,7 @@ describe('component registry', () => {
       UIInputEmail: '../../../src/components/Form/Form/InputEmail/InputEmail.example.vue',
       UIColorPickerPopup: '../../../src/components/Form/ColorPickerPopup/ColorPickerPopup.example.vue',
       UIFormActions: '../../../src/components/Form/FormActions/FormActions.example.vue',
+      UIHeaderSearch: '../../../src/components/HeaderSearch/HeaderSearch.example.vue',
       UIImageInput: '../../../src/components/Form/ImageInput/ImageInput.example.vue',
       UIInputCheckbox: '../../../src/components/Form/Form/inputs/InputCheckbox/InputCheckbox.example.vue',
       UIInputCustomSelect: '../../../src/components/Form/Form/inputs/InputCustomSelect/InputCustomSelect.example.vue',
@@ -32,6 +33,7 @@ describe('component registry', () => {
       UILanguageSwitch: '../../../src/components/LanguageSwitch/LanguageSwitch.example.vue',
       UIRichTextEditor: '../../../src/components/Form/RichTextEditor/RichTextEditor.example.vue',
       UIPopup: '../../../src/components/Feedback/Popup/Popup.example.vue',
+      UISearchResults: '../../../src/components/SearchResults/SearchResults.example.vue',
     }
 
     const catalog = getComponentCatalog()

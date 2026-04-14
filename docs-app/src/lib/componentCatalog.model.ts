@@ -1,14 +1,20 @@
+import type { Status } from '../../../src/types'
+
 export type UIComponentCategory =
   | 'App Shell'
+  | 'Auth'
   | 'Data and Navigation'
   | 'Feedback'
   | 'Forms'
   | 'Foundations'
   | 'Layout'
+  | 'Search'
+
+export type UIComponentCategorySection = 'Core' | 'Features'
 
 export type UIComponentStatus = 'stable' | 'transitional'
 
-export type UIComponentStatusTone = 'accent' | 'danger' | 'success'
+export type UIComponentStatusTone = Status
 
 export interface UIComponentCatalogInput {
   docKeys: string[]
@@ -33,6 +39,7 @@ export interface UIComponentCatalogEntry {
 }
 
 export interface UIComponentOverride {
+  aliases?: string[]
   apiName?: string
   category: UIComponentCategory
   docsBasePath?: string
@@ -49,4 +56,6 @@ export interface UIComponentCategoryDefinition {
   id: string
   label: UIComponentCategory
   order: number
+  section: UIComponentCategorySection
+  sectionId: string
 }

@@ -20,9 +20,15 @@ describe('docs search content', () => {
     const sources = buildDocsSearchSources((key) => key)
     const componentEntries = getStaticEntries(sources, 'docs-components')
     const composableEntries = getStaticEntries(sources, 'docs-composables')
+    const signinEntry = componentEntries.find((entry) => entry.id === 'component:signin-form')
     const inputSelectEntry = componentEntries.find((entry) => entry.title === 'UIInputSelect')
     const useSearchEntry = composableEntries.find((entry) => entry.title === 'useSearch')
 
+    expect(signinEntry?.keywords).toEqual(expect.arrayContaining([
+      'LoginForm',
+      'UILoginForm',
+      'SigninForm',
+    ]))
     expect(inputSelectEntry).toEqual(expect.objectContaining({
       id: expect.stringMatching(/^component:/),
       kind: 'component',
@@ -38,8 +44,10 @@ describe('docs search content', () => {
       id: 'composable:useSearch',
       kind: 'composable',
       route: {
-        hash: '#usesearch',
-        name: 'docs-guide-composables',
+        name: 'docs-composable',
+        params: {
+          slug: 'use-search',
+        },
       },
       title: 'useSearch',
     }))

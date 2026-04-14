@@ -2,7 +2,7 @@
   <Container :class="bemm()">
     <section :class="bemm('hero')">
       <div :class="bemm('hero-copy')">
-        <StatusBadge :label="t('docs.common.status.guide')" tone="accent" />
+        <StatusBadge :label="t('docs.common.status.guide')" :tone="Status.INFO" />
         <h1 :class="bemm('title')">{{ t('docs.gettingStarted.title') }}</h1>
         <p :class="bemm('summary')">{{ t('docs.gettingStarted.summary') }}</p>
       </div>
@@ -88,6 +88,7 @@ import { useI18n } from 'vue-i18n'
 import { Card } from '@ui-lib/components/Card'
 import { Container } from '@ui-lib/components/Container'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
+import { Status } from '@ui-lib/types'
 import { DEFAULT_THEME_COLORS, DEFAULT_THEME_FONTS } from '@ui-lib/vite/theme'
 import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
 

@@ -109,8 +109,10 @@ export function buildDocsSearchSources(t: Translate): ContentSource[] {
         keywords: ['composable', entry.name, entry.sourcePath],
         kind: 'composable',
         route: {
-          hash: `#${slugify(entry.name)}`,
-          name: 'docs-guide-composables',
+          name: 'docs-composable',
+          params: {
+            slug: entry.slug,
+          },
         },
         summary: entry.summary,
         title: entry.name,
@@ -118,12 +120,4 @@ export function buildDocsSearchSources(t: Translate): ContentSource[] {
       id: 'docs-composables',
     },
   ]
-}
-
-function slugify(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
 }

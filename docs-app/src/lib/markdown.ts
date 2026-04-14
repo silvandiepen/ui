@@ -3,7 +3,7 @@ import { createMarkdownRenderer } from '../../../src/components/Markdown'
 import { renderCodeBlock } from './codeBlock'
 
 const renderer = createMarkdownRenderer({
-  highlight(code: string, language: string) {
+  highlight(code: string, language?: string | null) {
     return renderCodeBlock(code, language)
   },
 })

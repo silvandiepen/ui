@@ -2,7 +2,7 @@
   <div v-if="category" :class="bemm()">
     <header :class="bemm('header')">
       <div :class="bemm('header-copy')">
-        <p :class="bemm('eyebrow')">{{ t('docs.category.eyebrow') }}</p>
+        <p :class="bemm('eyebrow')">{{ t(`docs.categorySections.${category.sectionId}`) }}</p>
         <h1 :class="bemm('title')">{{ t(`docs.categories.${category.id}.label`) }}</h1>
         <p :class="bemm('summary')">{{ t(`docs.categories.${category.id}.description`) }}</p>
       </div>

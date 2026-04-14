@@ -80,4 +80,30 @@ describe('component catalog', () => {
       'UITooltip',
     ])
   })
+
+  it('includes manual aliases for auth surface compatibility names', () => {
+    const catalog = buildComponentCatalog({
+      docKeys: [
+        '../../../src/components/SigninForm/README.md',
+        '../../../src/components/SignupForm/README.md',
+      ],
+      exampleKeys: [],
+      folderKeys: [
+        '../../../src/components/SigninForm/index.ts',
+        '../../../src/components/SignupForm/index.ts',
+      ],
+      singleFileKeys: [],
+    })
+
+    expect(catalog.find((entry) => entry.name === 'SigninForm')?.aliases).toEqual([
+      'SigninForm',
+      'LoginForm',
+      'UILoginForm',
+    ])
+    expect(catalog.find((entry) => entry.name === 'SignupForm')?.aliases).toEqual([
+      'SignupForm',
+      'RegisterForm',
+      'UIRegisterForm',
+    ])
+  })
 })

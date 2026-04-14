@@ -6,6 +6,8 @@ export interface DocsHomeSection {
   id: string
   items: UIComponentCatalogEntry[]
   label: string
+  section: string
+  sectionId: string
 }
 
 export function buildDocsHomeSections(
@@ -27,6 +29,8 @@ export function buildDocsHomeSections(
       id: category.id,
       items: groups.get(category.id) ?? [],
       label: category.label,
+      section: category.section,
+      sectionId: category.sectionId,
     }))
     .filter((group) => group.items.length > 0)
 }

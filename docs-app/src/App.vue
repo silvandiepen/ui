@@ -1,50 +1,71 @@
 <template>
-  <div :class="bemm()">
-    <Sidebar :class="bemm('sidebar')" width="15rem">
-      <template #header>
-        <RouterLink :class="bemm('brand')" to="/">
-          <span :class="bemm('brand-logo')" aria-hidden="true" v-html="logoSvg" />
-        </RouterLink>
-      </template>
-
-      <SidebarNavigation
-        :class="bemm('nav')"
-        :sections="navigationSections"
-        settings-key="docs-app-sidebar-navigation"
-      />
-    </Sidebar>
-
-    <main :class="bemm('main')">
-      <Popup />
-      <PlatformHeader :class="bemm('header')">
-        <template #brand>
-          <RouterLink :class="bemm('header-brand')" to="/">
-            <span :class="bemm('header-brand-logo')" aria-hidden="true" v-html="logoSvg" />
+  <Resizable
+    :class="bemm()"
+    :default-size="244"
+    :min-size="208"
+    :max-size="360"
+    :min-secondary-size="640"
+    aria-label="Documentation layout"
+    handle-label="Resize documentation sidebar"
+    settings-key="docs-app-layout-sidebar-width"
+  >
+    <template #start>
+      <Sidebar :class="bemm('sidebar')">
+        <template #header>
+          <RouterLink :class="bemm('brand')" to="/">
+            <span :class="bemm('brand-logo')" aria-hidden="true" v-html="logoSvg" />
           </RouterLink>
         </template>
 
-        <template #actions>
-          <div :class="bemm('header-actions')">
-            <DocsHeaderSearch />
-            <UILanguageSwitch
-              :model-value="docsLocale"
-              :options="DOCS_LANGUAGE_OPTIONS"
-              display-mode="label"
-              :title="t('docs.common.language.title')"
-              :trigger-label="t('docs.common.language.trigger')"
-              @update:model-value="setLocale"
-            />
-            <ThemeToggle :theme="colorMode" @toggle="toggleColorMode" />
-            <Button href="https://github.com/silvandiepen" target="_blank">
-              {{ t('docs.common.actions.github') }}
-            </Button>
+        <SidebarNavigation
+          :class="bemm('nav')"
+          :sections="navigationSections"
+          settings-key="docs-app-sidebar-navigation"
+        />
+
+        <template #footer>
+          <div :class="bemm('sidebar-footer')">
+            <span :class="bemm('sidebar-footer-copy')">Resize</span>
+            <div :class="bemm('sidebar-footer-keys')">
+              <Kbd size="small" variant="subtle">←</Kbd>
+              <Kbd size="small" variant="subtle">→</Kbd>
+            </div>
           </div>
         </template>
-      </PlatformHeader>
+      </Sidebar>
+    </template>
 
-      <RouterView />
-    </main>
-  </div>
+    <template #end>
+      <main :class="bemm('main')">
+        <Popup />
+        <PlatformHeader :class="bemm('header')">
+          <template #brand>
+            <RouterLink :class="bemm('header-brand')" to="/">
+              <span :class="bemm('header-brand-logo')" aria-hidden="true" v-html="logoSvg" />
+            </RouterLink>
+          </template>
+
+          <template #actions>
+            <div :class="bemm('header-actions')">
+              <DocsHeaderSearch />
+              <UILanguageSwitch
+                :model-value="docsLocale"
+                :options="DOCS_LANGUAGE_OPTIONS"
+                :title="t('docs.common.language.title')"
+                @update:model-value="setLocale"
+              />
+              <ThemeToggle :theme="colorMode" @toggle="toggleColorMode" />
+              <Button href="https://github.com/silvandiepen" target="_blank">
+                {{ t('docs.common.actions.github') }}
+              </Button>
+            </div>
+          </template>
+        </PlatformHeader>
+
+        <RouterView />
+      </main>
+    </template>
+  </Resizable>
 </template>
 
 <script setup lang="ts">
@@ -55,16 +76,19 @@ import { useI18n } from 'vue-i18n'
 
 import logoSvg from '@ui-lib/assets/logo.svg?raw'
 import { Button } from '@ui-lib/components/Button'
+import { Kbd } from '@ui-lib/components/Kbd'
 import { LanguageSwitch as UILanguageSwitch } from '@ui-lib/components/LanguageSwitch'
 import { PlatformHeader } from '@ui-lib/components/PlatformHeader'
 import Popup from '@ui-lib/components/Feedback/Popup/Popup.vue'
 import { popupService } from '@ui-lib/components/Feedback/Popup/Popup.service'
+import { Resizable } from '@ui-lib/components/Resizable'
 import { Sidebar } from '@ui-lib/components/Sidebar'
 import { SidebarNavigation } from '@ui-lib/components/SidebarNavigation'
 import { ThemeToggle } from '@ui-lib/components/ThemeToggle'
 
 import { DocsHeaderSearch } from '@ui-docs/components/DocsHeaderSearch'
 import { UI_COMPONENT_CATEGORIES } from '@ui-docs/lib/componentCategories'
+import { getComposableCatalog } from '@ui-docs/lib/composableCatalog'
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
 import { useColorMode } from '@ui-docs/lib/useColorMode'
 import { useDocsLocale } from '@ui-docs/lib/useDocsLocale'
@@ -108,13 +132,29 @@ const navigationSections = computed(() => {
             name: 'docs-guide-theme-builder',
           },
         },
+      ],
+    },
+    {
+      id: 'composables',
+      label: t('docs.navigation.composables'),
+      items: [
         {
-          id: 'guides-composables',
-          label: t('docs.navigation.composables'),
+          id: 'composables-overview',
+          label: t('docs.common.labels.overview'),
           to: {
             name: 'docs-guide-composables',
           },
         },
+        ...getComposableCatalog().map((entry) => ({
+          id: entry.slug,
+          label: entry.name,
+          to: {
+            name: 'docs-composable',
+            params: {
+              slug: entry.slug,
+            },
+          },
+        })),
       ],
     },
     ...UI_COMPONENT_CATEGORIES
@@ -133,7 +173,8 @@ const navigationSections = computed(() => {
         },
         ...(groups.get(category.id) ?? []).map((item) => ({
           id: item.slug,
-          label: item.apiName,
+          label: item.apiName.startsWith('UI') ? item.apiName.slice(2) : item.apiName,
+          labelPrefix: item.apiName.startsWith('UI') ? 'UI' : undefined,
           to: {
             name: 'docs-component',
             params: {
@@ -166,8 +207,6 @@ const navigationSections = computed(() => {
   --docs-shell-border: color-mix(in srgb, var(--color-foreground), transparent 90%);
   --docs-shell-muted: color-mix(in srgb, var(--color-foreground), transparent 40%);
 
-  display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
   min-height: 100vh;
   background: var(--docs-shell-background);
   color: var(--color-foreground);
@@ -186,6 +225,27 @@ const navigationSections = computed(() => {
     box-shadow: none;
     border-radius: 0;
     padding: 1.1rem 0.85rem;
+  }
+
+  &__sidebar-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: var(--docs-shell-muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__sidebar-footer-copy {
+    white-space: nowrap;
+  }
+
+  &__sidebar-footer-keys {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
   }
 
   &__brand {
@@ -320,20 +380,29 @@ const navigationSections = computed(() => {
 }
 
 @media (max-width: 960px) {
-  .docs-app {
+  .docs-app.resizable {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
 
-    &__sidebar {
-      position: relative;
-      height: auto;
-      border-right: 0;
-      border-bottom: 1px solid var(--docs-shell-border);
-    }
+  .docs-app__sidebar {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--docs-shell-border);
+  }
+
+  .docs-app.resizable .resizable__handle {
+    display: none;
   }
 }
 
 @media (max-width: 700px) {
   .docs-app {
+    &__sidebar-footer {
+      display: none;
+    }
+
     &__header {
       .platform-header__inner {
         grid-template-columns: minmax(0, 1fr);

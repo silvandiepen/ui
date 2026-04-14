@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import DocsCategoryPage from './pages/DocsCategoryPage.vue'
+import DocsComposablePage from './pages/DocsComposablePage.vue'
 import DocsComposablesPage from './pages/DocsComposablesPage.vue'
 import DocsComponentPage from './pages/DocsComponentPage.vue'
 import DocsGettingStartedPage from './pages/DocsGettingStartedPage.vue'
@@ -35,6 +36,12 @@ export const router = createRouter({
       path: '/guides/composables',
       name: 'docs-guide-composables',
       component: DocsComposablesPage,
+    },
+    {
+      path: '/composables/:slug',
+      name: 'docs-composable',
+      component: DocsComposablePage,
+      props: true,
     },
     {
       path: '/components/:slug',

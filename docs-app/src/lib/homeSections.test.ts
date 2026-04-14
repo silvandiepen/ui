@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { Status } from '../../../src/types'
 
 import type { UIComponentCatalogEntry } from './componentCatalog.model'
 import { buildDocsHomeSections } from './homeSections'
@@ -15,7 +16,7 @@ function createEntry(overrides: Partial<UIComponentCatalogEntry>): UIComponentCa
     slug: 'card',
     sourcePath: 'src/components/Card',
     status: 'stable',
-    statusTone: 'success',
+    statusTone: Status.SUCCESS,
     summary: 'Example summary.',
     ...overrides,
   }
@@ -58,6 +59,7 @@ describe('buildDocsHomeSections', () => {
       'forms',
       'data-and-navigation',
     ])
+    expect(sections[0]?.sectionId).toBe('core')
     expect(sections[0]?.items.map((item) => item.apiName)).toEqual(['UICard'])
     expect(sections[1]?.items.map((item) => item.apiName)).toEqual(['UIForms'])
     expect(sections[2]?.items.map((item) => item.apiName)).toEqual(['UIActions'])

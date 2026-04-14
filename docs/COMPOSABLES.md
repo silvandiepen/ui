@@ -22,3 +22,34 @@ This document tracks the shared composable surface exposed by `@sil/ui`.
 - `useConfirm` and `useInput` require the popup service from `UIFeedback`.
 - `useSettings` persists to local storage by default and only talks to remote APIs when handlers are configured.
 - `useContent` and `useSearch` are intended for static or curated content, not large unbounded datasets.
+
+## Search Stack
+
+Use the content and search composables together for lightweight in-app docs search:
+
+- `configureContent` or `registerContentSource` to provide curated searchable entries.
+- `useContent` to normalize guide, docs, and static page content.
+- `useSearch` to rank results by title, keywords, and content matches.
+
+Recommended pattern:
+
+```ts
+const { query, results, hasQuery } = useSearch({
+  query: searchQuery,
+  sources: computed(() => [
+    {
+      id: 'docs',
+      entries: [
+        {
+          id: 'guide:getting-started',
+          title: 'Getting Started',
+          summary: 'Install and configure the UI library.',
+          content: 'Vite plugin, theme setup, aliases, and global styles.',
+          route: { name: 'docs-guide-getting-started' },
+          kind: 'guide',
+        },
+      ],
+    },
+  ]),
+})
+```

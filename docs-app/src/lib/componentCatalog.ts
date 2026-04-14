@@ -1,3 +1,5 @@
+import { Status } from '../../../src/types'
+
 import type {
   UIComponentCatalogEntry,
   UIComponentCatalogInput,
@@ -81,6 +83,11 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     category: 'Layout',
     status: 'stable',
     summary: 'Scroll-snap-powered carousel with responsive item counts, navigation, indicators, and autoplay.',
+  },
+  Collapsible: {
+    category: 'Foundations',
+    status: 'stable',
+    summary: 'Disclosure surface with a labeled header, optional icon, controlled open state, and toggle events.',
   },
   Container: {
     category: 'Layout',
@@ -219,6 +226,11 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Shared wrapper for labels, hints, errors, and form content.',
   },
+  HeaderSearch: {
+    category: 'Search',
+    status: 'stable',
+    summary: 'Expandable header search shell with auto-focus, query clearing, and an optional inline panel slot.',
+  },
   Icon: {
     category: 'Foundations',
     status: 'stable',
@@ -249,10 +261,15 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'List surface for selectable and descriptive items.',
   },
+  Kbd: {
+    category: 'Foundations',
+    status: 'stable',
+    summary: 'Semantic keyboard key surface for shortcut hints and compact command labels.',
+  },
   LanguageSwitch: {
     category: 'App Shell',
     status: 'stable',
-    summary: 'Shared locale switch with grouped options, optional flags, and inline, popover, or context-panel surfaces.',
+    summary: 'Shared locale switch with grouped or simple dropdown modes, automatic flag assets, and inline, popover, or context-panel surfaces.',
   },
   Markdown: {
     category: 'Foundations',
@@ -295,10 +312,20 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Reference chip with copy and external-link affordances.',
   },
+  Resizable: {
+    category: 'Layout',
+    status: 'stable',
+    summary: 'Two-panel resizable layout with accessible keyboard resizing and draggable handles.',
+  },
   Scroller: {
     category: 'Layout',
     status: 'stable',
     summary: 'Scrollable container helper for bounded content regions.',
+  },
+  SearchResults: {
+    category: 'Search',
+    status: 'stable',
+    summary: 'Reusable search result list surface for useSearch output, ready states, and empty states.',
   },
   Section: {
     category: 'Layout',
@@ -306,7 +333,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Generic content section wrapper used across surfaces.',
   },
   SigninForm: {
-    category: 'Forms',
+    aliases: ['LoginForm', 'UILoginForm'],
+    category: 'Auth',
     status: 'stable',
     summary: 'Ready-made sign-in surface with provider buttons, helper links, remember-me support, and message states.',
   },
@@ -316,7 +344,8 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     summary: 'Large-format metric surface with optional icon, supporting text, and count-up number animation.',
   },
   SignupForm: {
-    category: 'Forms',
+    aliases: ['RegisterForm', 'UIRegisterForm'],
+    category: 'Auth',
     status: 'stable',
     summary: 'Ready-made registration surface with provider buttons, confirm-password flow, terms handling, and message states.',
   },
@@ -433,9 +462,13 @@ export function buildComponentCatalog(input: UIComponentCatalogInput): UICompone
       const componentName = override.name ?? getSourcePathLeaf(sourcePath)
       const categoryDefinition = getComponentCategoryDefinition(override.category)
       const apiName = override.apiName ?? getPreferredApiName(sourcePath, componentName)
+      const aliases = [
+        ...(apiName === componentName ? [] : [componentName]),
+        ...(override.aliases ?? []),
+      ].filter((value, index, values) => values.indexOf(value) === index)
 
       return {
-        aliases: apiName === componentName ? [] : [componentName],
+        aliases,
         apiName,
         category: override.category,
         categoryId: categoryDefinition.id,
@@ -470,10 +503,10 @@ export function slugifyComponentPath(path: string): string {
 
 function getStatusTone(status: UIComponentStatus): UIComponentStatusTone {
   if (status === 'stable') {
-    return 'success'
+    return Status.SUCCESS
   }
 
-  return 'accent'
+  return Status.INFO
 }
 
 function groupDocsByFolder(paths: string[]): Map<string, string[]> {
