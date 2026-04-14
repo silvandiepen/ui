@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useBemm } from 'bemm';
-import InputBase from '../TForm/InputBase.vue';
+import InputBase from '../Form/InputBase.vue';
 import Icon from '../../Icon/Icon.vue';
 import { AllColors, BaseColors, Size } from '../../../types';
 import { Icons } from 'open-icon';
@@ -171,7 +171,7 @@ const onHexBlur = (e: Event) => {
 </script>
 
 <style lang="scss">
-@use '../TForm/Form.scss' as form;
+@use '../Form/Form.scss' as form;
 
 .color-picker {
   --color-size: calc(2em * var(--sizing, 1));
