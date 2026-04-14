@@ -6,4 +6,4 @@ export type {
   TooltipPlacement,
   TooltipTrigger,
 } from '../../Tooltip';
-export { default as TContexToolTip } from './ContextTooltip.vue';
+export { default as ContextTooltip } from './ContextTooltip.vue';

@@ -32,6 +32,7 @@ describe('SidebarNavigation', () => {
               {
                 id: 'button',
                 label: 'Button',
+                labelPrefix: 'UI',
                 badge: 'stable',
                 badgeTone: 'success',
                 to: '/button',
@@ -44,6 +45,7 @@ describe('SidebarNavigation', () => {
 
     expect(wrapper.text()).toContain('Foundations')
     expect(wrapper.text()).toContain('Button')
+    expect(wrapper.get('.sidebar-navigation__item-label-prefix').text()).toBe('UI')
     expect(wrapper.text()).toContain('stable')
     expect(wrapper.find('.sidebar-navigation__item--active').exists()).toBe(true)
   })

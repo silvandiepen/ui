@@ -27,4 +27,4 @@ export type {
   ToastOptions,
   ToastService,
 } from "../Toast";
-export { TContexToolTip } from "./ToolTip";
+export { ContextTooltip } from "./ToolTip";

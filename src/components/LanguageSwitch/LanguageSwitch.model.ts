@@ -4,6 +4,7 @@ import type { PopoverPlacement } from '../Popover'
 
 export type LanguageSwitchSurface = 'context-panel' | 'inline' | 'popover'
 export type LanguageSwitchDisplayMode = 'code' | 'label' | 'label-code'
+export type LanguageSwitchMode = 'default' | 'simple'
 
 export interface LanguageSwitchOption {
   children?: LanguageSwitchOption[]
@@ -23,6 +24,7 @@ export interface LanguageSwitchProps {
   contextPanelPosition?: ContextPanelPosition
   displayMode?: LanguageSwitchDisplayMode
   modelValue?: string
+  mode?: LanguageSwitchMode
   options: LanguageSwitchOption[]
   placeholder?: string
   popoverPlacement?: PopoverPlacement

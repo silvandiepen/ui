@@ -5,8 +5,10 @@ import { describe, expect, it } from 'vitest'
 import LanguageSwitch from './LanguageSwitch.vue'
 import type { LanguageSwitchOption } from './LanguageSwitch.model'
 import {
+  flattenLanguageSwitchOptions,
   findLanguageSwitchOption,
   getLanguageSwitchFlagEmoji,
+  getLanguageSwitchFlagSrc,
   getLanguageSwitchOptionCode,
   optionHasSelectedDescendant,
 } from './LanguageSwitch.utils'
@@ -23,6 +25,7 @@ const options: LanguageSwitchOption[] = [
       {
         value: 'en-US',
         label: 'English (United States)',
+        regionCode: 'US',
         description: 'Regional English variant.',
       },
     ],
@@ -44,17 +47,26 @@ describe('LanguageSwitch helpers', () => {
     expect(optionHasSelectedDescendant(options[1], 'en-US')).toBe(false)
   })
 
-  it('formats codes and derives regional flag emoji', () => {
-    expect(getLanguageSwitchOptionCode(options[0].children?.[1] as LanguageSwitchOption)).toBe('EN-US')
+  it('formats codes without forcing uppercase and derives regional flags', () => {
+    expect(getLanguageSwitchOptionCode(options[0].children?.[1] as LanguageSwitchOption)).toBe('en-US')
     expect(getLanguageSwitchFlagEmoji(options[1])).toBe('🇳🇱')
+    expect(getLanguageSwitchFlagSrc(options[1])).toBe('https://arevdata.com/flags/svg/nl.svg')
+  })
+
+  it('flattens nested options for simple mode', () => {
+    expect(flattenLanguageSwitchOptions(options).map((option) => option.value)).toEqual([
+      'en',
+      'en-US',
+      'nl',
+    ])
   })
 })
 
 describe('LanguageSwitch', () => {
-  it('renders inline grouped options on the server', async () => {
+  it('keeps locale groups collapsed until the base language is selected', async () => {
     const html = await renderToString(createSSRApp({
       render: () => h(LanguageSwitch, {
-        modelValue: 'en-US',
+        modelValue: 'nl',
         options,
         surface: 'inline',
         title: 'Documentation language',
@@ -62,8 +74,23 @@ describe('LanguageSwitch', () => {
     }))
 
     expect(html).toContain('Documentation language')
-    expect(html).toContain('English (United States)')
-    expect(html).toContain('EN-US')
+    expect(html).toContain('English')
+    expect(html).toContain('nl')
+    expect(html).not.toContain('English (United States)')
+    expect(html).not.toContain('Regional English variant.')
     expect(html).toContain('language-switch--inline')
+  })
+
+  it('reveals nested locales once the base language is selected', async () => {
+    const html = await renderToString(createSSRApp({
+      render: () => h(LanguageSwitch, {
+        modelValue: 'en',
+        options,
+        surface: 'inline',
+      }),
+    }))
+
+    expect(html).toContain('English (United States)')
+    expect(html).toContain('en-US')
   })
 })

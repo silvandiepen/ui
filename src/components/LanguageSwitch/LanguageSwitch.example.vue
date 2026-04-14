@@ -2,32 +2,28 @@
   <div :class="bemm()">
     <section :class="bemm('group')">
       <div :class="bemm('group-header')">
-        <strong>Grouped popover</strong>
-        <span>Nested locales with flags</span>
+        <strong>Default switcher</strong>
+        <span>Shows locale codes and reveals variants after the base locale is selected</span>
       </div>
 
       <LanguageSwitch
         v-model="groupedLocale"
         :options="groupedOptions"
-        display-mode="label-code"
         title="Documentation language"
-        trigger-label="Header"
       />
     </section>
 
     <section :class="bemm('group')">
       <div :class="bemm('group-header')">
-        <strong>Context panel</strong>
-        <span>Compact single-level list without flags</span>
+        <strong>Simple mode</strong>
+        <span>Uses DropdownMenu and lists language names only</span>
       </div>
 
       <LanguageSwitch
         v-model="flatLocale"
         :options="flatOptions"
-        :show-flags="false"
-        surface="context-panel"
+        mode="simple"
         title="Menu language"
-        trigger-label="Context"
       />
     </section>
 
@@ -40,7 +36,6 @@
       <LanguageSwitch
         v-model="popupLocale"
         :options="groupedOptions"
-        display-mode="label"
         surface="inline"
         title="Popup content"
       />
@@ -64,32 +59,26 @@ const popupLocale = ref('en-GB')
 const groupedOptions: LanguageSwitchOption[] = [
   {
     label: 'English',
-    description: 'Base language with locale-specific variants.',
     children: [
       {
         value: 'en',
         label: 'English',
-        code: 'EN',
         regionCode: 'GB',
-        description: 'Base shared copy and fallback strings.',
       },
       {
         value: 'en-GB',
         label: 'English (United Kingdom)',
         regionCode: 'GB',
-        description: 'Spelling and date formatting for the UK.',
       },
       {
         value: 'en-US',
         label: 'English (United States)',
         regionCode: 'US',
-        description: 'US terminology and regional defaults.',
       },
       {
         value: 'en-AU',
         label: 'English (Australia)',
         regionCode: 'AU',
-        description: 'Australian locale variation.',
       },
     ],
   },
@@ -97,13 +86,11 @@ const groupedOptions: LanguageSwitchOption[] = [
     value: 'nl',
     label: 'Nederlands',
     regionCode: 'NL',
-    description: 'Single-level locale option with its own flag.',
   },
   {
     value: 'fr',
     label: 'Francais',
     regionCode: 'FR',
-    description: 'Single-level locale option without nesting.',
   },
 ]
 
@@ -111,17 +98,14 @@ const flatOptions: LanguageSwitchOption[] = [
   {
     value: 'en',
     label: 'English',
-    description: 'Default app language',
   },
   {
     value: 'nl',
     label: 'Nederlands',
-    description: 'Dutch translation set',
   },
   {
     value: 'fr',
     label: 'Francais',
-    description: 'French translation set',
   },
 ]
 </script>

@@ -11,6 +11,7 @@ export type SettingsState = {
   columnVisibility: Record<string, ColumnVisibility[]>
   columnWidths: Record<string, ColumnWidth[]>
   perPage: Record<string, number>
+  resizableSizes: Record<string, number>
   dataListSelection: Record<string, DataListRow[]>
   dataListSelectionPanelOpen: Record<string, boolean>
   sidebarNavigationSections: Record<string, Record<string, boolean>>

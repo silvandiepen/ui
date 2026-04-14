@@ -17,6 +17,7 @@ const createDefaultState = (): SettingsState => ({
   columnVisibility: {},
   columnWidths: {},
   perPage: {},
+  resizableSizes: {},
   dataListSelection: {},
   dataListSelectionPanelOpen: {},
   sidebarNavigationSections: {},
@@ -176,6 +177,10 @@ export function useSettings() {
     getPerPage: (key: string) => settingsState.value.perPage[key] || null,
     setPerPage: (key: string, value: number) => setMapValue('perPage', key, value),
     clearPerPage: (key: string) => clearMapValue('perPage', key),
+
+    getResizableSize: (key: string) => settingsState.value.resizableSizes[key] || null,
+    setResizableSize: (key: string, value: number) => setMapValue('resizableSizes', key, value),
+    clearResizableSize: (key: string) => clearMapValue('resizableSizes', key),
 
     getDataListSelection: (key: string) => settingsState.value.dataListSelection[key] || [],
     setDataListSelection: (key: string, value: DataListRow[]) => setMapValue('dataListSelection', key, value),

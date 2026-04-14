@@ -1,5 +1,7 @@
 import type { LanguageSwitchOption } from './LanguageSwitch.model'
 
+const LANGUAGE_SWITCH_FLAG_BASE_URL = 'https://arevdata.com/flags/svg'
+
 export function findLanguageSwitchOption(
   options: LanguageSwitchOption[],
   value?: string,
@@ -31,6 +33,44 @@ export function isLanguageSwitchOptionSelectable(option: LanguageSwitchOption) {
   return Boolean(option.value) && !option.disabled
 }
 
+export function flattenLanguageSwitchOptions(options: LanguageSwitchOption[]) {
+  const flattened: LanguageSwitchOption[] = []
+
+  for (const option of options) {
+    if (isLanguageSwitchOptionSelectable(option)) {
+      flattened.push(option)
+    }
+
+    if (option.children?.length) {
+      flattened.push(...flattenLanguageSwitchOptions(option.children))
+    }
+  }
+
+  return flattened
+}
+
+export function getLanguageSwitchPrimaryOption(
+  option: LanguageSwitchOption,
+): LanguageSwitchOption | null {
+  if (isLanguageSwitchOptionSelectable(option)) {
+    return option
+  }
+
+  if (!option.children?.length) {
+    return null
+  }
+
+  for (const child of option.children) {
+    const primaryOption = getLanguageSwitchPrimaryOption(child)
+
+    if (primaryOption) {
+      return primaryOption
+    }
+  }
+
+  return null
+}
+
 export function optionHasSelectedDescendant(
   option: LanguageSwitchOption,
   value?: string,
@@ -45,26 +85,18 @@ export function optionHasSelectedDescendant(
 }
 
 export function getLanguageSwitchOptionCode(option: LanguageSwitchOption) {
-  if (option.code) {
-    return option.code
+  const primaryOption = getLanguageSwitchPrimaryOption(option) ?? option
+
+  if (primaryOption.code) {
+    return primaryOption.code
   }
 
-  if (!option.value) {
+  if (!primaryOption.value) {
     return ''
   }
 
-  return option.value
+  return primaryOption.value
     .replace(/_/g, '-')
-    .split('-')
-    .filter(Boolean)
-    .map((segment, index) => {
-      if (index === 0 || segment.length <= 3) {
-        return segment.toUpperCase()
-      }
-
-      return segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
-    })
-    .join('-')
 }
 
 export function getLanguageSwitchFlagEmoji(option: LanguageSwitchOption) {
@@ -85,7 +117,17 @@ export function getLanguageSwitchFlagEmoji(option: LanguageSwitchOption) {
 }
 
 export function getLanguageSwitchFlagSrc(option: LanguageSwitchOption) {
-  return option.flagSrc ?? null
+  if (option.flagSrc) {
+    return option.flagSrc
+  }
+
+  const regionCode = getLanguageSwitchRegionCode(option)
+
+  if (!regionCode) {
+    return null
+  }
+
+  return `${LANGUAGE_SWITCH_FLAG_BASE_URL}/${regionCode.toLowerCase()}.svg`
 }
 
 function getLanguageSwitchRegionCode(option: LanguageSwitchOption) {
@@ -102,5 +144,15 @@ function getLanguageSwitchRegionCode(option: LanguageSwitchOption) {
     .find((segment) => /^[a-z]{2}$/i.test(segment))
     ?.toUpperCase()
 
-  return implicitCode ?? null
+  if (implicitCode) {
+    return implicitCode
+  }
+
+  const primaryOption = getLanguageSwitchPrimaryOption(option)
+
+  if (!primaryOption || primaryOption === option) {
+    return null
+  }
+
+  return getLanguageSwitchRegionCode(primaryOption)
 }

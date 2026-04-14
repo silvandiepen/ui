@@ -5,7 +5,8 @@
 It supports:
 
 - flat locale lists or grouped/nested locale trees
-- optional flags through emoji, explicit image URLs, or derived region codes
+- a simple dropdown mode with language names only
+- optional flags through explicit image URLs or derived region codes
 - inline rendering for popup content
 - anchored trigger rendering through `popover` or `context-panel` surfaces
 
@@ -16,7 +17,7 @@ It supports:
 import { ref } from 'vue'
 import { UILanguageSwitch } from '@sil/ui'
 
-const locale = ref('en-US')
+const locale = ref('en')
 
 const options = [
   {
@@ -41,13 +42,14 @@ const options = [
     v-model="locale"
     :options="options"
     title="UI language"
-    trigger-label="Language"
   />
 </template>
 ```
 
 ## Notes
 
+- By default the trigger shows the selected locale code such as `en` or `en-US`.
+- Use `mode="simple"` for a compact dropdown with language names only.
 - Use `surface="inline"` when the option list should live inside popup content.
 - Use `surface="popover"` for compact header or toolbar switches.
 - Use `surface="context-panel"` when the trigger should open through the shared context panel primitive.

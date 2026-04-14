@@ -61,9 +61,20 @@ describe('settings store', () => {
     )
   })
 
+  it('stores resizable sizes by key', () => {
+    const settings = useSettings()
+
+    settings.setResizableSize('docs-layout-sidebar', 284)
+
+    expect(settings.getResizableSize('docs-layout-sidebar')).toBe(284)
+  })
+
   it('hydrates settings from configured load handlers', async () => {
     configureSettings({
       load: vi.fn().mockResolvedValue({
+        resizableSizes: {
+          'docs-layout-sidebar': 296,
+        },
         sidebarNavigationSections: {
           docs: {
             guides: true,
@@ -78,6 +89,7 @@ describe('settings store', () => {
     const settings = useSettings()
     await settings.hydrate()
 
+    expect(settings.getResizableSize('docs-layout-sidebar')).toBe(296)
     expect(settings.getSidebarNavigationSections('docs')).toEqual({
       guides: true,
     })

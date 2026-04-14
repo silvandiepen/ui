@@ -69,7 +69,15 @@
               @click="handleNavigate($event, navigate, item.disabled)"
             >
               <span :class="bemm('item-copy')">
-                <strong :class="bemm('item-label')">{{ item.label }}</strong>
+                <strong :class="bemm('item-label')">
+                  <span
+                    v-if="item.labelPrefix"
+                    :class="bemm('item-label-prefix')"
+                  >
+                    {{ item.labelPrefix }}
+                  </span>
+                  {{ item.label }}
+                </strong>
                 <span v-if="item.description" :class="bemm('item-description')">
                   {{ item.description }}
                 </span>
@@ -96,7 +104,15 @@
             @click="handleDisabledClick($event, item.disabled)"
           >
             <span :class="bemm('item-copy')">
-              <strong :class="bemm('item-label')">{{ item.label }}</strong>
+              <strong :class="bemm('item-label')">
+                <span
+                  v-if="item.labelPrefix"
+                  :class="bemm('item-label-prefix')"
+                >
+                  {{ item.labelPrefix }}
+                </span>
+                {{ item.label }}
+              </strong>
               <span v-if="item.description" :class="bemm('item-description')">
                 {{ item.description }}
               </span>
@@ -119,7 +135,15 @@
             ]"
           >
             <span :class="bemm('item-copy')">
-              <strong :class="bemm('item-label')">{{ item.label }}</strong>
+              <strong :class="bemm('item-label')">
+                <span
+                  v-if="item.labelPrefix"
+                  :class="bemm('item-label-prefix')"
+                >
+                  {{ item.labelPrefix }}
+                </span>
+                {{ item.label }}
+              </strong>
               <span v-if="item.description" :class="bemm('item-description')">
                 {{ item.description }}
               </span>
@@ -380,6 +404,10 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__item-label {
     font-size: var(--font-size-s);
+  }
+
+  &__item-label-prefix {
+    opacity: 0.56;
   }
 
   &__item-description {

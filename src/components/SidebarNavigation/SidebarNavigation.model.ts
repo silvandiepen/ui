@@ -10,6 +10,7 @@ export interface SidebarNavigationItem {
   href?: string
   id: string
   label: string
+  labelPrefix?: string
   target?: '_blank' | '_self'
   to?: RouteLocationRaw
 }

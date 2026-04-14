@@ -44,6 +44,38 @@ const { query, results } = useSearch({
 - All query tokens must be present in the normalized entry text
 - Results are capped with the configured `limit`
 
+## Docs Pattern
+
+Use `useSearch()` with `useContent()` or curated `sources` when you need a lightweight docs or command-palette search.
+
+```ts
+import { computed } from 'vue'
+import { useSearch } from '@sil/ui'
+
+const { hasQuery, query, results } = useSearch({
+  query: searchQuery,
+  sources: computed(() => [
+    {
+      id: 'guides',
+      entries: [
+        {
+          id: 'guide:getting-started',
+          title: 'Getting Started',
+          summary: 'Install the library and wire the Vite plugin.',
+          content: 'Theme setup, aliases, and shared styles.',
+          route: { name: 'docs-guide-getting-started' },
+          kind: 'guide',
+        },
+      ],
+    },
+  ]),
+})
+```
+
+- Keep entries small and curated instead of indexing raw application records.
+- Include `keywords` and `route` values so result lists can rank well and navigate immediately.
+- Pair `hasQuery` with an expanded search UI so the shell can open before the user has typed anything.
+
 ## Notes
 
 - `useSearch()` is intentionally lightweight and does not ship a full-text index.

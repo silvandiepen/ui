@@ -6,12 +6,13 @@
       :class="entryClasses(option)"
     >
       <button
-        v-if="isLanguageSwitchOptionSelectable(option)"
+        v-if="getSelectableOption(option)"
         :class="optionClasses(option)"
-        :disabled="option.disabled"
-        :aria-pressed="option.value === activeValue"
+        :disabled="getSelectableOption(option)?.disabled"
+        :aria-expanded="option.children?.length ? shouldShowChildren(option) : undefined"
+        :aria-pressed="isOptionActive(option)"
         type="button"
-        @click="emit('select', option)"
+        @click="handleSelect(option)"
       >
         <span :class="bemm('option-main')">
           <span v-if="showFlags" :class="bemm('flag')">
@@ -45,7 +46,15 @@
             {{ getLanguageSwitchOptionCode(option) }}
           </code>
           <Icon
-            v-if="showSelectionIndicator && option.value === activeValue"
+            v-if="option.children?.length"
+            :class="[
+              bemm('group-indicator'),
+              shouldShowChildren(option) ? bemm('group-indicator', 'open') : '',
+            ]"
+            name="chevron-down"
+          />
+          <Icon
+            v-if="showSelectionIndicator && isOptionSelected(option)"
             :class="bemm('indicator')"
             name="check"
           />
@@ -85,10 +94,10 @@
       </div>
 
       <LanguageSwitchOptions
-        v-if="option.children?.length"
+        v-if="shouldShowChildren(option)"
         :active-value="activeValue"
         :level="level + 1"
-        :options="option.children"
+        :options="option.children ?? []"
         :show-descriptions="showDescriptions"
         :show-flags="showFlags"
         :show-selection-indicator="showSelectionIndicator"
@@ -105,10 +114,10 @@ import { Icon } from '../Icon'
 
 import type { LanguageSwitchOption } from './LanguageSwitch.model'
 import {
+  getLanguageSwitchPrimaryOption,
   getLanguageSwitchFlagEmoji,
   getLanguageSwitchFlagSrc,
   getLanguageSwitchOptionCode,
-  isLanguageSwitchOptionSelectable,
   optionHasSelectedDescendant,
 } from './LanguageSwitch.utils'
 
@@ -126,7 +135,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   activeValue: undefined,
   level: 0,
-  showDescriptions: true,
+  showDescriptions: false,
   showFlags: true,
   showSelectionIndicator: true,
 })
@@ -137,19 +146,49 @@ const emit = defineEmits<{
 
 const bemm = useBemm('language-switch-options')
 
+function getSelectableOption(option: LanguageSwitchOption) {
+  if (option.value) {
+    return option
+  }
+
+  return getLanguageSwitchPrimaryOption(option)
+}
+
+function isOptionSelected(option: LanguageSwitchOption) {
+  return getSelectableOption(option)?.value === props.activeValue
+}
+
+function isOptionActive(option: LanguageSwitchOption) {
+  return isOptionSelected(option) || optionHasSelectedDescendant(option, props.activeValue)
+}
+
+function shouldShowChildren(option: LanguageSwitchOption) {
+  return Boolean(option.children?.length) && optionHasSelectedDescendant(option, props.activeValue)
+}
+
+function handleSelect(option: LanguageSwitchOption) {
+  const selectableOption = getSelectableOption(option)
+
+  if (!selectableOption) {
+    return
+  }
+
+  emit('select', selectableOption)
+}
+
 function entryClasses(option: LanguageSwitchOption) {
   return [
     bemm('entry'),
     option.children?.length ? bemm('entry', 'group') : '',
-    optionHasSelectedDescendant(option, props.activeValue) ? bemm('entry', 'branch-active') : '',
+    isOptionActive(option) ? bemm('entry', 'branch-active') : '',
   ]
 }
 
 function optionClasses(option: LanguageSwitchOption) {
   return [
     bemm('option'),
-    option.value === props.activeValue ? bemm('option', 'active') : '',
-    option.disabled ? bemm('option', 'disabled') : '',
+    isOptionActive(option) ? bemm('option', 'active') : '',
+    getSelectableOption(option)?.disabled ? bemm('option', 'disabled') : '',
     option.children?.length ? bemm('option', 'group-label') : '',
   ]
 }
@@ -277,6 +316,17 @@ function optionClasses(option: LanguageSwitchOption) {
     align-items: center;
     gap: 0.55rem;
     flex-shrink: 0;
+  }
+
+  &__group-indicator {
+    width: 0.95rem;
+    height: 0.95rem;
+    opacity: 0.66;
+    transition: transform 150ms ease;
+  }
+
+  &__group-indicator--open {
+    transform: rotate(180deg);
   }
 
   &__code {
