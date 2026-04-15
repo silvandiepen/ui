@@ -23,7 +23,7 @@
 								{{ popup.description }}
 							</p>
 							<slot name="header"></slot>
-							<Button v-if="popup.config.canClose" :class="bemm('close')" :icon="Icons.MULTIPLY_M" size="small"
+							<Button v-if="popup.config.canClose" :class="bemm('close')" :icon="Icons.MULTIPLY_M" size="small" variant="ghost"
 								@click="popupService.close(popup.id)" />
 							<component :is="popup.header" v-if="popup.header" />
 						</header>
@@ -238,33 +238,13 @@ const hasSlot = (name: string): boolean => {
 	}
 
 	&__popup {
-		background-image: radial-gradient(circle at 0% 0%, var(--color-secondary), var(--color-background));
+		background: var(--color-background);
+		border: 1px solid color-mix(in srgb, var(--color-accent), transparent 75%);
 		z-index: 5;
 		border-radius: var(--popup-border-radius, var(--border-radius));
-		padding: 1px;
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-		// animation: goAroundShine 10s infinite;
-
-
-		// @keyframes goAroundShine {
-		// 	0% {
-		// 		background-image: radial-gradient(circle at 0% 0%, var(--color-primary), var(--color-background));
-		// 	}
-
-		// 	50% {
-		// 		background-image: radial-gradient(circle at 0% 100%, var(--color-primary), var(--color-background));
-		// 	}
-
-		// 	75% {
-		// 		background-image: radial-gradient(circle at 100% 100%, var(--color-primary), var(--color-background));
-		// 	}
-
-		// 	100% {
-		// 		background-image: radial-gradient(circle at 100% 0%, var(--color-primary), var(--color-background));
-		// 	}
-		// }
 	}
 
 
@@ -280,14 +260,9 @@ const hasSlot = (name: string): boolean => {
 		}
 	}
 
-	&__header+#{b} &__close {
-		--button-background-color: transparent;
-		--button-background-color--hover: var(--color-tertiary);
-		position: absolute;
-		z-index: 5;
-		margin: 0 !important;
-		top: calc(var(--popup-padding, var(--space)));
-		right: calc(var(--popup-padding, var(--space)));
+	&__close {
+		flex-shrink: 0;
+		margin: 0;
 	}
 
 	&--bottom {
@@ -303,33 +278,30 @@ const hasSlot = (name: string): boolean => {
 	}
 
 	&__header {
-		padding: var(--popup-padding, var(--space));
+		padding: var(--popup-padding, var(--space-s)) var(--popup-padding, var(--space));
 
 		border-radius: inherit;
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
-		border-bottom: 1px solid color-mix(in srgb, var(--color-tertiary), transparent 80%);
+		border-bottom: 1px solid color-mix(in srgb, var(--color-accent), transparent 80%);
 
-		background-color: color-mix(in srgb, var(--color-tertiary), var(--color-background) 90%);
+		background-color: transparent;
 		z-index: 10;
 		position: sticky;
 		top: 0;
 
 		display: flex;
-		gap: var(--space);
-		align-items: flex-start;
-		flex-direction: column;
+		flex-direction: row;
+		align-items: center;
+		gap: var(--space-s);
 		justify-content: space-between;
-
-		&:has(.popup__close) {
-			padding-right: var(--space-xl);
-		}
 	}
 
 	&__header-title {
-		font-size: 1em;
+		flex: 1;
+		font-size: 0.9em;
 		font-weight: 600;
-		color: var(--color-tertiary);
+		color: var(--color-accent);
 	}
 
 	&__footer {

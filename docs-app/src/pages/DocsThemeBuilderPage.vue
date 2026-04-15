@@ -97,8 +97,13 @@
 
     <Card :class="bemm('panel')">
       <header :class="bemm('panel-header')">
-        <h2>{{ t('docs.themeBuilder.generatedConfig') }}</h2>
-        <p>{{ t('docs.themeBuilder.configBody') }}</p>
+        <div :class="bemm('panel-header-text')">
+          <h2>{{ t('docs.themeBuilder.generatedConfig') }}</h2>
+          <p>{{ t('docs.themeBuilder.configBody') }}</p>
+        </div>
+        <Button variant="ghost" size="small" @click="copyConfig">
+          {{ copied ? 'Copied!' : 'Copy' }}
+        </Button>
       </header>
 
       <div v-html="renderedThemeSnippet" />
@@ -107,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 import { useI18n } from 'vue-i18n'
 
@@ -167,6 +172,14 @@ function applyFontPreset(presetName: keyof typeof fontPresets) {
   updateFont('heading', preset.heading)
   updateFont('mono', preset.mono)
 }
+
+const copied = ref(false)
+
+async function copyConfig() {
+  await navigator.clipboard.writeText(themeSnippet.value)
+  copied.value = true
+  setTimeout(() => { copied.value = false }, 2000)
+}
 </script>
 
 <style lang="scss">
@@ -208,12 +221,19 @@ function applyFontPreset(presetName: keyof typeof fontPresets) {
   }
 
   &__panel-header {
-    display: grid;
-    gap: 0.25rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
 
     h2 {
       margin: 0;
     }
+  }
+
+  &__panel-header-text {
+    display: grid;
+    gap: 0.25rem;
   }
 
   &__color-grid {
