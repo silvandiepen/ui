@@ -54,17 +54,30 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .platform-header {
+  @include m.component-props((
+    'background':       'color-mix(in srgb, var(--color-background), white 20%)',
+    'border-color':     'color-mix(in srgb, var(--color-foreground), transparent 90%)',
+    'blur':             'blur(18px) saturate(135%)',
+    'z-index':          '120',
+    'padding':          'var(--space) var(--spacing)',
+    'padding-compact':  'var(--space-s) var(--spacing)',
+    'actions-flex':     '0 0 auto',
+    'mobile-columns':   'minmax(0, 1fr) auto',
+  ), 'platform-header');
+
   position: sticky;
   top: 0;
-  z-index: 120;
-  padding: var(--space) var(--spacing);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
-  background: color-mix(in srgb, var(--color-background), white 20%);
-  backdrop-filter: blur(18px) saturate(135%);
+  z-index: var(--platform-header-z-index);
+  padding: var(--platform-header-padding);
+  border-bottom: 1px solid var(--platform-header-border-color);
+  background: var(--platform-header-background);
+  backdrop-filter: var(--platform-header-blur);
 
   &--compact {
-    padding: var(--space-s) var(--spacing);
+    padding: var(--platform-header-padding-compact);
   }
 
   &__inner,
@@ -103,6 +116,8 @@ defineExpose({
 
   &__actions {
     justify-content: flex-end;
+    flex: var(--platform-header-actions-flex);
+    min-width: 0;
   }
 
   &__secondary {
@@ -110,11 +125,11 @@ defineExpose({
   }
 
   @media (max-width: 700px) {
-    padding: var(--space-s) var(--spacing);
+    padding: var(--platform-header-padding-compact);
 
     &__inner {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: var(--platform-header-mobile-columns);
       align-items: center;
       gap: var(--space-s);
     }

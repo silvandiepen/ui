@@ -276,17 +276,12 @@ const navigationSections = computed(() => {
   }
 
   &__header {
-    position: sticky;
-    top: 0;
-    z-index: 3;
-    border-bottom: 1px solid var(--docs-shell-border);
-    background: color-mix(in srgb, var(--docs-shell-overlay), transparent 6%);
-    backdrop-filter: blur(8px);
-
-    .platform-header__actions {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
+    --platform-header-background: color-mix(in srgb, var(--docs-shell-overlay), transparent 6%);
+    --platform-header-border-color: var(--docs-shell-border);
+    --platform-header-blur: blur(8px);
+    --platform-header-z-index: 3;
+    --platform-header-actions-flex: 1 1 auto;
+    --platform-header-mobile-columns: minmax(0, 1fr);
   }
 
   &__header-actions {
@@ -401,17 +396,6 @@ const navigationSections = computed(() => {
   .docs-app {
     &__sidebar-footer {
       display: none;
-    }
-
-    &__header {
-      .platform-header__inner {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .platform-header__actions {
-        grid-column: 1 / -1;
-        width: 100%;
-      }
     }
   }
 }
