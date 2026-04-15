@@ -65,6 +65,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, useSlots } from 'vue'
 import { useBemm } from 'bemm'
+import { Icons } from 'open-icon'
 
 import { Icon } from '../Icon'
 
@@ -89,7 +90,7 @@ const props = withDefaults(defineProps<HeaderSearchProps>(), {
   clearOnClose: true,
   closeOnEscape: true,
   closeOnOutsideClick: true,
-  iconName: 'button-search2',
+  iconName: Icons.SEARCH_M,
   maxWidth: '36rem',
   modelValue: '',
   openLabel: 'Search',
@@ -248,7 +249,7 @@ defineExpose<HeaderSearchExposed>({
     width: 2.5rem;
     height: 2.5rem;
     border: 1px solid var(--border-color, var(--color-accent));
-    border-radius: 999px;
+    border-radius: var(--border-radius);
     background: color-mix(in srgb, var(--color-foreground), transparent 97%);
     color: var(--color-foreground);
     cursor: pointer;

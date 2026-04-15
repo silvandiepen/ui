@@ -219,6 +219,10 @@ const buttonStyles = computed(() => {
     outline-offset: 2px;
   }
 
+  &:hover, &:focus{
+    --icon-fill: var(--button-color-text);
+  }
+
   &--loading {
     pointer-events: none;
 

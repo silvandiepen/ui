@@ -36,7 +36,7 @@ body {
 	-ms-overflow-style: -ms-autohiding-scrollbar;
 
 	scrollbar-width: thin;
-	scrollbar-color: var(--color-primary) color-mix(in srgb, var(--color-foreground), transparent 90%);
+	scrollbar-color:  color-mix(in srgb, var(--color-foreground), transparent 90%) transparent;
 }
 
 .hide-mobile {

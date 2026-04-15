@@ -43,7 +43,7 @@ withDefaults(defineProps<SidebarProps>(), {
   sticky: true,
   subtitle: '',
   title: '',
-  width: '18rem',
+  width: '100%',
 })
 
 const bemm = useBemm('sidebar', {
@@ -56,7 +56,7 @@ const bemm = useBemm('sidebar', {
   display: grid;
   align-content: start;
   gap: var(--space);
-  width: min(100%, var(--sidebar-width, 18rem));
+  width: min(100%, var(--sidebar-width, 100%));
   padding: var(--space);
   border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
   border-radius: calc(var(--border-radius, 1rem) * 1.2);

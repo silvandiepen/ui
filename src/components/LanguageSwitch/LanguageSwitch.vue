@@ -19,39 +19,10 @@
       v-else-if="usesSimpleDropdown"
       :close-on-select="closeOnSelect"
     >
-      <template #trigger="{ isOpen, toggle }">
-        <Button
-          :class="bemm('trigger')"
-          :size="triggerSize"
-          :variant="triggerVariant"
-          type="button"
-          @click="toggle"
-        >
-          <span :class="bemm('trigger-content')">
-            <span v-if="showFlags" :class="bemm('trigger-flag')">
-              <img
-                v-if="triggerFlagSrc"
-                :src="triggerFlagSrc"
-                :alt="selectedOption ? `${selectedOption.label} flag` : ''"
-                :class="bemm('trigger-flag-image')"
-              />
-              <span
-                v-else-if="triggerFlagEmoji"
-                :class="bemm('trigger-flag-emoji')"
-              >
-                {{ triggerFlagEmoji }}
-              </span>
-            </span>
-            <span :class="bemm('trigger-copy')">
-              <strong v-if="triggerLabel" :class="bemm('trigger-label')">{{ triggerLabel }}</strong>
-              <span :class="bemm('trigger-value')">{{ triggerValue }}</span>
-            </span>
-            <Icon
-              :class="[bemm('trigger-icon'), isOpen ? bemm('trigger-icon', 'open') : '']"
-              name="chevron-down"
-            />
-          </span>
-        </Button>
+      <template #trigger="{ toggle }">
+        <button :class="bemm('trigger')" type="button" @click="toggle">
+          {{ triggerValue }}
+        </button>
       </template>
 
       <template #menu="{ closeMenu }">
@@ -91,38 +62,10 @@
       :placement="popoverPlacement"
       :width="popoverWidth"
     >
-      <template #trigger="{ isOpen }">
-        <Button
-          :class="bemm('trigger')"
-          :size="triggerSize"
-          :variant="triggerVariant"
-          type="button"
-        >
-          <span :class="bemm('trigger-content')">
-            <span v-if="showFlags" :class="bemm('trigger-flag')">
-              <img
-                v-if="triggerFlagSrc"
-                :src="triggerFlagSrc"
-                :alt="selectedOption ? `${selectedOption.label} flag` : ''"
-                :class="bemm('trigger-flag-image')"
-              />
-              <span
-                v-else-if="triggerFlagEmoji"
-                :class="bemm('trigger-flag-emoji')"
-              >
-                {{ triggerFlagEmoji }}
-              </span>
-            </span>
-            <span :class="bemm('trigger-copy')">
-              <strong v-if="triggerLabel" :class="bemm('trigger-label')">{{ triggerLabel }}</strong>
-              <span :class="bemm('trigger-value')">{{ triggerValue }}</span>
-            </span>
-            <Icon
-              :class="[bemm('trigger-icon'), isOpen ? bemm('trigger-icon', 'open') : '']"
-              name="chevron-down"
-            />
-          </span>
-        </Button>
+      <template #trigger>
+        <button :class="bemm('trigger')" type="button">
+          {{ triggerValue }}
+        </button>
       </template>
 
       <div :class="bemm('panel')">
@@ -148,34 +91,9 @@
       :config="contextPanelConfig"
     >
       <template #default>
-        <Button
-          :class="bemm('trigger')"
-          :size="triggerSize"
-          :variant="triggerVariant"
-          type="button"
-        >
-          <span :class="bemm('trigger-content')">
-            <span v-if="showFlags" :class="bemm('trigger-flag')">
-              <img
-                v-if="triggerFlagSrc"
-                :src="triggerFlagSrc"
-                :alt="selectedOption ? `${selectedOption.label} flag` : ''"
-                :class="bemm('trigger-flag-image')"
-              />
-              <span
-                v-else-if="triggerFlagEmoji"
-                :class="bemm('trigger-flag-emoji')"
-              >
-                {{ triggerFlagEmoji }}
-              </span>
-            </span>
-            <span :class="bemm('trigger-copy')">
-              <strong v-if="triggerLabel" :class="bemm('trigger-label')">{{ triggerLabel }}</strong>
-              <span :class="bemm('trigger-value')">{{ triggerValue }}</span>
-            </span>
-            <Icon :class="bemm('trigger-icon')" name="chevron-down" />
-          </span>
-        </Button>
+        <button :class="bemm('trigger')" type="button">
+          {{ triggerValue }}
+        </button>
       </template>
 
       <template #content>
@@ -202,7 +120,6 @@
 import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 
-import { Button, ButtonSize, ButtonVariant } from '../Button'
 import {
   ContextPanel,
   ContextPanelClickModeEnum,
@@ -217,8 +134,6 @@ import LanguageSwitchOptions from './LanguageSwitchOptions.vue'
 import {
   flattenLanguageSwitchOptions,
   findLanguageSwitchOption,
-  getLanguageSwitchFlagEmoji,
-  getLanguageSwitchFlagSrc,
   getLanguageSwitchOptionCode,
 } from './LanguageSwitch.utils'
 
@@ -242,8 +157,6 @@ const props = withDefaults(defineProps<LanguageSwitchProps>(), {
   surface: 'popover',
   title: '',
   triggerLabel: '',
-  triggerSize: ButtonSize.SMALL,
-  triggerVariant: ButtonVariant.GHOST,
 })
 
 const emit = defineEmits<{
@@ -275,22 +188,6 @@ const triggerValue = computed(() => {
   }
 
   return optionCode || selectedOption.value.label
-})
-
-const triggerFlagEmoji = computed(() => {
-  if (!selectedOption.value || !props.showFlags) {
-    return null
-  }
-
-  return getLanguageSwitchFlagEmoji(selectedOption.value)
-})
-
-const triggerFlagSrc = computed(() => {
-  if (!selectedOption.value || !props.showFlags) {
-    return null
-  }
-
-  return getLanguageSwitchFlagSrc(selectedOption.value)
 })
 
 const contextPanelConfig = computed(() => ({
@@ -352,63 +249,33 @@ function handleSimpleSelect(
   }
 
   &__trigger {
-    min-width: 0;
-  }
-
-  &__trigger-content {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    min-width: 0;
-  }
-
-  &__trigger-flag {
-    width: 1.35rem;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-  }
-
-  &__trigger-flag-image {
-    width: 1.3rem;
-    height: 0.95rem;
-    object-fit: cover;
-    border-radius: 0.16rem;
-  }
-
-  &__trigger-flag-emoji {
-    font-size: 1rem;
-    line-height: 1;
-  }
-
-  &__trigger-copy {
-    display: grid;
-    gap: 0.1rem;
-    min-width: 0;
-    text-align: left;
-  }
-
-  &__trigger-label {
-    font-size: 0.68rem;
-    line-height: 1;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 1px solid var(--border-color, var(--color-accent));
+    border-radius: var(--border-radius);
+    background: color-mix(in srgb, var(--color-foreground), transparent 97%);
+    color: var(--color-foreground);
+    font-size: 0.75rem;
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    opacity: 0.72;
-  }
+    cursor: pointer;
+    transition: all 0.2s ease;
 
-  &__trigger-value {
-    line-height: 1.2;
-  }
+    &:hover {
+      background: color-mix(in srgb, var(--color-primary), transparent 88%);
+      border-color: color-mix(in srgb, var(--color-primary), transparent 35%);
+      color: var(--color-foreground);
+    }
 
-  &__trigger-icon {
-    width: 0.95rem;
-    height: 0.95rem;
-    transition: transform 150ms ease;
-  }
-
-  &__trigger-icon--open {
-    transform: rotate(180deg);
+    &:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
   }
 
   &__panel {

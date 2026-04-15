@@ -63,6 +63,7 @@ watchEffect(async () => {
   line-height: 0;
   color: currentColor;
 
+  --icon-fill: transparent;
 
   // SVG styling
   svg {

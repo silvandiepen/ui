@@ -62,7 +62,7 @@ const iconName = computed(() => {
   width: 2.5rem;
   height: 2.5rem;
   border: 1px solid var(--border-color, var(--color-accent));
-  border-radius: 999px;
+  border-radius: var(--border-radius);
   background: color-mix(in srgb, var(--color-foreground), transparent 97%);
   color: var(--color-foreground);
   cursor: pointer;

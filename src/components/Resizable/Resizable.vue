@@ -24,7 +24,6 @@
     >
       <span :class="bemm('grip')" aria-hidden="true">
         <span :class="bemm('grip-line')" />
-        <span :class="bemm('grip-line')" />
       </span>
     </div>
 
@@ -322,7 +321,7 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: center;
-    color: color-mix(in srgb, var(--color-foreground), transparent 42%);
+    color: var(--color-foreground);
     transition: background-color 160ms ease, color 160ms ease;
     touch-action: none;
 
@@ -341,15 +340,15 @@ defineExpose({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.16rem;
     width: 100%;
     height: 100%;
   }
 
   &__grip-line {
     display: block;
-    border-radius: 999px;
+    border-radius: var(--border-radius);
     background: currentColor;
+    opacity: .25;
   }
 
   &--horizontal {
@@ -362,8 +361,8 @@ defineExpose({
     }
 
     .resizable__grip-line {
-      width: 0.16rem;
-      height: 1rem;
+      width: var(--space-xs);
+      height: var(--space-l);
     }
   }
 
@@ -377,8 +376,8 @@ defineExpose({
     }
 
     .resizable__grip-line {
-      width: 1rem;
-      height: 0.16rem;
+      width:  var(--space-l);
+      height: var(--space-xs);
     }
   }
 
