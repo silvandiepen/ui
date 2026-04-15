@@ -141,10 +141,14 @@ const {
 
 const fontPresetNames = computed(() => Object.keys(fontPresets))
 
-const themeSnippet = computed(() => `defineTheme({
-  colors: ${JSON.stringify(themeState.value.colors, null, 2)},
-  fonts: ${JSON.stringify(themeState.value.fonts, null, 2)},
-})`)
+const themeSnippet = computed(() => {
+  const parts: string[] = [
+    `  colors: ${JSON.stringify(themeState.value.colors, null, 4).replace(/\n/g, '\n  ')},`,
+    `  fonts: ${JSON.stringify(themeState.value.fonts, null, 4).replace(/\n/g, '\n  ')},`,
+  ]
+
+  return `import { defineTheme } from '@sil/ui/vite'\n\nexport default defineTheme({\n${parts.join('\n')}\n})`
+})
 
 const renderedThemeSnippet = computed(() => renderCodeBlock(themeSnippet.value, 'typescript'))
 
