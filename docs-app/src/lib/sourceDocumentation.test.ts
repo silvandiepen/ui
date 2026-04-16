@@ -177,4 +177,92 @@ describe('source documentation', () => {
       ]),
     )
   })
+
+  it('extracts supporting types from model files', () => {
+    const docs = getSourceDocumentation({
+      aliases: ['Steps'],
+      apiName: 'UISteps',
+      category: 'Data and Navigation',
+      categoryId: 'data-and-navigation',
+      docs: [],
+      examplePath: '../../../src/components/Steps/Steps.example.vue',
+      name: 'Steps',
+      slug: 'steps',
+      sourcePath: 'src/components/Steps',
+      status: 'stable',
+      statusTone: Status.SUCCESS,
+      summary: 'Steps',
+    })
+
+    const typeNames = docs.types.map(t => t.name)
+    expect(typeNames).toContain('StepItem')
+    expect(typeNames).toContain('StepStatus')
+    expect(typeNames).toContain('StepsDirection')
+
+    const stepItem = docs.types.find(t => t.name === 'StepItem')
+    expect(stepItem?.kind).toBe('interface')
+    expect(stepItem?.fields).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'title', required: true, type: 'string' }),
+        expect.objectContaining({ name: 'description', required: false }),
+      ]),
+    )
+
+    const stepStatus = docs.types.find(t => t.name === 'StepStatus')
+    expect(stepStatus?.kind).toBe('type-alias')
+  })
+
+  it('extracts const enum types from model files', () => {
+    const docs = getSourceDocumentation({
+      aliases: ['Button'],
+      apiName: 'UIButton',
+      category: 'Foundations',
+      categoryId: 'foundations',
+      docs: [],
+      examplePath: '../../../src/components/Button/Button.example.vue',
+      name: 'Button',
+      slug: 'button',
+      sourcePath: 'src/components/Button',
+      status: 'stable',
+      statusTone: Status.SUCCESS,
+      summary: 'Button',
+    })
+
+    const typeNames = docs.types.map(t => t.name)
+    expect(typeNames).toContain('ButtonSize')
+    expect(typeNames).toContain('ButtonVariant')
+    expect(typeNames).toContain('ButtonType')
+
+    const buttonSize = docs.types.find(t => t.name === 'ButtonSize')
+    expect(buttonSize?.kind).toBe('const-enum')
+    expect(buttonSize?.values).toEqual(
+      expect.arrayContaining(['xsmall', 'small', 'medium', 'large', 'xlarge']),
+    )
+
+    const buttonVariant = docs.types.find(t => t.name === 'ButtonVariant')
+    expect(buttonVariant?.values).toEqual(
+      expect.arrayContaining(['default', 'primary', 'secondary', 'outline', 'ghost', 'danger']),
+    )
+  })
+
+  it('excludes Props and Emits interfaces from types', () => {
+    const docs = getSourceDocumentation({
+      aliases: ['Button'],
+      apiName: 'UIButton',
+      category: 'Foundations',
+      categoryId: 'foundations',
+      docs: [],
+      examplePath: '../../../src/components/Button/Button.example.vue',
+      name: 'Button',
+      slug: 'button',
+      sourcePath: 'src/components/Button',
+      status: 'stable',
+      statusTone: Status.SUCCESS,
+      summary: 'Button',
+    })
+
+    const typeNames = docs.types.map(t => t.name)
+    expect(typeNames).not.toContain('ButtonProps')
+    expect(typeNames).not.toContain('ButtonEmits')
+  })
 })

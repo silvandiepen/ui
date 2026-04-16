@@ -45,7 +45,7 @@ defineOptions({
 
 defineProps<DocsHeaderSearchProps>()
 
-const bemm = useBemm('docs-header-search')
+const bemm = useBemm('docs-header-search', { includeBaseClass: true })
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

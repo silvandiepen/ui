@@ -19,13 +19,14 @@ const EXCLUDED_SOURCE_PATHS = new Set([
   'Feedback/Popup/components',
   'Feedback/Toast',
   'Feedback/ToolTip',
+  'Form',
+  'Form/Chip',
   'Input',
+  'Select',
 ])
 
 const API_NAME_OVERRIDES: Record<string, string> = {
   Feedback: 'UIFeedback',
-  Form: 'UIForms',
-  Select: 'Select',
   Textarea: 'UITextareaField',
   'Form/PinInput': 'UIInputPin',
 }
@@ -41,6 +42,7 @@ const MANUAL_SOURCE_PATHS = [
   'Display/Note',
   'Display/Row',
   'Display/TruncatedList',
+  'Tabs/TabNavigation',
 ] as const
 
 const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
@@ -241,6 +243,56 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Standalone text input surface for shared form flows.',
   },
+  InputBirthday: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Three-column date picker for day, month, and year with filtered dropdown options.',
+  },
+  InputCalendar: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Date input with popup calendar picker built on the DatePicker component.',
+  },
+  InputCheckboxSwitch: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Hybrid checkbox rendered as a pill-shaped toggle switch.',
+  },
+  InputColor: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Color picker with native input, text display, and optional preset swatches.',
+  },
+  InputDate: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Date input using the native browser picker with formatted display and validation.',
+  },
+  InputImage: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Image upload with drag-and-drop, file validation, and preview.',
+  },
+  InputOptions: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Multi-option input rendering a list of switch-style checkboxes.',
+  },
+  InputPassword: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Password input with visibility toggle and strength feedback.',
+  },
+  InputSelectColor: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Named color selector with radio-button style options and chip display.',
+  },
+  InputSelectIcon: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Filterable icon selector with radio-button grid and collapse support.',
+  },
   InputSwitch: {
     category: 'Forms',
     status: 'stable',
@@ -255,6 +307,11 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     category: 'Forms',
     status: 'stable',
     summary: 'Boolean on/off toggle control for immediate settings and feature flags.',
+  },
+  InputVerificationCode: {
+    category: 'Forms',
+    status: 'stable',
+    summary: 'Multi-digit verification code input with paste support and auto-advance.',
   },
   ItemList: {
     category: 'Data and Navigation',
@@ -349,11 +406,6 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Ready-made registration surface with provider buttons, confirm-password flow, terms handling, and message states.',
   },
-  Select: {
-    category: 'Forms',
-    status: 'stable',
-    summary: 'Standalone select surface for shared form flows.',
-  },
   Sidebar: {
     category: 'App Shell',
     status: 'stable',
@@ -374,6 +426,11 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Spacing helper for deliberate vertical and horizontal layout gaps.',
   },
+  Steps: {
+    category: 'Data and Navigation',
+    status: 'stable',
+    summary: 'Visual step indicator for multi-step flows, wizards, and onboarding.',
+  },
   StatusBadge: {
     category: 'Foundations',
     status: 'stable',
@@ -384,6 +441,15 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Compact tab bar surface for dense navigation patterns.',
   },
+  'Tabs/TabNavigation': {
+    apiName: 'UITabNavigation',
+    category: 'Data and Navigation',
+    examplePath: '../../../src/components/Tabs/TabNavigation.example.vue',
+    name: 'TabNavigation',
+    sourcePath: 'src/components/Tabs/TabNavigation.vue',
+    status: 'stable',
+    summary: 'Low-level tab navigation surface with animated active indicator and badge support.',
+  },
   Table: {
     category: 'Data and Navigation',
     status: 'stable',
@@ -391,6 +457,7 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
   },
   Tabs: {
     category: 'Data and Navigation',
+    examplePath: '../../../src/components/Tabs/Tabs.example.vue',
     status: 'stable',
     summary: 'Tabbed content shell with navigation and pane primitives.',
   },
@@ -576,14 +643,6 @@ function resolveComponentOverride(sourcePath: string): UIComponentOverride | nul
       category: 'Feedback',
       status: 'stable',
       summary: 'Feedback namespace for popup, tooltip, toast, and supporting status surfaces.',
-    }
-  }
-
-  if (sourcePath === 'Form') {
-    return {
-      category: 'Forms',
-      status: 'stable',
-      summary: 'Large form surface that composes shared controls, validation, and orchestration helpers.',
     }
   }
 

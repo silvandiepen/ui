@@ -6,11 +6,34 @@ import {
   DEFAULT_THEME_FONTS,
   generateThemeStyles,
   UI_THEME_FONT_PRESETS,
+  type UIPaletteColor,
   type UIThemeConfig,
 } from '@ui-lib/vite/theme'
 
 const DOCS_THEME_STORAGE_KEY = 'ui-docs-theme-config'
+const DOCS_THEME_PALETTE_KEY = 'ui-docs-theme-palette'
 const DOCS_THEME_STYLE_ID = 'ui-docs-theme-overrides'
+
+export type { PaletteColor }
+export interface PaletteColor {
+  name: string
+  hex: string
+}
+
+const DEFAULT_PALETTE: PaletteColor[] = [
+  { name: 'red', hex: '#f40935' },
+  { name: 'orange', hex: '#ff8d22' },
+  { name: 'yellow', hex: '#fbbf24' },
+  { name: 'green', hex: '#55c267' },
+  { name: 'teal', hex: '#2dcfdc' },
+  { name: 'blue', hex: '#2563eb' },
+  { name: 'indigo', hex: '#6366f1' },
+  { name: 'purple', hex: '#8b5cf6' },
+  { name: 'pink', hex: '#ec4899' },
+  { name: 'gray', hex: '#6b7280' },
+  { name: 'white', hex: '#ffffff' },
+  { name: 'black', hex: '#020b22' },
+]
 
 const DOCS_THEME_PRESETS = {
   library: {
@@ -21,12 +44,12 @@ const DOCS_THEME_PRESETS = {
     label: 'Meadow',
     theme: {
       colors: {
-        primary: '#4fb36e',
-        secondary: '#0ea5a4',
-        tertiary: '#2563eb',
-        quaternary: '#94c11f',
-        quinary: '#f97316',
-        border: '#cbd8cf',
+        primary: 'green',
+        secondary: 'teal',
+        tertiary: 'blue',
+        quaternary: 'green',
+        quinary: 'orange',
+        border: 'gray',
       },
       fonts: UI_THEME_FONT_PRESETS.product,
     },
@@ -35,12 +58,12 @@ const DOCS_THEME_PRESETS = {
     label: 'Slate',
     theme: {
       colors: {
-        dark: '#101826',
-        light: '#f8fafc',
-        primary: '#2563eb',
-        secondary: '#7c3aed',
-        tertiary: '#0f766e',
-        border: '#cbd5e1',
+        dark: 'black',
+        light: 'white',
+        primary: 'blue',
+        secondary: 'purple',
+        tertiary: 'teal',
+        border: 'gray',
       },
       fonts: UI_THEME_FONT_PRESETS.system,
     },
@@ -49,12 +72,12 @@ const DOCS_THEME_PRESETS = {
     label: 'Editorial',
     theme: {
       colors: {
-        dark: '#1a1715',
-        light: '#fffaf5',
-        primary: '#8b5cf6',
-        secondary: '#d97706',
-        tertiary: '#4d7c0f',
-        border: '#e8ddd1',
+        dark: 'black',
+        light: 'white',
+        primary: 'purple',
+        secondary: 'orange',
+        tertiary: 'green',
+        border: 'gray',
       },
       fonts: UI_THEME_FONT_PRESETS.editorial,
     },
@@ -73,8 +96,26 @@ type DocsThemeState = {
   presetId: DocsThemePresetId
 }
 
+const DEFAULT_TOKEN_TO_PALETTE: Record<string, string> = {
+  dark: 'black',
+  light: 'white',
+  'accent-dark': 'black',
+  'accent-light': 'white',
+  primary: 'green',
+  secondary: 'teal',
+  tertiary: 'blue',
+  quaternary: 'green',
+  quinary: 'red',
+  success: 'green',
+  warning: 'orange',
+  error: 'red',
+  info: 'blue',
+  border: 'gray',
+}
+
 const colorKeys = Object.keys(DEFAULT_THEME_COLORS)
 const initialState = ref<DocsThemeState>(loadInitialState())
+const palette = ref<PaletteColor[]>(loadInitialPalette())
 
 let watcherInstalled = false
 
@@ -83,21 +124,23 @@ export function useDocsTheme() {
     watcherInstalled = true
 
     watch(
-      initialState,
-      (state) => {
+      [initialState, palette],
+      ([state]) => {
         applyDocsTheme(state)
         window.localStorage.setItem(DOCS_THEME_STORAGE_KEY, JSON.stringify(state))
+        window.localStorage.setItem(DOCS_THEME_PALETTE_KEY, JSON.stringify(palette.value))
       },
       {
         deep: true,
         immediate: true,
-      }
+      },
     )
   }
 
   const themeConfig = computed<UIThemeConfig>(() => ({
     colors: initialState.value.colors,
     fonts: initialState.value.fonts,
+    palette: palette.value satisfies UIPaletteColor[],
   }))
 
   function setPreset(presetId: DocsThemePresetId) {
@@ -106,7 +149,10 @@ export function useDocsTheme() {
 
     initialState.value = {
       presetId,
-      colors: resolved.colors,
+      colors: {
+        ...DEFAULT_TOKEN_TO_PALETTE,
+        ...resolved.colors,
+      },
       fonts: resolved.fonts,
     }
   }
@@ -137,10 +183,35 @@ export function useDocsTheme() {
     }
   }
 
+  function addPaletteColor(name: string, hex: string) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    if (!slug || palette.value.some((c) => c.name === slug)) return
+    palette.value = [...palette.value, { name: slug, hex }]
+  }
+
+  function removePaletteColor(name: string) {
+    palette.value = palette.value.filter((c) => c.name !== name)
+  }
+
+  function updatePaletteColor(name: string, hex: string) {
+    palette.value = palette.value.map((c) =>
+      c.name === name ? { ...c, hex } : c,
+    )
+  }
+
+  function resetPalette() {
+    palette.value = [...DEFAULT_PALETTE]
+  }
+
   return {
     colorKeys,
     docsThemePresets: DOCS_THEME_PRESETS,
     fontPresets: UI_THEME_FONT_PRESETS,
+    palette,
+    addPaletteColor,
+    removePaletteColor,
+    updatePaletteColor,
+    resetPalette,
     resetTheme,
     setPreset,
     themeConfig,
@@ -168,7 +239,7 @@ function loadInitialState(): DocsThemeState {
 
     return {
       colors: {
-        ...DEFAULT_THEME_COLORS,
+        ...DEFAULT_TOKEN_TO_PALETTE,
         ...parsed.colors,
       },
       fonts: {
@@ -191,7 +262,10 @@ function createStateFromTheme(
   const resolved = buildThemeConfig(theme)
 
   return {
-    colors: resolved.colors,
+    colors: {
+      ...DEFAULT_TOKEN_TO_PALETTE,
+      ...resolved.colors,
+    },
     fonts: resolved.fonts,
     presetId,
   }
@@ -201,6 +275,7 @@ function applyDocsTheme(state: DocsThemeState) {
   const themeStyles = generateThemeStyles({
     colors: state.colors,
     fonts: state.fonts,
+    palette: palette.value satisfies UIPaletteColor[],
   })
 
   const styleElement = getThemeStyleElement()
@@ -219,4 +294,20 @@ function getThemeStyleElement(): HTMLStyleElement {
   document.head.appendChild(styleElement)
 
   return styleElement
+}
+
+function loadInitialPalette(): PaletteColor[] {
+  if (typeof window === 'undefined') {
+    return [...DEFAULT_PALETTE]
+  }
+
+  const stored = window.localStorage.getItem(DOCS_THEME_PALETTE_KEY)
+  if (!stored) return [...DEFAULT_PALETTE]
+
+  try {
+    const parsed = JSON.parse(stored)
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed
+  } catch { /* ignore */ }
+
+  return [...DEFAULT_PALETTE]
 }

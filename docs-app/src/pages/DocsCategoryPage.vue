@@ -80,7 +80,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const bemm = useBemm('docs-category-page')
+const bemm = useBemm('docs-category-page', { includeBaseClass: true })
 const { t } = useI18n()
 
 const category = computed(() => getComponentCategoryDefinitionById(props.categoryId))

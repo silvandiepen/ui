@@ -95,7 +95,7 @@ import { useDocsLocale } from '@ui-docs/lib/useDocsLocale'
 import { useDocsTheme } from '@ui-docs/lib/docsTheme'
 import { DOCS_LANGUAGE_OPTIONS } from './i18n'
 
-const bemm = useBemm('docs-app')
+const bemm = useBemm('docs-app', { includeBaseClass: true })
 const { t } = useI18n()
 const { colorMode, toggleColorMode } = useColorMode()
 const { locale: docsLocale, setLocale } = useDocsLocale()
@@ -130,6 +130,13 @@ const navigationSections = computed(() => {
           label: t('docs.navigation.themeBuilder'),
           to: {
             name: 'docs-guide-theme-builder',
+          },
+        },
+        {
+          id: 'guides-foundation-types',
+          label: t('docs.navigation.foundationTypes'),
+          to: {
+            name: 'docs-guide-foundation-types',
           },
         },
       ],
@@ -276,12 +283,12 @@ const navigationSections = computed(() => {
   }
 
   &__header {
-    --platform-header-background: color-mix(in srgb, var(--docs-shell-overlay), transparent 6%);
-    --platform-header-border-color: var(--docs-shell-border);
-    --platform-header-blur: blur(8px);
-    --platform-header-z-index: 3;
-    --platform-header-actions-flex: 1 1 auto;
-    --platform-header-mobile-columns: minmax(0, 1fr);
+    // --platform-header-background: color-mix(in srgb, var(--docs-shell-overlay), transparent 6%);
+    // --platform-header-border-color: var(--docs-shell-border);
+    // --platform-header-blur: blur(8px);
+    // --platform-header-z-index: 3;
+    // --platform-header-actions-flex: 1 1 auto;
+    // --platform-header-mobile-columns: minmax(0, 1fr);
   }
 
   &__header-actions {

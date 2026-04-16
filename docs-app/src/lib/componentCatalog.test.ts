@@ -7,7 +7,6 @@ describe('component catalog', () => {
     const catalog = buildComponentCatalog({
       docKeys: [
         '../../../src/components/Card/README.md',
-        '../../../src/components/Form/README.md',
         '../../../src/components/Form/Form/Form.md',
         '../../../src/components/Form/Input/README.md',
       ],
@@ -17,7 +16,7 @@ describe('component catalog', () => {
       ],
       folderKeys: [
         '../../../src/components/Card/index.ts',
-        '../../../src/components/Form/index.ts',
+        '../../../src/components/Form/Form/index.ts',
         '../../../src/components/Form/Input/index.ts',
         '../../../src/components/Progress/index.ts',
       ],
@@ -32,7 +31,7 @@ describe('component catalog', () => {
     ])
     expect(catalog.map((entry) => entry.apiName)).toEqual([
       'UICard',
-      'UIForms',
+      'UIForm',
       'UIInput',
       'UIProgress',
     ])
@@ -40,7 +39,7 @@ describe('component catalog', () => {
       '../../../src/components/Card/Card.example.vue',
     )
     expect(catalog.find((entry) => entry.name === 'Form')?.docs).toEqual([
-      '../../../src/components/Form/README.md',
+      '../../../src/components/Form/Form/Form.md',
     ])
     expect(catalog.find((entry) => entry.name === 'Input')).toEqual(
       expect.objectContaining({
@@ -74,6 +73,7 @@ describe('component catalog', () => {
     })
 
     expect(catalog.map((entry) => entry.apiName)).toEqual([
+      'UITabNavigation',
       'UITabs',
       'UIToast',
       'UIToolbar',

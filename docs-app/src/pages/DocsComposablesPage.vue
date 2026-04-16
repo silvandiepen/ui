@@ -60,7 +60,7 @@ import { Status } from '@ui-lib/types'
 import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
 import { getComposableCatalog } from '@ui-docs/lib/composableCatalog'
 
-const bemm = useBemm('docs-composables-page')
+const bemm = useBemm('docs-composables-page', { includeBaseClass: true })
 const { t } = useI18n()
 
 const composables = computed(() => getComposableCatalog())

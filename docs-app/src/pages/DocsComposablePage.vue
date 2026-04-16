@@ -18,20 +18,18 @@
       </div>
     </header>
 
-    <Card :class="bemm('usage-card')">
-      <header :class="bemm('card-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.component.usage') }}</h2>
+    <Card :class="bemm('usage-card')" :title="t('docs.component.usage')">
+      <template #actions>
         <Badge>{{ t('docs.composable.preferredImport') }}</Badge>
-      </header>
+      </template>
 
       <div :class="bemm('code-block')" v-html="renderedUsageExample" />
     </Card>
 
-    <Card :class="bemm('doc-card')">
-      <header :class="bemm('card-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.composable.documentation') }}</h2>
+    <Card :class="bemm('doc-card')" :title="t('docs.composable.documentation')">
+      <template #actions>
         <Badge>{{ entry.sourcePath }}</Badge>
-      </header>
+      </template>
 
       <article :class="bemm('doc-content')">
         <Markdown :content="docContent" />
@@ -40,8 +38,7 @@
   </div>
 
   <div v-else :class="bemm('missing')">
-    <Card :class="bemm('empty-card')">
-      <h1 :class="bemm('section-title')">{{ t('docs.composable.missingTitle') }}</h1>
+    <Card :class="bemm('empty-card')" :title="t('docs.composable.missingTitle')">
       <p :class="bemm('empty-copy')">{{ t('docs.composable.missingSummary') }}</p>
     </Card>
   </div>
@@ -71,7 +68,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const bemm = useBemm('docs-composable-page')
+const bemm = useBemm('docs-composable-page', { includeBaseClass: true })
 const { t } = useI18n()
 
 const entry = computed(() => getComposableBySlug(props.slug))

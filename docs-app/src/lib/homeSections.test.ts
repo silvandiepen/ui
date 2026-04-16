@@ -35,12 +35,12 @@ describe('buildDocsHomeSections', () => {
         summary: 'Actions summary.',
       }),
       createEntry({
-        apiName: 'UIForms',
+        apiName: 'UIForm',
         category: 'Forms',
         categoryId: 'forms',
         name: 'Form',
-        slug: 'form',
-        sourcePath: 'src/components/Form',
+        slug: 'form-form',
+        sourcePath: 'src/components/Form/Form',
         summary: 'Form summary.',
       }),
       createEntry({
@@ -61,7 +61,7 @@ describe('buildDocsHomeSections', () => {
     ])
     expect(sections[0]?.sectionId).toBe('core')
     expect(sections[0]?.items.map((item) => item.apiName)).toEqual(['UICard'])
-    expect(sections[1]?.items.map((item) => item.apiName)).toEqual(['UIForms'])
+    expect(sections[1]?.items.map((item) => item.apiName)).toEqual(['UIForm'])
     expect(sections[2]?.items.map((item) => item.apiName)).toEqual(['UIActions'])
   })
 })

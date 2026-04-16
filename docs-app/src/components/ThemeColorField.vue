@@ -3,84 +3,92 @@
     <span :class="bemm('label')">{{ label }}</span>
     <div :class="bemm('control')" @click="openPicker">
       <div
-        :class="bemm('swatch', ['', modelValue ? 'has-color' : 'no-color'])"
-        :style="modelValue ? { backgroundColor: modelValue } : {}"
+        :class="bemm('swatch', ['', resolvedHex ? 'has-color' : 'no-color'])"
+        :style="resolvedHex ? { backgroundColor: resolvedHex } : {}"
       >
-        <span v-if="!modelValue" :class="bemm('placeholder')">—</span>
+        <span v-if="!resolvedHex" :class="bemm('placeholder')">—</span>
       </div>
+      <span v-if="modelValue" :class="bemm('value')">{{ modelValue }}</span>
       <Icon :name="Icons.CHEVRON_DOWN" size="small" :class="bemm('icon')" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import { useBemm } from 'bemm'
 import { Icons } from 'open-icon'
 import { Icon } from '@ui-lib/components/Icon'
 import { h } from 'vue'
+import type { PaletteColor } from '@ui-docs/lib/docsTheme'
 
 const modelValue = defineModel<string>({ required: true })
 
 const props = defineProps<{
   label: string
+  palette?: PaletteColor[]
 }>()
 
-const bemm = useBemm('theme-color-field')
+const bemm = useBemm('theme-color-field', { includeBaseClass: true })
 const popupService = inject<any>('popupService')
 
+const paletteByName = computed(() => {
+  const map = new Map<string, PaletteColor>()
+  for (const c of (props.palette ?? [])) {
+    map.set(c.name, c)
+  }
+  return map
+})
+
+const resolvedHex = computed(() => {
+  const entry = paletteByName.value.get(modelValue.value)
+  return entry?.hex ?? (modelValue.value?.startsWith('#') ? modelValue.value : '')
+})
+
 function openPicker() {
-  const colorRef = { value: modelValue.value }
+  const colors = props.palette ?? []
+
+  const swatches = colors.map((c) =>
+    h('button', {
+      key: c.name,
+      style: {
+        width: '2rem',
+        height: '2rem',
+        borderRadius: '0.375rem',
+        border: modelValue.value === c.name
+          ? '2px solid var(--color-foreground)'
+          : '2px solid transparent',
+        backgroundColor: c.hex,
+        cursor: 'pointer',
+        transition: 'transform 0.1s ease, border-color 0.1s ease',
+        position: 'relative' as const,
+      },
+      title: `${c.name} (${c.hex})`,
+      onClick: () => {
+        modelValue.value = c.name
+        popupService.close(`theme-color-${props.label}`)
+      },
+      onMouseenter: (e: MouseEvent) => {
+        ;(e.target as HTMLElement).style.transform = 'scale(1.15)'
+      },
+      onMouseleave: (e: MouseEvent) => {
+        ;(e.target as HTMLElement).style.transform = 'scale(1)'
+      },
+    })
+  )
 
   popupService.open({
     id: `theme-color-${props.label}`,
     title: props.label,
     component: () => h('div', {
       style: {
-        padding: '1rem',
+        padding: '0.75rem',
         display: 'grid',
-        gap: '0.75rem',
-        minWidth: '240px',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(2rem, 1fr))',
+        gap: '0.4rem',
+        minWidth: '200px',
       },
-    }, [
-      h('input', {
-        type: 'color',
-        value: modelValue.value,
-        style: {
-          width: '100%',
-          height: '3rem',
-          border: 'none',
-          cursor: 'pointer',
-          borderRadius: '0.375rem',
-        },
-        onInput: (e: Event) => {
-          colorRef.value = (e.target as HTMLInputElement).value
-          modelValue.value = colorRef.value
-        },
-      }),
-      h('input', {
-        type: 'text',
-        value: modelValue.value,
-        style: {
-          width: '100%',
-          padding: '0.5rem 0.65rem',
-          border: '1px solid color-mix(in srgb, var(--color-foreground), transparent 84%)',
-          borderRadius: '0.375rem',
-          background: 'color-mix(in srgb, var(--color-background), var(--color-foreground) 2%)',
-          color: 'var(--color-foreground)',
-          fontFamily: 'var(--font-family-mono, monospace)',
-          fontSize: '0.85rem',
-          boxSizing: 'border-box',
-        },
-        onInput: (e: Event) => {
-          const val = (e.target as HTMLInputElement).value.trim()
-          if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-            colorRef.value = val
-            modelValue.value = val
-          }
-        },
-      }),
-    ]),
+    }, swatches),
     config: {
       width: '280px',
     },
@@ -94,7 +102,7 @@ function openPicker() {
   gap: 0.35rem;
 
   &__label {
-    font-size: var(--font-size-s, 0.85rem);
+    font-size: var(--font-size-s);
     color: color-mix(in srgb, var(--color-foreground), transparent 30%);
     text-transform: capitalize;
   }
@@ -106,7 +114,7 @@ function openPicker() {
     padding: 0.35rem 0.5rem;
     background: var(--color-background);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 78%);
-    border-radius: var(--border-radius, 0.375rem);
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: border-color 0.15s ease;
 
@@ -116,10 +124,10 @@ function openPicker() {
   }
 
   &__swatch {
-    flex: 1;
+    width: 1.75rem;
     height: 1.75rem;
-    min-width: 3rem;
-    border-radius: 0.25rem;
+    min-width: 1.75rem;
+    border-radius: var(--border-radius-s);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,6 +142,12 @@ function openPicker() {
     }
   }
 
+  &__value {
+    font-family: var(--font-family-mono, monospace);
+    font-size: 0.75rem;
+    color: color-mix(in srgb, var(--color-foreground), transparent 40%);
+  }
+
   &__placeholder {
     color: color-mix(in srgb, var(--color-foreground), transparent 50%);
     font-size: 0.75rem;
@@ -141,6 +155,7 @@ function openPicker() {
 
   &__icon {
     color: color-mix(in srgb, var(--color-foreground), transparent 40%);
+    margin-left: auto;
   }
 }
 </style>

@@ -4,12 +4,14 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 
 import { getUIAliases, ui } from '../src/vite'
+import { generateAiDocs } from './src/vite/generateAiDocs'
 
 export default defineConfig({
   root: __dirname,
   plugins: [
     vue(),
     ui(),
+    generateAiDocs(),
   ],
   resolve: {
     alias: {

@@ -28,22 +28,20 @@
       </div>
     </header>
 
-    <Card v-if="asyncExampleComponent" :class="bemm('example-card')">
-      <header :class="bemm('example-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.component.liveExample') }}</h2>
-        <Badge>{{ t('docs.component.renderedFromExample') }}</Badge>
-      </header>
+    <Card v-if="asyncExampleComponent" :class="bemm('example-card')" :title="t('docs.component.liveExample')">
+    <template #actions>
+      <Badge>{{ t('docs.component.renderedFromExample') }}</Badge>
+    </template>
 
-      <div :class="bemm('example-preview')">
+      <Example>
         <component :is="asyncExampleComponent" />
-      </div>
+      </Example>
     </Card>
 
-    <Card :class="bemm('usage-card')">
-      <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.component.usage') }}</h2>
+    <Card :class="bemm('usage-card')" :title="t('docs.component.usage')">
+      <template #actions>
         <Badge>{{ t('docs.component.preferredImport') }}</Badge>
-      </header>
+      </template>
 
       <div
         :class="bemm('code-block')"
@@ -51,11 +49,11 @@
       />
     </Card>
 
-    <Card v-if="sourceDocumentation.props.length > 0" :class="bemm('props-card')">
-      <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.component.props') }}</h2>
-        <Badge>{{ sourceDocumentation.props.length }}</Badge>
-      </header>
+    <Card :variant="CardVariant.ELEVATED" v-if="sourceDocumentation.props.length > 0" :class="bemm('props-card')" :title="t('docs.component.props')">
+      <template #actions>
+        <Badge>{{ t('docs.component.propsSummary', { count: sourceDocumentation.props.length }) }}</Badge>
+      </template>
+
 
       <div :class="bemm('props-table')">
         <div :class="[bemm('props-row'), bemm('props-row', 'header')]">
@@ -85,11 +83,43 @@
       </div>
     </Card>
 
-    <Card v-if="sourceDocumentation.events.length > 0" :class="bemm('events-card')">
-      <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.component.events') }}</h2>
+    <Card v-if="sourceDocumentation.types.length > 0" :variant="CardVariant.ELEVATED" :class="bemm('types-card')" :title="t('docs.component.types')">
+      <template #actions>
+        <Badge>{{ sourceDocumentation.types.length }}</Badge>
+      </template>
+
+      <div :class="bemm('types-list')">
+        <div v-for="typeDef in sourceDocumentation.types" :key="typeDef.name" :class="bemm('type-block')">
+          <div :class="bemm('type-header')">
+            <code :class="bemm('type-name')">{{ typeDef.name }}</code>
+            <Badge size="small">{{ typeDef.kind === 'const-enum' ? 'enum' : typeDef.kind }}</Badge>
+          </div>
+          <p v-if="typeDef.description" :class="bemm('type-description')">{{ typeDef.description }}</p>
+
+          <div v-if="typeDef.kind === 'const-enum' && typeDef.values.length > 0" :class="bemm('type-values')">
+            <code v-for="val in typeDef.values" :key="val" :class="bemm('type-value')">{{ val }}</code>
+          </div>
+
+          <div v-if="typeDef.fields.length > 0" :class="bemm('type-fields')">
+            <div :class="[bemm('type-fields-row'), bemm('type-fields-row', 'header')]">
+              <span>{{ t('docs.common.labels.name') }}</span>
+              <span>{{ t('docs.common.labels.type') }}</span>
+              <span>{{ t('docs.common.labels.details') }}</span>
+            </div>
+            <div v-for="field in typeDef.fields" :key="field.name" :class="bemm('type-fields-row')">
+              <strong>{{ field.name }}<Badge v-if="field.required" size="small" variant="outline">{{ t('docs.component.required') }}</Badge></strong>
+              <code>{{ field.type }}</code>
+              <span>{{ field.description }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <Card v-if="sourceDocumentation.events.length > 0" :class="bemm('events-card')" :title="t('docs.component.events')">
+      <template #actions>
         <Badge>{{ sourceDocumentation.events.length }}</Badge>
-      </header>
+      </template>
 
       <div :class="bemm('events-table')">
         <div :class="[bemm('events-row'), bemm('events-row', 'header')]">
@@ -110,11 +140,10 @@
       </div>
     </Card>
 
-    <Card v-if="sourceDocumentation.slots.length > 0" :class="bemm('slots-card')">
-      <header :class="bemm('doc-header')">
-        <h2 :class="bemm('section-title')">{{ t('docs.component.slots') }}</h2>
+    <Card v-if="sourceDocumentation.slots.length > 0" :class="bemm('slots-card')" :title="t('docs.component.slots')">
+      <template #actions>
         <Badge>{{ sourceDocumentation.slots.length }}</Badge>
-      </header>
+      </template>
 
       <div :class="bemm('slots-table')">
         <div :class="[bemm('slots-row'), bemm('slots-row', 'header')]">
@@ -150,17 +179,11 @@
       </Card>
     </section>
 
-    <Card v-else :class="bemm('empty-card')">
-      <h2 :class="bemm('section-title')">{{ t('docs.component.documentation') }}</h2>
-      <p :class="bemm('empty-copy')">{{ t('docs.component.emptyCopy') }}</p>
-    </Card>
+    <Card v-else :class="bemm('empty-card')" :title="t('docs.component.documentation')" :description="t('docs.component.emptyCopy')"></Card>
   </div>
 
   <div v-else :class="bemm('missing')">
-    <Card :class="bemm('empty-card')">
-      <h1 :class="bemm('section-title')">{{ t('docs.component.missingTitle') }}</h1>
-      <p :class="bemm('empty-copy')">{{ t('docs.component.missingSummary') }}</p>
-    </Card>
+    <Card :class="bemm('empty-card')" :title="t('docs.component.missingTitle')" :description="t('docs.component.missingSummary')"></Card>
   </div>
 </template>
 
@@ -170,7 +193,7 @@ import { useBemm } from 'bemm'
 import { useI18n } from 'vue-i18n'
 
 import { Badge } from '@ui-lib/components/Badge'
-import { Card } from '@ui-lib/components/Card'
+import { Card, CardVariant } from '@ui-lib/components/Card'
 import { Markdown } from '../../../src/components'
 import { ReferenceBadge } from '@ui-lib/components/ReferenceBadge'
 import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
@@ -192,7 +215,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const bemm = useBemm('docs-component-page')
+const bemm = useBemm('docs-component-page', { includeBaseClass: true })
 const { t } = useI18n()
 
 const componentEntry = computed(() => getComponentBySlug(props.slug))
@@ -221,6 +244,7 @@ const sourceDocumentation = computed(() => {
       props: [],
       slots: [],
       sourcePath: '',
+      types: [],
       usageExample: '',
     }
   }
@@ -315,17 +339,6 @@ function getDocTitle(path: string): string {
     gap: 0.75rem;
   }
 
-  &__example-card,
-  &__usage-card,
-  &__props-card,
-  &__events-card,
-  &__doc-card,
-  &__empty-card {
-    display: grid;
-    gap: 1rem;
-    padding: 1.2rem;
-  }
-
   &__example-header,
   &__doc-header {
     display: flex;
@@ -337,12 +350,6 @@ function getDocTitle(path: string): string {
   &__section-title {
     margin: 0;
     font-size: 1.15rem;
-  }
-
-  &__example-preview {
-    padding: 1rem;
-    border-radius: 1rem;
-    background: var(--docs-component-surface);
   }
 
   &__docs {
@@ -440,6 +447,87 @@ function getDocTitle(path: string): string {
     flex: 0 0 auto;
   }
 
+  &__types-list {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  &__type-block {
+    display: grid;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--docs-component-border);
+
+    &:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  &__type-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__type-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+  }
+
+  &__type-description {
+    margin: 0;
+    color: var(--docs-component-muted);
+    font-size: 0.875em;
+    line-height: 1.5;
+  }
+
+  &__type-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__type-value {
+    font-size: 0.8em;
+    padding: 0.15em 0.5em;
+    border-radius: var(--border-radius);
+    background: var(--docs-component-surface);
+    border: 1px solid var(--docs-component-border);
+  }
+
+  &__type-fields {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  &__type-fields-row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) minmax(10rem, 1fr) minmax(0, 1.6fr);
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--docs-component-border);
+    font-size: 0.9em;
+
+    &--header {
+      border-top: 0;
+      padding-top: 0;
+      color: var(--docs-component-soft);
+      font-size: var(--font-size-s);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    strong {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+    }
+  }
+
   &__empty-copy {
     margin: 0;
     line-height: 1.6;
@@ -479,6 +567,10 @@ function getDocTitle(path: string): string {
     }
 
     &__slots-row {
+      grid-template-columns: 1fr;
+    }
+
+    &__type-fields-row {
       grid-template-columns: 1fr;
     }
   }

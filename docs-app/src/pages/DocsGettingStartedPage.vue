@@ -92,7 +92,7 @@ import { Status } from '@ui-lib/types'
 import { DEFAULT_THEME_COLORS, DEFAULT_THEME_FONTS } from '@ui-lib/vite/theme'
 import { renderCodeBlock } from '@ui-docs/lib/codeBlock'
 
-const bemm = useBemm('docs-getting-started-page')
+const bemm = useBemm('docs-getting-started-page', { includeBaseClass: true })
 const { t } = useI18n()
 
 const colorRows = computed(() =>

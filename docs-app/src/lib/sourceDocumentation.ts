@@ -4,6 +4,8 @@ import type {
   UIComponentPropDefinition,
   UIComponentSlotDefinition,
   UIComponentSourceDocumentation,
+  UIComponentTypeDefinition,
+  UIComponentTypeField,
 } from './sourceDocumentation.model'
 
 const componentModelModules = import.meta.glob('../../../src/components/**/*.model.ts', {
@@ -31,6 +33,7 @@ export function getSourceDocumentation(entry: UIComponentCatalogEntry): UICompon
     props,
     slots: extractSlots(componentSource),
     sourcePath: componentPath ?? entry.sourcePath,
+    types: extractTypes(modelSource),
     usageExample: buildUsageExample(entry, props),
   }
 }
@@ -178,6 +181,135 @@ function normalizeEventPayload(payload?: string): string {
   return normalizedPayload ? normalizedPayload : 'none'
 }
 
+function extractTypes(source: string): UIComponentTypeDefinition[] {
+  const types: UIComponentTypeDefinition[] = []
+  const seen = new Set<string>()
+
+  extractInterfaceTypes(source, types, seen)
+  extractTypeAliases(source, types, seen)
+  extractConstEnums(source, types, seen)
+  extractTsEnums(source, types, seen)
+
+  return types
+}
+
+function extractInterfaceTypes(source: string, types: UIComponentTypeDefinition[], seen: Set<string>): void {
+  const pattern = /(?:\/\*\*([\s\S]*?)\*\/\s*)?export\s+(?:interface|type)\s+(\w+)\s*(?:=\s*)?\{([\s\S]*?)\}/g
+
+  for (const match of source.matchAll(pattern)) {
+    const [, comment, name, body] = match
+    if (seen.has(name)) continue
+    if (name.endsWith('Props') || name.endsWith('Emits') || name.endsWith('Emit')) continue
+    seen.add(name)
+
+    types.push({
+      description: normalizeDescription(comment ?? ''),
+      fields: parseInterfaceFields(body),
+      kind: 'interface',
+      name,
+      values: [],
+    })
+  }
+}
+
+function parseInterfaceFields(body: string): UIComponentTypeField[] {
+  const fields: UIComponentTypeField[] = []
+  const propPattern = /(?:\/\*\*([\s\S]*?)\*\/\s*)?([A-Za-z_$][\w$]*)\??:\s*([^;\n]+?)(?:;|\n|$)/g
+  const defaults = new Map<string, string>()
+
+  for (const match of body.matchAll(propPattern)) {
+    const [, comment, fieldName, fieldType] = match
+    const signature = match[0]
+    const required = !signature.includes(`${fieldName}?`)
+
+    fields.push({
+      defaultValue: defaults.get(fieldName) ?? null,
+      description: normalizeDescription(comment ?? ''),
+      name: fieldName,
+      required,
+      type: fieldType.trim(),
+    })
+  }
+
+  return fields
+}
+
+function extractTypeAliases(source: string, types: UIComponentTypeDefinition[], seen: Set<string>): void {
+  const pattern = /(?:\/\*\*([\s\S]*?)\*\/\s*)?export\s+type\s+(\w+)\s*=\s*([^\n]+(?:\n\s*\|[^\n]+)*)/g
+
+  for (const match of source.matchAll(pattern)) {
+    const [, comment, name, definition] = match
+    if (seen.has(name)) continue
+    seen.add(name)
+
+    const cleaned = definition.trim().replace(/\s+/g, ' ')
+
+    types.push({
+      description: normalizeDescription(comment ?? ''),
+      fields: [],
+      kind: 'type-alias',
+      name,
+      values: [],
+    })
+  }
+}
+
+function extractConstEnums(source: string, types: UIComponentTypeDefinition[], seen: Set<string>): void {
+  const pattern = /(?:\/\*\*([\s\S]*?)\*\/\s*)?export\s+const\s+(\w+)\s*=\s*\{([\s\S]*?)\}\s*(?:as\s+const)?[,;]?\s*(?:export\s+type\s+\2\s*=)?/g
+
+  for (const match of source.matchAll(pattern)) {
+    const [, comment, name, body] = match
+    if (seen.has(name)) continue
+    seen.add(name)
+
+    const values: string[] = []
+    const valuePattern = /\w+\s*:\s*'([^']+)'/g
+    for (const valueMatch of body.matchAll(valuePattern)) {
+      values.push(valueMatch[1])
+    }
+
+    if (values.length === 0) continue
+
+    types.push({
+      description: normalizeDescription(comment ?? ''),
+      fields: [],
+      kind: 'const-enum',
+      name,
+      values,
+    })
+  }
+}
+
+function extractTsEnums(source: string, types: UIComponentTypeDefinition[], seen: Set<string>): void {
+  const pattern = /(?:\/\*\*([\s\S]*?)\*\/\s*)?export\s+enum\s+(\w+)\s*\{([\s\S]*?)\}/g
+
+  for (const match of source.matchAll(pattern)) {
+    const [, comment, name, body] = match
+    if (seen.has(name)) continue
+    seen.add(name)
+
+    const values: string[] = []
+    const valuePattern = /\w+\s*=\s*'([^']+)'/g
+    for (const valueMatch of body.matchAll(valuePattern)) {
+      values.push(valueMatch[1])
+    }
+    const numericPattern = /\w+\s*=\s*(\d+)/g
+    for (const valueMatch of body.matchAll(numericPattern)) {
+      values.push(valueMatch[1])
+    }
+
+    if (values.length === 0) continue
+
+    types.push({
+      description: normalizeDescription(comment ?? ''),
+      fields: [],
+      kind: 'const-enum',
+      name,
+      values,
+    })
+  }
+}
+
 function resolveModelPath(entry: UIComponentCatalogEntry): string | null {
   if (entry.sourcePath.endsWith('.vue')) {
     const modelPath = `../../../${entry.sourcePath.replace(/\.vue$/, '.model.ts')}`
@@ -226,12 +358,11 @@ function resolveVuePath(entry: UIComponentCatalogEntry): string | null {
 }
 
 function buildUsageExample(entry: UIComponentCatalogEntry, props: UIComponentPropDefinition[]): string {
-  if (entry.sourcePath === 'src/components/Form') {
+  if (entry.sourcePath === 'src/components/Form/Form') {
     return [
-      "import { UIForms, UIForm, UIInputText, UIInputToggle } from '@sil/ui'",
+      "import { UIForm, UIInputText, UIInputToggle } from '@sil/ui'",
       '',
       '<template>',
-      '  <!-- UIForms is the namespace export; UIForm is the actual form container -->',
       '  <UIForm>',
       '    <UIInputText v-model="name" label="Name" />',
       '    <UIInputToggle v-model="enabled" label="Enabled" />',

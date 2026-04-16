@@ -52,6 +52,7 @@ const englishMessages = {
     },
     navigation: {
       composables: 'Composables',
+      foundationTypes: 'Foundation Types',
       gettingStarted: 'Getting Started',
       guides: 'Guides',
       themeBuilder: 'Theme Builder',
@@ -111,7 +112,7 @@ const englishMessages = {
       aliases: 'aliases: {aliases}',
       exampleCount: 'with live examples',
       groupEntries: '{count} entries',
-      summary: 'This app reflects the current state of the library as it exists in the repo: shared primitives, maintained surfaces, category groupings, and the preferred `UI*` import names exposed by `@sil/ui`.',
+      summary: "This app reflects the current state of the library as it exists in the repo: shared primitives, maintained surfaces, category groupings, and the preferred `UI*` import names exposed by `{'@'}sil/ui`.",
       title: 'Shared Vue UI docs with a consistent UI-prefixed API',
       totalCount: 'cataloged surfaces',
       withDocsCount: 'with markdown docs',
@@ -143,6 +144,7 @@ const englishMessages = {
       documentation: 'Documentation',
       optional: 'optional',
       aliases: 'aliases: {aliases}',
+      types: 'Types',
     },
     gettingStarted: {
       calloutBody: 'Shared CSS variables, generated contrast tokens, consistent font globals, and the same component aliases the docs app uses internally.',
@@ -157,7 +159,7 @@ const englishMessages = {
       plugin: '2. Add the Vite plugin',
       summary: 'The shared Vite plugin injects the UI theme layer and shared global styles. Add the plugin, wire the aliases, then define colors and fonts through one theme config.',
       themeShape: 'Theme config shape',
-      title: 'Use `@sil/ui` in a Vite project',
+      title: "Use `{'@'}sil/ui` in a Vite project",
     },
     themeBuilder: {
       body: 'Body',
@@ -173,6 +175,10 @@ const englishMessages = {
       fontsBody: 'Custom families are opt-in only. Load any external fonts yourself in your app.',
       summary: 'Edit the live docs theme, try font stacks, and copy the generated `defineTheme(...)` config straight into your Vite setup.',
       title: 'Theme builder',
+    },
+    foundationTypes: {
+      summary: 'Core types, enums, and const values shared across all components. Referenced by props like color, size, and variant.',
+      title: 'Foundation Types',
     },
     composables: {
       calloutBody: 'Use these from the package root so apps stay on the stable shared API.',
@@ -302,7 +308,7 @@ const dutchMessages = {
       aliases: 'aliassen: {aliases}',
       exampleCount: 'met live voorbeelden',
       groupEntries: '{count} items',
-      summary: 'Deze app toont de huidige staat van de library in de repo: gedeelde primitives, onderhouden oppervlakken, categoriegroepen en de voorkeursimports met `UI*` uit `@sil/ui`.',
+      summary: "Deze app toont de huidige staat van de library in de repo: gedeelde primitives, onderhouden oppervlakken, categoriegroepen en de voorkeursimports met `UI*` uit `{'@'}sil/ui`.",
       title: 'Gedeelde Vue UI-docs met een consistente UI-prefix API',
       totalCount: 'gecatalogiseerde oppervlakken',
       withDocsCount: 'met markdown docs',
@@ -334,6 +340,7 @@ const dutchMessages = {
       sourceLocation: 'Bronlocatie',
       sourceSurface: 'Onderliggend bronoppervlak',
       usage: 'Gebruik',
+      types: 'Types',
     },
     gettingStarted: {
       calloutBody: 'Gedeelde CSS-variabelen, gegenereerde contrasttokens, consistente lettertype-globals en dezelfde componentaliassen die de docs-app intern gebruikt.',
@@ -348,7 +355,7 @@ const dutchMessages = {
       plugin: '2. Voeg de Vite-plugin toe',
       summary: 'De gedeelde Vite-plugin voegt de UI-themalaag en gedeelde globale styles toe. Voeg de plugin toe, configureer de aliassen en definieer kleuren en fonts via een thema-config.',
       themeShape: 'Vorm van de theme-config',
-      title: 'Gebruik `@sil/ui` in een Vite-project',
+      title: "Gebruik `{'@'}sil/ui` in een Vite-project",
     },
     themeBuilder: {
       body: 'Body',
@@ -493,7 +500,7 @@ const frenchMessages = {
       aliases: 'alias: {aliases}',
       exampleCount: 'avec exemples live',
       groupEntries: '{count} elements',
-      summary: 'Cette app montre l etat actuel de la librairie dans le repo: primitives partagees, surfaces maintenues, groupes de categories et imports preferes `UI*` exposes par `@sil/ui`.',
+      summary: "Cette app montre l etat actuel de la librairie dans le repo: primitives partagees, surfaces maintenues, groupes de categories et imports preferes `UI*` exposes par `{'@'}sil/ui`.",
       title: 'Docs Vue UI partagees avec une API coherente prefixee UI',
       totalCount: 'surfaces cataloguees',
       withDocsCount: 'avec docs markdown',
@@ -525,6 +532,7 @@ const frenchMessages = {
       sourceLocation: 'Emplacement source',
       sourceSurface: 'Surface source sous-jacente',
       usage: 'Usage',
+      types: 'Types',
     },
     gettingStarted: {
       calloutBody: 'Variables CSS partagees, tokens de contraste generes, globals de police coherents et les memes alias de composants utilises en interne par la docs app.',
@@ -539,7 +547,7 @@ const frenchMessages = {
       plugin: '2. Ajouter le plugin Vite',
       summary: 'Le plugin Vite partage injecte la couche de theme UI et les styles globaux partages. Ajoutez le plugin, configurez les alias puis definissez couleurs et polices via une seule config de theme.',
       themeShape: 'Structure de la config de theme',
-      title: 'Utiliser `@sil/ui` dans un projet Vite',
+      title: "Utiliser `{'@'}sil/ui` dans un projet Vite",
     },
     themeBuilder: {
       body: 'Body',

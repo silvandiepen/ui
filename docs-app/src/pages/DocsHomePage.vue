@@ -86,7 +86,7 @@ import StatusBadge from '@ui-lib/components/StatusBadge/StatusBadge.vue'
 import { getComponentCatalog } from '@ui-docs/lib/componentRegistry'
 import { buildDocsHomeSections } from '@ui-docs/lib/homeSections'
 
-const bemm = useBemm('docs-home-page')
+const bemm = useBemm('docs-home-page', { includeBaseClass: true })
 const { t } = useI18n()
 
 const components = getComponentCatalog()
