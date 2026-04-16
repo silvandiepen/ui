@@ -1,25 +1,27 @@
 <template>
-  <Table>
-    <template #header>
-      <tr>
-        <th>Component</th>
-        <th>Status</th>
-      </tr>
-    </template>
+  <Example>
+    <Table>
+      <template #header>
+        <tr>
+          <th>Component</th>
+          <th>Status</th>
+        </tr>
+      </template>
 
-    <tr>
-      <td>Sidebar</td>
-      <td>Stable</td>
-    </tr>
-    <tr>
-      <td>ThemeToggle</td>
-      <td>Stable</td>
-    </tr>
-    <tr>
-      <td>Input</td>
-      <td>Transitional</td>
-    </tr>
-  </Table>
+      <tr>
+        <td>Sidebar</td>
+        <td>Stable</td>
+      </tr>
+      <tr>
+        <td>ThemeToggle</td>
+        <td>Stable</td>
+      </tr>
+      <tr>
+        <td>Input</td>
+        <td>Transitional</td>
+      </tr>
+    </Table>
+  </Example>
 </template>
 
 <script setup lang="ts">
