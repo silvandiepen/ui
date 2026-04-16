@@ -29,13 +29,16 @@
 					"
 					@blur="handleBlur"
 				/>
-				<button
-					type="button"
-					:class="bemm('toggle')"
-					@click="togglePasswordVisibility"
-				>
-					<Icon :name="showPassword ? Icons.EYE_SLASH : Icons.EYE" />
-				</button>
+					<button
+						type="button"
+						:class="bemm('toggle')"
+						:aria-label="passwordVisibilityLabel"
+						:aria-pressed="showPassword ? 'true' : 'false'"
+						:title="passwordVisibilityLabel"
+						@click="togglePasswordVisibility"
+					>
+						<Icon :name="showPassword ? Icons.EYE_SLASH : Icons.EYE" />
+					</button>
 			</div>
 		</template>
 	</InputBase>
@@ -45,8 +48,8 @@
 import { useBemm } from 'bemm';
 import { ref, computed, watch, onMounted, type PropType } from 'vue';
 import { Icons } from 'open-icon';
-import InputBase from '../InputBase.vue';
-import Icon from '../../../Icon/Icon.vue';
+import InputBase from '../Form/InputBase.vue';
+import Icon from '../../Icon/Icon.vue';
 
 const block = 'input-password';
 const bemm = useBemm(block);
@@ -182,6 +185,10 @@ const togglePasswordVisibility = () => {
 	showPassword.value = !showPassword.value;
 };
 
+const passwordVisibilityLabel = computed(() => {
+	return showPassword.value ? 'Hide password' : 'Show password';
+});
+
 // Watch for value changes to validate
 watch(
 	() => internalValue.value,
@@ -202,7 +209,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@use '../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-password {
 	@include form.inputBase();
@@ -221,6 +228,7 @@ onMounted(() => {
 	&__toggle {
 		position: absolute;
 		right: 0.5rem;
+		z-index: 4;
 		background: none;
 		border: none;
 		padding: 0.25rem;
