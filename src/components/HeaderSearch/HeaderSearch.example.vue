@@ -1,6 +1,5 @@
 <template>
-  <Example>
-<div :class="bemm()">
+  <div :class="bemm()">
     <HeaderSearch
       v-model="query"
       clear-label="Clear docs query"
@@ -20,8 +19,7 @@
           >
             {{ item }}
           </div>
-  </Example>
-</template>
+        </template>
 
         <div v-else :class="bemm('empty')">
           {{ emptyText }}
