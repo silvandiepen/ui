@@ -1,4 +1,4 @@
-export * from './inputs/InputSwitch/InputSwitch.model';
+export * from '../InputSwitch/InputSwitch.model';
 
 export const FormSize = {
 	MEDIUM: 'medium',

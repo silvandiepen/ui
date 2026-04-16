@@ -77,6 +77,72 @@ The default slot receives these props:
 | `submit` | `() => void` | Submit form programmatically |
 | `reset` | `() => void` | Reset form programmatically |
 
+## FormField
+
+`FormField` is the label/input wrapper. It now supports inline row layout for compact control rows.
+
+### `FormField` Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | Field name |
+| `label` | `string` | `undefined` | Field label |
+| `description` | `string` | `undefined` | Helper text |
+| `required` | `boolean` | `false` | Show required marker |
+| `error` | `string` | `undefined` | Manual error message |
+| `showError` | `boolean` | `true` | Render error state |
+| `direction` | `'row' \| 'column'` | `'column'` | Label/input layout direction |
+| `gap` | `string` | `'var(--space-xs)'` | Gap between label and input |
+| `labelWidth` | `string` | `'auto'` | Label width when using row layout |
+| `align` | `'stretch' \| 'flex-start' \| 'center' \| 'flex-end'` | `'center'` | Cross-axis alignment |
+
+### `FormField` Inline Example
+
+```vue
+<FormField
+  name="rgb-r"
+  label="R"
+  direction="row"
+  label-width="1.25rem"
+  :show-error="false"
+>
+  <InputNumber v-model="r" :label="''" :controls="false" :min="0" :max="255" />
+</FormField>
+```
+
+## FormGroup
+
+`FormGroup` is the spacing/layout container for multiple fields.
+
+### `FormGroup` Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `'row' \| 'column'` | `'column'` | Child flow direction |
+| `gap` | `string` | `'var(--space)'` | Gap between children |
+| `wrap` | `boolean` | `false` | Wrap children when in row mode |
+| `align` | `'stretch' \| 'flex-start' \| 'center' \| 'flex-end'` | `'stretch'` | Cross-axis alignment |
+| `justify` | `'flex-start' \| 'center' \| 'flex-end' \| 'space-between' \| 'space-around'` | `'flex-start'` | Main-axis alignment |
+| `padding` | `string` | `'0'` | Group padding |
+| `bordered` | `boolean` | `false` | Adds bordered container styling |
+| `label` | `string` | `undefined` | Optional group title |
+| `description` | `string` | `undefined` | Optional description text |
+| `collapsible` | `boolean` | `false` | Enable toggle behavior |
+| `collapsed` | `boolean` | `false` | Initial collapsed state |
+
+### `FormGroup` Row Example
+
+```vue
+<FormGroup direction="row" :wrap="true" gap="var(--space-xs)">
+  <FormField name="h" label="H" direction="row" label-width="1.25rem" :show-error="false">
+    <InputNumber v-model="h" :label="''" :controls="false" :min="0" :max="360" />
+  </FormField>
+  <FormField name="s" label="S" direction="row" label-width="1.25rem" :show-error="false">
+    <InputNumber v-model="s" :label="''" :controls="false" :min="0" :max="100" />
+  </FormField>
+</FormGroup>
+```
+
 ## Examples
 
 ### Simple Contact Form

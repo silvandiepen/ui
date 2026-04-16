@@ -371,7 +371,7 @@ const inputClasses = computed(() => {
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use './Form.scss' as form;
 
 .input-base {
 	@include form.inputBase();

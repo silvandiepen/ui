@@ -1,5 +1,5 @@
 <template>
-  <div :class="groupClasses">
+  <div :class="groupClasses" :style="groupStyles">
     <div v-if="label || collapsible" :class="bemm('header')" @click="handleHeaderClick">
       <h3 v-if="label" :class="bemm('label')">{{ label }}</h3>
       <button
@@ -30,6 +30,13 @@ import Icon from '../../Icon/Icon.vue'
 import type { FormGroupProps } from './Form.model'
 
 const props = withDefaults(defineProps<FormGroupProps>(), {
+  direction: 'column',
+  gap: 'var(--space)',
+  wrap: false,
+  align: 'stretch',
+  justify: 'flex-start',
+  padding: '0',
+  bordered: false,
   collapsible: false,
   collapsed: false
 })
@@ -42,10 +49,22 @@ const isCollapsed = ref(props.collapsed)
 // Computed
 const groupClasses = computed(() => {
   return bemm('', {
+    bordered: props.bordered,
+    row: props.direction === 'row',
+    wrap: props.wrap,
     collapsible: props.collapsible,
     collapsed: isCollapsed.value
   })
 })
+
+const groupStyles = computed(() => ({
+  '--form-group-direction': props.direction,
+  '--form-group-gap': props.gap,
+  '--form-group-wrap': props.wrap ? 'wrap' : 'nowrap',
+  '--form-group-align': props.align,
+  '--form-group-justify': props.justify,
+  '--form-group-padding': props.padding,
+}))
 
 // Methods
 const handleHeaderClick = () => {
@@ -60,10 +79,10 @@ const handleHeaderClick = () => {
   display: flex;
   flex-direction: column;
   gap: var(--form-group-gap, var(--space));
-  padding: var(--form-group-padding,var(--space));
-  border: 1px solid var(--form-group-border, var(--color-accent));
-  border-radius:var(--form-group-border-radius, var(--border-radius));
-  background: var(--form-group-background, var(--color-background));
+  padding: var(--form-group-padding, 0);
+  border: 1px solid transparent;
+  border-radius: var(--form-group-border-radius, var(--border-radius));
+  background: transparent;
 
   &__header {
     display: flex;
@@ -117,8 +136,16 @@ const handleHeaderClick = () => {
 
   &__content {
     display: flex;
-    flex-direction: column;
-    gap: var(--space);
+    flex-direction: var(--form-group-direction, column);
+    flex-wrap: var(--form-group-wrap, nowrap);
+    align-items: var(--form-group-align, stretch);
+    justify-content: var(--form-group-justify, flex-start);
+    gap: var(--form-group-gap, var(--space));
+  }
+
+  &--bordered {
+    border-color: var(--form-group-border, var(--color-accent));
+    background: var(--form-group-background, var(--color-background));
   }
 
   &--collapsible {

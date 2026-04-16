@@ -1,12 +1,14 @@
 <template>
   <div :class="fieldClasses">
-    <label v-if="label" :for="inputId" :class="bemm('label')">
-      {{ label }}
-      <span v-if="required" :class="bemm('required')">*</span>
-    </label>
+    <div :class="bemm('main')" :style="mainStyles">
+      <label v-if="label" :for="inputId" :class="bemm('label')">
+        {{ label }}
+        <span v-if="required" :class="bemm('required')">*</span>
+      </label>
 
-    <div :class="bemm('input')">
-      <slot :id="inputId" />
+      <div :class="bemm('input')">
+        <slot :id="inputId" />
+      </div>
     </div>
 
     <div v-if="shouldShowDescription || shouldShowError" :class="bemm('info')">
@@ -27,7 +29,11 @@ import type { FormFieldProps } from './Form.model'
 
 const props = withDefaults(defineProps<FormFieldProps>(), {
   required: false,
-  showError: true
+  showError: true,
+  direction: 'column',
+  gap: 'var(--space-xs)',
+  labelWidth: 'auto',
+  align: 'center',
 })
 
 const bemm = useBemm('form-field')
@@ -60,11 +66,19 @@ const shouldShowDescription = computed(() => {
 
 const fieldClasses = computed(() => {
   return bemm('', {
+    row: props.direction === 'row',
     required: props.required,
     error: shouldShowError.value,
     disabled: formContext?.disabled.value
   })
 })
+
+const mainStyles = computed(() => ({
+  '--form-field-direction': props.direction,
+  '--form-field-gap': props.gap,
+  '--form-field-label-width': props.direction === 'row' ? props.labelWidth : 'auto',
+  '--form-field-align': props.align,
+}))
 </script>
 
 <style lang="scss">
@@ -73,10 +87,19 @@ const fieldClasses = computed(() => {
   flex-direction: column;
   gap: var(--space-xs);
 
+  &__main {
+    display: flex;
+    flex-direction: var(--form-field-direction, column);
+    align-items: var(--form-field-align, center);
+    gap: var(--form-field-gap, var(--space-xs));
+  }
+
   &__label {
     font-weight: 500;
     color: var(--color-foreground);
     font-size: 0.875rem;
+    width: var(--form-field-label-width, auto);
+    flex-shrink: 0;
   }
 
   &__required {
@@ -86,6 +109,7 @@ const fieldClasses = computed(() => {
 
   &__input {
     width: 100%;
+    min-width: 0;
   }
 
   &__info {
@@ -106,6 +130,12 @@ const fieldClasses = computed(() => {
   &--error {
     .form-field__label {
       color: var(--color-error);
+    }
+  }
+
+  &--row {
+    .form-field__label {
+      line-height: 1;
     }
   }
 

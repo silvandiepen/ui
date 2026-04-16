@@ -127,9 +127,75 @@ export interface FormFieldProps {
    * @default true
    */
   showError?: boolean
+
+  /**
+   * Layout direction for label/input.
+   * @default 'column'
+   */
+  direction?: 'row' | 'column'
+
+  /**
+   * Gap between label and input.
+   * @default 'var(--space-xs)'
+   */
+  gap?: string
+
+  /**
+   * Label width when direction is row.
+   * @default 'auto'
+   */
+  labelWidth?: string
+
+  /**
+   * Cross-axis alignment for label/input row.
+   * @default 'center'
+   */
+  align?: 'stretch' | 'flex-start' | 'center' | 'flex-end'
 }
 
 export interface FormGroupProps {
+  /**
+   * Layout direction for children.
+   * @default 'column'
+   */
+  direction?: 'row' | 'column'
+
+  /**
+   * Gap between child items (CSS length).
+   * @default 'var(--space)'
+   */
+  gap?: string
+
+  /**
+   * Whether children can wrap when direction is row.
+   * @default false
+   */
+  wrap?: boolean
+
+  /**
+   * Align items on cross axis.
+   * @default 'stretch'
+   */
+  align?: 'stretch' | 'flex-start' | 'center' | 'flex-end'
+
+  /**
+   * Justify items on main axis.
+   * @default 'flex-start'
+   */
+  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around'
+
+  /**
+   * Optional group padding.
+   * @default '0'
+   */
+  padding?: string
+
+  /**
+   * Optional visual border.
+   * @default false
+   */
+  bordered?: boolean
+
   /**
    * Group label/title
    */

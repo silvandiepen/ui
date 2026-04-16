@@ -1,5 +1,6 @@
 <template>
-  <Form :class="bemm()" @submit="handleSubmit">
+  <Example>
+<Form :class="bemm()" @submit="handleSubmit">
     <InputText
       v-model="name"
       name="name"
@@ -45,6 +46,7 @@
       <strong>{{ submissionSummary }}</strong>
     </p>
   </Form>
+  </Example>
 </template>
 
 <script setup lang="ts">
@@ -54,11 +56,11 @@ import { useBemm } from 'bemm'
 import Button from '../../Button/Button.vue'
 import FormActions from '../FormActions/FormActions.vue'
 import Form from './Form.vue'
-import InputEmail from './InputEmail/InputEmail.vue'
-import InputSelect from './inputs/InputSelect/InputSelect.vue'
-import InputText from './inputs/InputText/InputText.vue'
-import InputTextArea from './inputs/InputTextArea/InputTextArea.vue'
-import InputToggle from './inputs/InputToggle/InputToggle.vue'
+import InputEmail from '../InputEmail/InputEmail.vue'
+import InputSelect from '../InputSelect/InputSelect.vue'
+import InputText from '../InputText/InputText.vue'
+import InputTextArea from '../InputTextArea/InputTextArea.vue'
+import InputToggle from '../InputToggle/InputToggle.vue'
 
 const bemm = useBemm('t-form-example')
 
