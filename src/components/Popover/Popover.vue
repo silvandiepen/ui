@@ -1,7 +1,7 @@
 <template>
 	<div
+		ref="rootElement"
 		:class="bemm('', [isOpen ? 'open' : '', disabled ? 'disabled' : ''])"
-		v-click-outside="close"
 		@click.stop
 	>
 		<div :class="bemm('trigger')" @click.stop="handleTriggerClick">
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
 import { useBemm } from 'bemm';
 import type { PopoverPlacement } from './Popover.model';
 
@@ -78,6 +78,7 @@ const bemm = useBemm('ui-popover', {
 });
 
 const internalOpen = ref(false);
+const rootElement = ref<HTMLElement | null>(null);
 
 const isControlled = computed(() => typeof props.modelValue === 'boolean');
 const isOpen = computed(() =>
@@ -119,6 +120,29 @@ const handleTriggerClick = () => {
 		toggle();
 	}
 };
+
+const handleDocumentPointerDown = (event: PointerEvent) => {
+	if (!isOpen.value || !rootElement.value) {
+		return;
+	}
+
+	const target = event.target;
+	if (!(target instanceof Node)) {
+		return;
+	}
+
+	if (!rootElement.value.contains(target)) {
+		close();
+	}
+};
+
+onMounted(() => {
+	document.addEventListener('pointerdown', handleDocumentPointerDown, true);
+});
+
+onUnmounted(() => {
+	document.removeEventListener('pointerdown', handleDocumentPointerDown, true);
+});
 
 const panelClasses = computed(() =>
 	bemm('panel', [props.placement, isOpen.value ? 'open' : ''])
