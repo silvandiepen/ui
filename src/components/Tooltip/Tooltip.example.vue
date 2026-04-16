@@ -1,43 +1,41 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <div :class="bemm('placements')">
-      <div
-        v-for="placement in placements"
-        :key="placement"
-        :class="bemm('anchor')"
-      >
-        <span>{{ placement }}</span>
+  <div :class="bemm()">
+      <div :class="bemm('placements')">
+        <div
+          v-for="placement in placements"
+          :key="placement"
+          :class="bemm('anchor')"
+        >
+          <span>{{ placement }}</span>
+          <Tooltip
+            :placement="placement"
+            show-on-parent-hover
+            :text="`Tooltip on ${placement}`"
+          />
+        </div>
+      </div>
+
+      <div :class="bemm('anchor')">
+        Rich tooltip
         <Tooltip
-          :placement="placement"
+          :actions="actions"
+          placement="right"
+          multiline
           show-on-parent-hover
-          :text="`Tooltip on ${placement}`"
+          text="Shared tooltips can include actions, multiple lines, and alternate placement."
+        />
+      </div>
+
+      <div :class="bemm('anchor')">
+        Manual open
+        <Tooltip
+          color="secondary"
+          placement="bottom"
+          :open="manualOpen"
+          text="Controlled tooltips can stay visible while you inspect the layout."
         />
       </div>
     </div>
-
-    <div :class="bemm('anchor')">
-      Rich tooltip
-      <Tooltip
-        :actions="actions"
-        placement="right"
-        multiline
-        show-on-parent-hover
-        text="Shared tooltips can include actions, multiple lines, and alternate placement."
-      />
-    </div>
-
-    <div :class="bemm('anchor')">
-      Manual open
-      <Tooltip
-        color="secondary"
-        placement="bottom"
-        :open="manualOpen"
-        text="Controlled tooltips can stay visible while you inspect the layout."
-      />
-    </div>
-  </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

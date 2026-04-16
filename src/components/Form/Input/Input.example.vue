@@ -1,5 +1,4 @@
 <template>
-  <Example>
 <div :class="bemm()">
     <Input
       v-model="name"
@@ -17,7 +16,6 @@
       prefix-icon="coins"
     />
   </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

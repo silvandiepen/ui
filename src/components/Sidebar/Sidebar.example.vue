@@ -1,9 +1,7 @@
 <template>
-  <Example>
-<Sidebar subtitle="Shared component docs" title="Navigation" width="20rem">
-    <SidebarNavigation :sections="sections" />
-  </Sidebar>
-  </Example>
+  <Sidebar subtitle="Shared component docs" title="Navigation" width="20rem">
+      <SidebarNavigation :sections="sections" />
+    </Sidebar>
 </template>
 
 <script setup lang="ts">

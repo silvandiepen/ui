@@ -1,42 +1,40 @@
 <template>
-  <Example>
-    <div :class="bemm()">
-      <div :class="bemm('controls')">
-        <div :class="bemm('modes')">
-          <button
-            v-for="mode in selectionModes"
-            :key="mode"
-            type="button"
-            :class="bemm('mode', { active: selectionMode === mode })"
-            @click="setSelectionMode(mode)"
-          >
-            {{ mode }}
-          </button>
-        </div>
-
-        <div :class="bemm('toggles')">
-          <button
-            v-for="m in monthOptions"
-            :key="m"
-            type="button"
-            :class="bemm('mode', { active: months === m })"
-            @click="months = m"
-          >
-            {{ m }} month{{ m > 1 ? 's' : '' }}
-          </button>
-        </div>
+  <div :class="bemm()">
+    <div :class="bemm('controls')">
+      <div :class="bemm('modes')">
+        <button
+          v-for="mode in selectionModes"
+          :key="mode"
+          type="button"
+          :class="bemm('mode', { active: selectionMode === mode })"
+          @click="setSelectionMode(mode)"
+        >
+          {{ mode }}
+        </button>
       </div>
 
-      <DatePicker
-        v-model="value"
-        :selection-mode="selectionMode"
-        :action-buttons="actionButtons"
-        :months="months"
-      />
-
-      <pre :class="bemm('value')">{{ serializedValue }}</pre>
+      <div :class="bemm('toggles')">
+        <button
+          v-for="m in monthOptions"
+          :key="m"
+          type="button"
+          :class="bemm('mode', { active: months === m })"
+          @click="months = m"
+        >
+          {{ m }} month{{ m > 1 ? 's' : '' }}
+        </button>
+      </div>
     </div>
-  </Example>
+
+    <DatePicker
+      v-model="value"
+      :selection-mode="selectionMode"
+      :action-buttons="actionButtons"
+      :months="months"
+    />
+
+    <pre :class="bemm('value')">{{ serializedValue }}</pre>
+  </div>
 </template>
 
 <script setup lang="ts">

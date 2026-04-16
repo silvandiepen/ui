@@ -1,9 +1,7 @@
 <template>
-  <Example>
 <Field hint="Shown below the control" label="Project Name" required>
     <Input model-value="Apollo" />
   </Field>
-  </Example>
 </template>
 
 <script lang="ts" setup>

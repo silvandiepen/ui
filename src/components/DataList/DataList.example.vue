@@ -1,14 +1,12 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <DataList
-      :auto-width="false"
-      :columns="columns"
-      :data="rows"
-      :row-clickable="false"
-    />
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <DataList
+        :auto-width="false"
+        :columns="columns"
+        :data="rows"
+        :row-clickable="false"
+      />
+    </div>
 </template>
 
 <script setup lang="ts">

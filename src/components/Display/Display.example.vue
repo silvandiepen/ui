@@ -1,22 +1,20 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Row :class="bemm('row')">
-      <DisplayBadge value="12" />
-      <DisplayBadge value="synced" color="success" />
-    </Row>
+  <div :class="bemm()">
+      <Row :class="bemm('row')">
+        <DisplayBadge value="12" />
+        <DisplayBadge value="synced" color="success" />
+      </Row>
 
-    <Note type="info">
-      Display helpers stay available for compact metadata and supporting content layouts.
-    </Note>
+      <Note type="info">
+        Display helpers stay available for compact metadata and supporting content layouts.
+      </Note>
 
-    <Spacer direction="row" align="center">
-      <span :class="bemm('pill')">Row</span>
-      <span :class="bemm('pill')">Chip</span>
-      <span :class="bemm('pill')">Note</span>
-    </Spacer>
-  </div>
-  </Example>
+      <Spacer direction="row" align="center">
+        <span :class="bemm('pill')">Row</span>
+        <span :class="bemm('pill')">Chip</span>
+        <span :class="bemm('pill')">Note</span>
+      </Spacer>
+    </div>
 </template>
 
 <script setup lang="ts">

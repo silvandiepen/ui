@@ -1,21 +1,18 @@
 <template>
-  <Example>
-<div class="signin-form-example">
-    <SigninForm
-      v-model="signin"
-      title="Sign in to Workspace"
-      description="Jump back into your projects, comments, and pending review flows."
-      forgot-password-href="#reset-password"
-      alternate-href="#signup"
-      :providers="providers"
-      @submit="handleSubmit"
-    >
-      <template #brand>
-        <strong>Workspace</strong>
-  </Example>
-</template>
-    </SigninForm>
-  </div>
+  <div class="signin-form-example">
+      <SigninForm
+        v-model="signin"
+        title="Sign in to Workspace"
+        description="Jump back into your projects, comments, and pending review flows."
+        forgot-password-href="#reset-password"
+        alternate-href="#signup"
+        :providers="providers"
+        @submit="handleSubmit"
+      >
+        <template #brand>
+          <strong>Workspace</strong>
+      </SigninForm>
+    </div>
 </template>
 
 <script lang="ts" setup>

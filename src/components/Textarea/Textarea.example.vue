@@ -1,11 +1,9 @@
 <template>
-  <Example>
 <Textarea
     v-model="notes"
     :rows="5"
     placeholder="Write release notes for the shared UI package..."
   />
-  </Example>
 </template>
 
 <script setup lang="ts">

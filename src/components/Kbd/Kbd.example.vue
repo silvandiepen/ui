@@ -1,13 +1,11 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <span :class="bemm('group')">
-      <Kbd>⌘</Kbd>
-      <Kbd>K</Kbd>
-    </span>
-    <span :class="bemm('label')">Open docs search</span>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <span :class="bemm('group')">
+        <Kbd>⌘</Kbd>
+        <Kbd>K</Kbd>
+      </span>
+      <span :class="bemm('label')">Open docs search</span>
+    </div>
 </template>
 
 <script lang="ts" setup>

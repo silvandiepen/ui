@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputCustomSelect
-      v-model="value"
-      label="Owner"
-      placeholder="Assign a team"
-      searchable
-      :options="options"
-    />
+  <div :class="bemm()">
+      <InputCustomSelect
+        v-model="value"
+        label="Owner"
+        placeholder="Assign a team"
+        searchable
+        :options="options"
+      />
 
-    <p :class="bemm('value')">Selected: {{ value }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">Selected: {{ value }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

@@ -1,11 +1,9 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Note type="info">This surface inherits the shared neutral note styling.</Note>
-    <Note type="success">Release checks passed and the package is ready.</Note>
-    <Note type="warning">One environment is still awaiting approval.</Note>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <Note type="info">This surface inherits the shared neutral note styling.</Note>
+      <Note type="success">Release checks passed and the package is ready.</Note>
+      <Note type="warning">One environment is still awaiting approval.</Note>
+    </div>
 </template>
 
 <script setup lang="ts">

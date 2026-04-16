@@ -1,6 +1,5 @@
 <template>
-  <Example>
-    <div :style="demoStyles.wrapper">
+<div :style="demoStyles.wrapper">
       <section :style="demoStyles.section">
         <div :style="demoStyles.intro">
           <h2 :style="demoStyles.heading">Variants</h2>
@@ -98,7 +97,6 @@
         </div>
       </section>
     </div>
-  </Example>
 </template>
 
 <script lang="ts" setup>

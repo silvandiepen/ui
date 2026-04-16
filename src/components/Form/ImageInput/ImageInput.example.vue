@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Popup />
+  <div :class="bemm()">
+      <Popup />
 
-    <ImageInput
-      v-model="image"
-      label="Thumbnail"
-      description="Clicking the control opens the media selector when a popup service is available."
-    />
+      <ImageInput
+        v-model="image"
+        label="Thumbnail"
+        description="Clicking the control opens the media selector when a popup service is available."
+      />
 
-    <p :class="bemm('value')">{{ image?.alt || 'No image selected' }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">{{ image?.alt || 'No image selected' }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

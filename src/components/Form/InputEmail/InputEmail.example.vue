@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputEmail
-      v-model="email"
-      label="Team email"
-      placeholder="team@example.com"
-      instructions="Validation runs after interaction."
-      required
-    />
+  <div :class="bemm()">
+      <InputEmail
+        v-model="email"
+        label="Team email"
+        placeholder="team@example.com"
+        instructions="Validation runs after interaction."
+        required
+      />
 
-    <p :class="bemm('value')">{{ email }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">{{ email }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

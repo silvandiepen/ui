@@ -1,10 +1,8 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputColor v-model="color" label="Pick a color" />
-    <p :class="bemm('value')">Selected: {{ color }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputColor v-model="color" label="Pick a color" />
+      <p :class="bemm('value')">Selected: {{ color }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

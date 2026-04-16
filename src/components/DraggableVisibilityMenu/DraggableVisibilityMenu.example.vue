@@ -1,9 +1,7 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <DraggableVisibilityMenu :items="items" @update:items="items = $event" />
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <DraggableVisibilityMenu :items="items" @update:items="items = $event" />
+    </div>
 </template>
 
 <script setup lang="ts">

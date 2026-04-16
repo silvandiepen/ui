@@ -1,5 +1,4 @@
 <template>
-  <Example>
 <div :class="bemm()">
     <section :class="bemm('section')">
       <p :class="bemm('label')">Single item (default)</p>
@@ -74,7 +73,6 @@
       </Carousel>
     </section>
   </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,10 +1,8 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputRange v-model="value" label="Volume" :min="0" :max="100" />
-    <p :class="bemm('value')">Value: {{ value }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputRange v-model="value" label="Volume" :min="0" :max="100" />
+      <p :class="bemm('value')">Value: {{ value }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

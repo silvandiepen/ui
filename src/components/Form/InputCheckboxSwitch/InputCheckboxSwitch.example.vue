@@ -1,10 +1,8 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputCheckboxSwitch v-model="enabled" label="Enable notifications" />
-    <p :class="bemm('value')">Enabled: {{ enabled }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputCheckboxSwitch v-model="enabled" label="Enable notifications" />
+      <p :class="bemm('value')">Enabled: {{ enabled }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

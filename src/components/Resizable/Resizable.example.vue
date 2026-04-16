@@ -1,25 +1,20 @@
 <template>
-  <Example>
-<Resizable
-    :class="bemm()"
-    :default-size="240"
-    :min-size="180"
-    :min-secondary-size="220"
-    handle-label="Resize example panels"
-  >
-    <template #start>
-      <div :class="bemm('panel')">
-        Navigation
-      </div>
-  </Example>
-</template>
+  <Resizable
+      :class="bemm()"
+      :default-size="240"
+      :min-size="180"
+      :min-secondary-size="220"
+      handle-label="Resize example panels"
+    >
+      <template #start>
+        <div :class="bemm('panel')">
+          Navigation
+        </div>
 
-    <template #end>
-      <div :class="[bemm('panel'), bemm('panel', 'secondary')]">
-        Preview surface
-      </div>
-    </template>
-  </Resizable>
+      <template #end>
+        <div :class="[bemm('panel'), bemm('panel', 'secondary')]">
+          Preview surface
+        </div>
 </template>
 
 <script lang="ts" setup>

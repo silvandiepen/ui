@@ -1,24 +1,22 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <label :class="bemm('label')" for="search-results-example-query">Search docs</label>
-    <input
-      id="search-results-example-query"
-      v-model="query"
-      :class="bemm('input')"
-      placeholder="Search components and composables"
-      type="search"
-    />
+  <div :class="bemm()">
+      <label :class="bemm('label')" for="search-results-example-query">Search docs</label>
+      <input
+        id="search-results-example-query"
+        v-model="query"
+        :class="bemm('input')"
+        placeholder="Search components and composables"
+        type="search"
+      />
 
-    <SearchResults
-      :empty-label="'No results found'"
-      :has-query="hasQuery"
-      :ready-label="'Type to search the example entries'"
-      :results="results"
-      :status-label="hasQuery ? `${totalResults} results` : ''"
-    />
-  </div>
-  </Example>
+      <SearchResults
+        :empty-label="'No results found'"
+        :has-query="hasQuery"
+        :ready-label="'Type to search the example entries'"
+        :results="results"
+        :status-label="hasQuery ? `${totalResults} results` : ''"
+      />
+    </div>
 </template>
 
 <script lang="ts" setup>

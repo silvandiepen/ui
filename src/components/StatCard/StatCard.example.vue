@@ -1,5 +1,4 @@
 <template>
-  <Example>
 <div class="stat-card-example">
     <StatCard
       :value="23"
@@ -27,7 +26,6 @@
       icon="check"
     />
   </div>
-  </Example>
 </template>
 
 <script lang="ts" setup>

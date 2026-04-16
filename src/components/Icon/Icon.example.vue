@@ -1,11 +1,9 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Icon name="search" />
-    <Icon name="settings" size="large" />
-    <Icon name="check" size="xl" />
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <Icon name="search" />
+      <Icon name="settings" size="large" />
+      <Icon name="check" size="xl" />
+    </div>
 </template>
 
 <script setup lang="ts">

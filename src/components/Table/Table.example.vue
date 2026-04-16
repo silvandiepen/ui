@@ -1,14 +1,11 @@
 <template>
-  <Example>
-    <Table>
+<Table>
       <template #header>
         <tr>
           <th>Component</th>
           <th>Status</th>
         </tr>
-      </template>
-
-      <tr>
+<tr>
         <td>Sidebar</td>
         <td>Stable</td>
       </tr>
@@ -21,7 +18,6 @@
         <td>Transitional</td>
       </tr>
     </Table>
-  </Example>
 </template>
 
 <script setup lang="ts">

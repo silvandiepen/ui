@@ -1,13 +1,11 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Chip icon="folder">Workspace</Chip>
-    <Chip color="success" tooltip="Release approved">Published</Chip>
-    <Chip removable @remove="removed = true">
-      {{ removed ? 'Removed' : 'Needs review' }}
-    </Chip>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <Chip icon="folder">Workspace</Chip>
+      <Chip color="success" tooltip="Release approved">Published</Chip>
+      <Chip removable @remove="removed = true">
+        {{ removed ? 'Removed' : 'Needs review' }}
+      </Chip>
+    </div>
 </template>
 
 <script setup lang="ts">

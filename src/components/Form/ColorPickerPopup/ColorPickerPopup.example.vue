@@ -1,5 +1,4 @@
 <template>
-  <Example>
   <div :class="bemm()">
     <ColorPickerPopup
       v-model="selectedColor"
@@ -11,7 +10,6 @@
       <strong>{{ selectedColor }}</strong>
     </p>
   </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

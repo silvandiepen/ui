@@ -1,33 +1,31 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <section :class="bemm('section')">
-      <p :class="bemm('label')">Horizontal card rail</p>
-      <Scroller horizontal :class="bemm('horizontal')">
-        <div
-          v-for="card in cards"
-          :key="card"
-          :class="bemm('card')"
-        >
-          {{ card }}
-        </div>
-      </Scroller>
-    </section>
+  <div :class="bemm()">
+      <section :class="bemm('section')">
+        <p :class="bemm('label')">Horizontal card rail</p>
+        <Scroller horizontal :class="bemm('horizontal')">
+          <div
+            v-for="card in cards"
+            :key="card"
+            :class="bemm('card')"
+          >
+            {{ card }}
+          </div>
+        </Scroller>
+      </section>
 
-    <section :class="bemm('section')">
-      <p :class="bemm('label')">Vertical log with fixed height</p>
-      <Scroller vertical height="12rem" :class="bemm('vertical')">
-        <div
-          v-for="item in events"
-          :key="item"
-          :class="bemm('event')"
-        >
-          {{ item }}
-        </div>
-      </Scroller>
-    </section>
-  </div>
-  </Example>
+      <section :class="bemm('section')">
+        <p :class="bemm('label')">Vertical log with fixed height</p>
+        <Scroller vertical height="12rem" :class="bemm('vertical')">
+          <div
+            v-for="item in events"
+            :key="item"
+            :class="bemm('event')"
+          >
+            {{ item }}
+          </div>
+        </Scroller>
+      </section>
+    </div>
 </template>
 
 <script setup lang="ts">

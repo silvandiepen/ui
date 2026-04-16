@@ -1,9 +1,7 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <ItemList :items="items" />
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <ItemList :items="items" />
+    </div>
 </template>
 
 <script setup lang="ts">

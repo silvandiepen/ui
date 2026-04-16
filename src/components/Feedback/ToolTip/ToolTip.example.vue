@@ -1,19 +1,17 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <div :class="bemm('row')">
-      <button :class="bemm('trigger')" type="button">
-        Hover for tooltip
-        <ToolTip position="top">Design tokens are shared across products.</ToolTip>
-      </button>
+  <div :class="bemm()">
+      <div :class="bemm('row')">
+        <button :class="bemm('trigger')" type="button">
+          Hover for tooltip
+          <ToolTip position="top">Design tokens are shared across products.</ToolTip>
+        </button>
 
-      <button :class="bemm('trigger')" type="button">
-        Slow reveal
-        <ToolTip :delay="1.2" position="right">This tooltip waits before opening.</ToolTip>
-      </button>
+        <button :class="bemm('trigger')" type="button">
+          Slow reveal
+          <ToolTip :delay="1.2" position="right">This tooltip waits before opening.</ToolTip>
+        </button>
+      </div>
     </div>
-  </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

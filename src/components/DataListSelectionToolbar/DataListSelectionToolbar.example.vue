@@ -1,14 +1,12 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <DataListSelectionToolbar
-      :selected-count="selectedRows.length"
-      :selected-rows="selectedRows"
-      :selection-actions="selectionActions"
-      :show-actions="true"
-    />
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <DataListSelectionToolbar
+        :selected-count="selectedRows.length"
+        :selected-rows="selectedRows"
+        :selection-actions="selectionActions"
+        :show-actions="true"
+      />
+    </div>
 </template>
 
 <script setup lang="ts">

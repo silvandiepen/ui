@@ -1,19 +1,17 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputRadio
-      v-for="option in options"
-      :key="option.value"
-      v-model="value"
-      name="release-channel"
-      :label="option.label"
-      :value="option.value"
-      :description="option.description"
-    />
+  <div :class="bemm()">
+      <InputRadio
+        v-for="option in options"
+        :key="option.value"
+        v-model="value"
+        name="release-channel"
+        :label="option.label"
+        :value="option.value"
+        :description="option.description"
+      />
 
-    <p :class="bemm('value')">Channel: {{ value }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">Channel: {{ value }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

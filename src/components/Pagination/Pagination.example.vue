@@ -1,31 +1,29 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <section :class="bemm('section')">
-      <p :class="bemm('label')">Full pagination</p>
-      <Pagination
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :page-sizes="[10, 25, 50]"
-        :total="126"
-        @update:current-page="currentPage = $event"
-        @update:page-size="pageSize = $event"
-      />
-    </section>
+  <div :class="bemm()">
+      <section :class="bemm('section')">
+        <p :class="bemm('label')">Full pagination</p>
+        <Pagination
+          :current-page="currentPage"
+          :page-size="pageSize"
+          :page-sizes="[10, 25, 50]"
+          :total="126"
+          @update:current-page="currentPage = $event"
+          @update:page-size="pageSize = $event"
+        />
+      </section>
 
-    <section :class="bemm('section')">
-      <p :class="bemm('label')">Compact pager only</p>
-      <Pagination
-        :current-page="compactPage"
-        :page-size="20"
-        :total="220"
-        layout="prev, pager, next"
-        :sibling-count="0"
-        @update:current-page="compactPage = $event"
-      />
-    </section>
-  </div>
-  </Example>
+      <section :class="bemm('section')">
+        <p :class="bemm('label')">Compact pager only</p>
+        <Pagination
+          :current-page="compactPage"
+          :page-size="20"
+          :total="220"
+          layout="prev, pager, next"
+          :sibling-count="0"
+          @update:current-page="compactPage = $event"
+        />
+      </section>
+    </div>
 </template>
 
 <script setup lang="ts">

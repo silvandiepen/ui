@@ -1,21 +1,19 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <section :class="bemm('group')">
-      <p :class="bemm('label')">Short click menu</p>
-      <ContextMenu :config="menuConfig">
-        <Button variant="outline">Open menu</Button>
-      </ContextMenu>
-    </section>
+  <div :class="bemm()">
+      <section :class="bemm('group')">
+        <p :class="bemm('label')">Short click menu</p>
+        <ContextMenu :config="menuConfig">
+          <Button variant="outline">Open menu</Button>
+        </ContextMenu>
+      </section>
 
-    <section :class="bemm('group')">
-      <p :class="bemm('label')">Right click menu</p>
-      <ContextMenu :config="rightClickMenuConfig">
-        <div :class="bemm('target')">Right click this surface</div>
-      </ContextMenu>
-    </section>
-  </div>
-  </Example>
+      <section :class="bemm('group')">
+        <p :class="bemm('label')">Right click menu</p>
+        <ContextMenu :config="rightClickMenuConfig">
+          <div :class="bemm('target')">Right click this surface</div>
+        </ContextMenu>
+      </section>
+    </div>
 </template>
 
 <script setup lang="ts">

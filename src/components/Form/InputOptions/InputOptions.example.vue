@@ -1,22 +1,20 @@
 <template>
-  <Example>
-    <div :class="bemm()">
-      <h4>Checkboxes (multiple)</h4>
-      <InputOptions v-model="checkboxSelected" type="checkbox" :options="options" />
+  <div :class="bemm()">
+    <h4>Checkboxes (multiple)</h4>
+    <InputOptions v-model="checkboxSelected" type="checkbox" :options="options" />
 
-      <h4>Toggles (multiple)</h4>
-      <InputOptions v-model="toggleSelected" type="toggle" :options="options" />
+    <h4>Toggles (multiple)</h4>
+    <InputOptions v-model="toggleSelected" type="toggle" :options="options" />
 
-      <h4>Radio (single)</h4>
-      <InputOptions v-model="radioSelected" type="radio" :options="options" />
+    <h4>Radio (single)</h4>
+    <InputOptions v-model="radioSelected" type="radio" :options="options" />
 
-      <h4>Checkboxes (single select)</h4>
-      <InputOptions v-model="singleSelected" type="checkbox" :multiple="false" :options="options" />
+    <h4>Checkboxes (single select)</h4>
+    <InputOptions v-model="singleSelected" type="checkbox" :multiple="false" :options="options" />
 
-      <h4>Horizontal checkboxes</h4>
-      <InputOptions v-model="horizontalSelected" type="checkbox" direction="horizontal" :options="options" />
-    </div>
-  </Example>
+    <h4>Horizontal checkboxes</h4>
+    <InputOptions v-model="horizontalSelected" type="checkbox" direction="horizontal" :options="options" />
+  </div>
 </template>
 
 <script setup lang="ts">

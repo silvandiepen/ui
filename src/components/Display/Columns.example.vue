@@ -1,16 +1,14 @@
 <template>
-  <Example>
-<Columns :class="bemm()" :columns="3">
-    <div
-      v-for="item in items"
-      :key="item.title"
-      :class="bemm('card')"
-    >
-      <strong>{{ item.title }}</strong>
-      <span>{{ item.value }}</span>
-    </div>
-  </Columns>
-  </Example>
+  <Columns :class="bemm()" :columns="3">
+      <div
+        v-for="item in items"
+        :key="item.title"
+        :class="bemm('card')"
+      >
+        <strong>{{ item.title }}</strong>
+        <span>{{ item.value }}</span>
+      </div>
+    </Columns>
 </template>
 
 <script setup lang="ts">

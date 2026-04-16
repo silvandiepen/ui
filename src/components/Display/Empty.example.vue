@@ -1,14 +1,12 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Empty
-      message="No connected repositories yet."
-      :action="{ label: 'Connect repo', action: connect }"
-    />
+  <div :class="bemm()">
+      <Empty
+        message="No connected repositories yet."
+        :action="{ label: 'Connect repo', action: connect }"
+      />
 
-    <p :class="bemm('status')">{{ status }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('status')">{{ status }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

@@ -1,22 +1,20 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <div :class="bemm('profile')">
-      <Skeleton :height="48" shape="circle" width="48" />
-      <div :class="bemm('copy')">
-        <Skeleton :height="18" width="14rem" />
-        <Skeleton :height="14" shape="pill" width="9rem" />
+  <div :class="bemm()">
+      <div :class="bemm('profile')">
+        <Skeleton :height="48" shape="circle" width="48" />
+        <div :class="bemm('copy')">
+          <Skeleton :height="18" width="14rem" />
+          <Skeleton :height="14" shape="pill" width="9rem" />
+        </div>
+      </div>
+
+      <div :class="bemm('card')">
+        <Skeleton height="9rem" width="100%" />
+        <Skeleton :height="18" width="60%" />
+        <Skeleton :height="14" width="100%" />
+        <Skeleton :height="14" width="82%" />
       </div>
     </div>
-
-    <div :class="bemm('card')">
-      <Skeleton height="9rem" width="100%" />
-      <Skeleton :height="18" width="60%" />
-      <Skeleton :height="14" width="100%" />
-      <Skeleton :height="14" width="82%" />
-    </div>
-  </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,48 +1,46 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <section :class="bemm('group')">
-      <div :class="bemm('group-header')">
-        <strong>Default switcher</strong>
-        <span>Shows locale codes and reveals variants after the base locale is selected</span>
-      </div>
+  <div :class="bemm()">
+      <section :class="bemm('group')">
+        <div :class="bemm('group-header')">
+          <strong>Default switcher</strong>
+          <span>Shows locale codes and reveals variants after the base locale is selected</span>
+        </div>
 
-      <LanguageSwitch
-        v-model="groupedLocale"
-        :options="groupedOptions"
-        title="Documentation language"
-      />
-    </section>
+        <LanguageSwitch
+          v-model="groupedLocale"
+          :options="groupedOptions"
+          title="Documentation language"
+        />
+      </section>
 
-    <section :class="bemm('group')">
-      <div :class="bemm('group-header')">
-        <strong>Simple mode</strong>
-        <span>Uses DropdownMenu and lists language names only</span>
-      </div>
+      <section :class="bemm('group')">
+        <div :class="bemm('group-header')">
+          <strong>Simple mode</strong>
+          <span>Uses DropdownMenu and lists language names only</span>
+        </div>
 
-      <LanguageSwitch
-        v-model="flatLocale"
-        :options="flatOptions"
-        mode="simple"
-        title="Menu language"
-      />
-    </section>
+        <LanguageSwitch
+          v-model="flatLocale"
+          :options="flatOptions"
+          mode="simple"
+          title="Menu language"
+        />
+      </section>
 
-    <section :class="bemm('group')">
-      <div :class="bemm('group-header')">
-        <strong>Inline panel</strong>
-        <span>Same option list ready to drop inside popup content</span>
-      </div>
+      <section :class="bemm('group')">
+        <div :class="bemm('group-header')">
+          <strong>Inline panel</strong>
+          <span>Same option list ready to drop inside popup content</span>
+        </div>
 
-      <LanguageSwitch
-        v-model="popupLocale"
-        :options="groupedOptions"
-        surface="inline"
-        title="Popup content"
-      />
-    </section>
-  </div>
-  </Example>
+        <LanguageSwitch
+          v-model="popupLocale"
+          :options="groupedOptions"
+          surface="inline"
+          title="Popup content"
+        />
+      </section>
+    </div>
 </template>
 
 <script setup lang="ts">

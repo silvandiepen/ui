@@ -1,40 +1,38 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputToggle
-      v-model="enabled"
-      label="Enable notifications"
-    />
+  <div :class="bemm()">
+      <InputToggle
+        v-model="enabled"
+        label="Enable notifications"
+      />
 
-    <InputToggle
-      v-model="darkMode"
-      label="Theme"
-      color="secondary"
-      :items="themeItems"
-    />
+      <InputToggle
+        v-model="darkMode"
+        label="Theme"
+        color="secondary"
+        :items="themeItems"
+      />
 
-    <InputToggle
-      v-model="locked"
-      label="Visibility"
-      color="warning"
-      :items="visibilityItems"
-    />
+      <InputToggle
+        v-model="locked"
+        label="Visibility"
+        color="warning"
+        :items="visibilityItems"
+      />
 
-    <InputToggle
-      v-model="bookmark"
-      label="Bookmark"
-      color="success"
-      :items="bookmarkItems"
-    />
+      <InputToggle
+        v-model="bookmark"
+        label="Bookmark"
+        color="success"
+        :items="bookmarkItems"
+      />
 
-    <p :class="bemm('value')">
-      Notifications: {{ enabled ? 'on' : 'off' }} |
-      Theme: {{ darkMode }} |
-      Visibility: {{ locked }} |
-      Bookmark: {{ bookmark }}
-    </p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">
+        Notifications: {{ enabled ? 'on' : 'off' }} |
+        Theme: {{ darkMode }} |
+        Visibility: {{ locked }} |
+        Bookmark: {{ bookmark }}
+      </p>
+    </div>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,4 @@
 <template>
-  <Example>
 <Form :class="bemm()" @submit="handleSubmit">
     <InputText
       v-model="name"
@@ -46,7 +45,6 @@
       <strong>{{ submissionSummary }}</strong>
     </p>
   </Form>
-  </Example>
 </template>
 
 <script setup lang="ts">

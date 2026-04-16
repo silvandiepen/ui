@@ -1,10 +1,8 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputSelectIcon v-model="icon" :options="icons" label="Select an icon" />
-    <p :class="bemm('value')">Selected: {{ icon }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputSelectIcon v-model="icon" :options="icons" label="Select an icon" />
+      <p :class="bemm('value')">Selected: {{ icon }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

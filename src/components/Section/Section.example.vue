@@ -1,12 +1,10 @@
 <template>
-  <Example>
-<Section variant="alternate">
-    <h3 :class="bemm('title')">Alternate section</h3>
-    <p :class="bemm('copy')">
-      This section uses the shared container wrapper and background variant.
-    </p>
-  </Section>
-  </Example>
+  <Section variant="alternate">
+      <h3 :class="bemm('title')">Alternate section</h3>
+      <p :class="bemm('copy')">
+        This section uses the shared container wrapper and background variant.
+      </p>
+    </Section>
 </template>
 
 <script setup lang="ts">

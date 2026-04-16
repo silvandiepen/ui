@@ -1,16 +1,14 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <RichTextEditor
-      v-model="content"
-      label="Announcement"
-      placeholder="Write a short update for the team"
-      height="14rem"
-    />
+  <div :class="bemm()">
+      <RichTextEditor
+        v-model="content"
+        label="Announcement"
+        placeholder="Write a short update for the team"
+        height="14rem"
+      />
 
-    <p :class="bemm('value')">Content length: {{ content.length }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">Content length: {{ content.length }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

@@ -1,14 +1,12 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputBirthday
-      v-model="birthday"
-      label="Date of birth"
-      instructions="Enter your date of birth"
-    />
-    <p :class="bemm('value')">Value: {{ birthday || 'not set' }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputBirthday
+        v-model="birthday"
+        label="Date of birth"
+        instructions="Enter your date of birth"
+      />
+      <p :class="bemm('value')">Value: {{ birthday || 'not set' }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

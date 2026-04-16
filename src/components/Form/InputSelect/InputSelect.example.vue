@@ -1,18 +1,16 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputSelect
-      v-model="value"
-      label="Environment"
-      :options="options"
-      allowNull
-      filterable
-      null-label="Choose one"
-    />
+  <div :class="bemm()">
+      <InputSelect
+        v-model="value"
+        label="Environment"
+        :options="options"
+        allowNull
+        filterable
+        null-label="Choose one"
+      />
 
-    <p :class="bemm('value')">Selected: {{ value || 'none' }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">Selected: {{ value || 'none' }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

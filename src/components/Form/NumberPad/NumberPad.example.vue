@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <div :class="bemm('display')">{{ code || 'Tap the keypad' }}</div>
+  <div :class="bemm()">
+      <div :class="bemm('display')">{{ code || 'Tap the keypad' }}</div>
 
-    <NumberPad
-      :disable-clear="code.length === 0"
-      :disable-submit="code.length < 4"
-      @number="appendDigit"
-      @clear="removeDigit"
-      @submit="submitCode"
-    />
-  </div>
-  </Example>
+      <NumberPad
+        :disable-clear="code.length === 0"
+        :disable-submit="code.length < 4"
+        @number="appendDigit"
+        @clear="removeDigit"
+        @submit="submitCode"
+      />
+    </div>
 </template>
 
 <script setup lang="ts">

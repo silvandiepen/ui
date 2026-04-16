@@ -1,29 +1,27 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputSwitch
-      v-model="value"
-      label="View mode"
-      :items="viewItems"
-    />
+  <div :class="bemm()">
+      <InputSwitch
+        v-model="value"
+        label="View mode"
+        :items="viewItems"
+      />
 
-    <InputSwitch
-      v-model="plan"
-      label="Plan"
-      color="secondary"
-      :items="planItems"
-    />
+      <InputSwitch
+        v-model="plan"
+        label="Plan"
+        color="secondary"
+        :items="planItems"
+      />
 
-    <InputSwitch
-      v-model="align"
-      label="Alignment"
-      color="success"
-      :items="alignItems"
-    />
+      <InputSwitch
+        v-model="align"
+        label="Alignment"
+        color="success"
+        :items="alignItems"
+      />
 
-    <p :class="bemm('value')">View: {{ value }} | Plan: {{ plan }} | Align: {{ align }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">View: {{ value }} | Plan: {{ plan }} | Align: {{ align }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

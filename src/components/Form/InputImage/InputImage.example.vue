@@ -1,10 +1,8 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputImage v-model="imageUrl" label="Upload image" />
-    <p :class="bemm('value')">URL: {{ imageUrl || 'none' }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputImage v-model="imageUrl" label="Upload image" />
+      <p :class="bemm('value')">URL: {{ imageUrl || 'none' }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

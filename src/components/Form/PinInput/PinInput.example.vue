@@ -1,42 +1,40 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <div :class="bemm('group')">
-      <label :class="bemm('label')">Verification code (4 digits)</label>
-      <PinInput
-        v-model="code4"
-        :length="4"
-        @complete="handleComplete4"
-      />
-      <p :class="bemm('status')">{{ status4 }}</p>
-    </div>
+  <div :class="bemm()">
+      <div :class="bemm('group')">
+        <label :class="bemm('label')">Verification code (4 digits)</label>
+        <PinInput
+          v-model="code4"
+          :length="4"
+          @complete="handleComplete4"
+        />
+        <p :class="bemm('status')">{{ status4 }}</p>
+      </div>
 
-    <div :class="bemm('group')">
-      <label :class="bemm('label')">Enter your 6-digit code</label>
-      <PinInput
-        v-model="code6"
-        :length="6"
-        :show-value="true"
-        auto-submit
-        @complete="handleComplete6"
-      />
-      <p :class="bemm('status')">{{ status6 }}</p>
-    </div>
+      <div :class="bemm('group')">
+        <label :class="bemm('label')">Enter your 6-digit code</label>
+        <PinInput
+          v-model="code6"
+          :length="6"
+          :show-value="true"
+          auto-submit
+          @complete="handleComplete6"
+        />
+        <p :class="bemm('status')">{{ status6 }}</p>
+      </div>
 
-    <div :class="bemm('group')">
-      <label :class="bemm('label')">Masked PIN</label>
-      <PinInput
-        v-model="codeMasked"
-        :length="4"
-        :show-value="true"
-        mask
-        mask-character="•"
-        @complete="handleCompleteMasked"
-      />
-      <p :class="bemm('status')">{{ statusMasked }}</p>
+      <div :class="bemm('group')">
+        <label :class="bemm('label')">Masked PIN</label>
+        <PinInput
+          v-model="codeMasked"
+          :length="4"
+          :show-value="true"
+          mask
+          mask-character="•"
+          @complete="handleCompleteMasked"
+        />
+        <p :class="bemm('status')">{{ statusMasked }}</p>
+      </div>
     </div>
-  </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

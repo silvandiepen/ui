@@ -1,11 +1,9 @@
 <template>
-  <Example>
-<Spacer direction="row" align="center" :class="bemm()">
-    <Button size="small">Back</Button>
-    <Button size="small" variant="secondary">Share</Button>
-    <Button size="small" variant="outline">Archive</Button>
-  </Spacer>
-  </Example>
+  <Spacer direction="row" align="center" :class="bemm()">
+      <Button size="small">Back</Button>
+      <Button size="small" variant="secondary">Share</Button>
+      <Button size="small" variant="outline">Archive</Button>
+    </Spacer>
 </template>
 
 <script setup lang="ts">

@@ -1,16 +1,14 @@
 <template>
-  <Example>
-<Collapsible
-    v-model="isOpen"
-    label="Advanced filters"
-    :icon="Icons.FILE_COLUMNS"
-    toggle-icon="plus"
-  >
-    <p :class="bemm('content')">
-      Refine results by owner, status, date range, or any app-specific field.
-    </p>
-  </Collapsible>
-  </Example>
+  <Collapsible
+      v-model="isOpen"
+      label="Advanced filters"
+      :icon="Icons.FILE_COLUMNS"
+      toggle-icon="plus"
+    >
+      <p :class="bemm('content')">
+        Refine results by owner, status, date range, or any app-specific field.
+      </p>
+    </Collapsible>
 </template>
 
 <script lang="ts" setup>

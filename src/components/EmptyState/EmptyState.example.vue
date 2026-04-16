@@ -1,5 +1,4 @@
 <template>
-  <Example>
 <EmptyState
     description="Create your first shared component example to populate this area."
     icon="box"
@@ -8,9 +7,7 @@
     <template #actions>
       <Button>New component</Button>
       <Button variant="outline">Import existing</Button>
-  </Example>
-</template>
-  </EmptyState>
+</EmptyState>
 </template>
 
 <script setup lang="ts">

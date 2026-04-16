@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputText
-      v-model="value"
-      label="Release title"
-      placeholder="April shared UI release"
-      description="Text input inside the shared Form input family."
-      reset
-    />
+  <div :class="bemm()">
+      <InputText
+        v-model="value"
+        label="Release title"
+        placeholder="April shared UI release"
+        description="Text input inside the shared Form input family."
+        reset
+      />
 
-    <p :class="bemm('value')">{{ value }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">{{ value }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

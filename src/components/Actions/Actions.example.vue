@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <section :class="bemm('group')">
-      <p :class="bemm('label')">Compact card actions</p>
-      <Actions :actions="actions" :context-menu-items="contextMenuItems" />
-    </section>
+  <div :class="bemm()">
+      <section :class="bemm('group')">
+        <p :class="bemm('label')">Compact card actions</p>
+        <Actions :actions="actions" :context-menu-items="contextMenuItems" />
+      </section>
 
-    <section :class="bemm('group')">
-      <p :class="bemm('label')">Dense row actions</p>
-      <Actions :actions="secondaryActions" />
-    </section>
-  </div>
-  </Example>
+      <section :class="bemm('group')">
+        <p :class="bemm('label')">Dense row actions</p>
+        <Actions :actions="secondaryActions" />
+      </section>
+    </div>
 </template>
 
 <script setup lang="ts">

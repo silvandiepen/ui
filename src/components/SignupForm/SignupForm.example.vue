@@ -1,21 +1,18 @@
 <template>
-  <Example>
-<div class="signup-form-example">
-    <SignupForm
-      v-model="signup"
-      title="Create a Workspace account"
-      description="Set up a secure account, agree to the basics, and invite the rest of your team later."
-      legal-note="By continuing you agree to fair use, privacy, and secure account handling."
-      alternate-href="#signin"
-      :providers="providers"
-      @submit="handleSubmit"
-    >
-      <template #brand>
-        <strong>Workspace</strong>
-  </Example>
-</template>
-    </SignupForm>
-  </div>
+  <div class="signup-form-example">
+      <SignupForm
+        v-model="signup"
+        title="Create a Workspace account"
+        description="Set up a secure account, agree to the basics, and invite the rest of your team later."
+        legal-note="By continuing you agree to fair use, privacy, and secure account handling."
+        alternate-href="#signin"
+        :providers="providers"
+        @submit="handleSubmit"
+      >
+        <template #brand>
+          <strong>Workspace</strong>
+      </SignupForm>
+    </div>
 </template>
 
 <script lang="ts" setup>

@@ -1,15 +1,13 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputCascader
-      v-model="selection"
-      label="Destination"
-      :options="options"
-    />
+  <div :class="bemm()">
+      <InputCascader
+        v-model="selection"
+        label="Destination"
+        :options="options"
+      />
 
-    <p :class="bemm('value')">Path: {{ selection.join(' / ') || 'none' }}</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">Path: {{ selection.join(' / ') || 'none' }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">

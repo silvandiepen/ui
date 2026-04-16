@@ -1,17 +1,15 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputTextArea
-      v-model="value"
-      label="Release notes"
-      description="Longer freeform text with autosize support."
-      show-count
-      :maxlength="180"
-    />
+  <div :class="bemm()">
+      <InputTextArea
+        v-model="value"
+        label="Release notes"
+        description="Longer freeform text with autosize support."
+        show-count
+        :maxlength="180"
+      />
 
-    <p :class="bemm('value')">{{ value.length }} characters</p>
-  </div>
-  </Example>
+      <p :class="bemm('value')">{{ value.length }} characters</p>
+    </div>
 </template>
 
 <script setup lang="ts">

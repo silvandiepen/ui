@@ -1,11 +1,9 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <DL label="Owner" value="Shared UI team" />
-    <DL label="Channels" :value="['Docs app', 'Dashboard', 'Marketing']" />
-    <DL label="State" value="Published" />
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <DL label="Owner" value="Shared UI team" />
+      <DL label="Channels" :value="['Docs app', 'Dashboard', 'Marketing']" />
+      <DL label="State" value="Published" />
+    </div>
 </template>
 
 <script setup lang="ts">

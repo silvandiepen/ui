@@ -1,15 +1,13 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <Toast />
+  <div :class="bemm()">
+      <Toast />
 
-    <div :class="bemm('actions')">
-      <Button @click="showInfoToast">Info toast</Button>
-      <Button variant="secondary" @click="showSuccessToast">Success toast</Button>
-      <Button variant="outline" @click="showWarningToast">Warning toast</Button>
+      <div :class="bemm('actions')">
+        <Button @click="showInfoToast">Info toast</Button>
+        <Button variant="secondary" @click="showSuccessToast">Success toast</Button>
+        <Button variant="outline" @click="showWarningToast">Warning toast</Button>
+      </div>
     </div>
-  </div>
-  </Example>
 </template>
 
 <script setup lang="ts">

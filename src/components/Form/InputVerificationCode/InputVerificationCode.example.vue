@@ -1,10 +1,8 @@
 <template>
-  <Example>
-<div :class="bemm()">
-    <InputVerificationCode v-model="code" label="Enter code" />
-    <p :class="bemm('value')">Code: {{ code || 'empty' }}</p>
-  </div>
-  </Example>
+  <div :class="bemm()">
+      <InputVerificationCode v-model="code" label="Enter code" />
+      <p :class="bemm('value')">Code: {{ code || 'empty' }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">
