@@ -9,7 +9,7 @@ export interface Tab {
 export interface TabBarProps {
   tabs: Tab[]
   modelValue: string
-  variant?: 'default' | 'pills' | 'underline'
+  variant?: 'default' | 'pills' | 'underline' | 'minimal'
 }
 
 export interface TabBarEmits {

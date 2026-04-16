@@ -1,8 +1,10 @@
 <template>
-  <div :class="bemm()">
-    <TabBar v-model="activeTab" :tabs="tabs" variant="pills" />
-    <p :class="bemm('copy')">Current tab: {{ activeTab }}</p>
-  </div>
+  <Example>
+    <div :class="bemm()">
+      <TabBar v-model="activeTab" :tabs="tabs" :variant="variant" />
+      <p :class="bemm('copy')">Current tab: {{ activeTab }}</p>
+    </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
@@ -14,6 +16,7 @@ import TabBar from './TabBar.vue'
 const bemm = useBemm('tab-bar-example')
 
 const activeTab = ref('overview')
+const variant = ref<'default' | 'pills' | 'underline' | 'minimal'>('minimal')
 
 const tabs = [
   {

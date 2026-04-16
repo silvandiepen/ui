@@ -74,4 +74,26 @@ describe('TabBar', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['activity']])
     expect(wrapper.emitted('change')).toEqual([['activity']])
   })
+
+  it('applies the minimal variant class', () => {
+    const wrapper = mount(TabBar, {
+      props: {
+        modelValue: 'overview',
+        variant: 'minimal',
+        tabs: [
+          {
+            label: 'Overview',
+            value: 'overview'
+          }
+        ]
+      },
+      global: {
+        stubs: {
+          TabNavigation: TabNavigationStub
+        }
+      }
+    })
+
+    expect(wrapper.classes()).toContain('tab-bar--minimal')
+  })
 })

@@ -97,5 +97,46 @@ function handleTabInput(value: string | number) {
   &--underline .ui-tab-nav__button-badge {
     background: color-mix(in srgb, var(--color-foreground), transparent 90%);
   }
+
+  &--minimal .ui-tab-nav {
+    width: 100%;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    margin: 0;
+  }
+
+  &--minimal .ui-tab-nav::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: color-mix(in srgb, var(--color-foreground), transparent 84%);
+    pointer-events: none;
+  }
+
+  &--minimal .ui-tab-nav__button {
+    padding: var(--space-m) var(--space-s);
+    border-radius: 0;
+    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+  }
+
+  &--minimal .ui-tab-nav__button--active {
+    color: var(--color-foreground);
+  }
+
+  &--minimal .ui-tab-nav__indicator {
+    top: auto;
+    bottom: 0;
+    height: 2px;
+    border-radius: 999em;
+    background: var(--color-foreground) !important;
+  }
+
+  &--minimal .ui-tab-nav__hover {
+    display: none;
+  }
 }
 </style>

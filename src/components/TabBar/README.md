@@ -10,5 +10,6 @@
 ## Notes
 
 - `TabBar` now reuses the same navigation styling and interaction model as `Tabs`.
-- Supported variants are `default`, `pills`, and `underline`.
+- Supported variants are `default`, `pills`, `underline`, and `minimal`.
+- `minimal` dims inactive items and uses an animated underline that moves and resizes to the active tab.
 - Each tab item supports `label`, `value`, `icon`, `badge`, and `disabled`.
