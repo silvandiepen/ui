@@ -63,6 +63,12 @@ export interface InputCheckboxProps {
    * @default 'dot'
    */
   indicator?: 'dot' | 'check' | 'x'
+
+  /**
+   * Position of the checkbox label relative to the control
+   * @default 'right'
+   */
+  labelPosition?: 'left' | 'right'
 }
 
 export interface InputCheckboxEmits {

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import InputCheckbox from './InputCheckbox.vue'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 
 describe('InputCheckbox', () => {
   it('renders properly', () => {
@@ -162,5 +162,28 @@ describe('InputCheckbox', () => {
     // The browser would normally handle this, but in tests we need to verify the structure is correct
     const input = wrapper.find('input')
     expect(label.attributes('for')).toBe(input.attributes('id'))
+  })
+
+  it('renders label on the right by default', () => {
+    const wrapper = mount(InputCheckbox, {
+      props: {
+        label: 'Right label',
+      },
+    })
+
+    const labelText = wrapper.get('.input-checkbox__label')
+    expect(labelText.classes()).toContain('input-checkbox__label--right')
+  })
+
+  it('supports labelPosition left', () => {
+    const wrapper = mount(InputCheckbox, {
+      props: {
+        label: 'Left label',
+        labelPosition: 'left',
+      },
+    })
+
+    const labelText = wrapper.get('.input-checkbox__label')
+    expect(labelText.classes()).toContain('input-checkbox__label--left')
   })
 })

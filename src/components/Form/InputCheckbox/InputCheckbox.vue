@@ -3,7 +3,7 @@
     v-model="model"
     :class="[bemm(), size ? bemm('', String(size)) : '']"
     :block="block"
-    :label="label"
+    :label="''"
     :disabled="disabled"
     :error="error"
     @touched="$emit('touched', $event)"
@@ -55,6 +55,16 @@
             </span>
           </span>
         </span>
+
+        <span
+          v-if="label"
+          :class="[
+            bemm('label'),
+            bemm('label', labelPosition),
+          ]"
+        >
+          {{ label }}
+        </span>
       </label>
     </template>
   </InputBase>
@@ -63,7 +73,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import type { InputCheckboxProps, InputCheckboxEmits } from './InputCheckbox.model'
 
 const model = defineModel<boolean>({ default: false })
@@ -75,12 +85,15 @@ const props = withDefaults(defineProps<InputCheckboxProps>(), {
   indicator: 'dot',
   color: 'primary',
   indeterminate: false,
+  labelPosition: 'right',
 })
 
 const emit = defineEmits<InputCheckboxEmits>()
 
 const block = 'input-checkbox'
-const bemm = useBemm(block)
+const bemm = useBemm(block, {
+  includeBaseClass: true,
+})
 const inputElement = ref<HTMLInputElement | null>(null)
 
 const isActive = computed(() => Boolean(model.value) || Boolean(props.indeterminate))
@@ -110,6 +123,8 @@ watch(
   --input-checkbox-size: 1.5rem;
   --input-checkbox-space: 0.18rem;
   --input-checkbox-dot-size: calc(var(--input-checkbox-size) - (var(--input-checkbox-space) * 2));
+  gap: var(--space-s);
+  display: flex;
 
   &--small {
     --input-checkbox-size: 1.2rem;
@@ -122,11 +137,21 @@ watch(
   &__control-container {
     display: inline-flex;
     align-items: center;
+    gap: calc(var(--space) * 0.5);
     cursor: pointer;
 
     &--disabled {
       cursor: not-allowed;
       opacity: 0.65;
+    }
+  }
+
+  &__label {
+    font-size: 0.95em;
+    line-height: 1.2;
+
+    &--left {
+      order: -1;
     }
   }
 
