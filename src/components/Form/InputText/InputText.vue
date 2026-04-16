@@ -30,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import type { InputTextProps } from './InputText.model'
-import { Size, Status } from '../../../../../types'
+import { Size, Status } from '../../../types'
 
 const model = defineModel<string>()
 
@@ -104,7 +104,7 @@ const handleReset = () => {
 </script>
 
 <style lang="scss">
-@use '../../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-text {
   @include form.inputBase();

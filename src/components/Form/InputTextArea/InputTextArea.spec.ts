@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import InputTextArea from './InputTextArea.vue'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import { getTextStats, truncateText } from './InputTextArea.model'
 
 describe('InputTextArea', () => {

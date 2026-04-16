@@ -6,6 +6,7 @@
 		:block="block"
 		:label="label"
 		:description="description"
+		:disabled="disabled"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
@@ -14,7 +15,6 @@
 				:id="id"
 				ref="control"
 				:value="inputValue"
-				:rows="rows"
 				:style="textareaStyle"
 				:class="[bemm('control'), { 'no-resize': !allowResize }]"
 				:placeholder="placeholder"
@@ -30,10 +30,11 @@
 	</InputBase>
 	<InputBase
 		v-else
-		:value="value"
+		:value="model"
 		:block="block"
 		:label="label"
 		:description="description"
+		:disabled="disabled"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
@@ -43,7 +44,6 @@
 				ref="control"
 				:value="inputValue"
 				:style="textareaStyle"
-				:rows="rows"
 				:class="[bemm('control'), { 'no-resize': !allowResize }]"
 				:placeholder="placeholder"
 				:disabled="disabled"
@@ -62,39 +62,26 @@
 <script lang="ts" setup>
 import { onMounted, ref, computed } from 'vue';
 import { useBemm } from 'bemm';
-import InputBase from './InputBase.vue';
+import InputBase from '../Form/InputBase.vue'
 
 const model = defineModel<string>({
 	default: undefined,
 });
 
-interface Props {
-	value?: string;
-	label?: string;
-	placeholder?: string;
-	autoGrow?: boolean;
-	allowResize?: boolean;
-	minRows?: number;
-	maxRows?: number;
-	description?: string;
-	rows?: number;
-}
+import type { InputTextAreaProps, InputTextAreaEmits } from './InputTextArea.model'
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<InputTextAreaProps>(), {
 	value: '',
 	label: '',
 	placeholder: '',
 	autoGrow: true,
 	allowResize: false,
-	rows: 3,
 	minRows: 3,
 	maxRows: 10,
+	disabled: false,
 });
 
-const emit = defineEmits<{
-	change: [value: string];
-	touched: [value: boolean];
-}>();
+const emit = defineEmits<InputTextAreaEmits>()
 
 const block = 'input-textarea';
 const bemm = useBemm(block);
@@ -161,7 +148,7 @@ onMounted(() => {
 		controlHeight.value = props.minRows * lineHeight.value;
 
 		// If there's initial content, adjust height accordingly
-		if (model.value || props.value) {
+		if (model.value) {
 			handleAutoGrow(control.value);
 		}
 	}
@@ -169,7 +156,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-textarea {
 	@include form.inputBase();

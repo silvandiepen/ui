@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputTextArea
       v-model="value"
       label="Release notes"
@@ -10,6 +11,7 @@
 
     <p :class="bemm('value')">{{ value.length }} characters</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

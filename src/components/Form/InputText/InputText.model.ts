@@ -3,7 +3,7 @@
  * Provides type-safe props and configurations for text input functionality
  */
 
-import type { Size, Status } from '../../../../../types'
+import type { Size, Status } from '../../../types'
 
 /**
  * Input mode type for different input behaviors on mobile devices
