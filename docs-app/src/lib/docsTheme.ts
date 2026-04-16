@@ -6,7 +6,6 @@ import {
   DEFAULT_THEME_FONTS,
   generateThemeStyles,
   UI_THEME_FONT_PRESETS,
-  type UIPaletteColor,
   type UIThemeConfig,
 } from '@ui-lib/vite/theme'
 
@@ -14,7 +13,6 @@ const DOCS_THEME_STORAGE_KEY = 'ui-docs-theme-config'
 const DOCS_THEME_PALETTE_KEY = 'ui-docs-theme-palette'
 const DOCS_THEME_STYLE_ID = 'ui-docs-theme-overrides'
 
-export type { PaletteColor }
 export interface PaletteColor {
   name: string
   hex: string
@@ -140,7 +138,7 @@ export function useDocsTheme() {
   const themeConfig = computed<UIThemeConfig>(() => ({
     colors: initialState.value.colors,
     fonts: initialState.value.fonts,
-    palette: palette.value satisfies UIPaletteColor[],
+    palette: paletteToRecord(palette.value),
   }))
 
   function setPreset(presetId: DocsThemePresetId) {
@@ -275,7 +273,7 @@ function applyDocsTheme(state: DocsThemeState) {
   const themeStyles = generateThemeStyles({
     colors: state.colors,
     fonts: state.fonts,
-    palette: palette.value satisfies UIPaletteColor[],
+    palette: paletteToRecord(palette.value),
   })
 
   const styleElement = getThemeStyleElement()
@@ -310,4 +308,12 @@ function loadInitialPalette(): PaletteColor[] {
   } catch { /* ignore */ }
 
   return [...DEFAULT_PALETTE]
+}
+
+function paletteToRecord(colors: PaletteColor[]): Record<string, string> {
+  const record: Record<string, string> = {}
+  for (const c of colors) {
+    record[c.name] = c.hex
+  }
+  return record
 }
