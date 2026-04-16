@@ -87,7 +87,7 @@
 import { useBemm } from 'bemm';
 import { ref, watch, computed, type PropType } from 'vue';
 import Chip from '../Chip/Chip.vue';
-import { type CollapseOptions, collapseOptions } from './options';
+import { type CollapseOptions, collapseOptions } from '../options';
 import { useId } from '../../../composables/useId';
 
 const bemm = useBemm('input-select-color');
@@ -185,7 +185,7 @@ watch(
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-select-color {
 	@include form.inputBase();

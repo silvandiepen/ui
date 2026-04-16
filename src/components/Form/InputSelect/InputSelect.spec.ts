@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import InputSelect from './InputSelect.vue'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import InputCustomSelect from '../InputCustomSelect/InputCustomSelect.vue'
-import { Size } from '../../../../types'
+import { Size } from '../../types'
 
 describe('InputSelect', () => {
   const simpleOptions = ['Option 1', 'Option 2', 'Option 3']

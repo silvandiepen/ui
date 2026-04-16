@@ -92,8 +92,8 @@ import { useBemm } from 'bemm';
 import type { PropType } from 'vue';
 import { ref, computed, watch, useId } from 'vue';
 import Icon from '../../Icon/Icon.vue';
-import InputText from './inputs/InputText/InputText.vue';
-import { type CollapseOptions, collapseOptions } from './options';
+import InputText from '../InputText/InputText.vue';
+import { type CollapseOptions, collapseOptions } from '../options';
 
 const bemm = useBemm('input-select-icon');
 
@@ -212,7 +212,7 @@ watch(
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-select-icon {
 	@include form.inputBase();

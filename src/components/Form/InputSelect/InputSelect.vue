@@ -2,11 +2,11 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { useBemm } from 'bemm';
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import InputCustomSelect from '../InputCustomSelect/InputCustomSelect.vue'
 import type { AcceptedOptions, OptionGroup, Option, InputSelectProps, InputSelectEmits } from './InputSelect.model'
 import type { CustomOption } from '../InputCustomSelect/InputCustomSelect.model'
-import { Size } from '../../../../../types'
+import { Size } from '../../../types'
 
 // Define a normalized option group type where all options are Option objects
 interface NormalizedOptionGroup {
@@ -240,7 +240,7 @@ const handleChange = (value: string | null) => {
 </template>
 
 <style lang="scss">
-@use '../../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-select {
 	@include form.inputBase();

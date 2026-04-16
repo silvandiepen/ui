@@ -1,4 +1,4 @@
-import type { Size } from '../../../../../types'
+import type { Size } from '../../../types'
 
 export interface Option {
 	label: string

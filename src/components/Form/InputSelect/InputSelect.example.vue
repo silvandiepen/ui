@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputSelect
       v-model="value"
       label="Environment"
@@ -11,6 +12,7 @@
 
     <p :class="bemm('value')">Selected: {{ value || 'none' }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
