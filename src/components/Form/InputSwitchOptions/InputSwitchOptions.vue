@@ -15,7 +15,7 @@ import type {
   InputSwitchOptionsEmits,
   InputSwitchOptionsProps,
 } from './InputSwitchOptions.model'
-import { Size } from '../../../../../types'
+import { Size } from '../../../types'
 
 const props = withDefaults(defineProps<InputSwitchOptionsProps>(), {
   label: '',

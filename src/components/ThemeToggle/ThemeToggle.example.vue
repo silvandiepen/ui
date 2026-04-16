@@ -1,9 +1,11 @@
 <template>
-  <div style="display: flex; gap: 0.75rem;">
+  <Example>
+<div style="display: flex; gap: 0.75rem;">
     <ThemeToggle theme="light" />
     <ThemeToggle theme="dark" />
     <ThemeToggle theme="system" />
   </div>
+  </Example>
 </template>
 
 <script lang="ts" setup>

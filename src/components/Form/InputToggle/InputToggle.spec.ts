@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import InputToggle from './InputToggle.vue'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 
 describe('InputToggle', () => {
   it('renders properly', () => {

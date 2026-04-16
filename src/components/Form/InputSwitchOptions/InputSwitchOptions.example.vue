@@ -1,13 +1,15 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputSwitchOptions
       v-model="value"
       label="Project status"
-      :options="options"
+      :items="options"
     />
 
     <p :class="bemm('value')">Selected status: {{ value }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
