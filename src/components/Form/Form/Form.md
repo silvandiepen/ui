@@ -7,12 +7,12 @@
 - Wraps related `T*` inputs in one form surface.
 - Coordinates submit handling and browser `FormData`.
 - Exposes shared context used by nested fields, validation, and grouped controls.
-- Works as the concrete component behind the broader `UIForms` namespace.
+- Works as the concrete form container component.
 
-## `UIForms` vs `UIForm`
+## Exports
 
-- `UIForms` is the namespace export that groups `Form`, `FormField`, `InputText`, `InputSelect`, and the rest of the shared form primitives.
 - `UIForm` is the specific form wrapper component documented on this page.
+- `UIFormField`, `UIFormGroup`, and `UIInputBase` are co-exported from the same module.
 
 ## Basic Usage
 

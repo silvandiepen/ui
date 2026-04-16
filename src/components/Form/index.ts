@@ -1,29 +1,54 @@
-// Export all form components
+// Form container
 export * from './Form'
+
+// Standalone form surfaces
 export * from './Input'
 export * from './ImageInput'
 export * from './ColorPicker'
 export * from './ColorPickerPopup'
+export * from './ColorChooser'
 export * from './NumberPad'
 export * from './PinInput'
 export * from './RichTextEditor'
-export * from './Toggle'
 export * from './FormActions'
+export * from './Chip'
+export * from './DatePicker'
 
-// Alternate aliases used by existing imports
-export { Input as Input } from './Input'
-export { Toggle as Toggle } from './Toggle'
-export { InputSelect as Select } from './Form/inputs/InputSelect'
-export { InputRadio as RadioGroup } from './Form/inputs/InputRadio'
-export { InputCheckbox as Checkbox } from './Form/inputs/InputCheckbox'
+// Input controls
+export * from './InputBirthday'
+export * from './InputCalendar'
+export * from './InputCascader'
+export * from './InputCheckbox'
+export * from './InputCheckboxSwitch'
+export * from './InputColor'
+export * from './InputCustomSelect'
+export * from './InputDate'
+export * from './InputEmail'
+export * from './InputImage'
+export * from './InputNumber'
+export * from './InputOptions'
+export * from './InputPassword'
+export * from './InputRadio'
+export * from './InputRange'
+export * from './InputSearch'
+export * from './InputSelect'
+export * from './InputSelectColor'
+export * from './InputSelectIcon'
+export * from './InputSwitch'
+export * from './InputSwitchOptions'
+export * from './InputText'
+export * from './InputTextArea'
+export * from './InputToggle'
+export * from './InputVerificationCode'
+
+// Alternate aliases
+export { InputSelect as Select } from './InputSelect'
+export { InputRadio as RadioGroup } from './InputRadio'
+export { InputCheckbox as Checkbox } from './InputCheckbox'
 export { FormGroup as CheckboxGroup } from './Form'
-export { InputCheckbox as InputCheckbox } from './Form/inputs/InputCheckbox'
-export { Toggle as Switch } from './Toggle'
-export { InputSelect as InputSelect } from './Form/inputs/InputSelect'
-export { InputNumber as InputNumber } from './Form/inputs/InputNumber'
+export type { InputToggle as Switch } from './InputToggle'
 
 // Preferred UI-prefixed API
-export * as UIForms from './Form'
 export { Form as UIForm } from './Form'
 export { FormField as UIFormField } from './Form'
 export { FormGroup as UIFormGroup } from './Form'
@@ -32,41 +57,41 @@ export { Input as UIInput } from './Input'
 export { default as UIImageInput } from './ImageInput'
 export { default as UIColorPicker } from './ColorPicker'
 export { ColorPickerPopup as UIColorPickerPopup } from './ColorPickerPopup'
+export { ColorChooser as UIColorChooser } from './ColorChooser'
 export { NumberPad as UINumberPad } from './NumberPad'
 export { PinInput as UIInputPin } from './PinInput'
 export { PinInput as UIPinInput } from './PinInput'
 export { RichTextEditor as UIRichTextEditor } from './RichTextEditor'
-export { Toggle as UIToggle } from './Toggle'
 export { FormActions as UIFormActions } from './FormActions'
-export {
-  InputCascader as UIInputCascader,
-  InputText as UIInputText,
-  InputNumber as UIInputNumber,
-  InputTextArea as UIInputTextArea,
-  InputCheckbox as UIInputCheckbox,
-  InputSelect as UIInputSelect,
-  InputCustomSelect as UIInputCustomSelect,
-  InputSwitch as UIInputSwitch,
-  InputSwitchOptions as UIInputSwitchOptions,
-  InputRadio as UIInputRadio,
-  InputRange as UIInputRange,
-  InputSearch as UIInputSearch,
-  InputPassword as UIInputPassword,
-  InputDate as UIInputDate,
-  InputColor as UIInputColor,
-  InputOptions as UIInputOptions,
-  InputToggle as UIInputToggle,
-  InputSelectColor as UIInputSelectColor,
-  InputSelectIcon as UIInputSelectIcon,
-  InputImage as UIInputImage,
-  InputBirthday as UIInputBirthday,
-  InputCalendar as UIInputCalendar,
-  InputVerificationCode as UIInputVerificationCode,
-  InputEmail as UIInputEmail,
-  DatePicker as UIDatePicker,
-} from './Form'
-export { InputCheckbox as UICheckbox } from './Form'
-export { InputRadio as UIRadioGroup } from './Form'
-export { InputSelect as UISelect } from './Form'
-export { InputSwitch as UISwitch } from './Form'
-export { InputSwitchOptions as UISwitchOptions } from './Form'
+export { DatePicker as UIDatePicker } from './DatePicker'
+export { InputBirthday as UIInputBirthday } from './InputBirthday'
+export { InputCalendar as UIInputCalendar } from './InputCalendar'
+export { InputCascader as UIInputCascader } from './InputCascader'
+export { InputCheckbox as UIInputCheckbox } from './InputCheckbox'
+export { InputCheckboxSwitch as UIInputCheckboxSwitch } from './InputCheckboxSwitch'
+export { InputColor as UIInputColor } from './InputColor'
+export { InputCustomSelect as UIInputCustomSelect } from './InputCustomSelect'
+export { InputDate as UIInputDate } from './InputDate'
+export { InputEmail as UIInputEmail } from './InputEmail'
+export { InputImage as UIInputImage } from './InputImage'
+export { InputNumber as UIInputNumber } from './InputNumber'
+export { InputOptions as UIInputOptions } from './InputOptions'
+export { InputPassword as UIInputPassword } from './InputPassword'
+export { InputRadio as UIInputRadio } from './InputRadio'
+export { InputRange as UIInputRange } from './InputRange'
+export { InputSearch as UIInputSearch } from './InputSearch'
+export { InputSelect as UIInputSelect } from './InputSelect'
+export { InputSelectColor as UIInputSelectColor } from './InputSelectColor'
+export { InputSelectIcon as UIInputSelectIcon } from './InputSelectIcon'
+export { InputSwitch as UIInputSwitch } from './InputSwitch'
+export { InputSwitchOptions as UIInputSwitchOptions } from './InputSwitchOptions'
+export { InputText as UIInputText } from './InputText'
+export { InputTextArea as UIInputTextArea } from './InputTextArea'
+export { InputToggle as UIInputToggle } from './InputToggle'
+export { InputVerificationCode as UIInputVerificationCode } from './InputVerificationCode'
+export { InputCheckbox as UICheckbox } from './InputCheckbox'
+export { InputRadio as UIRadioGroup } from './InputRadio'
+export { InputSelect as UISelect } from './InputSelect'
+export { InputSwitch as UISwitch } from './InputSwitch'
+export { InputSwitchOptions as UISwitchOptions } from './InputSwitchOptions'
+export { InputText as UITextInput } from './InputText'
