@@ -55,7 +55,7 @@
     "lint": "eslint .",
     "release": "semantic-release",
     "prepublishOnly": "npm run typecheck && npm run build",
-    "test": "vitest run docs-app/src/lib/codeBlock.test.ts docs-app/src/lib/componentCatalog.test.ts docs-app/src/lib/componentRegistry.test.ts docs-app/src/lib/docsSearchContent.test.ts docs-app/src/lib/homeSections.test.ts docs-app/src/lib/sourceDocumentation.test.ts docs-app/src/lib/useColorMode.test.ts docs-app/src/lib/useDocsLocale.test.ts docs-app/src/lib/markdown.test.ts src/components/LanguageSwitch/LanguageSwitch.test.ts src/components/Markdown/Markdown.test.ts src/composables/useContent.test.ts src/composables/useSearch.test.ts src/stores/settings.test.ts src/vite/theme.test.ts --environment=node",
+    "test": "vitest run",
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
