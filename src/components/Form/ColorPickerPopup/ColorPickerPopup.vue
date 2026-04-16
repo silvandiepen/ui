@@ -1,68 +1,88 @@
 <template>
-  <div :class="bemm()" @click="openColorPicker">
-    <!-- Selected color display -->
-    <div
-      :class="bemm('selected', ['',modelValue ? 'has-color' : 'no-color'])"
-      :style="modelValue ? { backgroundColor: currentColor } : {}"
+  <div :class="bemm()">
+    <Popover
+      placement="bottom"
+      width="fit-content"
     >
-      <span v-if="!modelValue" :class="bemm('placeholder')">
-        {{ placeholder || t('common.selectColor') }}
-      </span>
-    </div>
+      <template #trigger>
+        <button
+          type="button"
+          :class="bemm('trigger')"
+          :aria-label="selectColorLabel"
+        >
+          <span
+            :class="bemm('selected', ['',modelValue ? 'has-color' : 'no-color'])"
+            :style="modelValue ? { backgroundColor: currentColor } : {}"
+          >
+            <span v-if="!modelValue" :class="bemm('placeholder')">
+              {{ selectColorLabel }}
+            </span>
+          </span>
 
-    <!-- Dropdown icon -->
-    <Icon
-      :name="Icons.CHEVRON_DOWN"
-      size="small"
-      :class="bemm('icon')"
-    />
+          <Icon
+            :name="Icons.CHEVRON_DOWN"
+            size="small"
+            :class="bemm('icon')"
+          />
+        </button>
+      </template>
+
+      <template #default="{ close }">
+        <ColorPicker
+          :model-value="props.modelValue"
+          :colors="availableColors"
+          :columns="props.columns ?? 'auto'"
+          :label="''"
+          inline
+          :style="{ '--color-picker-control-frame-display': 'none' }"
+          @update:model-value="(color) => handleColorUpdate(color, close)"
+        />
+      </template>
+    </Popover>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { useBemm } from 'bemm'
 import { Icons } from 'open-icon'
 import { Icon } from '../../Icon'
+import { Popover } from '../../Popover'
 import ColorPicker from '../ColorPicker/ColorPicker.vue'
 import { useI18n } from '../../../composables/useI18n';
-import { BaseColors, type Colors } from '../../../types'
+import { AllColors } from '../../../types'
 
 const props = defineProps<{
-  modelValue?: Colors
-  colors?: Colors[]
+  modelValue?: string
+  colors?: string[]
+  columns?: number | 'auto'
   placeholder?: string
   size?: 'small' | 'medium' | 'large',
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': [value: Colors]
+  'update:modelValue': [value: string]
 }>()
 
 const bemm = useBemm('t-color-picker-popup')
 const { t } = useI18n()
-const popupService = inject<any>('popupService')
+const translatedSelectColor = computed(() => t('common.selectColor'))
+const selectColorLabel = computed(() =>
+  props.placeholder
+  || (translatedSelectColor.value !== 'common.selectColor' ? translatedSelectColor.value : 'Select color')
+)
 
-const availableColors = computed(() => props.colors || Object.values(BaseColors))
+const availableColors = computed(() =>
+  props.colors?.length ? props.colors : Object.values(AllColors) as string[]
+)
 const currentColor = computed(() => {
   if (!props.modelValue) return ''
   return `var(--color-${props.modelValue})`
 })
 
-const openColorPicker = () => {
-  popupService.open({
-    component: ColorPicker,
-    title: t('common.selectColor'),
-    size: 'small',
-    props: {
-      modelValue: props.modelValue,
-      colors: availableColors.value,
-      'onUpdate:modelValue': (color: Colors) => {
-        emit('update:modelValue', color)
-        popupService.close()
-      }
-    }
-  })
+const handleColorUpdate = (color: string, close: () => void) => {
+  emit('update:modelValue', color)
+  close()
 }
 </script>
 
@@ -70,24 +90,30 @@ const openColorPicker = () => {
 .t-color-picker-popup {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  background: var(--color-background);
-  border: 1px solid var(--color-accent);
-  border-radius: 0.375rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 75px;
 
-  &:hover {
-    border-color: var(--color-primary);
+  &__trigger {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--color-background);
+    border: 1px solid var(--color-accent);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 75px;
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
   }
-
-  &:focus-within {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
 
   &__selected {
     flex: 1;
@@ -121,21 +147,21 @@ const openColorPicker = () => {
 
   // Size variants
   &--small {
-    padding: 0.375rem;
-    min-width: 80px;
-
-    .t-color-picker-popup__selected {
-      height: 1.5rem;
+    .t-color-picker-popup__trigger {
+      padding: 0.375rem;
+      min-width: 80px;
     }
+
+    .t-color-picker-popup__selected { height: 1.5rem; }
   }
 
   &--large {
-    padding: 0.75rem;
-    min-width: 160px;
-
-    .t-color-picker-popup__selected {
-      height: 2.5rem;
+    .t-color-picker-popup__trigger {
+      padding: 0.75rem;
+      min-width: 160px;
     }
+
+    .t-color-picker-popup__selected { height: 2.5rem; }
   }
 }
 </style>

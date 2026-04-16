@@ -1,7 +1,6 @@
 <template>
+  <Example>
   <div :class="bemm()">
-    <Popup />
-
     <ColorPickerPopup
       v-model="selectedColor"
       placeholder="Choose a highlight"
@@ -12,22 +11,19 @@
       <strong>{{ selectedColor }}</strong>
     </p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
-import { provide, ref } from 'vue'
+import { ref } from 'vue'
 import { useBemm } from 'bemm'
 
-import Popup from '../../Feedback/Popup/Popup.vue'
-import { popupService } from '../../Feedback/Popup/Popup.service'
 import { Colors } from '../../../types'
 import ColorPickerPopup from './ColorPickerPopup.vue'
 
 const bemm = useBemm('t-color-picker-popup-example')
 
 const selectedColor = ref<Colors>(Colors.PRIMARY)
-
-provide('popupService', popupService)
 </script>
 
 <style lang="scss">

@@ -1,12 +1,11 @@
-import type { Colors } from '../../../types/color'
-
 export interface ColorPickerPopupProps {
-  modelValue?: Colors
-  colors?: Colors[]
+  modelValue?: string
+  colors?: string[]
+  columns?: number | 'auto'
   placeholder?: string
   size?: 'small' | 'medium' | 'large'
 }
 
 export interface ColorPickerPopupEmits {
-  'update:modelValue': [value: Colors]
+  'update:modelValue': [value: string]
 }
