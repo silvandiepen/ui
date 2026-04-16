@@ -55,7 +55,9 @@ const props = withDefaults(defineProps<PinInputProps>(), {
 
 const emit = defineEmits<PinInputEmits>()
 
-const bemm = useBemm('pin-input')
+const bemm = useBemm('pin-input', {
+includeBaseClass : true
+})
 
 // Refs
 const inputRef = ref<HTMLInputElement | null>(null)
@@ -64,16 +66,19 @@ const isFocused = ref(false)
 // Methods
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement
-  const value = target.value.replace(/\D/g, '') // Only allow digits
+  let value = target.value.replace(/\D/g, '')
 
-  if (value.length <= props.length) {
-    emit('update:modelValue', value)
-    emit('change', value)
+  if (value.length > props.length) {
+    value = value.slice(0, props.length)
+  }
 
-    // Auto-submit when length is reached
-    if (props.autoSubmit && value.length === props.length) {
-      emit('complete', value)
-    }
+  target.value = value
+
+  emit('update:modelValue', value)
+  emit('change', value)
+
+  if (props.autoSubmit && value.length === props.length) {
+    emit('complete', value)
   }
 }
 
@@ -155,7 +160,7 @@ defineExpose({
   &__dot {
     width: var(--space-xl);
     height: var(--space-xl);
-    border: 2px solid color-mix(in srgb, var(--color-foreground), transparent 75%);
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 75%);
     border-radius: var(--border-radius);
     display: flex;
     align-items: center;
@@ -176,8 +181,8 @@ defineExpose({
       transition: opacity 0.2s ease;
     }
 
-    &--filled {
-      border-color: var(--color-foreground);
+    &--filled {    border-color:  color-mix(in srgb, var(--color-foreground), transparent 50%);
+
 
       &:not(:has(.pin-input__value)) {
         &::before {
@@ -217,6 +222,8 @@ defineExpose({
     width: 100%;
     height: 100%;
     opacity: 0;
+    z-index: 2;
+    cursor: text;
     pointer-events: auto;
     border: none;
     outline: none;
