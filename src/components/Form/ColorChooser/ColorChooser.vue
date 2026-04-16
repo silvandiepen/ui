@@ -567,8 +567,8 @@ const setOpacity = (value: number) => {
   opacity.value = clamp(Math.round(value), 0, 100);
 };
 
-const setFromTextInput = (value: string) => {
-  if (props.disabled) {
+const setFromTextInput = (value: string | undefined) => {
+  if (props.disabled || value === undefined) {
     return;
   }
 

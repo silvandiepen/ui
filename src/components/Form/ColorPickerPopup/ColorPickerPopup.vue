@@ -35,7 +35,7 @@
           :label="''"
           inline
           :style="{ '--color-picker-control-frame-display': 'none' }"
-          @update:model-value="(color) => handleColorUpdate(color, close)"
+          @update:model-value="(color) => handleColorUpdate(color ?? '', close)"
         />
       </template>
     </Popover>
