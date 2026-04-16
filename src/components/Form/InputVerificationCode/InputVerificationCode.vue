@@ -154,7 +154,7 @@ watch(
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-passcode {
 	--input-control-padding-x: 0;

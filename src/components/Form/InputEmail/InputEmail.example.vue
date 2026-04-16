@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputEmail
       v-model="email"
       label="Team email"
@@ -10,6 +11,7 @@
 
     <p :class="bemm('value')">{{ email }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

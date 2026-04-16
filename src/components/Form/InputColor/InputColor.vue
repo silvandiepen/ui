@@ -105,7 +105,7 @@
 
 <script lang="ts" setup>
 import { useBemm } from 'bemm';
-import InputBase from './InputBase.vue';
+import InputBase from '../Form/InputBase.vue';
 
 const model = defineModel<string>({
 	default: undefined,
@@ -139,7 +139,7 @@ const handleChange = (value: string) => {
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-color {
 	@include form.inputBase();

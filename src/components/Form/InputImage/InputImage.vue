@@ -263,7 +263,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-@use 'Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-image {
 	@include form.inputBase();

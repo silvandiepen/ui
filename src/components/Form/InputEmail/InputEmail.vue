@@ -36,9 +36,9 @@
 <script lang="ts" setup>
 import { useBemm } from 'bemm';
 import { ref, computed, watch, type PropType } from 'vue';
-import InputBase from '../InputBase.vue';
+import InputBase from '../Form/InputBase.vue';
 import { isEmail, errors } from '../validation/validation';
-import { debounce } from '../Form.utils';
+import { debounce } from '../Form/Form.utils';
 
 const block = 'input-email';
 const bemm = useBemm(block);
@@ -179,7 +179,7 @@ watch(
 </script>
 
 <style lang="scss">
-@use '../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-email {
 	@include form.inputBase();
