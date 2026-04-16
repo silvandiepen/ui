@@ -10,11 +10,14 @@
         <div :class="bemm('panel')">
           Navigation
         </div>
+      </template>
 
       <template #end>
         <div :class="[bemm('panel'), bemm('panel', 'secondary')]">
           Preview surface
         </div>
+      </template>
+    </Resizable>
 </template>
 
 <script lang="ts" setup>

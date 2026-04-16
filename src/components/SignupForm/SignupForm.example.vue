@@ -11,6 +11,7 @@
       >
         <template #brand>
           <strong>Workspace</strong>
+        </template>
       </SignupForm>
     </div>
 </template>

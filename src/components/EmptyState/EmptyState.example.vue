@@ -7,7 +7,8 @@
     <template #actions>
       <Button>New component</Button>
       <Button variant="outline">Import existing</Button>
-</EmptyState>
+    </template>
+  </EmptyState>
 </template>
 
 <script setup lang="ts">

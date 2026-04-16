@@ -1,13 +1,16 @@
 <template>
   <PlatformHeader>
-      <template #brand>
-        <strong>Workspace</strong>
+    <template #brand>
+      <strong>Workspace</strong>
+    </template>
 
-      <template #nav>
-        <div style="display: flex; gap: 0.75rem;">
-          <Button variant="ghost">Overview</Button>
-          <Button variant="ghost">Billing</Button>
-        </div>
+    <template #nav>
+      <div style="display: flex; gap: 0.75rem;">
+        <Button variant="ghost">Overview</Button>
+        <Button variant="ghost">Billing</Button>
+      </div>
+    </template>
+  </PlatformHeader>
 </template>
 
 <script lang="ts" setup>

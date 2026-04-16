@@ -14,19 +14,21 @@
       >
         <template #trigger>
           <Button>Open popup</Button>
-<template #content>
+        </template>
+
+        <template #content>
           <div :class="bemm('content')">
             <p>
               Popups can render arbitrary components or slot content while staying controlled by the shared popup service.
             </p>
           </div>
-        
+        </template>
 
         <template #footer>
           <Button variant="ghost" @click="popupService.close('docs-popup-example')">
             Close
           </Button>
-        
+        </template>
       </PopupWrapper>
     </div>
 </template>
