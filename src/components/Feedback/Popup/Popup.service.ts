@@ -42,14 +42,14 @@ const usePopupService = (): PopupService => {
 	const popups = ref<PopupInstance[]>([]);
 
 	// Add a global popup state reset mechanism
-	const resePopupState = () => {
+	const resetPopupState = () => {
 		popups.value = [];
 	};
 
 	const show = (opts: PopupOptions) => {
 		// Ensure no stale popups are lingering
 		if (popups.value.length > 5) {
-			resePopupState();
+			resetPopupState();
 		}
 
 		// Resolve string components
@@ -133,7 +133,7 @@ const usePopupService = (): PopupService => {
 					popupId: id,
 					popupsCount: popups.value.length,
 				});
-				resePopupState();
+				resetPopupState();
 			}
 		});
 
@@ -187,7 +187,7 @@ const usePopupService = (): PopupService => {
 		closePopup: close,
 		close: (id?: string) => close(id ? { id } : {}),
 		closeAllPopups,
-		resetPopupState: resePopupState, // Expose reset method
+		resetPopupState,
 	};
 };
 
