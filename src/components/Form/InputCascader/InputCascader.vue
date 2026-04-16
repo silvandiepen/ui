@@ -82,8 +82,8 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 
-import Icon from '../../../../Icon/Icon.vue'
-import InputBase from '../../InputBase.vue'
+import Icon from '../../Icon/Icon.vue'
+import InputBase from '../Form/InputBase.vue'
 
 import type { InputCascaderEmits, InputCascaderOption, InputCascaderProps } from './InputCascader.model'
 
@@ -101,7 +101,9 @@ const props = withDefaults(defineProps<InputCascaderProps>(), {
 const emit = defineEmits<InputCascaderEmits>()
 
 const block = 'input-cascader'
-const bemm = useBemm(block)
+const bemm = useBemm(block, {
+  includeBaseClass: true,
+})
 const rootElement = ref<HTMLElement | null>(null)
 const open = ref(false)
 const draftPath = ref<string[]>([...props.modelValue])

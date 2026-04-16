@@ -2,10 +2,10 @@
 <script lang="ts" setup>
 import { computed, ref, watch, nextTick, onUnmounted } from 'vue'
 import { useBemm } from 'bemm'
-import InputBase from '../../InputBase.vue'
-import Icon from '../../../../Icon/Icon.vue'
+import InputBase from '../Form/InputBase.vue'
+import Icon from '../../Icon/Icon.vue'
 import type { InputCustomSelectProps, InputCustomSelectEmits, CustomOption } from './InputCustomSelect.model'
-import { Size } from '../../../../../types'
+import { Size } from '../../../types'
 
 const model = defineModel<string | null>({
   default: null,
@@ -472,7 +472,7 @@ watch(model, () => {
 </template>
 
 <style lang="scss">
-@use '../../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-custom-select {
   @include form.inputBase();

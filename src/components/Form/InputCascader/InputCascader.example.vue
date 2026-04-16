@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputCascader
       v-model="selection"
       label="Destination"
@@ -8,6 +9,7 @@
 
     <p :class="bemm('value')">Path: {{ selection.join(' / ') || 'none' }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

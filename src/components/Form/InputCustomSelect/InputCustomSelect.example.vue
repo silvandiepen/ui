@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputCustomSelect
       v-model="value"
       label="Owner"
@@ -10,6 +11,7 @@
 
     <p :class="bemm('value')">Selected: {{ value }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
