@@ -29,6 +29,11 @@ describe('DatePicker.utils', () => {
 	});
 
 	describe('isAvailableDate', () => {
+		it('should return true when no available dates are provided', () => {
+			const date = new Date('2023-10-03');
+			expect(isAvailableDate(date, [])).toBe(true);
+		});
+
 		it('should return true if the date is in the available dates array', () => {
 			const date = new Date('2023-10-01');
 			const availableDates = [new Date('2023-10-01'), new Date('2023-10-02')];
