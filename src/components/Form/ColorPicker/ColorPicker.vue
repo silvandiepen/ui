@@ -11,7 +11,11 @@
     @touched="$emit('touched', $event)"
   >
     <template #control>
-      <div v-if="colors.length || savedCustomColors.length" :class="bemm('grid')">
+      <div
+        v-if="colors.length || savedCustomColors.length"
+        :class="bemm('grid')"
+        :style="gridStyle"
+      >
         <!-- Preset colors -->
         <button
           v-for="color in colors"
@@ -48,31 +52,42 @@
       </div>
 
       <div v-if="allowCustom" :class="bemm('custom')">
-        <input
-          type="color"
-          :value="customHex"
-          :disabled="disabled"
-          :class="bemm('custom-swatch')"
-          @input="onNativeInput"
-        />
-        <input
-          type="text"
-          :value="customHex"
-          :disabled="disabled"
-          :class="bemm('custom-hex')"
-          placeholder="#000000"
-          @input="onHexInput"
-          @blur="onHexBlur"
-          @keydown.enter="onHexBlur"
-        />
-        <button
-          type="button"
-          :class="bemm('custom-add')"
-          :disabled="disabled || !isValidHex(customHex)"
-          @click="addCustomColor"
-        >
-          <Icon :name="Icons.PLUS" size="small" />
-        </button>
+        <Popover v-model="isCustomPopoverOpen" placement="bottom" :disabled="disabled">
+          <template #trigger>
+            <button
+              type="button"
+              :class="bemm('custom-trigger')"
+              :disabled="disabled"
+              aria-label="Choose a custom color"
+            >
+              <span
+                :class="bemm('custom-trigger-swatch')"
+                :style="{ backgroundColor: customDraftHex }"
+              />
+              <span :class="bemm('custom-trigger-value')">{{ customDraftHex }}</span>
+              <Icon :name="Icons.PLUS" size="small" />
+            </button>
+          </template>
+
+          <template #default="{ close }">
+            <div :class="bemm('custom-popover')">
+              <ColorChooser
+                v-model="customDraftHex"
+                :recent-colors="savedCustomColors"
+                :show-hsl-sliders="false"
+                output-format="hex"
+              />
+              <button
+                type="button"
+                :class="bemm('custom-apply')"
+                :disabled="disabled || !isValidHex(customDraftHex)"
+                @click="addCustomColor(close)"
+              >
+                Add custom color
+              </button>
+            </div>
+          </template>
+        </Popover>
       </div>
     </template>
   </InputBase>
@@ -83,16 +98,19 @@ import { computed, ref, watch } from 'vue';
 import { useBemm } from 'bemm';
 import InputBase from '../Form/InputBase.vue';
 import Icon from '../../Icon/Icon.vue';
+import { Popover } from '../../Popover';
 import { AllColors, BaseColors, Size } from '../../../types';
 import { Icons } from 'open-icon';
 import { useSettingsStore } from '@/stores/settings';
 import type { ColorPickerProps } from './ColorPicker.model';
+import { ColorChooser } from '../ColorChooser';
 
 const modelValue = defineModel<string>()
 
 const props = withDefaults(defineProps<ColorPickerProps>(), {
   block: 'color-picker',
   colors: () => Object.values(AllColors) as string[],
+  columns: 'auto',
   allowCustom: false,
   size: Size.MEDIUM,
   label: '',
@@ -114,20 +132,46 @@ const CUSTOM_COLORS_KEY = 'color-picker-custom'
 const colors = computed(() => props.colors || Object.values(BaseColors));
 
 const savedCustomColors = computed(() => settings.getCustomColors(CUSTOM_COLORS_KEY));
+const totalSwatches = computed(() =>
+  colors.value.length + (props.allowCustom ? savedCustomColors.value.length : 0)
+);
+
+const resolvedColumns = computed(() => {
+  if (typeof props.columns === 'number') {
+    return Math.max(1, Math.floor(props.columns));
+  }
+
+  if (totalSwatches.value <= 0) return 1;
+  if (totalSwatches.value <= 2) return totalSwatches.value;
+
+  // Auto mode keeps the palette compact by approximating a square grid.
+  return Math.max(2, Math.ceil(Math.sqrt(totalSwatches.value)));
+});
+
+const gridStyle = computed(() => ({
+  '--color-picker-columns': String(resolvedColumns.value),
+}));
 
 const isPresetColor = (val: string) =>
   colors.value.includes(val) || savedCustomColors.value.includes(val);
 
 const isValidHex = (val: string) => /^#[0-9A-Fa-f]{6}$/.test(val);
 
-// customHex tracks the custom input field value
-const customHex = ref(
+const customDraftHex = ref(
   modelValue.value && !isPresetColor(modelValue.value) ? modelValue.value : '#000000'
 );
+const isCustomPopoverOpen = ref(false);
 
 watch(modelValue, (val) => {
   if (val && !isPresetColor(val) && isValidHex(val)) {
-    customHex.value = val;
+    customDraftHex.value = val;
+  }
+});
+
+watch(isCustomPopoverOpen, (isOpen) => {
+  if (!isOpen) return;
+  if (modelValue.value && !isPresetColor(modelValue.value) && isValidHex(modelValue.value)) {
+    customDraftHex.value = modelValue.value;
   }
 });
 
@@ -137,17 +181,11 @@ const selectColor = (color: string) => {
   emit('change', color);
 };
 
-const applyCustom = (hex: string) => {
-  if (props.disabled || !isValidHex(hex)) return;
-  customHex.value = hex;
-  modelValue.value = hex;
-  emit('change', hex);
-};
-
-const addCustomColor = () => {
-  if (!isValidHex(customHex.value)) return;
-  settings.addCustomColor(CUSTOM_COLORS_KEY, customHex.value);
-  selectColor(customHex.value);
+const addCustomColor = (close?: () => void) => {
+  if (!isValidHex(customDraftHex.value)) return;
+  settings.addCustomColor(CUSTOM_COLORS_KEY, customDraftHex.value);
+  selectColor(customDraftHex.value);
+  close?.();
 };
 
 const removeCustomColor = (hex: string) => {
@@ -156,25 +194,19 @@ const removeCustomColor = (hex: string) => {
     modelValue.value = undefined;
   }
 };
-
-const onNativeInput = (e: Event) => {
-  applyCustom((e.target as HTMLInputElement).value);
-};
-
-const onHexInput = (e: Event) => {
-  customHex.value = (e.target as HTMLInputElement).value;
-};
-
-const onHexBlur = (e: Event) => {
-  applyCustom((e.target as HTMLInputElement).value);
-};
 </script>
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .color-picker {
-  --color-size: calc(2em * var(--sizing, 1));
+  @include m.component-props((
+    'size': '2em',
+    'control-frame-display': 'block',
+  ), 'color-picker');
+
+  --color-size: calc(var(--int-color-picker-size) * var(--sizing, 1));
 
   @include form.inputBase();
   @include form.inputColorPicker();
@@ -186,9 +218,16 @@ const onHexBlur = (e: Event) => {
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, var(--color-size));
+    grid-template-columns: repeat(var(--color-picker-columns, 6), var(--color-size));
     gap: var(--space-xs);
     max-width: 100%;
+    width: fit-content;
+  }
+
+  &__control-container {
+    &::before {
+      display: var(--int-color-picker-control-frame-display);
+    }
   }
 
   &__color {
@@ -242,54 +281,60 @@ const onHexBlur = (e: Event) => {
   }
 
   &__custom {
-    display: grid;
-    grid-template-columns: var(--color-size) minmax(0, 1fr) var(--color-size);
-    gap: var(--space-xs);
-    align-items: center;
     margin-top: var(--space-xs);
   }
 
-  &__custom-swatch {
-    width: var(--color-size);
-    height: var(--color-size);
-    padding: 2px;
-    border: 2px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    background: none;
-    box-sizing: border-box;
-
-    &:hover { border-color: var(--color-foreground); }
-  }
-
-  &__custom-hex {
-    width: 100%;
-    height: var(--color-size);
+  &__custom-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: var(--color-size);
     padding: 0 var(--space-xs);
     border: 2px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
     border-radius: var(--border-radius);
     background: var(--color-background);
     color: var(--color-foreground);
-    font: inherit;
-    font-size: var(--font-size-s);
-    font-family: var(--font-family-mono, monospace);
-    box-sizing: border-box;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
 
-    &:focus {
-      outline: none;
+    &:hover:not(:disabled) {
       border-color: var(--color-primary);
+      background: color-mix(in srgb, var(--color-primary), transparent 94%);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
-  &__custom-add {
-    width: var(--color-size);
-    height: var(--color-size);
+  &__custom-trigger-swatch {
+    width: calc(var(--color-size) * 0.65);
+    height: calc(var(--color-size) * 0.65);
+    border-radius: 4px;
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
+  }
+
+  &__custom-trigger-value {
+    font-size: var(--font-size-s);
+    font-family: var(--font-family-mono, monospace);
+  }
+
+  &__custom-popover {
+    display: grid;
+    gap: var(--space-s);
+    min-width: min(360px, 80vw);
+    margin-top: var(--space-xs);
+  }
+
+  &__custom-apply {
+    min-height: var(--color-size);
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
     border-radius: var(--border-radius);
-    background: transparent;
+    background: var(--color-background);
     color: var(--color-foreground);
     cursor: pointer;
     transition: border-color 0.15s ease, background 0.15s ease;

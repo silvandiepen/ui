@@ -3,6 +3,7 @@ import { BaseColors, Size } from '../../../types';
 export interface ColorPickerProps {
   block?: string;
   colors?: string[];
+  columns?: number | 'auto';
   allowCustom?: boolean;
   size?: Size;
   label?: string;
