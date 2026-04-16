@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputNumber
       v-model="quantity"
       label="Seats"
@@ -10,6 +11,7 @@
 
     <p :class="bemm('value')">Seats selected: {{ quantity }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

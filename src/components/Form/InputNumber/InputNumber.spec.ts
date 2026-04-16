@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import InputNumber from './InputNumber.vue'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import { parseNumericValue, formatNumericValue } from './InputNumber.model'
 
 describe('InputNumber', () => {

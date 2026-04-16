@@ -36,8 +36,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useI18n } from '../../../../../composables/useI18n';
-import InputBase from '../../InputBase.vue'
+import { useI18n } from '../../../composables/useI18n';
+import InputBase from '../Form/InputBase.vue'
 import type { InputNumberProps, InputNumberEmits } from './InputNumber.model'
 import { parseNumericValue, formatNumericValue } from './InputNumber.model'
 
@@ -79,7 +79,7 @@ const formatValue = (value: number | undefined): string => {
 </script>
 
 <style lang="scss">
-@use '../../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-number {
 	@include form.inputBase();
