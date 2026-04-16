@@ -143,7 +143,7 @@ watch(() => props.modelValue, (newValue) => {
 </script>
 
 <style lang="scss">
-@use '../../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-range {
   @include form.inputBase();
