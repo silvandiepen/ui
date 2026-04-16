@@ -31,7 +31,7 @@ When a component is mostly structure plus branding:
 Example:
 
 - shared `PlatformHeader` in `@sil/ui`
-- app-local `LezuHeader` that injects the Lezu logo and product routes
+- app-local wrapper that injects the product logo and routes
 
 ## Implementation Rules
 
