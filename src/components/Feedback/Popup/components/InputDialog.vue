@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useBemm } from 'bemm'
-import { InputText } from '../../../Form/Form/inputs/InputText'
+import { InputText } from '../../../Form/InputText'
 import { Button, ButtonVariant } from '../../../Button'
 import { Colors } from '../../../../types'
 

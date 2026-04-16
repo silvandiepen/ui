@@ -58,6 +58,10 @@ export interface UIThemeConfig {
    * --color-{token}-dark     A 32 % shade toward black.
    * ```
    *
+   * When a `palette` is also provided, token values should be palette names
+   * (e.g. `'red'`) and the generated CSS will reference the palette custom
+   * properties: `--color-primary: var(--color-red);`
+   *
    * ### Semantic tokens understood by the component library
    *
    * | Token          | Role                                                  |
@@ -97,6 +101,28 @@ export interface UIThemeConfig {
    * ```
    */
   colors?: Record<string, string>
+
+  /**
+   * Palette of named colours that tokens can reference.
+   *
+   * When provided, `generateThemeStyles()` emits `--color-{name}` and derived
+   * variants for every palette entry first. Token colours whose values match
+   * a palette name will be rendered as `var(--color-{name})` references
+   * instead of raw hex values.
+   *
+   * @example
+   * ```ts
+   * palette: {
+   *   red: '#f40935',
+   *   blue: '#2563eb',
+   * },
+   * colors: {
+   *   primary: 'red',
+   *   info: 'blue',
+   * }
+   * ```
+   */
+  palette?: Record<string, string>
 
   /**
    * Font-family stacks applied via CSS custom properties.
@@ -416,23 +442,47 @@ export function generateThemeStyles(theme: UIThemeConfig = {}): string {
   lines.push(`  --font-family-mono: ${resolvedTheme.fonts.mono};`)
   lines.push(`  --font-family-monospace: ${resolvedTheme.fonts.mono};`)
 
-  for (const [token, value] of Object.entries(resolvedTheme.colors)) {
-    const parsed = parseColor(value)
+  const palette = theme.palette ?? {}
+  const hasPalette = Object.keys(palette).length > 0
 
-    lines.push(`  --color-${token}: ${value};`)
+  if (hasPalette) {
+    for (const [name, hex] of Object.entries(palette)) {
+      const parsed = parseColor(hex)
+      lines.push(`  --color-${name}: ${hex};`)
 
-    if (!parsed) {
-      continue
+      if (parsed) {
+        const contrast = formatColor(getContrastColor(parsed))
+        const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
+        const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+        lines.push(`  --color-${name}-text: ${contrast};`)
+        lines.push(`  --color-${name}-contrast: ${contrast};`)
+        lines.push(`  --color-${name}-light: ${light};`)
+        lines.push(`  --color-${name}-dark: ${dark};`)
+      }
     }
+  }
 
-    const contrast = formatColor(getContrastColor(parsed))
-    const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
-    const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+  for (const [token, value] of Object.entries(resolvedTheme.colors)) {
+    if (hasPalette && value in palette) {
+      lines.push(`  --color-${token}: var(--color-${value});`)
+      lines.push(`  --color-${token}-text: var(--color-${value}-text);`)
+      lines.push(`  --color-${token}-contrast: var(--color-${value}-contrast);`)
+      lines.push(`  --color-${token}-light: var(--color-${value}-light);`)
+      lines.push(`  --color-${token}-dark: var(--color-${value}-dark);`)
+    } else {
+      const parsed = parseColor(value)
+      lines.push(`  --color-${token}: ${value};`)
 
-    lines.push(`  --color-${token}-text: ${contrast};`)
-    lines.push(`  --color-${token}-contrast: ${contrast};`)
-    lines.push(`  --color-${token}-light: ${light};`)
-    lines.push(`  --color-${token}-dark: ${dark};`)
+      if (parsed) {
+        const contrast = formatColor(getContrastColor(parsed))
+        const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
+        const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+        lines.push(`  --color-${token}-text: ${contrast};`)
+        lines.push(`  --color-${token}-contrast: ${contrast};`)
+        lines.push(`  --color-${token}-light: ${light};`)
+        lines.push(`  --color-${token}-dark: ${dark};`)
+      }
+    }
   }
 
   for (const [name, value] of Object.entries(resolvedTheme.variables)) {

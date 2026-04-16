@@ -72,13 +72,25 @@ const handleCopyBreadcrumb = async () => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-breadcrumb {
+	@include m.component-props((
+		'font-size':       '1em',
+		'font-size-mobile': '0.875em',
+		'item-gap':        'var(--space-s)',
+		'item-padding':    'var(--space-xs)',
+		'separator':       "'/'",
+		'first-child-color': 'var(--color-foreground)',
+		'first-child-font-weight': 'var(--font-weight-medium)',
+	), 'ui-breadcrumb');
+
 	height: fit-content;
 	display: flex;
 	align-items: center;
-	font-size: 1em;
+	font-size: var(--int-ui-breadcrumb-font-size);
 	@media screen and (max-width: 600px) {
-		font-size: 0.875em;
+		font-size: var(--int-ui-breadcrumb-font-size-mobile);
 	}
 
 	&__list {
@@ -91,19 +103,15 @@ const handleCopyBreadcrumb = async () => {
 	&__item {
 		display: flex;
 		align-items: center;
-		gap: var(--space-s);
-		padding: var(--space-xs);
-
-		&:first-child {
-			color: var(--color-primary);
-		}
+		gap: var(--int-ui-breadcrumb-item-gap);
+		padding: var(--int-ui-breadcrumb-item-padding);
 
 		&--active {
 			font-weight: bold;
 		}
 
 		&::after {
-			content: '/';
+			content: var(--int-ui-breadcrumb-separator);
 		}
 
 		&:last-child::after {
@@ -122,8 +130,8 @@ const handleCopyBreadcrumb = async () => {
 
 	&__item {
 		&:first-child {
-			color: var(--color-foreground);
-			font-weight: var(--font-weight-medium);
+			color: var(--int-ui-breadcrumb-first-child-color);
+			font-weight: var(--int-ui-breadcrumb-first-child-font-weight);
 		}
 
 		&--active {
@@ -131,7 +139,7 @@ const handleCopyBreadcrumb = async () => {
 		}
 
 		&::after {
-			content: '/';
+			content: var(--int-ui-breadcrumb-separator);
 		}
 
 		&:last-child::after {

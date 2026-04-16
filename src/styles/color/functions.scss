@@ -87,7 +87,7 @@
 	--color-foreground: var(--color-light);
 	--color-foreground-text: var(--color-dark);
 	--color-accent-text: var(--color-accent-dark-text);
-	--color-accent: color-mix(in srgb, var(--color-background), var(--color-foreground) 20%);
+	--color-accent: var(--color-accent-dark);
 	@include hslColors('accent', map.get(variables.$colors, 'accent-dark'));
 }
 @mixin lightModeBase {
@@ -95,7 +95,7 @@
 	--color-background-text: var(--color-dark);
 	--color-foreground: var(--color-dark);
 	--color-foreground-text: var(--color-light);
-	--color-accent: color-mix(in srgb, var(--color-background), var(--color-foreground) 20%);
+	--color-accent: var(--color-accent-light);
 	--color-accent-text: var(--color-accent-light-text);
 	@include hslColors('accent', map.get(variables.$colors, 'accent-light'));
 }

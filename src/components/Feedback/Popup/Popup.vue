@@ -29,9 +29,9 @@
 						</header>
 
 						<div :class="bemm('content')">
-							<component 
-								v-bind="popup.props" 
-								:is="popup.component" 
+							<component
+								v-bind="popup.props"
+								:is="popup.component"
 								:key="popup.id"
 								:popup-id="popup.id"
 								:ref="(el: ComponentPublicInstance | null) => (popupRefs[popup.id] = el)"
@@ -301,7 +301,7 @@ const hasSlot = (name: string): boolean => {
 		flex: 1;
 		font-size: 0.9em;
 		font-weight: 600;
-		color: var(--color-accent);
+		color: var(--color-foreground);
 	}
 
 	&__footer {

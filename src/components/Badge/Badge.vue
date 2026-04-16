@@ -46,8 +46,8 @@ const blockStyles = computed(()=>{
   color: var(--badge-text-color);
   display: inline-flex;
   align-items: center;
-  padding: var(--badge-padding, var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem));
-  border-radius: var(--badge-radius, var(--spacing-4, 1rem));
+  padding: var(--badge-padding, var(--space-xs) var(--space-s));
+  border-radius: var(--badge-radius, var(--border-radius-l));
   font-size: var(--badge-font-size, var(--font-size-m, 0.875rem));
   font-weight: 600;
   line-height: 1.2;
@@ -66,12 +66,12 @@ const blockStyles = computed(()=>{
   }
 
   &[data-size="small"] {
-    --badge-padding: var(--spacing-0-5, 0.125rem) var(--spacing-2, 0.5rem);
+    --badge-padding: var(--space-xs) var(--space-s);
     --badge-font-size: var(--font-size-xs, 0.75rem);
   }
 
   &[data-size="large"] {
-    --badge-padding: var(--spacing-1-5, 0.375rem) var(--spacing-4, 1rem);
+    --badge-padding: var(--space-xs) var(--space-m);
     --badge-font-size: var(--font-size-base, 1rem);
   }
 }

@@ -75,16 +75,24 @@ const blockClasses = computed(()=>{
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .alert {
+  @include m.component-props((
+    'container-gap':   'var(--space-m)',
+    'icon-size':       '1.5rem',
+    'dismiss-opacity': '0.7',
+    'dismiss-icon-size': '1.25rem',
+  ), 'alert');
 
   &__container {
     display: flex;
-    gap: var(--space-m);
+    gap: var(--int-alert-container-gap);
     align-items: flex-start;
   }
 
   &__icon {
-    font-size: 1.5rem;
+    font-size: var(--int-alert-icon-size);
     color: var(--alert-icon-color);
     flex-shrink: 0;
   }
@@ -113,7 +121,7 @@ const blockClasses = computed(()=>{
     padding: 0;
     cursor: pointer;
     color: var(--alert-color);
-    opacity: 0.7;
+    opacity: var(--int-alert-dismiss-opacity);
     transition: opacity var(--transition-fast);
     flex-shrink: 0;
 
@@ -122,7 +130,7 @@ const blockClasses = computed(()=>{
     }
 
     .icon {
-      font-size: 1.25rem;
+      font-size: var(--int-alert-dismiss-icon-size);
     }
   }
 }

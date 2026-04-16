@@ -35,40 +35,52 @@ import { computed } from 'vue'
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .avatar {
+  @include m.component-props((
+    'background':    'var(--color-primary)',
+    'color':         'white',
+    'border-radius': '50%',
+    'size-small':    '2rem',
+    'size-medium':   '3rem',
+    'size-large':    '4rem',
+    'font-weight':   'var(--font-weight-semibold)',
+  ), 'avatar');
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: var(--color-primary);
-  color: white;
-  font-weight: var(--font-weight-semibold);
+  border-radius: var(--avatar-border-radius);
+  background: var(--avatar-background);
+  color: var(--avatar-color);
+  font-weight: var(--avatar-font-weight);
   overflow: hidden;
-  
+
   &--small {
-    width: 2rem;
-    height: 2rem;
+    width: var(--avatar-size-small);
+    height: var(--avatar-size-small);
     font-size: var(--font-size-xs);
   }
-  
+
   &--medium {
-    width: 3rem;
-    height: 3rem;
+    width: var(--avatar-size-medium);
+    height: var(--avatar-size-medium);
     font-size: var(--font-size-s);
   }
-  
+
   &--large {
-    width: 4rem;
-    height: 4rem;
+    width: var(--avatar-size-large);
+    height: var(--avatar-size-large);
     font-size: var(--font-size-m);
   }
-  
+
   &__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   &__initials {
     display: flex;
     align-items: center;

@@ -26,31 +26,42 @@ const containerProps = {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .section {
-  padding: var(--section-padding, var(--spacing-16, 4rem) 0);
-  
+  @include m.component-props((
+    'padding':           'var(--space-xl) 0',
+    'padding-hero':      'var(--space-xxl) 0 var(--space-xxl)',
+    'hero-min-height':   '80vh',
+    'cta-background':    'var(--color-primary)',
+    'cta-color':         'var(--color-background)',
+    'alternate-background': 'color-mix(in srgb, var(--color-primary), transparent 95%)',
+  ), 'section');
+
+  padding: var(--int-section-padding);
+
   &--centered {
     text-align: center;
   }
 
   &[data-variant="hero"] {
-    padding: var(--spacing-32, 8rem) 0 var(--spacing-24, 6rem);
-    min-height: 80vh;
+    padding: var(--int-section-padding-hero);
+    min-height: var(--int-section-hero-min-height);
     display: flex;
     align-items: center;
   }
 
   &[data-variant="cta"] {
-    background: var(--color-primary);
-    color: var(--color-background);
-    
+    background: var(--int-section-cta-background);
+    color: var(--int-section-cta-color);
+
     :deep(*) {
       color: inherit;
     }
   }
 
   &[data-variant="alternate"] {
-    background: color-mix(in srgb, var(--color-primary), transparent 95%);
+    background: var(--int-section-alternate-background);
   }
 }
 </style>

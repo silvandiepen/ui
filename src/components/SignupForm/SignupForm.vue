@@ -399,7 +399,7 @@ function defaultState(): SignupFormValue {
   display: grid;
   gap: 1.35rem;
   padding: clamp(1.3rem, 3vw, 2.1rem);
-  border-radius: calc(var(--spacing-5, 1.25rem) * 1.6);
+  border-radius: var(--border-radius-l);
   border: 1px solid color-mix(in srgb, var(--signup-form-accent), transparent 76%);
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--signup-form-accent), transparent 84%), transparent 42%),
@@ -609,7 +609,7 @@ function defaultState(): SignupFormValue {
 
   @media (max-width: 560px) {
     width: 100%;
-    border-radius: calc(var(--spacing-5, 1.25rem) * 1.3);
+    border-radius: var(--border-radius-l);
   }
 }
 </style>

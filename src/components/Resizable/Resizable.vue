@@ -291,7 +291,7 @@ defineExpose({
 
 <style lang="scss">
 .resizable {
-  --resizable-handle-size: 0.9rem;
+  --resizable-handle-size: 0;
 
   display: grid;
   min-width: 0;
@@ -324,6 +324,7 @@ defineExpose({
     color: var(--color-foreground);
     transition: background-color 160ms ease, color 160ms ease;
     touch-action: none;
+    width: 0;
 
     &:focus-visible {
       outline: 2px solid var(--color-primary);
@@ -340,7 +341,8 @@ defineExpose({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: .5em;
+    flex-shrink: 0;
     height: 100%;
   }
 

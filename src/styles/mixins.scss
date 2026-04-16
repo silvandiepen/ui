@@ -12,26 +12,26 @@
 /// @example
 ///   .card {
 ///     @include component-props((
-///       'background':   'var(--color-background)',
-///       'border-color': 'var(--color-accent)',
-///       'radius':       'var(--border-radius)',
-///       'padding':      'var(--space)',
+///       'background': 'red',
+///       'border-color': 'blue',
+///       'border-radius': '5px',
+///       'padding': 'var(--space)',
 ///     ), 'card');
 ///
-///     background:    var(--card-background);
-///     border:        1px solid var(--card-border-color);
-///     border-radius: var(--card-radius);
-///     padding:       var(--card-padding);
+///     background:    var(--card-background, var(--int-card-background, red);
+///     border-color:  var(--card-border-color, var(--int-border-color, blue);
+///     border-radius: var(--card-radius, var(--int-card-radius, 5px);
+///     padding:       var(--card-padding, var(--int-card-padding, var(--space)));
 ///   }
 ///
-///   // To customise from outside, just set the variable:
+///   // To customize from outside, just set the variable:
 ///   .my-context {
 ///     --card-background: var(--color-surface);
 ///     --card-radius: 0;
 ///   }
 @mixin component-props($props, $prefix) {
   @each $name, $value in $props {
-    --#{$prefix}-#{$name}: #{$value};
+    --int-#{$prefix}-#{$name}: var(--#{$prefix}-#{$name}, #{$value});
   }
 }
 

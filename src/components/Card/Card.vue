@@ -14,6 +14,7 @@
       </div>
       <slot v-else name="header" />
 
+      <slot name="actions"></slot>
       <Actions
         v-if="headerActions?.length"
         :actions="headerActions"
@@ -60,6 +61,7 @@ const props = withDefaults(defineProps<CardProps>(), {
 const slots = defineSlots<{
   default: any
   header?: any
+  actions?: any
   footer?: any
 }>()
 
@@ -112,14 +114,34 @@ const badgeStyles = computed(() => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .card {
-  background: var(--card-background-color, var(--color-background));
-  border: 1px solid var(--card-border-color, var(--color-accent));
-  color: var(--card-text-color, var(--color-foreground));
-  border-radius: var(--card-radius, var(--spacing-5, 20px));
+  @include m.component-props((
+    'background-color': 'var(--color-background)',
+    'border-color': 'color-mix(in srgb, var(--color-foreground), transparent 75%)',
+    'header-border-color': 'color-mix(in srgb, var(--color-foreground), transparent 85%)',
+    'text-color': 'var(--color-foreground)',
+    'radius': 'var(--border-radius)',
+    'overflow': 'visible',
+    'padding': 'var(--space-m)',
+    'header-padding': 'var(--space) var(--space)',
+    'title-size': 'var(--font-size-l)',
+    'title-weight': '600',
+    'title-color': 'var(--color-foreground)',
+    'description-color': 'var(--color-foreground-muted)',
+    'description-size': 'var(--font-size-s)',
+    'footer-padding': 'var(--space-l) var(--space-m)',
+    'shadow': '0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%)',
+  ), 'card');
+
+  background: var(--int-card-background-color);
+  border: 1px solid var(--int-card-border-color);
+  color: var(--int-card-text-color);
+  border-radius: var(--int-card-radius);
   position: relative;
   transition: all 0.3s ease;
-  overflow: var(--card-overflow, visible);
+  overflow: var(--int-card-overflow);
   display: flex;
   flex-direction: column;
 
@@ -134,7 +156,7 @@ const badgeStyles = computed(() => {
     cursor: pointer;
 
     &:hover {
-      transform: translateY(calc(var(--spacing-1, 0.25rem) * -1.25));
+      transform: translateY(calc(var(--space-xs) * -1.25));
       box-shadow: 0 8px 40px color-mix(in srgb, var(--color-foreground), transparent 88%);
     }
   }
@@ -144,8 +166,13 @@ const badgeStyles = computed(() => {
     border-width: 2px;
   }
 
+  &--elevated{
+    border: none;
+    box-shadow: var(--int-card-shadow);
+  }
+
   &[data-variant="elevated"] {
-    box-shadow: 0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%);
+    box-shadow: var(--int-card-shadow);
   }
 
   &[data-variant="ghost"] {
@@ -155,13 +182,13 @@ const badgeStyles = computed(() => {
 
   &__badge {
     position: absolute;
-    top: calc(var(--spacing-3, 0.75rem) * -1);
+    top: calc(var(--space-s) * -1);
     left: 50%;
     transform: translateX(-50%);
     background: var(--color-primary);
     color: var(--color-background);
-    padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
-    border-radius: var(--spacing-1, 0.25rem);
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--border-radius-s);
     font-size: var(--font-size-m, 0.8rem);
     font-weight: 600;
     z-index: 1;
@@ -172,14 +199,14 @@ const badgeStyles = computed(() => {
     padding: 0;
 
     .card__content {
-      padding: var(--card-padding, var(--space-m, 2rem));
+      padding: var(--int-card-padding);
     }
   }
 
   // Content wrapper - always has padding unless explicitly removed
   &__content {
     flex: 1;
-    padding: var(--card-padding, var(--space-m, 2rem));
+    padding: var(--int-card-padding);
 
     &--no-padding {
       padding: 0;
@@ -191,9 +218,11 @@ const badgeStyles = computed(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space, 1rem);
-    padding: var(--card-header-padding, var(--space) var(--space));
-    border-bottom: 1px solid var(--card-border-color, var(--color-accent));
+    gap: var(--space);
+    padding: var(--int-card-header-padding);
+    border-bottom: 1px solid var(--int-card-header-border-color, var(--int-card-border-color));
+    background-color: var(--int-card-header-background, transparent);
+    border-radius: var(--int-card-radius) var(--int-card-radius) 0 0;
 
     &--no-padding {
       padding: 0;
@@ -202,9 +231,9 @@ const badgeStyles = computed(() => {
 
   &__title {
     margin: 0;
-    font-size: var(--card-title-size, var(--font-size-l, 1.25rem));
-    font-weight: var(--card-title-weight, 600);
-    color: var(--card-title-color, var(--color-foreground));
+    font-size: var(--int-card-title-size);
+    font-weight: var(--int-card-title-weight);
+    color: var(--int-card-title-color);
     flex: 1;
   }
 
@@ -214,9 +243,9 @@ const badgeStyles = computed(() => {
   }
 
   &__description {
-    margin: var(--space-xs, 0.5rem) 0 0;
-    color: var(--card-description-color, var(--color-foreground-muted));
-    font-size: var(--card-description-size, var(--font-size-s, 0.9rem));
+    margin: var(--space-xs) 0 0;
+    color: var(--int-card-description-color);
+    font-size: var(--int-card-description-size);
     line-height: 1.5;
   }
 
@@ -228,8 +257,8 @@ const badgeStyles = computed(() => {
   &__footer {
     display: flex;
     align-items: center;
-    padding: var(--card-footer-padding, var(--spacing-6, 1.5rem) var(--space-m, 2rem));
-    border-top: 1px solid var(--card-border-color, var(--color-accent));
+    padding: var(--int-card-footer-padding);
+    border-top: 1px solid var(--int-card-border-color);
 
     &--no-padding {
       padding: 0;
@@ -244,29 +273,29 @@ const badgeStyles = computed(() => {
   &--has-header {
     .card__content {
       // Remove top padding when header is present
-      padding-top: var(--space-m, 2rem);
+      padding-top: var(--space-m);
     }
 
     &.card--no-padding .card__content {
-      padding-top: var(--card-padding, var(--space-m, 2rem));
+      padding-top: var(--int-card-padding);
     }
   }
 
   &--has-footer {
     .card__content {
       // Remove bottom padding when footer is present
-      padding-bottom: var(--space-m, 2rem);
+      padding-bottom: var(--space-m);
     }
 
     &.card--no-padding .card__content {
-      padding-bottom: var(--card-padding, var(--space-m, 2rem));
+      padding-bottom: var(--int-card-padding);
     }
   }
 
   // Both header and footer
   &--has-header.card--has-footer {
     .card__content {
-      padding: var(--space-m, 2rem);
+      padding: var(--space-m);
     }
   }
 }

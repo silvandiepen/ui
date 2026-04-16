@@ -113,7 +113,7 @@
 									:column="column"
 									:value="row[column.key]"
 								>
-									<Switch
+									<InputToggle
 										v-if="column.type === FieldType.SWITCH"
 										:model-value="Boolean(resolveColumnValue(row, column))"
 										:disabled="isColumnDisabled(row, column)"
@@ -252,7 +252,7 @@ import { Icon } from '@/components/ui/Icon';
 import { DropdownItem, DropdownMenu } from '@/components/ui/Dropdown';
 import { Button } from '@/components/ui/Button';
 import { Pagination } from '@/components/ui/Pagination';
-import { InputCheckbox, Switch } from '@/components/ui/Form';
+import { InputCheckbox, InputToggle } from '@/components/ui/Form';
 import { Field, FieldType } from '@/components/ui/Field';
 import { DraggableVisibilityMenu } from '@/components/ui/DraggableVisibilityMenu';
 import type {

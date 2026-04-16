@@ -219,7 +219,7 @@ function getFractionDigits(value: number) {
   min-height: 14rem;
   padding: clamp(1.25rem, 2vw, 2rem);
   border: 1px solid var(--stat-card-border-color);
-  border-radius: calc(var(--spacing-5, 1.25rem) * 1.6);
+  border-radius: var(--border-radius-l);
   background: var(--stat-card-background);
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, white, transparent 88%),
@@ -305,7 +305,7 @@ function getFractionDigits(value: number) {
 
   @media (max-width: 700px) {
     min-height: 12rem;
-    border-radius: calc(var(--spacing-5, 1.25rem) * 1.35);
+    border-radius: var(--border-radius-l);
 
     &__icon {
       width: 2.85rem;

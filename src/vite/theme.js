@@ -82,23 +82,47 @@ export function generateThemeStyles(theme = {}) {
   lines.push(`  --font-family-mono: ${resolvedTheme.fonts.mono};`)
   lines.push(`  --font-family-monospace: ${resolvedTheme.fonts.mono};`)
 
-  for (const [token, value] of Object.entries(resolvedTheme.colors)) {
-    const parsed = parseColor(value)
+  const paletteByName = new Map((theme.palette ?? []).map(c => [c.name, c]))
+  const hasPalette = paletteByName.size > 0
 
-    lines.push(`  --color-${token}: ${value};`)
+  if (hasPalette) {
+    for (const color of theme.palette) {
+      const parsed = parseColor(color.hex)
+      lines.push(`  --color-${color.name}: ${color.hex};`)
 
-    if (!parsed) {
-      continue
+      if (parsed) {
+        const contrast = formatColor(getContrastColor(parsed))
+        const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
+        const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+        lines.push(`  --color-${color.name}-text: ${contrast};`)
+        lines.push(`  --color-${color.name}-contrast: ${contrast};`)
+        lines.push(`  --color-${color.name}-light: ${light};`)
+        lines.push(`  --color-${color.name}-dark: ${dark};`)
+      }
     }
+  }
 
-    const contrast = formatColor(getContrastColor(parsed))
-    const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
-    const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+  for (const [token, value] of Object.entries(resolvedTheme.colors)) {
+    if (hasPalette && paletteByName.has(value)) {
+      lines.push(`  --color-${token}: var(--color-${value});`)
+      lines.push(`  --color-${token}-text: var(--color-${value}-text);`)
+      lines.push(`  --color-${token}-contrast: var(--color-${value}-contrast);`)
+      lines.push(`  --color-${token}-light: var(--color-${value}-light);`)
+      lines.push(`  --color-${token}-dark: var(--color-${value}-dark);`)
+    } else {
+      const parsed = parseColor(value)
+      lines.push(`  --color-${token}: ${value};`)
 
-    lines.push(`  --color-${token}-text: ${contrast};`)
-    lines.push(`  --color-${token}-contrast: ${contrast};`)
-    lines.push(`  --color-${token}-light: ${light};`)
-    lines.push(`  --color-${token}-dark: ${dark};`)
+      if (parsed) {
+        const contrast = formatColor(getContrastColor(parsed))
+        const light = formatColor(mix(parsed, { r: 255, g: 255, b: 255 }, 0.35))
+        const dark = formatColor(mix(parsed, { r: 0, g: 0, b: 0 }, 0.32))
+        lines.push(`  --color-${token}-text: ${contrast};`)
+        lines.push(`  --color-${token}-contrast: ${contrast};`)
+        lines.push(`  --color-${token}-light: ${light};`)
+        lines.push(`  --color-${token}-dark: ${dark};`)
+      }
+    }
   }
 
   for (const [name, value] of Object.entries(resolvedTheme.variables)) {

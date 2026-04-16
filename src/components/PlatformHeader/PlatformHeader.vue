@@ -58,7 +58,7 @@ defineExpose({
 
 .platform-header {
   @include m.component-props((
-    'background':       'color-mix(in srgb, var(--color-background), white 20%)',
+    'background':       'color-mix(in srgb, var(--color-accent), transparent 50%)',
     'border-color':     'color-mix(in srgb, var(--color-foreground), transparent 90%)',
     'blur':             'blur(18px) saturate(135%)',
     'z-index':          '120',
@@ -70,20 +70,20 @@ defineExpose({
 
   position: sticky;
   top: 0;
-  z-index: var(--platform-header-z-index);
-  padding: var(--platform-header-padding);
-  border-bottom: 1px solid var(--platform-header-border-color);
-  background: var(--platform-header-background);
-  backdrop-filter: var(--platform-header-blur);
+  z-index: var(--int-platform-header-z-index);
+  padding: var(--int-platform-header-padding);
+  border-bottom: 1px solid var(--int-platform-header-border-color);
+  background: var(--int-platform-header-background);
+  backdrop-filter: var(--int-platform-header-blur);
 
   &--compact {
-    padding: var(--platform-header-padding-compact);
+    padding: var(--int-platform-header-padding-compact);
   }
 
   &__inner,
   &__secondary {
     width: 100%;
-    max-width: var(--platform-header-max-width, 88rem);
+    max-width: var(--int-platform-header-max-width, 88rem);
     margin: 0 auto;
   }
 
@@ -116,7 +116,7 @@ defineExpose({
 
   &__actions {
     justify-content: flex-end;
-    flex: var(--platform-header-actions-flex);
+    flex: var(--int-platform-header-actions-flex);
     min-width: 0;
   }
 
@@ -125,11 +125,11 @@ defineExpose({
   }
 
   @media (max-width: 700px) {
-    padding: var(--platform-header-padding-compact);
+    padding: var(--int-platform-header-padding-compact);
 
     &__inner {
       display: grid;
-      grid-template-columns: var(--platform-header-mobile-columns);
+      grid-template-columns: var(--int-platform-header-mobile-columns);
       align-items: center;
       gap: var(--space-s);
     }

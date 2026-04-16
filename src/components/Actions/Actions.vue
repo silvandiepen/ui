@@ -106,7 +106,17 @@ const transformedMenuItems = computed(() => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .actions {
+  @include m.component-props((
+    'gap-xs': 'var(--space-xs)',
+    'gap-s':  'var(--space-s)',
+    'gap-m':  'var(--space-m)',
+    'gap-l':  'var(--space-m)',
+    'gap-xl': 'var(--space-l)',
+  ), 'actions');
+
   display: flex;
 
   &--inline {
@@ -156,23 +166,23 @@ const transformedMenuItems = computed(() => {
   }
 
   &--gap-xs {
-    gap: var(--spacing-1, 0.25rem);
+    gap: var(--int-actions-gap-xs);
   }
 
   &--gap-s {
-    gap: var(--spacing-2, 0.5rem);
+    gap: var(--int-actions-gap-s);
   }
 
   &--gap-m {
-    gap: var(--spacing-3, 0.75rem);
+    gap: var(--int-actions-gap-m);
   }
 
   &--gap-l {
-    gap: var(--spacing-4, 1rem);
+    gap: var(--int-actions-gap-l);
   }
 
   &--gap-xl {
-    gap: var(--spacing-6, 1.5rem);
+    gap: var(--int-actions-gap-xl);
   }
 }
 </style>

@@ -56,14 +56,24 @@ watchEffect(async () => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .icon {
+  @include m.component-props((
+    'fill':        'transparent',
+    'size-small':  '1em',
+    'size-medium': '1.25em',
+    'size-large':  '2em',
+    'size-xl':     '4em',
+  ), 'icon');
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
   color: currentColor;
 
-  --icon-fill: transparent;
+  --icon-fill: var(--int-icon-fill);
 
   // SVG styling
   svg {
@@ -76,23 +86,23 @@ watchEffect(async () => {
 
   // Size variants
   &--small {
-    width: 1em;
-    height: 1em;
+    width: var(--int-icon-size-small);
+    height: var(--int-icon-size-small);
   }
 
   &--medium {
-    width: 1.25em;
-    height: 1.25em;
+    width: var(--int-icon-size-medium);
+    height: var(--int-icon-size-medium);
   }
 
   &--large {
-    width: 2em;
-    height: 2em;
+    width: var(--int-icon-size-large);
+    height: var(--int-icon-size-large);
   }
 
   &--xl {
-    width: 4em;
-    height: 4em;
+    width: var(--int-icon-size-xl);
+    height: var(--int-icon-size-xl);
   }
 }
 </style>
