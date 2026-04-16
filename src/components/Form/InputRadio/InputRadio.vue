@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { useBemm } from 'bemm'
-import InputBase from '../../InputBase.vue'
+import InputBase from '../Form/InputBase.vue'
 import type { InputRadioProps, InputRadioEmits } from './InputRadio.model'
 
 const model = defineModel<string>({
@@ -63,7 +63,7 @@ const handleInputChange = (e: Event) => {
 </script>
 
 <style lang="scss">
-@use '../../Form' as form;
+@use '../Form/Form.scss' as form;
 
 .input-radio {
 	--input-radio-size: 1.25em;

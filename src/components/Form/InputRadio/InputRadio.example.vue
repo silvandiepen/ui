@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <InputRadio
       v-for="option in options"
       :key="option.value"
@@ -12,6 +13,7 @@
 
     <p :class="bemm('value')">Channel: {{ value }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
