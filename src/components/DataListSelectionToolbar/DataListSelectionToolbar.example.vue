@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <DataListSelectionToolbar
       :selected-count="selectedRows.length"
       :selected-rows="selectedRows"
@@ -7,6 +8,7 @@
       :show-actions="true"
     />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

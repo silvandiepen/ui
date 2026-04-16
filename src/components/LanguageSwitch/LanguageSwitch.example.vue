@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <section :class="bemm('group')">
       <div :class="bemm('group-header')">
         <strong>Default switcher</strong>
@@ -41,6 +42,7 @@
       />
     </section>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

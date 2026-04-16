@@ -1,9 +1,11 @@
 <template>
-  <ChipGroup :class="bemm()">
+  <Example>
+<ChipGroup :class="bemm()">
     <Chip color="primary">Docs</Chip>
     <Chip color="secondary">Review</Chip>
     <Chip color="success">Ready</Chip>
   </ChipGroup>
+  </Example>
 </template>
 
 <script setup lang="ts">

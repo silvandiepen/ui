@@ -1,7 +1,9 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <ItemList :items="items" />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
@@ -14,7 +16,7 @@ const bemm = useBemm('item-list-example')
 
 const items: ItemListItem[] = [
   {
-    description: 'Used by Emila and Lezu',
+    description: 'Used across multiple apps',
     label: 'Shared UI package',
     meta: 'stable',
   },

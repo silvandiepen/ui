@@ -1,10 +1,12 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <ID id="job_4e8b1b9b" pre="Job" @copied="copiedValue = $event" />
     <p :class="bemm('status')">
       {{ copiedValue ? `Copied: ${copiedValue}` : 'Click the copy icon to copy the ID.' }}
     </p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

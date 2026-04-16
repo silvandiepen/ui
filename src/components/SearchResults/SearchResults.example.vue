@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <label :class="bemm('label')" for="search-results-example-query">Search docs</label>
     <input
       id="search-results-example-query"
@@ -17,6 +18,7 @@
       :status-label="hasQuery ? `${totalResults} results` : ''"
     />
   </div>
+  </Example>
 </template>
 
 <script lang="ts" setup>

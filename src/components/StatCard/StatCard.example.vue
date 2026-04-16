@@ -1,5 +1,6 @@
 <template>
-  <div class="stat-card-example">
+  <Example>
+<div class="stat-card-example">
     <StatCard
       :value="23"
       label="cataloged surfaces"
@@ -26,6 +27,7 @@
       icon="check"
     />
   </div>
+  </Example>
 </template>
 
 <script lang="ts" setup>

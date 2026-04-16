@@ -1,5 +1,6 @@
 <template>
-  <div class="signup-form-example">
+  <Example>
+<div class="signup-form-example">
     <SignupForm
       v-model="signup"
       title="Create a Workspace account"
@@ -11,7 +12,8 @@
     >
       <template #brand>
         <strong>Workspace</strong>
-      </template>
+  </Example>
+</template>
     </SignupForm>
   </div>
 </template>

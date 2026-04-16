@@ -1,9 +1,11 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <ContextPanel :config="{ position: 'bottom-align-left' }">
       <template #default>
         <Button variant="outline">Open context panel</Button>
-      </template>
+  </Example>
+</template>
 
       <template #content>
         <div :class="bemm('panel')">

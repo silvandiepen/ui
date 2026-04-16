@@ -1,8 +1,10 @@
 <template>
-  <PlatformHeader>
+  <Example>
+<PlatformHeader>
     <template #brand>
       <strong>Workspace</strong>
-    </template>
+  </Example>
+</template>
 
     <template #nav>
       <div style="display: flex; gap: 0.75rem;">

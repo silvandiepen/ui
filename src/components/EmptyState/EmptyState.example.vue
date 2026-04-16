@@ -1,5 +1,6 @@
 <template>
-  <EmptyState
+  <Example>
+<EmptyState
     description="Create your first shared component example to populate this area."
     icon="box"
     title="No components yet"
@@ -7,7 +8,8 @@
     <template #actions>
       <Button>New component</Button>
       <Button variant="outline">Import existing</Button>
-    </template>
+  </Example>
+</template>
   </EmptyState>
 </template>
 

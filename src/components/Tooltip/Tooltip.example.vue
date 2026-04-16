@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <div :class="bemm('placements')">
       <div
         v-for="placement in placements"
@@ -36,6 +37,7 @@
       />
     </div>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

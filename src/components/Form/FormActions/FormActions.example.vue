@@ -1,8 +1,10 @@
 <template>
-  <FormActions :class="bemm()" align="space-between">
+  <Example>
+<FormActions :class="bemm()" align="space-between">
     <Button variant="ghost">Cancel</Button>
     <Button>Save changes</Button>
   </FormActions>
+  </Example>
 </template>
 
 <script setup lang="ts">

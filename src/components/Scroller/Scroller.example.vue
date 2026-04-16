@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <section :class="bemm('section')">
       <p :class="bemm('label')">Horizontal card rail</p>
       <Scroller horizontal :class="bemm('horizontal')">
@@ -26,6 +27,7 @@
       </Scroller>
     </section>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

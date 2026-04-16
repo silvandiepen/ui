@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <div :class="bemm('display')">{{ code || 'Tap the keypad' }}</div>
 
     <NumberPad
@@ -10,6 +11,7 @@
       @submit="submitCode"
     />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

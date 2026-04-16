@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Popup />
 
     <PopupWrapper
@@ -14,7 +15,8 @@
     >
       <template #trigger>
         <Button>Open popup</Button>
-      </template>
+  </Example>
+</template>
 
       <template #content>
         <div :class="bemm('content')">

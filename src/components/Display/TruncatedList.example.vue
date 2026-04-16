@@ -1,11 +1,13 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <TruncatedList :items="items" :max-visible="3" />
 
     <TruncatedList :items="items" :max-visible="2">
       <template #item="{ item }">
         <span :class="bemm('tag')">{{ item }}</span>
-      </template>
+  </Example>
+</template>
     </TruncatedList>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <div :class="bemm('row')">
       <button :class="bemm('trigger')" type="button">
         Hover for tooltip
@@ -12,6 +13,7 @@
       </button>
     </div>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

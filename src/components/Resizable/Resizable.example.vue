@@ -1,5 +1,6 @@
 <template>
-  <Resizable
+  <Example>
+<Resizable
     :class="bemm()"
     :default-size="240"
     :min-size="180"
@@ -10,7 +11,8 @@
       <div :class="bemm('panel')">
         Navigation
       </div>
-    </template>
+  </Example>
+</template>
 
     <template #end>
       <div :class="[bemm('panel'), bemm('panel', 'secondary')]">

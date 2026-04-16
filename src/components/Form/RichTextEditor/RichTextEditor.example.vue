@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <RichTextEditor
       v-model="content"
       label="Announcement"
@@ -9,6 +10,7 @@
 
     <p :class="bemm('value')">Content length: {{ content.length }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

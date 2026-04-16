@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <section :class="bemm('section')">
       <p :class="bemm('label')">Full pagination</p>
       <Pagination
@@ -24,6 +25,7 @@
       />
     </section>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

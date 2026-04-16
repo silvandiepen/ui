@@ -1,5 +1,6 @@
 <template>
-  <div class="signin-form-example">
+  <Example>
+<div class="signin-form-example">
     <SigninForm
       v-model="signin"
       title="Sign in to Workspace"
@@ -11,7 +12,8 @@
     >
       <template #brand>
         <strong>Workspace</strong>
-      </template>
+  </Example>
+</template>
     </SigninForm>
   </div>
 </template>

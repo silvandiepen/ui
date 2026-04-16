@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <section :class="bemm('group')">
       <p :class="bemm('label')">Compact card actions</p>
       <Actions :actions="actions" :context-menu-items="contextMenuItems" />
@@ -10,6 +11,7 @@
       <Actions :actions="secondaryActions" />
     </section>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

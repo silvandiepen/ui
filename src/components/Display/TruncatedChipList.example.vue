@@ -1,7 +1,9 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <TruncatedChipList :items="items" :max-visible="3" />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

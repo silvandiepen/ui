@@ -1,7 +1,9 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Breadcrumb :items="items" />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <DataList
       :auto-width="false"
       :columns="columns"
@@ -7,6 +8,7 @@
       :row-clickable="false"
     />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

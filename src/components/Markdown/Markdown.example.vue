@@ -1,5 +1,7 @@
 <template>
-  <Markdown :content="content" />
+  <Example>
+<Markdown :content="content" />
+  </Example>
 </template>
 
 <script lang="ts" setup>

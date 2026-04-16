@@ -1,5 +1,6 @@
 <template>
-  <div :style="demoStyles.wrapper">
+  <Example>
+<div :style="demoStyles.wrapper">
     <section :style="demoStyles.section">
       <div :style="demoStyles.intro">
         <h2 :style="demoStyles.heading">Variants</h2>
@@ -81,7 +82,8 @@
               <strong>Custom Header Slot</strong>
               <span :style="demoStyles.eyebrow">Flexible layout</span>
             </div>
-          </template>
+  </Example>
+</template>
 
           <p :style="demoStyles.copy">
             Switch to named slots when title and description props are not expressive enough.

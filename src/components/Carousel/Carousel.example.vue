@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <section :class="bemm('section')">
       <p :class="bemm('label')">Single item (default)</p>
       <Carousel>
@@ -73,6 +74,7 @@
       </Carousel>
     </section>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,11 +1,13 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Feedback />
 
     <Button @click="showToast">
       Trigger feedback
     </Button>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

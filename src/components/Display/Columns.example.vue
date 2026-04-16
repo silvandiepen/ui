@@ -1,5 +1,6 @@
 <template>
-  <Columns :class="bemm()" :columns="3">
+  <Example>
+<Columns :class="bemm()" :columns="3">
     <div
       v-for="item in items"
       :key="item.title"
@@ -9,6 +10,7 @@
       <span>{{ item.value }}</span>
     </div>
   </Columns>
+  </Example>
 </template>
 
 <script setup lang="ts">

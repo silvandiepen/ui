@@ -1,11 +1,13 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Alert title="Information" description="Shared tokens are now synced across applications." />
     <Alert :variant="AlertVariant.SUCCESS" title="Published" description="The package release completed successfully." />
     <Alert :variant="AlertVariant.WARNING" title="Follow-up pending">
       One shared form surface still needs cleanup before the next release.
     </Alert>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

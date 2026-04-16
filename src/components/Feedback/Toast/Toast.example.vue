@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Toast />
 
     <div :class="bemm('actions')">
@@ -8,6 +9,7 @@
       <Button variant="outline" @click="showWarningToast">Warning toast</Button>
     </div>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,11 +1,13 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <StatusBadge label="Stable" :tone="Status.SUCCESS" />
     <StatusBadge label="Queued" :tone="Status.INFO" />
     <StatusBadge label="Needs Review" :tone="Status.WARNING" />
     <StatusBadge label="Failed" :tone="Status.ERROR" />
     <StatusBadge label="Draft" :tone="Status.DEFAULT" />
   </div>
+  </Example>
 </template>
 
 <script lang="ts" setup>

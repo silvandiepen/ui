@@ -1,9 +1,11 @@
 <template>
-  <Row :class="bemm()">
+  <Example>
+<Row :class="bemm()">
     <Chip color="primary">Design</Chip>
     <Chip color="secondary">Docs</Chip>
     <Chip color="success">Shipped</Chip>
   </Row>
+  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <div :class="bemm('profile')">
       <Skeleton :height="48" shape="circle" width="48" />
       <div :class="bemm('copy')">
@@ -15,6 +16,7 @@
       <Skeleton :height="14" width="82%" />
     </div>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

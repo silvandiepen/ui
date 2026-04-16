@@ -1,5 +1,6 @@
 <template>
-  <Collapsible
+  <Example>
+<Collapsible
     v-model="isOpen"
     label="Advanced filters"
     :icon="Icons.FILE_COLUMNS"
@@ -9,6 +10,7 @@
       Refine results by owner, status, date range, or any app-specific field.
     </p>
   </Collapsible>
+  </Example>
 </template>
 
 <script lang="ts" setup>

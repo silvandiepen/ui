@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Empty
       message="No connected repositories yet."
       :action="{ label: 'Connect repo', action: connect }"
@@ -7,6 +8,7 @@
 
     <p :class="bemm('status')">{{ status }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <section :class="bemm('group')">
       <p :class="bemm('label')">Short click menu</p>
       <ContextMenu :config="menuConfig">
@@ -14,6 +15,7 @@
       </ContextMenu>
     </section>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

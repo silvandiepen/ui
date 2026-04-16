@@ -1,10 +1,12 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Badge>Default</Badge>
     <Badge variant="success">Success</Badge>
     <Badge variant="outline" color="warning">Warning</Badge>
     <Badge size="small" color="secondary">Small</Badge>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

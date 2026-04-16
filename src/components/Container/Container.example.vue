@@ -1,5 +1,6 @@
 <template>
-  <Container
+  <Example>
+<Container
     title="Shared UI library"
     subtitle="Layout wrapper with header, content, and footer regions."
   >
@@ -7,6 +8,7 @@
       This example shows the container header and a bounded content area.
     </p>
   </Container>
+  </Example>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Row :class="bemm('row')">
       <DisplayBadge value="12" />
       <DisplayBadge value="synced" color="success" />
@@ -15,6 +16,7 @@
       <span :class="bemm('pill')">Note</span>
     </Spacer>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

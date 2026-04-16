@@ -1,11 +1,13 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Toast />
 
     <Button @click="showSuccess">
       Show success toast
     </Button>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

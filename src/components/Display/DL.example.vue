@@ -1,9 +1,11 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <DL label="Owner" value="Shared UI team" />
     <DL label="Channels" :value="['Docs app', 'Dashboard', 'Marketing']" />
     <DL label="State" value="Published" />
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
