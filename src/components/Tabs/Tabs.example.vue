@@ -1,5 +1,6 @@
 <template>
-  <Tabs value="overview">
+  <Example>
+<Tabs value="overview">
     <TabPane id="overview" title="Overview">
       Overview content for the shared UI library.
     </TabPane>
@@ -7,6 +8,7 @@
       Usage notes and implementation guidance.
     </TabPane>
   </Tabs>
+  </Example>
 </template>
 
 <script setup lang="ts">

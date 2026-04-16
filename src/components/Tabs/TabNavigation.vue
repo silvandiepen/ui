@@ -22,7 +22,7 @@
 			:disabled="item.disabled"
 			:aria-selected="isActive(item)"
 			:class="
-				bemm('button', { active: isActive(item), disabled: item.disabled })
+				bemm('button', { active: isActive(item), disabled: item.disabled, size })
 			"
 			:style="
 				item.color
@@ -58,6 +58,7 @@ import {
 import { useBemm } from 'bemm';
 import { Icon } from '@/components/ui/Icon';
 import type { TabNavigationItem } from './Tabs.model';
+import { Size } from '../../types';
 
 defineOptions({
 	name: 'ArTabNavigation',
@@ -69,12 +70,14 @@ const props = withDefaults(
 		items?: TabNavigationItem[];
 		vertical?: boolean;
 		centered?: boolean;
+		size?: Size;
 	}>(),
 	{
 		value: null,
 		items: () => [],
 		vertical: false,
 		centered: false,
+		size: Size.MEDIUM,
 	}
 );
 
@@ -343,6 +346,19 @@ onBeforeUnmount(() => {
 		&--disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
+		}
+
+		&--small{
+			font-size: var(--font-size-sm);
+			padding: var(--space-xs) var(--space-s);
+		}
+		&--medium{
+			font-size: var(--font-size);
+			padding: var(--space-s) var(--space);
+		}
+		&--large{
+			font-size: var(--font-size-lg);
+			padding: var(--space-m) var(--space-l);
 		}
 	}
 
