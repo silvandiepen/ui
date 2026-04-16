@@ -1,5 +1,6 @@
 <template>
-  <div :class="bemm()">
+  <Example>
+<div :class="bemm()">
     <Popup />
 
     <ImageInput
@@ -10,6 +11,7 @@
 
     <p :class="bemm('value')">{{ image?.alt || 'No image selected' }}</p>
   </div>
+  </Example>
 </template>
 
 <script setup lang="ts">

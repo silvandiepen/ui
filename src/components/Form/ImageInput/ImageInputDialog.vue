@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useBemm } from 'bemm'
-import { InputText } from '../Form/inputs/InputText'
+import { InputText } from '../InputText'
 import { Button, ButtonVariant } from '../../Button'
 import { Colors } from '../../../types'
 import type { ImageValue } from './ImageInput.model'
