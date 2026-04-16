@@ -82,11 +82,14 @@ export function generateThemeStyles(theme = {}) {
   lines.push(`  --font-family-mono: ${resolvedTheme.fonts.mono};`)
   lines.push(`  --font-family-monospace: ${resolvedTheme.fonts.mono};`)
 
-  const paletteByName = new Map((theme.palette ?? []).map(c => [c.name, c]))
+  const paletteEntries = Array.isArray(theme.palette)
+    ? theme.palette
+    : Object.entries(theme.palette ?? {}).map(([name, hex]) => ({ name, hex }))
+  const paletteByName = new Map(paletteEntries.map(c => [c.name, c]))
   const hasPalette = paletteByName.size > 0
 
   if (hasPalette) {
-    for (const color of theme.palette) {
+    for (const color of paletteEntries) {
       const parsed = parseColor(color.hex)
       lines.push(`  --color-${color.name}: ${color.hex};`)
 

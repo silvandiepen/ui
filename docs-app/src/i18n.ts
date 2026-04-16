@@ -164,7 +164,7 @@ const englishMessages = {
     themeBuilder: {
       body: 'Body',
       colors: 'Colors',
-      configBody: 'Paste this into `ui({ theme: defineTheme(...) })`.',
+      configBody: "Paste this into `ui({'{'} theme: defineTheme(...){'}'})`.",
       generatedConfig: 'Generated config',
       fonts: 'Fonts',
       heading: 'Heading',
