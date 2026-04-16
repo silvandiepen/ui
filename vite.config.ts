@@ -63,10 +63,11 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environmentMatchGlobs: [
-      ['src/components/**/*.{test,spec}.ts', 'jsdom'],
-      ['**/*.spec.ts', 'jsdom'],
-      ['**/*.test.ts', 'node'],
+    environment: 'node',
+    exclude: [
+      'src/components/**/*.{spec,test}.ts',
+      'node_modules',
+      'dist',
     ],
   },
 })
