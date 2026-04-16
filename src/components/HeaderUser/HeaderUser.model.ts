@@ -1,4 +1,4 @@
-export interface LezuHeaderUserProps {
+export interface HeaderUserProps {
   name: string
   email?: string
   href?: string

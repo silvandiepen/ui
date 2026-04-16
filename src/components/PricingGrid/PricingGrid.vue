@@ -5,7 +5,7 @@
     </div>
 
     <div :class="bemm('toggle')" v-if="$slots.toggle">
-      <slot name="toggle" :billingPeriod="billingPeriod" />
+      <slot name="toggle" :billing-period="billingPeriod" />
     </div>
 
     <div :class="bemm('grid')">
@@ -32,12 +32,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
-import { getAllPlans } from '@lezu/core'
 import type { PricingGridProps } from './PricingGrid.model'
+import type { Plan } from '../PricingCard/PricingCard.model'
 import { PricingCard } from '../PricingCard'
 
 const props = withDefaults(defineProps<PricingGridProps>(), {
-  plans: () => getAllPlans(),
   billingPeriod: 'monthly',
   showFeatures: true,
   maxFeatures: 8,
@@ -52,8 +51,7 @@ const { bemm } = useBemm('pricing-grid')
 
 const displayedPlans = computed(() => props.plans)
 
-function getActionText(_plan: typeof props.plans[0]) {
-  // This can be overridden by parent components via slots
+function getActionText(_plan: Plan) {
   return undefined
 }
 

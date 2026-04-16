@@ -1,4 +1,4 @@
-export interface LezuHeaderNavItem {
+export interface FloatingHeaderNavItem {
   label: string
   href?: string
   to?: string
@@ -7,8 +7,8 @@ export interface LezuHeaderNavItem {
   external?: boolean
 }
 
-export interface LezuHeaderProps {
-  navItems?: LezuHeaderNavItem[]
+export interface FloatingHeaderProps {
+  navItems?: FloatingHeaderNavItem[]
   currentPath?: string
   brandHref?: string
   brandTo?: string

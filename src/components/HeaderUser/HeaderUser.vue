@@ -18,10 +18,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
-import Icon from '../Icon/Icon.vue'
-import type { LezuHeaderUserProps } from './LezuHeaderUser.model'
+import { Icon } from '../Icon'
+import type { HeaderUserProps } from './HeaderUser.model'
 
-const props = withDefaults(defineProps<LezuHeaderUserProps>(), {
+const props = withDefaults(defineProps<HeaderUserProps>(), {
   email: '',
   href: undefined,
   to: undefined,
@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<LezuHeaderUserProps>(), {
   trailingIcon: '',
 })
 
-const { bemm } = useBemm('lezu-header-user')
+const { bemm } = useBemm('header-user', { includeBaseClass: true })
 
 const componentTag = computed(() => {
   if (props.to) {
@@ -55,7 +55,7 @@ const initials = computed(() => {
 </script>
 
 <style lang="scss">
-.lezu-header-user {
+.header-user {
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;

@@ -1,7 +1,7 @@
-import type { Plan } from '@lezu/core'
+import type { Plan } from '../PricingCard/PricingCard.model'
 
 export interface PricingGridProps {
-  plans?: Plan[]
+  plans: Plan[]
   billingPeriod?: 'monthly' | 'yearly'
   currentPlanId?: string
   showFeatures?: boolean

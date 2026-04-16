@@ -21,10 +21,10 @@
         </span>
       </div>
       <div v-if="billingPeriod === 'yearly' && plan.price.yearly > 0" :class="bemm('monthly-equivalent')">
-        {{ formatPrice(plan.price.yearly / 12) }}/month
+        {{ formatPriceValue(plan.price.yearly / 12) }}/month
       </div>
       <div v-if="billingPeriod === 'yearly' && plan.price.yearly > 0 && plan.price.monthly > 0" :class="bemm('savings')">
-        Save {{ formatPrice((plan.price.monthly * 12) - plan.price.yearly) }}
+        Save {{ formatPriceValue((plan.price.monthly * 12) - plan.price.yearly) }}
       </div>
     </div>
 
@@ -73,8 +73,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
-import { useI18n } from '../../composables/useI18n'
-import { formatPrice } from '@lezu/core'
+import { defaultFormatPrice } from './PricingCard.model'
 import type { PricingCardProps } from './PricingCard.model'
 import { Card } from '../Card'
 import { Button } from '../Button'
@@ -83,16 +82,20 @@ import { Icon } from '../Icon'
 const props = withDefaults(defineProps<PricingCardProps>(), {
   billingPeriod: 'monthly',
   showFeatures: true,
-  maxFeatures: 8
+  maxFeatures: 8,
+  formatPrice: () => defaultFormatPrice,
+  translate: (key: string) => key,
 })
 
 const { bemm } = useBemm('pricing-card')
-const { t } = useI18n()
+
+const t = props.translate
+const formatPriceValue = props.formatPrice
 
 const isCurrentPlan = computed(() => props.currentPlanId === props.plan.id)
 
 const formattedPrice = computed(() => {
-  return formatPrice(props.plan.price[props.billingPeriod])
+  return formatPriceValue(props.plan.price[props.billingPeriod])
 })
 
 const displayedFeatures = computed(() => {
@@ -101,7 +104,6 @@ const displayedFeatures = computed(() => {
   const includedFeatures = props.plan.features.filter(f => f.included)
   const excludedFeatures = props.plan.features.filter(f => !f.included)
 
-  // Show all included features and fill remaining slots with excluded features
   const features = [
     ...includedFeatures,
     ...excludedFeatures.slice(0, Math.max(0, props.maxFeatures - includedFeatures.length))
@@ -113,7 +115,7 @@ const displayedFeatures = computed(() => {
 function getActionText() {
   if (props.actionText) return props.actionText
 
-  return t(props.plan.ctaText)
+  return t(props.plan.ctaText || 'pricing.select')
 }
 
 function handleAction() {

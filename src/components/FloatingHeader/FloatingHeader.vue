@@ -8,7 +8,7 @@
         :class="bemm('logo')"
         :aria-label="brandAriaLabel"
       >
-        <LezuLogo size="small" :class="bemm('logo-mark')" />
+        <slot name="brand-mark" />
         <span v-if="brandSuffix" :class="bemm('logo-text')">
           {{ brandSuffix }}
         </span>
@@ -48,21 +48,20 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
-import Icon from '../Icon/Icon.vue'
-import LezuLogo from '../LezuLogo/LezuLogo.vue'
-import type { LezuHeaderNavItem, LezuHeaderProps } from './LezuHeader.model'
+import { Icon } from '../Icon'
+import type { FloatingHeaderNavItem, FloatingHeaderProps } from './FloatingHeader.model'
 
-const props = withDefaults(defineProps<LezuHeaderProps>(), {
+const props = withDefaults(defineProps<FloatingHeaderProps>(), {
   navItems: () => [],
   currentPath: undefined,
   brandHref: undefined,
   brandTo: undefined,
   brandSuffix: '',
-  brandAriaLabel: 'Lezu home',
+  brandAriaLabel: 'Home',
   fixed: false,
 })
 
-const { bemm } = useBemm('lezu-header')
+const { bemm } = useBemm('floating-header')
 
 const brandComponent = computed(() => {
   if (props.brandTo) {
@@ -88,7 +87,7 @@ const resolvedCurrentPath = computed(() => {
   return normalizePath(window.location.pathname)
 })
 
-function isActive(item: LezuHeaderNavItem): boolean {
+function isActive(item: FloatingHeaderNavItem): boolean {
   const itemPath = normalizeItemPath(item)
 
   if (!itemPath) {
@@ -102,7 +101,7 @@ function isActive(item: LezuHeaderNavItem): boolean {
   return resolvedCurrentPath.value === itemPath || resolvedCurrentPath.value.startsWith(`${itemPath}/`)
 }
 
-function normalizeItemPath(item: LezuHeaderNavItem): string | null {
+function normalizeItemPath(item: FloatingHeaderNavItem): string | null {
   const value = item.to || item.href
 
   if (!value) {
@@ -131,27 +130,27 @@ function normalizePath(value: string): string {
 </script>
 
 <style lang="scss">
-.lezu-header {
-  --lezu-header-top: 0;
-  --lezu-header-padding: 1rem clamp(1rem, 3vw, 2rem);
-  --lezu-header-max-width: max(fit-content, 1024px);
-  --lezu-header-shell-padding: 0.9rem 1rem;
-  --lezu-header-shell-radius: 999px;
-  --lezu-header-shell-border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
-  --lezu-header-shell-background: color-mix(in srgb, var(--color-background), transparent 90%);
-  --lezu-header-shell-shadow: 0 18px 42px color-mix(in srgb, var(--color-foreground), transparent 92%);
-  --lezu-header-shell-backdrop: blur(16px);
-  --lezu-header-link-color: color-mix(in srgb, var(--color-foreground), transparent 40%);
-  --lezu-header-link-hover-background: color-mix(in srgb, var(--color-foreground), transparent 94%);
-  --lezu-header-link-active-background: color-mix(in srgb, var(--color-primary), transparent 88%);
-  --lezu-header-link-active-color: var(--color-foreground);
-  --lezu-header-logo-color: var(--color-foreground);
+.floating-header {
+  --floating-header-top: 0;
+  --floating-header-padding: 1rem clamp(1rem, 3vw, 2rem);
+  --floating-header-max-width: max(fit-content, 1024px);
+  --floating-header-shell-padding: 0.9rem 1rem;
+  --floating-header-shell-radius: 999px;
+  --floating-header-shell-border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
+  --floating-header-shell-background: color-mix(in srgb, var(--color-background), transparent 90%);
+  --floating-header-shell-shadow: 0 18px 42px color-mix(in srgb, var(--color-foreground), transparent 92%);
+  --floating-header-shell-backdrop: blur(16px);
+  --floating-header-link-color: color-mix(in srgb, var(--color-foreground), transparent 40%);
+  --floating-header-link-hover-background: color-mix(in srgb, var(--color-foreground), transparent 94%);
+  --floating-header-link-active-background: color-mix(in srgb, var(--color-primary), transparent 88%);
+  --floating-header-link-active-color: var(--color-foreground);
+  --floating-header-logo-color: var(--color-foreground);
 
   position: fixed;
   width:100%;
-  top: var(--lezu-header-top);
+  top: var(--floating-header-top);
   z-index: var(--z-sticky, 100);
-  padding: var(--lezu-header-padding);
+  padding: var(--floating-header-padding);
   margin: auto;
 
   &--fixed {
@@ -161,18 +160,18 @@ function normalizePath(value: string): string {
   }
 
   &__shell {
-    width: var(--lezu-header-max-width);
+    width: var(--floating-header-max-width);
     margin: 0 auto;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 1rem;
-    padding: var(--lezu-header-shell-padding);
-    border: var(--lezu-header-shell-border);
-    border-radius: var(--lezu-header-shell-radius);
-    background: var(--lezu-header-shell-background);
-    box-shadow: var(--lezu-header-shell-shadow);
-    backdrop-filter: var(--lezu-header-shell-backdrop);
+    padding: var(--floating-header-shell-padding);
+    border: var(--floating-header-shell-border);
+    border-radius: var(--floating-header-shell-radius);
+    background: var(--floating-header-shell-background);
+    box-shadow: var(--floating-header-shell-shadow);
+    backdrop-filter: var(--floating-header-shell-backdrop);
   }
 
   &__logo {
@@ -180,7 +179,7 @@ function normalizePath(value: string): string {
     align-items: center;
     gap: 0.75rem;
     justify-self: start;
-    color: var(--lezu-header-logo-color);
+    color: var(--floating-header-logo-color);
     text-decoration: none;
 
     &:hover,
@@ -192,7 +191,7 @@ function normalizePath(value: string): string {
   &__logo-text {
     font-size: var(--font-size-s, 0.875rem);
     font-weight: var(--font-weight-medium, 500);
-    color: color-mix(in srgb, var(--lezu-header-logo-color), transparent 22%);
+    color: color-mix(in srgb, var(--floating-header-logo-color), transparent 22%);
   }
 
   &__nav {
@@ -212,7 +211,7 @@ function normalizePath(value: string): string {
     gap: 0.5rem;
     padding: 0.75rem 1rem;
     border-radius: 999px;
-    color: var(--lezu-header-link-color);
+    color: var(--floating-header-link-color);
     text-decoration: none;
     font-weight: var(--font-weight-medium, 500);
     line-height: 1;
@@ -222,12 +221,12 @@ function normalizePath(value: string): string {
     &:focus-visible {
       text-decoration: none;
       color: var(--color-foreground);
-      background: var(--lezu-header-link-hover-background);
+      background: var(--floating-header-link-hover-background);
     }
 
     &--active {
-      color: var(--lezu-header-link-active-color);
-      background: var(--lezu-header-link-active-background);
+      color: var(--floating-header-link-active-color);
+      background: var(--floating-header-link-active-background);
       box-shadow: inset 0 -2px 0 var(--color-primary);
     }
   }
