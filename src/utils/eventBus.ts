@@ -1,4 +1,4 @@
-// import { reactive } from 'vue';
+import { type Component } from 'vue';
 
 // Event types
 export enum EventChannel {
@@ -19,17 +19,18 @@ export enum EventAction {
 export interface EventData {
   channel?: EventChannel;
   action: EventAction;
-  data: any;
+  data: unknown;
 }
 
 // App events interface for popup compatibility
 export interface AppEvents {
   'app:key': { key: string }
-  'app:popup-open': { component: any; id?: string; [key: string]: any }
+  'app:popup-open': { component: Component | string; id?: string; props?: Record<string, unknown> }
   'app:popup-close': { id?: string }
   'app:popup-force-close': never
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EventCallback = (data: any) => void;
 
 class EventBus {
@@ -58,7 +59,7 @@ class EventBus {
     }
   }
 
-  emitChannel(channel: EventChannel, data: any) {
+  emitChannel(channel: EventChannel, data: unknown) {
     const callbacks = this.events.get(channel);
     if (callbacks) {
       callbacks.forEach(callback => callback(data));
@@ -84,7 +85,7 @@ class EventBus {
     }
   }
 
-  emit(event: string, data: any) {
+  emit(event: string, data: unknown) {
     const callbacks = this.events.get(event);
     if (callbacks) {
       callbacks.forEach(callback => callback(data));

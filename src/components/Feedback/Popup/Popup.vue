@@ -67,7 +67,7 @@
 import { useBemm } from 'bemm';
 import { popupService, popupRefs } from './Popup.service';
 import { Icons } from 'open-icon';
-import { useEventBus } from '../../../utils/eventBus';
+import { useEventBus, type AppEvents } from '../../../utils/eventBus';
 import Button from '../../Button/Button.vue';
 import { ButtonType } from '../../Button/Button.model';
 // import type { Colors } from '../../../types';
@@ -88,7 +88,7 @@ const handleKeyPress = (data: { key: string }) => {
 	}
 };
 
-const handlePopupOpen = (data: { component: any; id?: string; [key: string]: any }) => {
+const handlePopupOpen = (data: AppEvents['app:popup-open']) => {
 	if (data.id) {
 		popupService.showPopup({ ...data, component: data.component });
 	}

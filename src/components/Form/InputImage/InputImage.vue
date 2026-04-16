@@ -248,7 +248,7 @@ const ids = reactive({
 onMounted(() => {
 	eventBus.on(EventChannel.FORM, (p) => {
 		const { data, action } = p as EventData;
-		if (data.id !== ids.id) return;
+		if ((data as { id?: string }).id !== ids.id) return;
 		if (action == EventAction.FOCUS) {
 			control.value.focus();
 		}

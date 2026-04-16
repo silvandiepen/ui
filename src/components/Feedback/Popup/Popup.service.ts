@@ -61,13 +61,12 @@ const usePopupService = (): PopupService => {
 			}
 			opts.component = markRaw(resolvedComponent);
 		} else if (typeof opts.component === 'function') {
-			const slotFn = opts.component as Slot<any>;
+			const slotFn = opts.component as Slot;
 			opts = {
 				...opts,
 				component: markRaw(PopupSlot),
 				slots: {
 					...opts.slots,
-					// @ts-expect-error
 					default: slotFn,
 				},
 			};
@@ -140,7 +139,7 @@ const usePopupService = (): PopupService => {
 		return id;
 	};
 
-	const close = (opts: { id?: string; callback?: Object } = {}) => {
+	const close = (opts: { id?: string; callback?: Record<string, unknown> } = {}) => {
 		const { id, callback } = opts;
 
 		if (id) {

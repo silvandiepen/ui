@@ -1,4 +1,4 @@
-import { type Slot, type Component, type VNode } from 'vue';
+import { type Slot, type Component } from 'vue';
 import type { Colors } from '../../../types';
 
 export const PopupPosition = {
@@ -21,13 +21,13 @@ export interface PopupAction {
 }
 
 export interface PopupOptions {
-	component: Component | Slot<any> | string | undefined;
+	component: Component | Slot | string | undefined;
 	footer?: Component;
 	header?: Component;
 	actions?: PopupAction[];
-	props?: Record<string, any>;
+	props?: Record<string, unknown>;
 	onClose?: () => void;
-	onCallback?: (data: Object) => void;
+	onCallback?: (data: Record<string, unknown>) => void;
 	title?: string;
 	description?: string;
 	config?: {
@@ -39,8 +39,8 @@ export interface PopupOptions {
 	};
 	id?: string;
 	closePopups?: boolean;
-	slots?: Record<string, () => VNode>;
-	on?: Record<string, (...args: any[]) => void>;
+	slots?: Record<string, Slot>;
+	on?: Record<string, (...args: unknown[]) => void>;
 }
 
 export interface PopupInstance {
@@ -51,12 +51,12 @@ export interface PopupInstance {
 	actions?: PopupAction[];
 	title: string;
 	description: string;
-	props: Record<string, any>;
+	props: Record<string, unknown>;
 	onClose?: () => void;
-	onCallback?: (data: Object) => void;
+	onCallback?: (data: Record<string, unknown>) => void;
 	openedTime: number;
-	slots?: Record<string, () => VNode>;
-	events?: Record<string, (...args: any[]) => void>;
+	slots?: Record<string, Slot>;
+	events?: Record<string, (...args: unknown[]) => void>;
 	config: {
 		canClose?: boolean;
 		hasBackground: boolean;

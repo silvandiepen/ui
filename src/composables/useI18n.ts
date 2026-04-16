@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance } from 'vue'
 
-function interpolate(key: string, params?: Record<string, any>) {
+function interpolate(key: string, params?: Record<string, string | number>) {
   if (!params) {
     return key
   }
@@ -15,11 +15,11 @@ function interpolate(key: string, params?: Record<string, any>) {
 export function useI18n() {
   const instance = getCurrentInstance()
   const proxy = instance?.proxy as {
-    $t?: (key: string, params?: Record<string, any>) => string
+    $t?: (key: string, params?: Record<string, string | number>) => string
     $i18n?: { locale?: string | { value?: string } }
   } | null
 
-  const t = (key: string, params?: Record<string, any>) => {
+  const t = (key: string, params?: Record<string, string | number>) => {
     if (typeof proxy?.$t === 'function') {
       return proxy.$t(key, params)
     }
