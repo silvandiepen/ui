@@ -59,6 +59,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@sil/color": "^0.5.0",
     "open-icon": "1.1.2"
   },
   "devDependencies": {
@@ -69,6 +70,7 @@
     "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/node": "^20.11.25",
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/test-utils": "^2.4.6",
     "bemm": "^1.2.2",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "eslint": "^8.57.0",
