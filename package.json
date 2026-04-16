@@ -60,7 +60,7 @@
     "prepare": "simple-git-hooks"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm test && npm run typecheck && npm run docs:typecheck"
+    "pre-commit": "npm test && npm run typecheck && npm run docs:typecheck && npm run build"
   },
   "dependencies": {
     "@sil/color": "^0.5.0",

@@ -1,26 +1,26 @@
 <template>
   <Example>
-<div :class="bemm()">
-    <ContextPanel :config="{ position: 'bottom-align-left' }">
-      <template #default>
-        <Button variant="outline">Open context panel</Button>
-  </Example>
-</template>
+    <div :class="bemm()">
+      <ContextPanel :config="{ position: 'bottom-align-left' }">
+        <template #default>
+          <Button variant="outline">Open context panel</Button>
+        </template>
 
-      <template #content>
-        <div :class="bemm('panel')">
-          <strong>Quick actions</strong>
-          <p :class="bemm('copy')">
-            Use `ContextPanel` when you want the anchored panel shell without the menu item list.
-          </p>
-          <div :class="bemm('actions')">
-            <Button size="small">Assign</Button>
-            <Button size="small" variant="ghost">Move</Button>
+        <template #content>
+          <div :class="bemm('panel')">
+            <strong>Quick actions</strong>
+            <p :class="bemm('copy')">
+              Use `ContextPanel` when you want the anchored panel shell without the menu item list.
+            </p>
+            <div :class="bemm('actions')">
+              <Button size="small">Assign</Button>
+              <Button size="small" variant="ghost">Move</Button>
+            </div>
           </div>
-        </div>
-      </template>
-    </ContextPanel>
-  </div>
+        </template>
+      </ContextPanel>
+    </div>
+  </Example>
 </template>
 
 <script setup lang="ts">
