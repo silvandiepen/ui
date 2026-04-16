@@ -436,11 +436,6 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Tone-based badge used for state and status labels.',
   },
-  TabBar: {
-    category: 'Data and Navigation',
-    status: 'stable',
-    summary: 'Compact tab bar surface for dense navigation patterns.',
-  },
   'Tabs/TabNavigation': {
     apiName: 'UITabNavigation',
     category: 'Data and Navigation',
