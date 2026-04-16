@@ -5,7 +5,8 @@
     <TruncatedList :items="items" :max-visible="2">
       <template #item="{ item }">
         <span :class="bemm('tag')">{{ item }}</span>
-</TruncatedList>
+      </template>
+    </TruncatedList>
   </div>
 </template>
 
