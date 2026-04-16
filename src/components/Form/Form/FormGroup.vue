@@ -75,7 +75,17 @@ const handleHeaderClick = () => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .form-group {
+  @include m.component-props((
+    'label-font-size': '1.125rem',
+    'label-font-weight': '600',
+    'toggle-size': '2rem',
+    'description-font-size': '0.875rem',
+    'description-line-height': '1.5',
+  ), 'form-group');
+
   display: flex;
   flex-direction: column;
   gap: var(--form-group-gap, var(--space));
@@ -97,8 +107,8 @@ const handleHeaderClick = () => {
 
   &__label {
     margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
+    font-size: var(--int-form-group-label-font-size);
+    font-weight: var(--int-form-group-label-font-weight);
     color: var(--color-foreground);
   }
 
@@ -106,8 +116,8 @@ const handleHeaderClick = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: var(--int-form-group-toggle-size);
+    height: var(--int-form-group-toggle-size);
     padding: 0;
     border: none;
     background: transparent;
@@ -129,9 +139,9 @@ const handleHeaderClick = () => {
 
   &__description {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: var(--int-form-group-description-font-size);
     color: var(--color-text-secondary);
-    line-height: 1.5;
+    line-height: var(--int-form-group-description-line-height);
   }
 
   &__content {

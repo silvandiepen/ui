@@ -5,7 +5,6 @@
 			:items="tabItems"
 			:value="activeNavigationId"
 			:vertical="props.vertical"
-			:centered="props.centered"
 			@input="activateByNavigationId"
 		/>
 
@@ -65,10 +64,6 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
-	centered: {
-		type: Boolean,
-		default: false,
-	},
 	activeVariant: {
 		type: String as PropType<ButtonVariant>,
 		default: 'default',
@@ -102,7 +97,6 @@ const { tabItems, activeNavigationId, activateByNavigationId } = useTabsRoot(
 const tabsClasses = computed(() =>
 	bemm('', {
 		vertical: props.vertical,
-		centered: props.centered,
 	})
 );
 </script>
@@ -117,12 +111,6 @@ const tabsClasses = computed(() =>
 	&--vertical {
 		flex-direction: row;
 		align-items: flex-start;
-	}
-
-	&--centered {
-		#{$b}__nav {
-			justify-content: center;
-		}
 	}
 
 	&__nav {

@@ -144,9 +144,14 @@ watch(() => props.modelValue, (newValue) => {
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-range {
   @include form.inputBase();
+
+  @include m.component-props((
+    'value-font-weight': '600',
+  ), 'input-range');
 
   &__control-container {
     display: flex;
@@ -286,7 +291,7 @@ watch(() => props.modelValue, (newValue) => {
     background: var(--color-accent);
     border-radius: calc(var(--border-radius) * 0.5);
     font-size: calc(0.875em * var(--sizing));
-    font-weight: 600;
+    font-weight: var(--int-input-range-value-font-weight);
     text-align: center;
     font-variant-numeric: tabular-nums;
 

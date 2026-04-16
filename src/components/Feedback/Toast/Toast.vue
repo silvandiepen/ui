@@ -69,7 +69,15 @@ const dismiss = (id: string) => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .toast {
+	@include m.component-props((
+		'margin': '1em',
+		'icon-size': '1.5em',
+		'animation': 'ToastfadeIn 0.25s ease-in-out forwards',
+	), 'toast');
+
 	--toast-border-color: color-mix(in srgb, var(--toast-color), var(--color-background) 50%);
 	--toast-background-color: color-mix(in srgb, var(--toast-color), var(--color-background) 90%);
 	--toast-text-color: color-mix(in srgb, var(--toast-color), var(--color-foreground) 50%);
@@ -88,9 +96,9 @@ const dismiss = (id: string) => {
 	background-color: var(--toast-background-color, color-mix(in srgb, var(--color-foreground-rgb), 0.05));
 	text-align: var(--toast-text-align, left);
 	color: var(--toast-text-color, currentColor);
-	margin: 1em;
+	margin: var(--int-toast-margin);
 
-	animation: ToastfadeIn 0.25s ease-in-out forwards;
+	animation: var(--int-toast-animation);
 	transform: translateY(--toast-translate-y-initial, 0) translateX(--toast-translate-x-initial, 0);
 
 	@keyframes ToastfadeIn {
@@ -152,7 +160,7 @@ const dismiss = (id: string) => {
 	}
 
 	&__icon {
-		font-size: 1.5em;
+		font-size: var(--int-toast-icon-size);
 		margin-right: var(--space);
 		color: var(--toast-color);
 	}

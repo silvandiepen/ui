@@ -87,7 +87,25 @@ const handleColorUpdate = (color: string, close: () => void) => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .t-color-picker-popup {
+  @include m.component-props((
+    'trigger-gap': '0.5rem',
+    'trigger-padding': '0.5rem',
+    'trigger-border-radius': '0.375rem',
+    'trigger-min-width': '75px',
+    'selected-height': '2rem',
+    'selected-border-radius': '0.25rem',
+    'placeholder-font-size': '0.875rem',
+    'small-trigger-padding': '0.375rem',
+    'small-trigger-min-width': '80px',
+    'small-selected-height': '1.5rem',
+    'large-trigger-padding': '0.75rem',
+    'large-trigger-min-width': '160px',
+    'large-selected-height': '2.5rem',
+  ), 't-color-picker-popup');
+
   display: inline-flex;
   align-items: center;
 
@@ -96,14 +114,14 @@ const handleColorUpdate = (color: string, close: () => void) => {
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem;
+    gap: var(--int-t-color-picker-popup-trigger-gap);
+    padding: var(--int-t-color-picker-popup-trigger-padding);
     background: var(--color-background);
     border: 1px solid var(--color-accent);
-    border-radius: 0.375rem;
+    border-radius: var(--int-t-color-picker-popup-trigger-border-radius);
     cursor: pointer;
     transition: all 0.2s ease;
-    min-width: 75px;
+    min-width: var(--int-t-color-picker-popup-trigger-min-width);
 
     &:hover {
       border-color: var(--color-primary);
@@ -117,8 +135,8 @@ const handleColorUpdate = (color: string, close: () => void) => {
 
   &__selected {
     flex: 1;
-    height: 2rem;
-    border-radius: 0.25rem;
+    height: var(--int-t-color-picker-popup-selected-height);
+    border-radius: var(--int-t-color-picker-popup-selected-border-radius);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -138,7 +156,7 @@ const handleColorUpdate = (color: string, close: () => void) => {
 
   &__placeholder {
     color: var(--color-text-secondary);
-    font-size: 0.875rem;
+    font-size: var(--int-t-color-picker-popup-placeholder-font-size);
   }
 
   &__icon {
@@ -148,20 +166,20 @@ const handleColorUpdate = (color: string, close: () => void) => {
   // Size variants
   &--small {
     .t-color-picker-popup__trigger {
-      padding: 0.375rem;
-      min-width: 80px;
+      padding: var(--int-t-color-picker-popup-small-trigger-padding);
+      min-width: var(--int-t-color-picker-popup-small-trigger-min-width);
     }
 
-    .t-color-picker-popup__selected { height: 1.5rem; }
+    .t-color-picker-popup__selected { height: var(--int-t-color-picker-popup-small-selected-height); }
   }
 
   &--large {
     .t-color-picker-popup__trigger {
-      padding: 0.75rem;
-      min-width: 160px;
+      padding: var(--int-t-color-picker-popup-large-trigger-padding);
+      min-width: var(--int-t-color-picker-popup-large-trigger-min-width);
     }
 
-    .t-color-picker-popup__selected { height: 2.5rem; }
+    .t-color-picker-popup__selected { height: var(--int-t-color-picker-popup-large-selected-height); }
   }
 }
 </style>

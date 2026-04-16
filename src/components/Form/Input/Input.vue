@@ -162,20 +162,46 @@ const decrement = () => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .input {
+  @include m.component-props((
+    'gap': '0.5rem',
+    'label-font-size': '0.875rem',
+    'label-font-weight': '500',
+    'required-margin': '0.25rem',
+    'field-padding': '0.75rem 1rem',
+    'field-font-size': '1rem',
+    'line-height': '1.5',
+    'focus-ring-width': '3px',
+    'icon-offset': '0.75rem',
+    'spinner-width': '1.5rem',
+    'spinner-height': '1rem',
+    'spinners-offset': '0.25rem',
+    'has-icon-padding': '2.5rem',
+    'small-padding': '0.5rem 0.75rem',
+    'small-font-size': '0.875rem',
+    'small-icon-offset': '0.5rem',
+    'large-padding': '1rem 1.25rem',
+    'large-font-size': '1.125rem',
+    'large-icon-offset': '1rem',
+    'description-font-size': '0.875rem',
+    'description-line-height': '1.4',
+  ), 'input');
+
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--int-input-gap);
 
   &__label {
-    font-weight: 500;
+    font-weight: var(--int-input-label-font-weight);
     color: var(--text-primary);
-    font-size: 0.875rem;
+    font-size: var(--int-input-label-font-size);
   }
 
   &__required {
     color: var(--color-error);
-    margin-left: 0.25rem;
+    margin-left: var(--int-input-required-margin);
   }
 
   &__wrapper {
@@ -186,12 +212,12 @@ const decrement = () => {
 
   &__field {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: var(--int-input-field-padding);
     border: 1px solid var(--color-accent);
     border-radius: var(--border-radius);
     font-family: inherit;
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: var(--int-input-field-font-size);
+    line-height: var(--int-input-line-height);
     transition: all 0.2s ease;
     background: var(--color-background);
     color: var(--color-background-text);
@@ -199,7 +225,7 @@ const decrement = () => {
     &:focus {
       outline: none;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary), transparent 90%);
+      box-shadow: 0 0 0 var(--int-input-focus-ring-width) color-mix(in srgb, var(--color-primary), transparent 90%);
     }
 
     &::placeholder {
@@ -223,17 +249,17 @@ const decrement = () => {
     pointer-events: none;
 
     &--prefix {
-      left: 0.75rem;
+      left: var(--int-input-icon-offset);
     }
 
     &--suffix {
-      right: 0.75rem;
+      right: var(--int-input-icon-offset);
     }
   }
 
   &__spinners {
     position: absolute;
-    right: 0.25rem;
+    right: var(--int-input-spinners-offset);
     display: flex;
     flex-direction: column;
     border-radius: var(--border-radius);
@@ -245,8 +271,8 @@ const decrement = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1rem;
+    width: var(--int-input-spinner-width);
+    height: var(--int-input-spinner-height);
     background: var(--bg-secondary);
     border: none;
     cursor: pointer;
@@ -267,8 +293,8 @@ const decrement = () => {
   }
 
   &__description {
-    font-size: 0.875rem;
-    line-height: 1.4;
+    font-size: var(--int-input-description-font-size);
+    line-height: var(--int-input-description-line-height);
     opacity: .5;
   }
 
@@ -283,50 +309,50 @@ const decrement = () => {
   // Size variants
   &--small {
     .input__field {
-      padding: 0.5rem 0.75rem;
-      font-size: 0.875rem;
+      padding: var(--int-input-small-padding);
+      font-size: var(--int-input-small-font-size);
     }
 
     .input__icon--prefix {
-      left: 0.5rem;
+      left: var(--int-input-small-icon-offset);
     }
 
     .input__icon--suffix {
-      right: 0.5rem;
+      right: var(--int-input-small-icon-offset);
     }
   }
 
   &--large {
     .input__field {
-      padding: 1rem 1.25rem;
-      font-size: 1.125rem;
+      padding: var(--int-input-large-padding);
+      font-size: var(--int-input-large-font-size);
     }
 
     .input__icon--prefix {
-      left: 1rem;
+      left: var(--int-input-large-icon-offset);
     }
 
     .input__icon--suffix {
-      right: 1rem;
+      right: var(--int-input-large-icon-offset);
     }
   }
 
   // States
   &--has-prefix {
     .input__field {
-      padding-left: 2.5rem;
+      padding-left: var(--int-input-has-icon-padding);
     }
   }
 
   &--has-suffix:not(.input--has-spinners) {
     .input__field {
-      padding-right: 2.5rem;
+      padding-right: var(--int-input-has-icon-padding);
     }
   }
 
   &--has-spinners {
     .input__field {
-      padding-right: 2.5rem;
+      padding-right: var(--int-input-has-icon-padding);
     }
   }
 
@@ -336,7 +362,7 @@ const decrement = () => {
 
       &:focus {
         border-color: var(--color-error);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error), transparent 90%);
+        box-shadow: 0 0 0 var(--int-input-focus-ring-width) color-mix(in srgb, var(--color-error), transparent 90%);
       }
     }
   }

@@ -140,18 +140,28 @@ const onActionClick = (action: TooltipAction) => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-tooltip {
+	@include m.component-props((
+		'z-index': '100',
+		'line-height': '1.35',
+		'shadow': '0 12px 28px color-mix(in srgb, var(--color-foreground), transparent 80%)',
+		'animation': 'showTooltip 0.2s var(--bezier) forwards',
+		'arrow-size': '8px',
+	), 'ui-tooltip');
+
 	&__panel {
 		position: absolute;
-		z-index: 100;
+		z-index: var(--int-ui-tooltip-z-index);
 		background: var(--tooltip-bg);
 		color: var(--tooltip-fg);
 		border-radius: var(--border-radius);
 		padding: var(--space-xs) var(--space-s);
-		box-shadow: 0 12px 28px color-mix(in srgb, 0, 0, 0, transparent 20%);
+		box-shadow: var(--int-ui-tooltip-shadow);
 		max-width: var(--tooltip-max-width);
 		font-size: var(--font-size-xs);
-		line-height: 1.35;
+		line-height: var(--int-ui-tooltip-line-height);
 		white-space: nowrap;
 		display: inline-flex;
 		flex-direction: column;
@@ -164,7 +174,7 @@ const onActionClick = (action: TooltipAction) => {
 
 		&--open {
 			pointer-events: auto;
-			animation: showTooltip 0.2s var(--bezier) forwards;
+			animation: var(--int-ui-tooltip-animation);
 		}
 
 		&--parent-hover {
@@ -173,12 +183,12 @@ const onActionClick = (action: TooltipAction) => {
 		}
 
 		&--parent-hover#{&}--open {
-			animation: showTooltip 0.2s var(--bezier) forwards;
+			animation: var(--int-ui-tooltip-animation);
 			pointer-events: auto;
 		}
 
 		:where(*:hover, *:focus-within, *:active) > &--parent-hover {
-			animation: showTooltip 0.2s var(--bezier) forwards;
+			animation: var(--int-ui-tooltip-animation);
 			pointer-events: auto;
 		}
 
@@ -227,8 +237,8 @@ const onActionClick = (action: TooltipAction) => {
 
 	&__arrow {
 		position: absolute;
-		width: 8px;
-		height: 8px;
+		width: var(--int-ui-tooltip-arrow-size);
+		height: var(--int-ui-tooltip-arrow-size);
 		background: var(--tooltip-bg);
 		transform: rotate(45deg);
 	}

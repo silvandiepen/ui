@@ -381,10 +381,16 @@ initOptions();
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-birthday {
 	$b: &;
   @include form.inputBase();
+
+  @include m.component-props((
+    'option-font-size': '0.875em',
+    'options-max-height': '10em',
+  ), 'input-birthday');
 
   &__controls {
     display: flex;
@@ -430,7 +436,7 @@ initOptions();
   &__options {
     width: 100%;
     height: fit-content;
-    max-height: 10em;
+    max-height: var(--int-input-birthday-options-max-height);
     border: none;
 		scrollbar-width: thin;
     scrollbar-color: var(--color-primary) transparent;
@@ -455,7 +461,7 @@ initOptions();
 
   &__option {
     padding: var(--space-xs);
-    font-size: 0.875em;
+    font-size: var(--int-input-birthday-option-font-size);
     cursor: pointer;
 		border-radius: var(--border-radius);
 

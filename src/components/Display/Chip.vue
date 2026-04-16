@@ -87,20 +87,16 @@ const hasTooltip = computed(() => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .chip {
+	@include m.component-props((
+		'background-color': 'color-mix(in srgb, var(--chip-color), var(--color-background) 95%)',
+		'text-color': 'color-mix(in srgb, var(--chip-color), var(--color-foreground) 50%)',
+		'border-color': 'color-mix(in srgb, var(--chip-color), var(--color-background) 90%)',
+	), 'chip');
+
 	--color-default: var(--color-primary);
-	--int-chip-background-color: var(
-		--chip-background-color,
-		color-mix(in srgb, var(--chip-color), var(--color-background) 95%)
-	);
-	--int-chip-text-color: var(
-		--chip-text-color,
-		color-mix(in srgb, var(--chip-color), var(--color-foreground) 50%)
-	);
-	--int-chip-border-color: var(
-		--chip-border-color,
-		color-mix(in srgb, var(--chip-color), var(--color-background) 90%)
-	);
 
 	white-space: nowrap;
 	overflow: hidden;

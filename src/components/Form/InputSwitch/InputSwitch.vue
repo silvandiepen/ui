@@ -85,23 +85,36 @@ function handleSelect(value: SwitchValue) {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .input-switch {
+  @include m.component-props((
+    'item-padding': '0.45rem 0.85rem',
+    'item-padding-small': '0.3rem 0.6rem',
+    'item-padding-large': '0.6rem 1.1rem',
+    'item-radius': 'calc(var(--border-radius) * 0.7)',
+    'track-gap': '2px',
+    'track-padding': '3px',
+    'item-gap': '0.4rem',
+    'item-font-size': '0.875rem',
+    'item-font-weight': '600',
+    'icon-size': '1rem',
+  ), 'input-switch');
+
   --input-switch-color: var(--color-primary);
-  --input-switch-item-padding: 0.45rem 0.85rem;
-  --input-switch-item-radius: calc(var(--border-radius) * 0.7);
 
   &--small {
-    --input-switch-item-padding: 0.3rem 0.6rem;
+    --input-switch-item-padding: var(--int-input-switch-item-padding-small);
   }
 
   &--large {
-    --input-switch-item-padding: 0.6rem 1.1rem;
+    --input-switch-item-padding: var(--int-input-switch-item-padding-large);
   }
 
   &__track {
     display: inline-flex;
-    gap: 2px;
-    padding: 3px;
+    gap: var(--int-input-switch-track-gap);
+    padding: var(--int-input-switch-track-padding);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
     border-radius: var(--border-radius);
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
@@ -110,14 +123,14 @@ function handleSelect(value: SwitchValue) {
   &__item {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: var(--input-switch-item-padding);
+    gap: var(--int-input-switch-item-gap);
+    padding: var(--input-switch-item-padding, var(--int-input-switch-item-padding));
     border: none;
-    border-radius: var(--input-switch-item-radius);
+    border-radius: var(--input-switch-item-radius, var(--int-input-switch-item-radius));
     background: transparent;
     color: color-mix(in srgb, var(--color-foreground), transparent 30%);
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: var(--int-input-switch-item-font-size);
+    font-weight: var(--int-input-switch-item-font-weight);
     cursor: pointer;
     transition:
       background-color 160ms ease,
@@ -147,8 +160,8 @@ function handleSelect(value: SwitchValue) {
   }
 
   &__item-icon {
-    width: 1rem;
-    height: 1rem;
+    width: var(--int-input-switch-icon-size);
+    height: var(--int-input-switch-icon-size);
   }
 }
 </style>

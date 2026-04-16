@@ -100,12 +100,27 @@ const shuffleArray = (array: number[]): number[] => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .number-pad {
+  @include m.component-props((
+    'width': '15em',
+    'max-width': '20em',
+    'button-font-size': '1.25em',
+    'button-font-weight': '600',
+    'small-max-width': '15em',
+    'small-button-font-size': '1em',
+    'large-max-width': '25em',
+    'large-button-font-size': '1.5em',
+    'compact-gap': '2px',
+    'icon-font-size': '2em',
+  ), 'number-pad');
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-s);
-  width: 15em;
-  max-width: 20em;
+  width: var(--int-number-pad-width);
+  max-width: var(--int-number-pad-max-width);
 
   &__button {
     aspect-ratio: 1;
@@ -114,8 +129,8 @@ const shuffleArray = (array: number[]): number[] => {
     border-radius: var(--border-radius);
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-size: 1.25em;
-    font-weight: 600;
+    font-size: var(--int-number-pad-button-font-size);
+    font-weight: var(--int-number-pad-button-font-weight);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -168,7 +183,7 @@ const shuffleArray = (array: number[]): number[] => {
         border-color: var(--color-primary);
       }
       .icon{
-        font-size: 2em;
+        font-size: var(--int-number-pad-icon-font-size);
       }
     }
 
@@ -183,7 +198,7 @@ const shuffleArray = (array: number[]): number[] => {
         box-shadow: 0 2px 8px color-mix(in srgb, var(--color-success), transparent 60%);
       }
       .icon{
-        font-size: 2em;
+        font-size: var(--int-number-pad-icon-font-size);
       }
     }
   }
@@ -191,27 +206,27 @@ const shuffleArray = (array: number[]): number[] => {
   // Size variants
   &--small {
     gap: var(--space-xs);
-    max-width: 15em;
+    max-width: var(--int-number-pad-small-max-width);
 
     .number-pad__button {
       min-height: var(--space-l);
-      font-size: 1em;
+      font-size: var(--int-number-pad-small-button-font-size);
     }
   }
 
   &--large {
     gap: var(--space);
-    max-width: 25em;
+    max-width: var(--int-number-pad-large-max-width);
 
     .number-pad__button {
       min-height: calc(var(--space-xl) * 1.33);
-      font-size: 1.5em;
+      font-size: var(--int-number-pad-large-button-font-size);
     }
   }
 
   // Variant styles
   &--compact {
-    gap: 2px;
+    gap: var(--int-number-pad-compact-gap);
 
     .number-pad__button {
       border-radius: var(--border-radius-s);

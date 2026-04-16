@@ -88,8 +88,14 @@ const fieldClasses = computed(() =>
 )
 </script>
 
-<style>
+<style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-field {
+  @include m.component-props((
+    'label-letter-spacing': '0.05em',
+  ), 'ui-field');
+
   display: flex;
   flex-direction: column;
   gap: calc(var(--space) * 0.4);
@@ -98,7 +104,7 @@ const fieldClasses = computed(() =>
 .ui-field__label {
   font-size: calc(var(--font-size) * 0.9);
   font-weight: var(--font-weight-extra-bold);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--int-ui-field-label-letter-spacing);
   text-transform: uppercase;
   color: color-mix(in srgb, var(--color-foreground), transparent 44%);
 }

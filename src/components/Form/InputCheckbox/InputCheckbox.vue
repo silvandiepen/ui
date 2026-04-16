@@ -119,19 +119,32 @@ watch(
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .input-checkbox {
-  --input-checkbox-size: 1.5rem;
-  --input-checkbox-space: 0.18rem;
+  @include m.component-props((
+    'size': '1.5rem',
+    'space': '0.18rem',
+    'size-small': '1.2rem',
+    'size-large': '1.8rem',
+    'label-font-size': '0.95em',
+    'label-line-height': '1.2',
+    'disabled-opacity': '0.65',
+    'dot-size': '0.72rem',
+  ), 'input-checkbox');
+
+  --input-checkbox-size: var(--int-input-checkbox-size);
+  --input-checkbox-space: var(--int-input-checkbox-space);
   --input-checkbox-dot-size: calc(var(--input-checkbox-size) - (var(--input-checkbox-space) * 2));
   gap: var(--space-s);
   display: flex;
 
   &--small {
-    --input-checkbox-size: 1.2rem;
+    --input-checkbox-size: var(--int-input-checkbox-size-small);
   }
 
   &--large {
-    --input-checkbox-size: 1.8rem;
+    --input-checkbox-size: var(--int-input-checkbox-size-large);
   }
 
   &__control-container {
@@ -142,13 +155,13 @@ watch(
 
     &--disabled {
       cursor: not-allowed;
-      opacity: 0.65;
+      opacity: var(--int-input-checkbox-disabled-opacity);
     }
   }
 
   &__label {
-    font-size: 0.95em;
-    line-height: 1.2;
+    font-size: var(--int-input-checkbox-label-font-size);
+    line-height: var(--int-input-checkbox-label-line-height);
 
     &--left {
       order: -1;
@@ -228,8 +241,8 @@ watch(
   }
 
   &__indicator-dot {
-    width: 0.72rem;
-    height: 0.72rem;
+    width: var(--int-input-checkbox-dot-size, 0.72rem);
+    height: var(--int-input-checkbox-dot-size, 0.72rem);
     border-radius: calc(var(--border-radius) * 0.45);
     background: currentColor;
   }
@@ -248,15 +261,15 @@ watch(
 
   &__indicator-x {
     position: relative;
-    width: 0.72rem;
-    height: 0.72rem;
+    width: var(--int-input-checkbox-dot-size, 0.72rem);
+    height: var(--int-input-checkbox-dot-size, 0.72rem);
   }
 
   &__indicator-x-line {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 0.72rem;
+    width: var(--int-input-checkbox-dot-size, 0.72rem);
     height: 2px;
     border-radius: 999px;
     background: currentColor;

@@ -280,7 +280,19 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .sidebar-navigation {
+  @include m.component-props((
+    'section-copy-gap': '0.2rem',
+    'section-meta-gap': '0.45rem',
+    'section-label-letter-spacing': '0.08em',
+    'items-gap': '0.4rem',
+    'item-padding': '0.8rem 0.9rem',
+    'item-copy-gap': '0.25rem',
+    'item-hover-offset': '0.12rem',
+  ), 'sidebar-navigation');
+
   display: grid;
   gap: calc(var(--space) * 0.9);
 
@@ -319,19 +331,19 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__section-copy {
     display: grid;
-    gap: 0.2rem;
+    gap: var(--int-sidebar-navigation-section-copy-gap);
   }
 
   &__section-meta {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: var(--int-sidebar-navigation-section-meta-gap);
     flex-shrink: 0;
   }
 
   &__section-label {
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--int-sidebar-navigation-section-label-letter-spacing);
     font-size: var(--font-size-xs);
     color: color-mix(in srgb, var(--color-foreground), transparent 42%);
   }
@@ -353,7 +365,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__items {
     display: grid;
-    gap: 0.4rem;
+    gap: var(--int-sidebar-navigation-items-gap);
   }
 
   &__item {
@@ -361,7 +373,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
     align-items: center;
     justify-content: space-between;
     gap: calc(var(--space) * 0.75);
-    padding: 0.8rem 0.9rem;
+    padding: var(--int-sidebar-navigation-item-padding);
     border-radius: calc(var(--border-radius, 1rem) * 0.9);
     border: 0;
     background: color-mix(in srgb, var(--color-background), white 48%);
@@ -375,7 +387,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
       box-shadow 140ms ease;
 
     &:hover {
-      transform: translateX(0.12rem);
+      transform: translateX(var(--int-sidebar-navigation-item-hover-offset));
       background: color-mix(in srgb, var(--color-primary), transparent 92%);
       box-shadow: 0 0.8rem 1.6rem color-mix(in srgb, var(--color-foreground), transparent 94%);
     }
@@ -398,7 +410,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__item-copy {
     display: grid;
-    gap: 0.25rem;
+    gap: var(--int-sidebar-navigation-item-copy-gap);
     min-width: 0;
   }
 

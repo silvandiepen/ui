@@ -155,11 +155,18 @@ watch(
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-passcode {
 	--input-control-padding-x: 0;
 
 	@include form.inputBase();
+
+	@include m.component-props((
+    'control-container-width': '2.5em',
+    'control-font-size': '1.25em',
+  ), 'input-passcode');
+
 	&__list {
 		display: flex;
 		align-items: center;
@@ -168,12 +175,12 @@ watch(
 	}
 
 	&__control-container {
-		width: 2.5em;
+		width: var(--int-input-passcode-control-container-width);
 	}
 
 	&__control {
 		text-align: center;
-		font-size: 1.25em;
+		font-size: var(--int-input-passcode-control-font-size);
 	}
 }
 </style>

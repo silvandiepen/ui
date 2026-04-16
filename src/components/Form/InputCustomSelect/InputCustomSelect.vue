@@ -473,10 +473,21 @@ watch(model, () => {
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-custom-select {
   @include form.inputBase();
   position: relative;
+
+  @include m.component-props((
+    'search-padding-y': '0.8rem',
+    'search-padding-x': '0.95rem',
+    'search-left-icon-offset': '2.7rem',
+    'search-icon-left': '1.45rem',
+    'search-icon-font-size': '0.95rem',
+    'option-padding-y': '0.8rem',
+    'option-padding-x': '1rem',
+  ), 'input-custom-select');
 
   // CSS Custom Properties with defaults
   --input-custom-select-dropdown-gap: var(--space-xs);
@@ -556,7 +567,7 @@ watch(model, () => {
 
   &__search-input {
     width: 100%;
-    padding: 0.8rem 0.95rem 0.8rem 2.7rem;
+    padding: var(--int-input-custom-select-search-padding-y) var(--int-input-custom-select-search-padding-x) var(--int-input-custom-select-search-padding-y) var(--int-input-custom-select-search-left-icon-offset);
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
     border-radius: calc(var(--input-border-radius, var(--border-radius)) - 2px);
@@ -581,12 +592,12 @@ watch(model, () => {
 
   &__search-icon {
     position: absolute;
-    left: 1.45rem;
+    left: var(--int-input-custom-select-search-icon-left);
     top: 50%;
     transform: translateY(-50%);
     color: color-mix(in srgb, currentColor, transparent 42%);
     pointer-events: none;
-    font-size: 0.95rem;
+    font-size: var(--int-input-custom-select-search-icon-font-size);
     z-index: 1;
   }
 
@@ -599,7 +610,7 @@ watch(model, () => {
     display: flex;
     align-items: center;
     gap: var(--space-s);
-    padding: 0.8rem 1rem;
+    padding: var(--int-input-custom-select-option-padding-y) var(--int-input-custom-select-option-padding-x);
     cursor: pointer;
     transition:
       background-color var(--transition-fast),

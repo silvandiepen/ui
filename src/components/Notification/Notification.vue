@@ -71,15 +71,27 @@ function dismiss() {
 }
 </script>
 
-<style>
+<style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-notification {
+  @include m.component-props((
+    'gap': '8px',
+    'padding-y': '12px',
+    'padding-x': '16px',
+    'border-radius': '8px',
+    'font-size': '0.875rem',
+    'line-height': '1.5',
+    'close-border-radius': '4px',
+  ), 'notification');
+
   display: flex;
   align-items: center;
-  gap: var(--space-s, 8px);
-  padding: var(--space-s, 12px) var(--space-m, 16px);
-  border-radius: var(--border-radius, 8px);
-  font-size: var(--font-size-s, 0.875rem);
-  line-height: 1.5;
+  gap: var(--space-s, var(--int-notification-gap));
+  padding: var(--space-s, var(--int-notification-padding-y)) var(--space-m, var(--int-notification-padding-x));
+  border-radius: var(--border-radius, var(--int-notification-border-radius));
+  font-size: var(--font-size-s, var(--int-notification-font-size));
+  line-height: var(--int-notification-line-height);
 }
 
 .ui-notification--type-success {
@@ -121,7 +133,7 @@ function dismiss() {
   cursor: pointer;
   color: currentColor;
   padding: var(--space-xs);
-  border-radius: var(--border-radius-s, 4px);
+  border-radius: var(--border-radius-s, var(--int-notification-close-border-radius));
   display: flex;
   align-items: center;
   opacity: 0.7;

@@ -147,7 +147,16 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .pin-input {
+  @include m.component-props((
+    'dot-font-size': '1.125em',
+    'dot-font-weight': '600',
+    'small-dot-font-size': '0.875em',
+    'large-dot-font-size': '1.25em',
+  ), 'pin-input');
+
   position: relative;
   display: inline-block;
   cursor: text;
@@ -165,8 +174,8 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.125em;
-    font-weight: 600;
+    font-size: var(--int-pin-input-dot-font-size);
+    font-weight: var(--int-pin-input-dot-font-weight);
     transition: all 0.2s ease;
     background: var(--color-background);
     position: relative;
@@ -235,7 +244,7 @@ defineExpose({
     .pin-input__dot {
       width: var(--space-l);
       height: var(--space-l);
-      font-size: 0.875em;
+      font-size: var(--int-pin-input-small-dot-font-size);
 
       &--filled:not(:has(.pin-input__value)) {
         &::before {
@@ -249,7 +258,7 @@ defineExpose({
     .pin-input__dot {
       width: calc(var(--space-xl) * 1.33);
       height: calc(var(--space-xl) * 1.33);
-      font-size: 1.25em;
+      font-size: var(--int-pin-input-large-dot-font-size);
 
       &--filled:not(:has(.pin-input__value)) {
         &::before {

@@ -228,7 +228,23 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .input-cascader {
+  @include m.component-props((
+    'trigger-gap': '0.75rem',
+    'trigger-min-height': '3rem',
+    'trigger-padding-y': '0.8rem',
+    'trigger-padding-x': '1rem',
+    'panel-top-offset': '0.5rem',
+    'column-gap': '0.15rem',
+    'column-padding': '0.5rem',
+    'option-gap': '0.65rem',
+    'option-padding-y': '0.55rem',
+    'option-padding-x': '0.7rem',
+    'option-main-gap': '0.55rem',
+  ), 'input-cascader');
+
   position: relative;
 
   &__control {
@@ -240,10 +256,10 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: var(--int-input-cascader-trigger-gap);
     width: 100%;
-    min-height: 3rem;
-    padding: 0.8rem 1rem;
+    min-height: var(--int-input-cascader-trigger-min-height);
+    padding: var(--int-input-cascader-trigger-padding-y) var(--int-input-cascader-trigger-padding-x);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 84%);
     border-radius: var(--border-radius-xl);
     background: color-mix(in srgb, var(--color-background), transparent 2%);
@@ -280,7 +296,7 @@ onBeforeUnmount(() => {
 
   &__panel {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% + var(--int-input-cascader-panel-top-offset));
     left: 0;
     z-index: 40;
     display: grid;
@@ -297,9 +313,9 @@ onBeforeUnmount(() => {
 
   &__column {
     display: grid;
-    gap: 0.15rem;
+    gap: var(--int-input-cascader-column-gap);
     min-width: 0;
-    padding: 0.5rem;
+    padding: var(--int-input-cascader-column-padding);
     border-right: 1px solid color-mix(in srgb, var(--color-foreground), transparent 92%);
 
     &:last-child {
@@ -311,9 +327,9 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.65rem;
+    gap: var(--int-input-cascader-option-gap);
     width: 100%;
-    padding: 0.55rem 0.7rem;
+    padding: var(--int-input-cascader-option-padding-y) var(--int-input-cascader-option-padding-x);
     border: 0;
     border-radius: calc(var(--border-radius) * 0.75);
     background: transparent;
@@ -339,7 +355,7 @@ onBeforeUnmount(() => {
   &__option-main {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
+    gap: var(--int-input-cascader-option-main-gap);
     min-width: 0;
   }
 

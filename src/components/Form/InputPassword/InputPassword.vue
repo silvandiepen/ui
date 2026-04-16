@@ -210,9 +210,16 @@ onMounted(() => {
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-password {
 	@include form.inputBase();
+
+	@include m.component-props((
+    'control-padding-right': '2.5rem',
+    'toggle-right': '0.5rem',
+    'toggle-padding': '0.25rem',
+  ), 'input-password');
 
 	&__wrapper {
 		position: relative;
@@ -222,16 +229,16 @@ onMounted(() => {
 
 	&__control {
 		width: 100%;
-		padding-right: 2.5rem;
+		padding-right: var(--int-input-password-control-padding-right);
 	}
 
 	&__toggle {
 		position: absolute;
-		right: 0.5rem;
+		right: var(--int-input-password-toggle-right);
 		z-index: 4;
 		background: none;
 		border: none;
-		padding: 0.25rem;
+		padding: var(--int-input-password-toggle-padding);
 		cursor: pointer;
 		display: flex;
 		align-items: center;

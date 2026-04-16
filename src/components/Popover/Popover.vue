@@ -159,20 +159,29 @@ const panelStyle = computed(() => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-popover {
+	@include m.component-props((
+		'panel-z-index': '30',
+		'panel-min-width': '180px',
+		'panel-shadow': '0 12px 32px color-mix(in srgb, var(--color-foreground), transparent 88%)',
+		'title-font-weight': '600',
+	), 'ui-popover');
+
 	position: relative;
 	display: inline-flex;
 
 	&__panel {
 		position: absolute;
-		z-index: 30;
+		z-index: var(--int-ui-popover-panel-z-index);
 		background: var(--color-background);
 		border: 1px solid
 			color-mix(in srgb, var(--color-foreground), transparent 86%);
 		border-radius: var(--border-radius);
-		box-shadow: 0 12px 32px color-mix(in srgb, var(--color-foreground), transparent 88%);
+		box-shadow: var(--int-ui-popover-panel-shadow);
 		padding: var(--space-s);
-		min-width: 180px;
+		min-width: var(--int-ui-popover-panel-min-width);
 	}
 
 	&__panel--bottom {
@@ -197,7 +206,7 @@ const panelStyle = computed(() => {
 
 	&__title {
 		font-size: var(--font-size-s);
-		font-weight: 600;
+		font-weight: var(--int-ui-popover-title-font-weight);
 		margin-bottom: var(--space-xs);
 	}
 

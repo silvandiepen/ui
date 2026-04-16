@@ -49,6 +49,8 @@ const blockClasses = computed(() => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 :has(> .tool-tip) {
   &:hover {
     .tool-tip {
@@ -59,6 +61,13 @@ const blockClasses = computed(() => {
 }
 
 .tool-tip {
+  @include m.component-props((
+    'z-index': '20',
+    'initial-transform': 'scale(0) translateX(-50%) translateY(50%)',
+    'transition': 'all 0.2s ease-in-out',
+    'arrow-size': '0.75em',
+  ), 'tool-tip');
+
   position: absolute;
   opacity: 0;
   background-color: var(--color-foreground);
@@ -66,11 +75,11 @@ const blockClasses = computed(() => {
   padding: var(--space-s) calc(var(--space) / 3 * 2);
   border-radius: var(--border-radius);
   font-size: var(--tooltip-font-size, 0.75em);
-  z-index: 20;
+  z-index: var(--int-tool-tip-z-index);
   pointer-events: none;
   white-space: nowrap;
-  transform: scale(0) translateX(-50%) translateY(50%);
-  transition: all 0.2s ease-in-out;
+  transform: var(--int-tool-tip-initial-transform);
+  transition: var(--int-tool-tip-transition);
   transition-delay: 0s;
 
   &--bottom {
@@ -118,8 +127,8 @@ const blockClasses = computed(() => {
 
   &::before {
     content: '';
-    width: 0.75em;
-    height: 0.75em;
+    width: var(--int-tool-tip-arrow-size);
+    height: var(--int-tool-tip-arrow-size);
     display: block;
     position: absolute;
     background-color: inherit;

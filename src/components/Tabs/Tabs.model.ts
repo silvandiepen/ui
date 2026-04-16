@@ -30,7 +30,6 @@ export type TabsRootProps = {
 	tabNavClasses?: TabsClassValue;
 	tabContentClasses?: TabsClassValue;
 	vertical?: boolean;
-	centered?: boolean;
 	activeVariant?: ButtonVariant;
 	inactiveVariant?: ButtonVariant;
 	color?: Colors;
@@ -56,5 +55,8 @@ export type TabNavigationItem = {
 	color?: string;
 	disabled?: boolean;
 };
+
+export type TabNavigationVariant = 'pills' | 'underline';
+export type TabNavigationAlign = 'left' | 'center' | 'right';
 
 export const tabsContextKey: InjectionKey<TabsContext> = Symbol('tabsContext');

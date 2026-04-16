@@ -1,38 +1,38 @@
 <template>
   <Example>
-<div :class="bemm()">
-    <Popup />
+    <div :class="bemm()">
+      <Popup />
 
-    <PopupWrapper
-      id="docs-popup-example"
-      title="Share UI release"
-      :config="{
-        description: 'Service-driven popup content can be composed with trigger, content, and footer slots.',
-        config: {
-          width: '30rem',
-        },
-      }"
-    >
-      <template #trigger>
-        <Button>Open popup</Button>
+      <PopupWrapper
+        id="docs-popup-example"
+        title="Share UI release"
+        :config="{
+          description: 'Service-driven popup content can be composed with trigger, content, and footer slots.',
+          config: {
+            width: '30rem',
+          },
+        }"
+      >
+        <template #trigger>
+          <Button>Open popup</Button>
+        </template>
+
+        <template #content>
+          <div :class="bemm('content')">
+            <p>
+              Popups can render arbitrary components or slot content while staying controlled by the shared popup service.
+            </p>
+          </div>
+        </template>
+
+        <template #footer>
+          <Button variant="ghost" @click="popupService.close('docs-popup-example')">
+            Close
+          </Button>
+        </template>
+      </PopupWrapper>
+    </div>
   </Example>
-</template>
-
-      <template #content>
-        <div :class="bemm('content')">
-          <p>
-            Popups can render arbitrary components or slot content while staying controlled by the shared popup service.
-          </p>
-        </div>
-      </template>
-
-      <template #footer>
-        <Button variant="ghost" @click="popupService.close('docs-popup-example')">
-          Close
-        </Button>
-      </template>
-    </PopupWrapper>
-  </div>
 </template>
 
 <script setup lang="ts">

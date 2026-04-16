@@ -184,20 +184,40 @@ function selectRight() {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .input-toggle {
-  --input-toggle-height: 1.5rem;
-  --input-toggle-width: 2.55rem;
-  --input-toggle-padding: 0.18rem;
+  @include m.component-props((
+    'height': '1.5rem',
+    'width': '2.55rem',
+    'padding': '0.18rem',
+    'height-small': '1.25rem',
+    'width-small': '2.2rem',
+    'height-large': '1.8rem',
+    'width-large': '3rem',
+    'gap': '0.25rem',
+    'wrapper-gap': '0.5rem',
+    'label-font-size': '0.9em',
+    'description-font-size': '0.8em',
+    'errors-gap': '0.2rem',
+    'side-font-size': '0.85rem',
+    'side-gap': '0.3rem',
+    'side-icon-size': '1rem',
+  ), 'input-toggle');
+
+  --input-toggle-height: var(--int-input-toggle-height);
+  --input-toggle-width: var(--int-input-toggle-width);
+  --input-toggle-padding: var(--int-input-toggle-padding);
   --input-toggle-thumb-size: calc(var(--input-toggle-height) - (var(--input-toggle-padding) * 2));
   --input-toggle-active-color: var(--color-primary);
 
   display: inline-flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--int-input-toggle-gap);
 
   &--small {
-    --input-toggle-height: 1.25rem;
-    --input-toggle-width: 2.2rem;
+    --input-toggle-height: var(--int-input-toggle-height-small);
+    --input-toggle-width: var(--int-input-toggle-width-small);
 
     .input-toggle__thumb-icon {
       display: none;
@@ -205,46 +225,46 @@ function selectRight() {
   }
 
   &--large {
-    --input-toggle-height: 1.8rem;
-    --input-toggle-width: 3rem;
+    --input-toggle-height: var(--int-input-toggle-height-large);
+    --input-toggle-width: var(--int-input-toggle-width-large);
   }
 
   &__wrapper {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--int-input-toggle-wrapper-gap);
   }
 
   &__label {
-    font-size: 0.9em;
+    font-size: var(--int-input-toggle-label-font-size);
     cursor: pointer;
     user-select: none;
   }
 
   &__description {
-    font-size: 0.8em;
+    font-size: var(--int-input-toggle-description-font-size);
     color: color-mix(in srgb, var(--color-foreground), transparent 40%);
   }
 
   &__errors {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: var(--int-input-toggle-errors-gap);
   }
 
   &__error {
-    font-size: 0.8em;
+    font-size: var(--int-input-toggle-description-font-size);
     color: var(--color-error);
   }
 
   &__side {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: var(--int-input-toggle-side-gap);
     border: none;
     background: transparent;
     color: color-mix(in srgb, var(--color-foreground), transparent 50%);
-    font-size: 0.85rem;
+    font-size: var(--int-input-toggle-side-font-size);
     font-weight: 500;
     cursor: pointer;
     padding: 0;
@@ -261,8 +281,8 @@ function selectRight() {
   }
 
   &__side-icon {
-    width: 1rem;
-    height: 1rem;
+    width: var(--int-input-toggle-side-icon-size);
+    height: var(--int-input-toggle-side-icon-size);
   }
 
   &__side-label {

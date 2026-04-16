@@ -185,10 +185,10 @@ function extractTypes(source: string): UIComponentTypeDefinition[] {
   const types: UIComponentTypeDefinition[] = []
   const seen = new Set<string>()
 
-  extractInterfaceTypes(source, types, seen)
-  extractTypeAliases(source, types, seen)
   extractConstEnums(source, types, seen)
   extractTsEnums(source, types, seen)
+  extractInterfaceTypes(source, types, seen)
+  extractTypeAliases(source, types, seen)
 
   return types
 }

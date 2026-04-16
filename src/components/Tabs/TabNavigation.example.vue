@@ -1,55 +1,57 @@
 <template>
-  <Example>
-    <div :class="bemm()">
-      <TabNavigation
-        :items="items"
-        :value="activeTab"
-        @input="handleInput"
-      />
-      <p :class="bemm('copy')">Current tab: {{ activeTab }}</p>
-    </div>
-  </Example>
+  <Example
+    :component="TabNavigation"
+    name="TabNavigation"
+    :prop-options="{
+      variant: ['pills', 'underline'],
+      size: ['small', 'medium', 'large'],
+      align: ['left', 'center', 'right'],
+      iconOnly: [false, true],
+      vertical: [false, true],
+      items: [itemsDefault, itemsWithIcons],
+      value: ['overview', 'activity', 'settings'],
+    }"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useBemm } from 'bemm'
-
 import TabNavigation from './TabNavigation.vue'
 
-const bemm = useBemm('tab-navigation-example')
-
-const activeTab = ref<string | number>('overview')
-
-const items = [
+const itemsDefault = [
   {
     id: 'overview',
     label: 'Overview',
+    icon: 'home',
   },
   {
     id: 'activity',
     label: 'Activity',
+    icon: 'clock',
     badge: 3,
   },
   {
     id: 'settings',
     label: 'Settings',
+    icon: 'settings',
   },
 ]
 
-function handleInput(value: string | number) {
-  activeTab.value = value
-}
+const itemsWithIcons = [
+  {
+    id: 'overview',
+    label: 'Overview',
+    icon: 'home',
+  },
+  {
+    id: 'activity',
+    label: 'Activity',
+    icon: 'clock',
+    badge: 3,
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    icon: 'settings',
+  },
+]
 </script>
-
-<style lang="scss">
-.tab-navigation-example {
-  display: grid;
-  gap: var(--space);
-
-  &__copy {
-    margin: 0;
-    color: color-mix(in srgb, var(--color-foreground), transparent 35%);
-  }
-}
-</style>

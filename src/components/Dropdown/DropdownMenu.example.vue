@@ -1,11 +1,9 @@
 <template>
-  <Example>
-<div :class="bemm()">
+  <div :class="bemm()">
     <DropdownMenu :options="options">
       <template #trigger="{ toggle }">
         <Button variant="outline" @click="toggle">Open action menu</Button>
-  </Example>
-</template>
+      </template>
     </DropdownMenu>
 
     <DropdownMenu :options="sortingOptions">

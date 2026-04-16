@@ -1,104 +1,104 @@
 <template>
   <Example>
-<div :style="demoStyles.wrapper">
-    <section :style="demoStyles.section">
-      <div :style="demoStyles.intro">
-        <h2 :style="demoStyles.heading">Variants</h2>
-        <p :style="demoStyles.copy">
-          The card component supports three surface treatments: <code>default</code>, <code>elevated</code>, and <code>ghost</code>.
-        </p>
-      </div>
-
-      <div :style="demoStyles.grid">
-        <Card
-          v-for="variantCard in variantCards"
-          :key="variantCard.variant"
-          :title="variantCard.title"
-          :description="variantCard.description"
-          :variant="variantCard.variant"
-        >
-          <p :style="demoStyles.copy">{{ variantCard.body }}</p>
-        </Card>
-      </div>
-    </section>
-
-    <section :style="demoStyles.section">
-      <div :style="demoStyles.intro">
-        <h2 :style="demoStyles.heading">Compositions</h2>
-        <p :style="demoStyles.copy">
-          Header actions, footer actions, badges, color accents, and padding controls can be mixed without adding wrapper markup.
-        </p>
-      </div>
-
-      <div :style="demoStyles.grid">
-        <Card
-          title="With Header Actions"
-          description="Use icon-only actions for compact card controls."
-          :header-actions="headerActions"
-        >
+    <div :style="demoStyles.wrapper">
+      <section :style="demoStyles.section">
+        <div :style="demoStyles.intro">
+          <h2 :style="demoStyles.heading">Variants</h2>
           <p :style="demoStyles.copy">
-            Keep secondary actions in the header when the card content should remain visually quiet.
+            The card component supports three surface treatments: <code>default</code>, <code>elevated</code>, and <code>ghost</code>.
           </p>
-        </Card>
+        </div>
 
-        <Card
-          title="With Footer Actions"
-          description="Footer actions work well for commit or cancel flows."
-          :footer-actions="footerActions"
-        >
+        <div :style="demoStyles.grid">
+          <Card
+            v-for="variantCard in variantCards"
+            :key="variantCard.variant"
+            :title="variantCard.title"
+            :description="variantCard.description"
+            :variant="variantCard.variant"
+          >
+            <p :style="demoStyles.copy">{{ variantCard.body }}</p>
+          </Card>
+        </div>
+      </section>
+
+      <section :style="demoStyles.section">
+        <div :style="demoStyles.intro">
+          <h2 :style="demoStyles.heading">Compositions</h2>
           <p :style="demoStyles.copy">
-            Footer actions span the full width and inherit the card rhythm automatically.
+            Header actions, footer actions, badges, color accents, and padding controls can be mixed without adding wrapper markup.
           </p>
-        </Card>
+        </div>
 
-        <Card
-          title="Featured Accent"
-          description="Feature a primary action or premium plan with stronger affordances."
-          variant="elevated"
-          :color="Colors.PRIMARY"
-          badge="Popular"
-          badge-color="primary"
-          featured
-          hoverable
-        >
-          <p :style="demoStyles.copy">
-            Combine <code>featured</code>, <code>color</code>, and <code>badge</code> when a card should stand out in a grid.
-          </p>
-        </Card>
+        <div :style="demoStyles.grid">
+          <Card
+            title="With Header Actions"
+            description="Use icon-only actions for compact card controls."
+            :header-actions="headerActions"
+          >
+            <p :style="demoStyles.copy">
+              Keep secondary actions in the header when the card content should remain visually quiet.
+            </p>
+          </Card>
 
-        <Card
-          title="No Content Padding"
-          description="Disable internal padding when the slotted content owns its own layout."
-          :no-content-padding="true"
-        >
-          <div :style="demoStyles.mediaPanel">
-            Custom content block with full-bleed treatment.
-          </div>
-        </Card>
+          <Card
+            title="With Footer Actions"
+            description="Footer actions work well for commit or cancel flows."
+            :footer-actions="footerActions"
+          >
+            <p :style="demoStyles.copy">
+              Footer actions span the full width and inherit the card rhythm automatically.
+            </p>
+          </Card>
 
-        <Card>
-          <template #header>
-            <div :style="demoStyles.customHeader">
-              <strong>Custom Header Slot</strong>
-              <span :style="demoStyles.eyebrow">Flexible layout</span>
+          <Card
+            title="Featured Accent"
+            description="Feature a primary action or premium plan with stronger affordances."
+            variant="elevated"
+            :color="Colors.PRIMARY"
+            badge="Popular"
+            badge-color="primary"
+            featured
+            hoverable
+          >
+            <p :style="demoStyles.copy">
+              Combine <code>featured</code>, <code>color</code>, and <code>badge</code> when a card should stand out in a grid.
+            </p>
+          </Card>
+
+          <Card
+            title="No Content Padding"
+            description="Disable internal padding when the slotted content owns its own layout."
+            :no-content-padding="true"
+          >
+            <div :style="demoStyles.mediaPanel">
+              Custom content block with full-bleed treatment.
             </div>
+          </Card>
+
+          <Card>
+            <template #header>
+              <div :style="demoStyles.customHeader">
+                <strong>Custom Header Slot</strong>
+                <span :style="demoStyles.eyebrow">Flexible layout</span>
+              </div>
+            </template>
+
+            <p :style="demoStyles.copy">
+              Switch to named slots when title and description props are not expressive enough.
+            </p>
+
+            <template #footer>
+              <div :style="demoStyles.customFooter">
+                <span>Custom footer content</span>
+                <span :style="demoStyles.eyebrow">Slots stay fully controlled</span>
+              </div>
+            </template>
+          </Card>
+        </div>
+      </section>
+    </div>
   </Example>
-</template>
-
-          <p :style="demoStyles.copy">
-            Switch to named slots when title and description props are not expressive enough.
-          </p>
-
-          <template #footer>
-            <div :style="demoStyles.customFooter">
-              <span>Custom footer content</span>
-              <span :style="demoStyles.eyebrow">Slots stay fully controlled</span>
-            </div>
-          </template>
-        </Card>
-      </div>
-    </section>
-  </div>
 </template>
 
 <script lang="ts" setup>

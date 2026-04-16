@@ -70,6 +70,7 @@
           <TabNavigation
             :items="modeTabItems"
             :value="activeInputMode"
+            :minimal="true"
             :size="Size.SMALL"
             @input="handleModeTabInput"
           />
@@ -770,7 +771,7 @@ onUnmounted(() => {
     border-radius: 50%;
     cursor: crosshair;
     touch-action: none;
-    background: conic-gradient(
+    background-image: conic-gradient(
       #ff0000,
       #ffff00,
       #00ff00,
@@ -779,7 +780,9 @@ onUnmounted(() => {
       #ff00ff,
       #ff0000
     );
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
+    background-size: 120% 120%;
+    background-repeat: no-repeat;
+    background-position: center;
 
     &::after {
       content: "";
@@ -809,7 +812,6 @@ onUnmounted(() => {
     border-radius: 50%;
     cursor: crosshair;
     touch-action: none;
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
     background: var(--color-chooser-plane-hue);
     overflow: hidden;
   }

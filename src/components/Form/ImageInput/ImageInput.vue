@@ -112,16 +112,35 @@ const clearImage = () => {
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .image-input {
   @include form.inputBase();
 
   @include form.inputImage();
 
+  @include m.component-props((
+    'preview-size': '8em',
+    'preview-small-size': '3em',
+    'actions-top': '0.5rem',
+    'actions-right': '0.5rem',
+    'actions-gap': '0.25rem',
+    'actions-small-top': '0.25em',
+    'actions-small-right': '0.25em',
+    'actions-small-gap': '0.125em',
+    'placeholder-size': '150px',
+    'placeholder-small-size': '3rem',
+    'placeholder-gap': '0.5rem',
+    'placeholder-padding': '2rem',
+    'placeholder-small-padding': '0.5rem',
+    'placeholder-border-radius': '0.5rem',
+    'placeholder-font-size': '0.875rem',
+  ), 'image-input');
+
   &__preview {
     position: relative;
-    width: 8em;
-    height: 8em;
+    width: var(--int-image-input-preview-size);
+    height: var(--int-image-input-preview-size);
     border-radius: calc(var(--border-radius) / 2);
     overflow: hidden;
     border: 1px solid var(--color-accent);
@@ -144,14 +163,14 @@ const clearImage = () => {
     }
 
     &--small {
-      width: 3em;
-      height: 3em;
+      width: var(--int-image-input-preview-small-size);
+      height: var(--int-image-input-preview-small-size);
       border-radius: .5em;
 
       .image-input__actions {
-        top: 0.25em;
-        right: 0.25em;
-        gap: 0.125em;
+        top: var(--int-image-input-actions-small-top);
+        right: var(--int-image-input-actions-small-right);
+        gap: var(--int-image-input-actions-small-gap);
 
         .t-button {
           --button-size-small: 1.25em;
@@ -163,10 +182,10 @@ const clearImage = () => {
 
   &__actions {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: var(--int-image-input-actions-top);
+    right: var(--int-image-input-actions-right);
     display: flex;
-    gap: 0.25rem;
+    gap: var(--int-image-input-actions-gap);
     opacity: 0;
     transition: opacity 0.2s ease;
   }
@@ -176,16 +195,16 @@ const clearImage = () => {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 2rem;
+    gap: var(--int-image-input-placeholder-gap);
+    padding: var(--int-image-input-placeholder-padding);
     background: var(--color-background);
     border: 2px dashed var(--color-accent);
-    border-radius: 0.5rem;
+    border-radius: var(--int-image-input-placeholder-border-radius);
     color: var(--color-text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
-    width: 150px;
-    height: 150px;
+    width: var(--int-image-input-placeholder-size);
+    height: var(--int-image-input-placeholder-size);
 
     &:hover {
       border-color: var(--color-primary);
@@ -193,9 +212,9 @@ const clearImage = () => {
     }
 
     &--small {
-      width: 3rem;
-      height: 3rem;
-      padding: 0.5rem;
+      width: var(--int-image-input-placeholder-small-size);
+      height: var(--int-image-input-placeholder-small-size);
+      padding: var(--int-image-input-placeholder-small-padding);
 
       span {
         display: none;
@@ -203,7 +222,7 @@ const clearImage = () => {
     }
 
     span {
-      font-size: 0.875rem;
+      font-size: var(--int-image-input-placeholder-font-size);
       text-align: center;
     }
   }

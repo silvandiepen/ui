@@ -208,6 +208,8 @@ function initValues() {
   for (const control of controls.value) {
     if (control.name in saved) {
       propValues[control.name] = saved[control.name]
+    } else if (control.options?.length) {
+      propValues[control.name] = control.options[0]
     } else if (control.defaultValue !== undefined) {
       propValues[control.name] = control.defaultValue
     } else {

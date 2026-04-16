@@ -64,10 +64,17 @@ const handleInputChange = (e: Event) => {
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-radio {
-	--input-radio-size: 1.25em;
-	--input-radio-dot-size: 0.75em;
+  @include m.component-props((
+    'size': '1.25em',
+    'dot-size': '0.75em',
+    'label-font-size': '0.875em',
+  ), 'input-radio');
+
+	--input-radio-size: var(--int-input-radio-size);
+	--input-radio-dot-size: var(--int-input-radio-dot-size);
 
 	display: flex;
 	align-items: center;
@@ -147,7 +154,7 @@ const handleInputChange = (e: Event) => {
 
 	&__label {
 		margin-left: var(--space-xs);
-		font-size: 0.875em;
+		font-size: var(--int-input-radio-label-font-size);
 		cursor: pointer;
 	}
 }

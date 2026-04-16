@@ -53,14 +53,22 @@ const handleInput = (event: Event) => {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .tiko-rich-text-editor {
+  @include m.component-props((
+    'label-font-weight': '500',
+    'textarea-font-size': '14px',
+    'textarea-line-height': '1.6',
+  ), 'tiko-rich-text-editor');
+
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 
   &__label {
     font-size: var(--font-size-sm);
-    font-weight: 500;
+    font-weight: var(--int-tiko-rich-text-editor-label-font-weight);
     color: var(--color-foreground);
   }
 
@@ -108,8 +116,8 @@ const handleInput = (event: Event) => {
     border: none;
     background: transparent;
     font-family: inherit;
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: var(--int-tiko-rich-text-editor-textarea-font-size);
+    line-height: var(--int-tiko-rich-text-editor-textarea-line-height);
     resize: vertical;
     outline: none;
     

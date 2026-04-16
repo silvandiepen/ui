@@ -1,46 +1,159 @@
 # Tabs
 
-Reusable tabs primitives:
+Reusable tab primitives built around three components:
 
-- `Tabs.vue`: root container that manages active pane state and navigation sync.
-- `TabPane.vue`: individual pane that registers itself with the root.
-- `TabNavigation.vue`: interactive tab switcher UI.
+- `TabNavigation.vue` — interactive tab switcher UI (standalone, no content panes)
+- `Tabs.vue` — root container that manages active pane state and syncs with `TabNavigation`
+- `TabPane.vue` — individual content pane that registers itself with `Tabs`
+
+---
+
+## TabNavigation
+
+Standalone tab bar. Use this when you manage your own active state or render content outside the component (routing, custom panels, etc.).
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string \| number \| null` | `null` | Active tab id |
+| `items` | `TabNavigationItem[]` | `[]` | Tab definitions |
+| `variant` | `'pills' \| 'underline'` | `'pills'` | Visual style |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Controls font size, icon size, and button padding |
+| `align` | `'left' \| 'center' \| 'right'` | `'left'` | Horizontal alignment (or cross-axis when `vertical`) |
+| `stretch` | `boolean` | `false` | Tabs fill the full width equally |
+| `iconOnly` | `boolean` | `false` | Show icons only, hide labels |
+| `vertical` | `boolean` | `false` | Stack tabs vertically |
+
+### Events
+
+| Event | Payload | Description |
+|---|---|---|
+| `input` | `string \| number` | Emitted on tab select with the item id |
+| `change` | `(id, item)` | Emitted on tab select with id and full item |
+
+### Item shape
+
+```ts
+type TabNavigationItem = {
+  id: string | number
+  label: string
+  icon?: string       // open-icon name
+  badge?: string | number
+  color?: string      // color token name
+  disabled?: boolean
+}
+```
+
+### Basic usage
+
+```vue
+<TabNavigation
+  :items="tabs"
+  :value="activeTab"
+  @input="activeTab = $event"
+/>
+```
+
+### With icons, size, and variant
+
+```vue
+<TabNavigation
+  :items="tabs"
+  v-model="activeTab"
+  variant="underline"
+  size="small"
+  align="center"
+/>
+```
+
+### Variants
+
+`pills` — animated background pill tracks the active tab. Hover shows a lighter pill.
+
+`underline` — animated bottom line (or right-side line in vertical mode) tracks the active tab.
+
+### Size
+
+The `size` prop scales font size, icon size, and button padding together:
+
+| Size | Font | Icon | Padding |
+|---|---|---|---|
+| `small` | `--font-size-sm` | `1em` | xs / s |
+| `medium` | `--font-size` | `1.25em` | s / base |
+| `large` | `--font-size-lg` | `1.5em` | m / l |
+
+### Vertical mode
+
+When `vertical` is true:
+
+- Tabs stack in a column.
+- The `align` prop controls horizontal (cross-axis) alignment: `left`, `center`, `right`.
+- The animated indicator moves vertically.
+- For the `underline` variant the indicator renders as a right-side line.
+
+---
+
+## Tabs + TabPane
+
+Use `Tabs` when you want content panes managed automatically.
+
+```vue
+<Tabs value="overview" @input="onTabChange">
+  <TabPane id="overview" title="Overview" icon="home">
+    Overview content
+  </TabPane>
+  <TabPane id="details" title="Details" icon="book-open">
+    Details content
+  </TabPane>
+</Tabs>
+```
+
+### TabPane props
+
+| Prop | Type | Description |
+|---|---|---|
+| `id` | `string \| number` | Unique tab identifier |
+| `title` | `string` | Tab label |
+| `icon` | `string` | open-icon name forwarded to TabNavigation |
+
+---
+
+## CSS custom properties
+
+### Public (override in your project)
+
+```css
+--tab-navigation-pills-padding
+--tab-navigation-pills-background
+--tab-navigation-pills-button-inactive-color
+--tab-navigation-pills-button-active-color
+--tab-navigation-underline-inactive-color
+--tab-navigation-underline-active-color
+--tab-navigation-underline-baseline-color
+--tab-navigation-underline-indicator-height
+--tab-navigation-underline-indicator-color
+```
+
+### Internal (set by component logic — do not override)
+
+```css
+--int-tab-navigation-border-radius
+--int-tab-navigation-font-size
+--int-tab-navigation-icon-size
+--int-tab-navigation-pills-button-padding-y
+--int-tab-navigation-pills-button-padding-x
+--int-tab-navigation-underline-padding-y
+--int-tab-navigation-underline-padding-x
+```
+
+---
 
 ## Architecture
 
-Shared tab state logic lives in:
+Shared state logic lives in `useTabs.ts`:
 
-- `useTabs.ts`
-  - `useTabsRoot`: tab registration, activation/deactivation, `value`/`activeTab` syncing, emits.
-  - `useTabPane`: pane registration lifecycle and prop sync (`id`, `title`).
-- `Tabs.model.ts`
-  - shared types (`TabPaneItem`, `TabNavigationItem`, `TabsRootProps`, etc.)
-  - typed provide/inject key (`tabsContextKey`)
+- `useTabsRoot` — tab registration, activation, `value`/`activeTab` sync, emits
+- `useTabPane` — pane registration lifecycle and prop sync
 
-## Events
-
-`Tabs.vue` emits:
-
-- `input`: active tab identifier (`id` or `title`)
-- `tab-click`: active tab identifier (`id` or `title`)
-
-`TabNavigation.vue` emits:
-
-- `input`: selected navigation item id
-- `change`: `(id, item)`
-
-## Basic Usage
-
-```vue
-<template>
-	<Tabs value="overview" @input="onTabChange">
-		<TabPane id="overview" title="Overview">Overview content</TabPane>
-		<TabPane id="details" title="Details">Details content</TabPane>
-	</Tabs>
-</template>
-```
-
-## Tests
-
-- `/Users/silvandiepen/Repositories/_arritech/thanos_hela_ui/tests/unit/Tabs.spec.ts`
-- `/Users/silvandiepen/Repositories/_arritech/thanos_hela_ui/tests/unit/TabNavigation.spec.ts`
+Types live in `Tabs.model.ts`.
