@@ -1,10 +1,13 @@
 <template>
-<Field hint="Shown below the control" label="Project Name" required>
-    <Input model-value="Apollo" />
-  </Field>
+  <Example
+    :component="Field"
+    name="Field"
+    :prop-options="{
+      type: ['text', 'number', 'date', 'boolean', 'select'],
+    }"
+  />
 </template>
 
 <script lang="ts" setup>
-import { Input } from '../Input'
 import { Field } from './index'
 </script>

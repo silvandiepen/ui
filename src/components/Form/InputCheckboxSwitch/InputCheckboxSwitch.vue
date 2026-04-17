@@ -144,17 +144,9 @@ const handleInputChange = (e: Event) => {
 @use '../../../styles/mixins' as m;
 
 .input-checkbox-switch {
-  @include m.component-props((
-    'height': '1.5em',
-    'space': '3px',
-    'label-font-size': '0.875em',
-    'label-font-weight': '500',
-    'label-gap': '0.5em',
-  ), 'input-checkbox-switch');
-
-	--input-checkbox-height: var(--int-input-checkbox-switch-height);
+	--input-checkbox-height: m.p('height', 1.5em);
 	--input-checkbox-width: calc(var(--input-checkbox-height) * 1.5);
-	--input-checkbox-space: var(--int-input-checkbox-switch-space);
+	--input-checkbox-space: m.p('space', 3px);
 	--input-checkbox-dot-color: var(--color-tertiary);
 	--input-checkbox-icon-color: color-mix(in srgb, var(--input-checkbox-dot-color), var(--color-foreground) 80%);
 	--input-checkbox-dot-size: calc(var(--input-checkbox-height) - (var(--input-checkbox-space) * 2));
@@ -196,9 +188,9 @@ const handleInputChange = (e: Event) => {
 
 	&__label {
 		display: flex;
-		gap: var(--int-input-checkbox-switch-label-gap);
-		font-size: var(--int-input-checkbox-switch-label-font-size);
-		font-weight: var(--int-input-checkbox-switch-label-font-weight);
+		gap: m.p('label-gap', 0.5em);
+		font-size: m.p('label-font-size', var(--font-size-s));
+		font-weight: m.p('label-font-weight', 500);
 
 		&--no-icon {
 			--input-checkbox-dot-background-image: none !important;

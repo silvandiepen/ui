@@ -148,15 +148,6 @@ const buttonStyles = computed(() => {
 @use '../../styles/mixins' as m;
 
 .button {
-  @include m.component-props((
-    'font-size-small': '0.66em',
-    'font-size-medium': '1rem',
-    'font-size-large': '1.125rem',
-    'icon-size': '1.25em',
-    'spinner-size': '1.5em',
-    'font-weight': '500',
-  ), 'button');
-
   --button-color: var(--color-primary);
   --button-color-text: var(--color-primary-text);
   --button-background: var(--button-color);
@@ -262,21 +253,21 @@ const buttonStyles = computed(() => {
   &--small {
     .button__container {
       padding: var(--space-xs) var(--space-s);
-      font-size: var(--int-button-font-size-small);
+      font-size: m.p('font-size', var(--font-size-xs));
     }
   }
 
   &--medium {
     .button__container {
       padding: var(--space-s) var(--space);
-      font-size: var(--int-button-font-size-medium);
+      font-size: m.p('font-size', var(--font-size));
     }
   }
 
   &--large {
     .button__container {
       padding: var(--space) var(--space-l);
-      font-size: var(--int-button-font-size-large);
+      font-size: m.p('font-size', calc(var(--font-size) * 1.125));
     }
   }
 
@@ -299,13 +290,13 @@ const buttonStyles = computed(() => {
   &__text {
     display: flex;
     align-items: center;
-    font-weight: var(--int-button-font-weight);
+    font-weight: m.p('font-weight', 500);
   }
 
   &__icon {
     display: flex;
     align-items: center;
-    font-size: var(--int-button-icon-size);
+    font-size: m.p('icon-size', 1.25em);
   }
 
   &__loading {
@@ -317,8 +308,8 @@ const buttonStyles = computed(() => {
     z-index: 2;
 
     .spinner {
-      width: var(--int-button-spinner-size);
-      height: var(--int-button-spinner-size);
+      width: m.p('spinner-size', 1.5em);
+      height: m.p('spinner-size', 1.5em);
       border: 2px solid var(--button-color-text);
       border-top-color: transparent;
       border-radius: 50%;

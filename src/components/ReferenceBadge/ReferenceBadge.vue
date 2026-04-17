@@ -101,12 +101,6 @@ onBeforeUnmount(() => {
 @use '../../styles/mixins' as m;
 
 .reference-badge {
-  @include m.component-props((
-    'border-radius': '999px',
-    'action-size': '1.85rem',
-    'action-transition': 'opacity 140ms ease',
-  ), 'reference-badge');
-
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -120,7 +114,7 @@ onBeforeUnmount(() => {
     min-width: 0;
     max-width: 100%;
     padding: calc(var(--space) * 0.28) calc(var(--space) * 0.55);
-    border-radius: var(--int-reference-badge-border-radius);
+    border-radius: m.p('border-radius', 999px);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
     color: color-mix(in srgb, var(--color-foreground), transparent 16%);
@@ -148,17 +142,17 @@ onBeforeUnmount(() => {
     background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-background), var(--color-foreground) 3%) 34%);
     opacity: 0;
     pointer-events: none;
-    transition: var(--int-reference-badge-action-transition);
+    transition: m.p('action-transition', opacity 140ms ease);
   }
 
   &__action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--int-reference-badge-action-size);
-    height: var(--int-reference-badge-action-size);
+    width: m.p('action-size', calc(var(--space) * 1.85));
+    height: m.p('action-size', calc(var(--space) * 1.85));
     padding: 0;
-    border-radius: var(--int-reference-badge-border-radius);
+    border-radius: m.p('border-radius', 999px);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 1%);
     color: color-mix(in srgb, var(--color-foreground), transparent 34%);

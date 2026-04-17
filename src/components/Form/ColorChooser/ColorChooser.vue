@@ -715,15 +715,6 @@ onUnmounted(() => {
 @use '../../../styles/mixins' as m;
 
 .color-chooser {
-  @include m.component-props(
-    (
-      "surface-background": "var(--color-background)",
-      "surface-border": "color-mix(in srgb, var(--color-foreground), transparent 85%)",
-      "surface-radius": "var(--border-radius)",
-    ),
-    "color-chooser"
-  );
-
   display: grid;
   gap: var(--space-xs);
 
@@ -740,9 +731,9 @@ onUnmounted(() => {
   &__surface {
     display: grid;
     gap: var(--space-s);
-    border: 1px solid var(--int-color-chooser-surface-border);
-    border-radius: var(--int-color-chooser-surface-radius);
-    background: var(--int-color-chooser-surface-background);
+    border: 1px solid m.p('surface-border', color-mix(in srgb, var(--color-foreground), transparent 85%));
+    border-radius: m.p('surface-radius', var(--border-radius));
+    background: m.p('surface-background', var(--color-background));
     padding: var(--space-s);
   }
 
@@ -789,7 +780,7 @@ onUnmounted(() => {
       position: absolute;
       inset: var(--color-chooser-ring-thickness, 18px);
       border-radius: 50%;
-      background: var(--int-color-chooser-surface-background);
+      background: m.p('surface-background', var(--color-background));
       pointer-events: none;
     }
   }

@@ -117,31 +117,13 @@ const badgeStyles = computed(() => {
 @use '../../styles/mixins' as m;
 
 .card {
-  @include m.component-props((
-    'background-color': 'var(--color-background)',
-    'border-color': 'color-mix(in srgb, var(--color-foreground), transparent 75%)',
-    'header-border-color': 'color-mix(in srgb, var(--color-foreground), transparent 85%)',
-    'text-color': 'var(--color-foreground)',
-    'radius': 'var(--border-radius)',
-    'overflow': 'visible',
-    'padding': 'var(--space-m)',
-    'header-padding': 'var(--space) var(--space)',
-    'title-size': 'var(--font-size-l)',
-    'title-weight': '600',
-    'title-color': 'var(--color-foreground)',
-    'description-color': 'var(--color-foreground-muted)',
-    'description-size': 'var(--font-size-s)',
-    'footer-padding': 'var(--space-l) var(--space-m)',
-    'shadow': '0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%)',
-  ), 'card');
-
-  background: var(--int-card-background-color);
-  border: 1px solid var(--int-card-border-color);
-  color: var(--int-card-text-color);
-  border-radius: var(--int-card-radius);
+  background: m.p('background-color', var(--color-background));
+  border: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 75%));
+  color: m.p('text-color', var(--color-foreground));
+  border-radius: m.p('radius', var(--border-radius));
   position: relative;
   transition: all 0.3s ease;
-  overflow: var(--int-card-overflow);
+  overflow: m.p('overflow', visible);
   display: flex;
   flex-direction: column;
 
@@ -168,11 +150,11 @@ const badgeStyles = computed(() => {
 
   &--elevated{
     border: none;
-    box-shadow: var(--int-card-shadow);
+    box-shadow: m.p('shadow', 0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%));
   }
 
   &[data-variant="elevated"] {
-    box-shadow: var(--int-card-shadow);
+    box-shadow: m.p('shadow', 0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%));
   }
 
   &[data-variant="ghost"] {
@@ -199,14 +181,14 @@ const badgeStyles = computed(() => {
     padding: 0;
 
     .card__content {
-      padding: var(--int-card-padding);
+      padding: m.p('padding', var(--space-m));
     }
   }
 
   // Content wrapper - always has padding unless explicitly removed
   &__content {
     flex: 1;
-    padding: var(--int-card-padding);
+    padding: m.p('padding', var(--space-m));
 
     &--no-padding {
       padding: 0;
@@ -219,10 +201,10 @@ const badgeStyles = computed(() => {
     align-items: center;
     justify-content: space-between;
     gap: var(--space);
-    padding: var(--int-card-header-padding);
-    border-bottom: 1px solid var(--int-card-header-border-color, var(--int-card-border-color));
-    background-color: var(--int-card-header-background, transparent);
-    border-radius: var(--int-card-radius) var(--int-card-radius) 0 0;
+    padding: m.p('header-padding', var(--space) var(--space));
+    border-bottom: 1px solid m.p('header-border-color', color-mix(in srgb, var(--color-foreground), transparent 85%));
+    background-color: var(--card-header-background, transparent);
+    border-radius: m.p('radius', var(--border-radius)) m.p('radius', var(--border-radius)) 0 0;
 
     &--no-padding {
       padding: 0;
@@ -231,9 +213,9 @@ const badgeStyles = computed(() => {
 
   &__title {
     margin: 0;
-    font-size: var(--int-card-title-size);
-    font-weight: var(--int-card-title-weight);
-    color: var(--int-card-title-color);
+    font-size: m.p('title-size', var(--font-size-l));
+    font-weight: m.p('title-weight', 600);
+    color: m.p('title-color', var(--color-foreground));
     flex: 1;
   }
 
@@ -244,8 +226,8 @@ const badgeStyles = computed(() => {
 
   &__description {
     margin: var(--space-xs) 0 0;
-    color: var(--int-card-description-color);
-    font-size: var(--int-card-description-size);
+    color: m.p('description-color', var(--color-foreground-muted));
+    font-size: m.p('description-size', var(--font-size-s));
     line-height: 1.5;
   }
 
@@ -257,8 +239,8 @@ const badgeStyles = computed(() => {
   &__footer {
     display: flex;
     align-items: center;
-    padding: var(--int-card-footer-padding);
-    border-top: 1px solid var(--int-card-border-color);
+    padding: m.p('footer-padding', var(--space-l) var(--space-m));
+    border-top: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 75%));
 
     &--no-padding {
       padding: 0;
@@ -277,7 +259,7 @@ const badgeStyles = computed(() => {
     }
 
     &.card--no-padding .card__content {
-      padding-top: var(--int-card-padding);
+      padding-top: m.p('padding', var(--space-m));
     }
   }
 
@@ -288,7 +270,7 @@ const badgeStyles = computed(() => {
     }
 
     &.card--no-padding .card__content {
-      padding-bottom: var(--int-card-padding);
+      padding-bottom: m.p('padding', var(--space-m));
     }
   }
 

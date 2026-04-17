@@ -1,4 +1,6 @@
 // UI Components
+export * from './AppLayout'
+export { AppLayout as UIAppLayout } from './AppLayout'
 export { Actions } from './Actions'
 export type { Action, ActionsProps, ContextMenuItem as ActionsContextMenuItem } from './Actions'
 export * from './Alert'

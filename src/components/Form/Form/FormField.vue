@@ -85,14 +85,6 @@ const mainStyles = computed(() => ({
 @use '../../../styles/mixins' as m;
 
 .form-field {
-  @include m.component-props((
-    'label-font-size': '0.875rem',
-    'label-font-weight': '500',
-    'required-margin-left': '0.25rem',
-    'info-font-size': '0.875rem',
-    'info-line-height': '1.4',
-  ), 'form-field');
-
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
@@ -105,16 +97,16 @@ const mainStyles = computed(() => ({
   }
 
   &__label {
-    font-weight: var(--int-form-field-label-font-weight);
+    font-weight: m.p('label-font-weight', 500);
     color: var(--color-foreground);
-    font-size: var(--int-form-field-label-font-size);
+    font-size: m.p('label-font-size', var(--font-size-s));
     width: var(--form-field-label-width, auto);
     flex-shrink: 0;
   }
 
   &__required {
     color: var(--color-error);
-    margin-left: var(--int-form-field-required-margin-left);
+    margin-left: m.p('required-margin-left', var(--space-xs));
   }
 
   &__input {
@@ -123,8 +115,8 @@ const mainStyles = computed(() => ({
   }
 
   &__info {
-    font-size: var(--int-form-field-info-font-size);
-    line-height: var(--int-form-field-info-line-height);
+    font-size: m.p('info-font-size', var(--font-size-s));
+    line-height: m.p('info-line-height', 1.4);
   }
 
   &__error {

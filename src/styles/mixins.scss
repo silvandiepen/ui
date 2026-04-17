@@ -1,34 +1,121 @@
+@use "sass:string";
+
+/// Converts any string to a CSS-var-safe kebab-case token.
+/// Strips leading/trailing separators, collapses consecutive separators,
+/// and converts camelCase to kebab-case.
+///
+/// @param {*} $value - Any value (coerced to string)
+/// @return {String} kebab-case string
+@function normalize-name($value) {
+  $value: "#{$value}";
+  $result: "";
+  $length: string.length($value);
+  $last-was-separator: false;
+
+  @for $i from 1 through $length {
+    $char: string.slice($value, $i, $i);
+    $lower: string.to-lower-case($char);
+    $upper: string.to-upper-case($char);
+
+    $is-separator: $char == " " or $char == "_" or $char == "-" or $char == "." or $char == "#" or $char == ":" or $char == "[" or $char == "]" or $char == "(" or $char == ")" or $char == ",";
+
+    @if $is-separator {
+      @if $result != "" and $last-was-separator == false {
+        $result: $result + "-";
+        $last-was-separator: true;
+      }
+    } @else if $char == $upper and $char != $lower {
+      @if $result != "" and $last-was-separator == false {
+        $result: $result + "-";
+      }
+      $result: $result + $lower;
+      $last-was-separator: false;
+    } @else {
+      $result: $result + $lower;
+      $last-was-separator: false;
+    }
+  }
+
+  @while string.length($result) > 0 and string.slice($result, 1, 1) == "-" {
+    $result: string.slice($result, 2);
+  }
+
+  @while string.length($result) > 0 and string.slice($result, -1) == "-" {
+    $result: string.slice($result, 1, -2);
+  }
+
+  @return $result;
+}
+
+/// Returns a three-level CSS custom property cascade for a component token.
+///
+/// Cascade order (consumer always wins):
+///   1. --{name}      — public API, set by external consumers
+///   2. --int-{name}  — internal default, set by component modifiers / variants
+///   3. {default}     — hard-coded fallback
+///
+/// The selector prefix is auto-derived from the calling CSS context (`&`),
+/// so you rarely need to pass $el explicitly.
+///
+/// @example
+///   .kbd {
+///     padding: p('padding', 0.2rem 0.45rem);
+///     // → var(--kbd-padding, var(--int-kbd-padding, 0.2rem 0.45rem))
+///   }
+///
+///   .kbd--small {
+///     // Modifier sets --int-kbd-small-padding as smart default;
+///     // consumer can still override with --kbd-small-padding.
+///     padding: p('padding', 0.12rem 0.32rem);
+///     // → var(--kbd-small-padding, var(--int-kbd-small-padding, 0.12rem 0.32rem))
+///   }
+///
+///   // Consumer override applies everywhere:
+///   .my-context { --kbd-padding: 0.5rem 1rem; }
+///
+/// @param {String} $token   - CSS property / token name
+/// @param {*}      $default - Fallback value
+/// @param {*}      $el      - Selector prefix source (defaults to current `&`)
+/// @return {String} var() expression
+@function p($token, $default, $el: &) {
+  $selector: normalize-name($el);
+  $token: normalize-name($token);
+  $name: "#{$selector}-#{$token}";
+
+  @return var(--#{$name}, var(--int-#{$name}, #{$default}));
+}
+
+/// Mixin counterpart of `p()` — eliminates the property-name repetition.
+/// Use `@include p(display, grid)` instead of `display: p('display', grid)`.
+///
+/// Prefer the function for inline usage; the mixin is handy when authoring
+/// long blocks where the property and token are always the same string.
+///
+/// @example
+///   .button {
+///     @include p(padding, var(--space-s) var(--space));
+///     // → padding: var(--button-padding, var(--int-button-padding, var(--space-s) var(--space)))
+///   }
+///
+/// @param {String} $property - CSS property name (also used as the token name)
+/// @param {*}      $default  - Fallback value
+/// @param {*}      $el       - Selector prefix source (defaults to current `&`)
+@mixin p($property, $default, $el: &) {
+  #{$property}: p($property, $default, $el);
+}
+
 /// Declares CSS custom properties with component-namespaced defaults at the
 /// component root. Consumers can then override any value by setting
 /// `--{prefix}-{name}` anywhere higher in the cascade — no need to pierce
 /// internal selectors.
 ///
-/// All map values that contain commas (color-mix, etc.) must be quoted so
-/// SCSS doesn't parse them as lists.
+/// @deprecated Prefer using `p()` directly on each CSS property, which
+///   generates the same three-level cascade without a separate declaration
+///   block. Keep this mixin only when you need to explicitly declare
+///   `--int-*` variables for modifier overrides that cannot use `p()`.
 ///
 /// @param {Map}    $props  - Map of { 'property-suffix': 'default value' }
 /// @param {String} $prefix - Component BEM block name (used as CSS var prefix)
-///
-/// @example
-///   .card {
-///     @include component-props((
-///       'background': 'red',
-///       'border-color': 'blue',
-///       'border-radius': '5px',
-///       'padding': 'var(--space)',
-///     ), 'card');
-///
-///     background:    var(--card-background, var(--int-card-background, red);
-///     border-color:  var(--card-border-color, var(--int-border-color, blue);
-///     border-radius: var(--card-radius, var(--int-card-radius, 5px);
-///     padding:       var(--card-padding, var(--int-card-padding, var(--space)));
-///   }
-///
-///   // To customize from outside, just set the variable:
-///   .my-context {
-///     --card-background: var(--color-surface);
-///     --card-radius: 0;
-///   }
 @mixin component-props($props, $prefix) {
   @each $name, $value in $props {
     --int-#{$prefix}-#{$name}: var(--#{$prefix}-#{$name}, #{$value});
@@ -42,14 +129,12 @@
     linear-gradient(45deg, transparent 75%, var(--dot-color, var(--color-accent)) 75%),
     linear-gradient(135deg, transparent 75%, var(--dot-color, var(--color-accent)) 75%);
   background-size: 20px 20px;
-  /* Must be a square */
   background-position:
     0 0,
     10px 0,
     10px -10px,
     0px 10px;
 }
-
 
 @mixin truncate {
   overflow: hidden;

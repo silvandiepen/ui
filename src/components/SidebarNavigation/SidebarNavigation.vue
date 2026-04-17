@@ -14,17 +14,20 @@
           :aria-expanded="isSectionExpanded(section) ? 'true' : 'false'"
           @click="toggleSection(section)"
         >
-          <span :class="bemm('section-copy')">
-            <span :class="bemm('section-label')">{{ section.label }}</span>
-            <span
-              v-if="section.description"
-              :class="bemm('section-description')"
-            >
-              {{ section.description }}
+          <span :class="bemm('section-start')">
+            <Icon v-if="section.icon" :name="section.icon" size="small" :class="bemm('section-icon-custom')" aria-hidden="true" />
+            <span :class="bemm('section-copy')">
+              <span :class="bemm('section-label')">{{ section.label }}</span>
+              <span
+                v-if="section.description"
+                :class="bemm('section-description')"
+              >
+                {{ section.description }}
+              </span>
             </span>
           </span>
           <span :class="bemm('section-meta')">
-            <Badge>{{ section.items.length }}</Badge>
+            <Badge :size="Size.SMALL">{{ section.items.length }}</Badge>
             <Icon
               :name="Icons.CHEVRON_DOWN"
               :class="bemm('section-icon', { expanded: isSectionExpanded(section) })"
@@ -33,13 +36,16 @@
         </button>
 
         <div v-else :class="bemm('section-summary')">
-          <span :class="bemm('section-copy')">
-            <span :class="bemm('section-label')">{{ section.label }}</span>
-            <span
-              v-if="section.description"
-              :class="bemm('section-description')"
-            >
-              {{ section.description }}
+          <span :class="bemm('section-start')">
+            <Icon v-if="section.icon" :name="section.icon" size="small" :class="bemm('section-icon-custom')" aria-hidden="true" />
+            <span :class="bemm('section-copy')">
+              <span :class="bemm('section-label')">{{ section.label }}</span>
+              <span
+                v-if="section.description"
+                :class="bemm('section-description')"
+              >
+                {{ section.description }}
+              </span>
             </span>
           </span>
           <Badge>{{ section.items.length }}</Badge>
@@ -65,9 +71,11 @@
                 bemm('item'),
                 isActive ? bemm('item', 'active') : '',
                 item.disabled ? bemm('item', 'disabled') : '',
+                item.icon ? bemm('item', 'has-icon') : '',
               ]"
               @click="handleNavigate($event, navigate, item.disabled)"
             >
+              <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
               <span :class="bemm('item-copy')">
                 <strong :class="bemm('item-label')">
                   <span
@@ -100,9 +108,11 @@
             :class="[
               bemm('item'),
               item.disabled ? bemm('item', 'disabled') : '',
+              item.icon ? bemm('item', 'has-icon') : '',
             ]"
             @click="handleDisabledClick($event, item.disabled)"
           >
+            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
             <span :class="bemm('item-copy')">
               <strong :class="bemm('item-label')">
                 <span
@@ -132,8 +142,10 @@
             :class="[
               bemm('item'),
               item.disabled ? bemm('item', 'disabled') : '',
+              item.icon ? bemm('item', 'has-icon') : '',
             ]"
           >
+            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
             <span :class="bemm('item-copy')">
               <strong :class="bemm('item-label')">
                 <span
@@ -166,7 +178,7 @@ import { computed, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 import { RouterLink } from 'vue-router'
 import { Icons } from 'open-icon'
-import { Status } from '../../types'
+import { Size, Status } from '../../types'
 import { useSettingsStore } from '@/stores/settings'
 
 import { Badge } from '../Badge'
@@ -283,22 +295,12 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 @use '../../styles/mixins' as m;
 
 .sidebar-navigation {
-  @include m.component-props((
-    'section-copy-gap': '0.2rem',
-    'section-meta-gap': '0.45rem',
-    'section-label-letter-spacing': '0.08em',
-    'items-gap': '0.4rem',
-    'item-padding': '0.8rem 0.9rem',
-    'item-copy-gap': '0.25rem',
-    'item-hover-offset': '0.12rem',
-  ), 'sidebar-navigation');
-
-  display: grid;
-  gap: calc(var(--space) * 0.9);
+  display: m.p('display', grid);
+  gap: m.p('gap', calc(var(--space) * 0.9));
 
   &__section {
-    display: grid;
-    gap: calc(var(--space) * 0.5);
+    display: m.p('display', grid);
+    gap: m.p('gap', var(--space-s));
   }
 
   &__section-header {
@@ -312,6 +314,18 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
     align-items: start;
     justify-content: space-between;
     gap: calc(var(--space) * 0.5);
+  }
+
+  &__section-start {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--space) * 0.4);
+    min-width: 0;
+  }
+
+  &__section-icon-custom {
+    flex-shrink: 0;
+    color: m.p('color', color-mix(in srgb, var(--color-foreground), transparent 42%));
   }
 
   &__section-toggle {
@@ -331,19 +345,19 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__section-copy {
     display: grid;
-    gap: var(--int-sidebar-navigation-section-copy-gap);
+    gap: m.p('gap', var(--space-xs));
   }
 
   &__section-meta {
     display: inline-flex;
     align-items: center;
-    gap: var(--int-sidebar-navigation-section-meta-gap);
+    gap: m.p('gap', calc(var(--space-xs) * 1.75));
     flex-shrink: 0;
   }
 
   &__section-label {
     text-transform: uppercase;
-    letter-spacing: var(--int-sidebar-navigation-section-label-letter-spacing);
+    letter-spacing: m.p('letter-spacing', 0.08em);
     font-size: var(--font-size-xs);
     color: color-mix(in srgb, var(--color-foreground), transparent 42%);
   }
@@ -365,18 +379,24 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__items {
     display: grid;
-    gap: var(--int-sidebar-navigation-items-gap);
+    gap: m.p('gap', calc(var(--space-xs) * 1.5));
+  }
+
+  &__item-icon {
+    flex-shrink: 0;
+    color: m.p('color', color-mix(in srgb, var(--color-foreground), transparent 36%));
+    transition: color 140ms ease;
   }
 
   &__item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: calc(var(--space) * 0.75);
-    padding: var(--int-sidebar-navigation-item-padding);
-    border-radius: calc(var(--border-radius, 1rem) * 0.9);
-    border: 0;
-    background: color-mix(in srgb, var(--color-background), white 48%);
+    justify-content: flex-start;
+    gap: m.p('gap', calc(var(--space) * 0.75));
+    padding: m.p('padding', var(--space-s) var(--space));
+    border-radius: m.p('border-radius', calc(var(--border-radius, 1rem) * 0.9));
+    border: m.p('border', none);
+    background: m.p('background', color-mix(in srgb, var(--color-background), white 48%));
     color: inherit;
     text-decoration: none;
     text-align: left;
@@ -387,9 +407,13 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
       box-shadow 140ms ease;
 
     &:hover {
-      transform: translateX(var(--int-sidebar-navigation-item-hover-offset));
-      background: color-mix(in srgb, var(--color-primary), transparent 92%);
-      box-shadow: 0 0.8rem 1.6rem color-mix(in srgb, var(--color-foreground), transparent 94%);
+      background: m.p('background', color-mix(in srgb, var(--color-primary), transparent 92%));
+      transform: m.p('transform', none);
+      box-shadow: m.p('box-shadow', none);
+
+      .sidebar-navigation__item-icon {
+        color: var(--color-primary);
+      }
     }
 
     &:focus-visible {
@@ -398,7 +422,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
     }
 
     &--active {
-      background: color-mix(in srgb, var(--color-primary), transparent 88%);
+      background: m.p('background', color-mix(in srgb, var(--color-primary), transparent 88%));
       box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary), transparent 72%);
     }
 
@@ -410,12 +434,12 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
 
   &__item-copy {
     display: grid;
-    gap: var(--int-sidebar-navigation-item-copy-gap);
+    gap: m.p('gap', var(--space-xs));
     min-width: 0;
   }
 
   &__item-label {
-    font-size: var(--font-size-s);
+    font-size: m.p('font-size', var(--font-size-s));
   }
 
   &__item-label-prefix {

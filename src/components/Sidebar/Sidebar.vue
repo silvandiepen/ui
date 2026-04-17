@@ -165,16 +165,6 @@ onBeforeUnmount(unbindMediaQuery)
 @use '../../styles/mixins' as m;
 
 .sidebar {
-  @include m.component-props((
-    'title-font-size': '1rem',
-    'mobile-panel-width': 'min(86vw, 22rem)',
-    'mobile-z-index': '180',
-    'mobile-panel-z-index': '181',
-    'mobile-trigger-z-index': '182',
-    'mobile-transition': 'transform 180ms ease-in-out',
-    'shadow': '0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 93%)',
-  ), 'sidebar');
-
   display: grid;
   align-content: start;
   gap: var(--space);
@@ -184,7 +174,7 @@ onBeforeUnmount(unbindMediaQuery)
   border-radius: calc(var(--border-radius, 1rem) * 1.2);
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--color-background), white 24%), color-mix(in srgb, var(--color-background), var(--color-primary) 3%));
-  box-shadow: var(--int-sidebar-shadow);
+  box-shadow: m.p('shadow', 0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 93%));
 
   &--sticky {
     position: sticky;
@@ -210,7 +200,7 @@ onBeforeUnmount(unbindMediaQuery)
 
   &__title {
     margin: 0;
-    font-size: var(--int-sidebar-title-font-size);
+    font-size: m.p('title-font-size', var(--font-size));
     font-weight: var(--font-weight-bold);
   }
 
@@ -255,7 +245,7 @@ onBeforeUnmount(unbindMediaQuery)
     top: 0;
     left: 0;
     height: 100vh;
-    z-index: var(--int-sidebar-mobile-z-index);
+    z-index: m.p('mobile-z-index', 180);
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -272,7 +262,7 @@ onBeforeUnmount(unbindMediaQuery)
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      z-index: var(--int-sidebar-mobile-trigger-z-index);
+      z-index: m.p('mobile-trigger-z-index', 182);
     }
 
     .sidebar__panel {
@@ -281,7 +271,7 @@ onBeforeUnmount(unbindMediaQuery)
       top: 0;
       left: 0;
       height: 100vh;
-      width: var(--int-sidebar-mobile-panel-width);
+      width: m.p('mobile-panel-width', min(86vw, 22rem));
       overflow-y: auto;
       padding: var(--space);
       border-right: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
@@ -289,8 +279,8 @@ onBeforeUnmount(unbindMediaQuery)
         linear-gradient(180deg, color-mix(in srgb, var(--color-background), white 22%), color-mix(in srgb, var(--color-background), var(--color-primary) 4%));
       box-shadow: 0 0 0 200vmax color-mix(in srgb, var(--color-foreground), transparent 80%);
       transform: translateX(-102%);
-      transition: var(--int-sidebar-mobile-transition);
-      z-index: var(--int-sidebar-mobile-panel-z-index);
+      transition: m.p('mobile-transition', transform 180ms ease-in-out);
+      z-index: m.p('mobile-panel-z-index', 181);
     }
 
     &.sidebar--mobile-open {

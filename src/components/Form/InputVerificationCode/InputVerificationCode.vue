@@ -162,11 +162,6 @@ watch(
 
 	@include form.inputBase();
 
-	@include m.component-props((
-    'control-container-width': '2.5em',
-    'control-font-size': '1.25em',
-  ), 'input-passcode');
-
 	&__list {
 		display: flex;
 		align-items: center;
@@ -175,12 +170,12 @@ watch(
 	}
 
 	&__control-container {
-		width: var(--int-input-passcode-control-container-width);
+		width: m.p('control-container-width', 2.5em);
 	}
 
 	&__control {
 		text-align: center;
-		font-size: var(--int-input-passcode-control-font-size);
+		font-size: m.p('control-font-size', 1.25em);
 	}
 }
 </style>

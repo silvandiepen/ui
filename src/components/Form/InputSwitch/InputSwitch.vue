@@ -88,33 +88,20 @@ function handleSelect(value: SwitchValue) {
 @use '../../../styles/mixins' as m;
 
 .input-switch {
-  @include m.component-props((
-    'item-padding': '0.45rem 0.85rem',
-    'item-padding-small': '0.3rem 0.6rem',
-    'item-padding-large': '0.6rem 1.1rem',
-    'item-radius': 'calc(var(--border-radius) * 0.7)',
-    'track-gap': '2px',
-    'track-padding': '3px',
-    'item-gap': '0.4rem',
-    'item-font-size': '0.875rem',
-    'item-font-weight': '600',
-    'icon-size': '1rem',
-  ), 'input-switch');
-
   --input-switch-color: var(--color-primary);
 
   &--small {
-    --input-switch-item-padding: var(--int-input-switch-item-padding-small);
+    --input-switch-item-padding: m.p('item-padding', calc(var(--space-xs) * 1.2) calc(var(--space-s) * 1.2));
   }
 
   &--large {
-    --input-switch-item-padding: var(--int-input-switch-item-padding-large);
+    --input-switch-item-padding: m.p('item-padding', calc(var(--space-s) * 1.2) calc(var(--space) * 1.1));
   }
 
   &__track {
     display: inline-flex;
-    gap: var(--int-input-switch-track-gap);
-    padding: var(--int-input-switch-track-padding);
+    gap: m.p('track-gap', 2px);
+    padding: m.p('track-padding', 3px);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
     border-radius: var(--border-radius);
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
@@ -123,14 +110,14 @@ function handleSelect(value: SwitchValue) {
   &__item {
     display: inline-flex;
     align-items: center;
-    gap: var(--int-input-switch-item-gap);
-    padding: var(--input-switch-item-padding, var(--int-input-switch-item-padding));
+    gap: m.p('item-gap', calc(var(--space-xs) * 1.5));
+    padding: var(--input-switch-item-padding, m.p('item-padding', calc(var(--space-xs) * 1.75) calc(var(--space) * 0.85)));
     border: none;
-    border-radius: var(--input-switch-item-radius, var(--int-input-switch-item-radius));
+    border-radius: var(--input-switch-item-radius, m.p('item-radius', calc(var(--border-radius) * 0.7)));
     background: transparent;
     color: color-mix(in srgb, var(--color-foreground), transparent 30%);
-    font-size: var(--int-input-switch-item-font-size);
-    font-weight: var(--int-input-switch-item-font-weight);
+    font-size: m.p('item-font-size', var(--font-size-s));
+    font-weight: m.p('item-font-weight', 600);
     cursor: pointer;
     transition:
       background-color 160ms ease,
@@ -160,8 +147,8 @@ function handleSelect(value: SwitchValue) {
   }
 
   &__item-icon {
-    width: var(--int-input-switch-icon-size);
-    height: var(--int-input-switch-icon-size);
+    width: m.p('icon-size', var(--space));
+    height: m.p('icon-size', var(--space));
   }
 }
 </style>

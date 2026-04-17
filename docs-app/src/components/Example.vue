@@ -1,83 +1,107 @@
 <template>
   <div :class="bemm()">
-    <div :class="bemm('preview')">
-      <slot>
-        <component
-          :is="component"
-          v-if="component && hasModelValue"
-          v-bind="nonModelProps"
-          v-model="modelValue"
-        />
-        <component
-          :is="component"
-          v-else-if="component"
-          v-bind="nonModelProps"
-        />
-      </slot>
+    <div :class="bemm('preview-wrapper')">
+      <div :class="bemm('preview')">
+        <slot>
+          <component
+            :is="component"
+            v-if="component && hasModelValue"
+            v-bind="nonModelProps"
+            v-model="modelValue"
+          >{{ slotContent }}</component>
+          <component
+            :is="component"
+            v-else-if="component"
+            v-bind="nonModelProps"
+          >{{ slotContent }}</component>
+        </slot>
+      </div>
+
+      <button
+        v-if="controls.length"
+        :class="[bemm('panel-toggle'), panelOpen && bemm('panel-toggle', 'open')]"
+        type="button"
+        :title="panelOpen ? 'Close props panel' : 'Open props panel'"
+        @click="panelOpen = !panelOpen"
+      >
+        <Icon name="tune" />
+        <span>Props</span>
+      </button>
     </div>
 
-    <Collapsible
-      v-if="controls.length"
-      v-model="controlsOpen"
-      :class="bemm('collapsible')"
-      :label="`Props (${controls.length})`"
-      icon="tune"
-    >
-      <div :class="bemm('controls')">
-        <div
-          v-for="control in controls"
-          :key="control.name"
-          :class="[bemm('control'), bemm('control', control.type)]"
-        >
-          <span :class="bemm('control-label')">
-            {{ control.name }}
+    <Teleport to="body">
+      <div v-if="panelOpen && controls.length" :class="bemm('panel')">
+        <div :class="bemm('panel-header')">
+          <span :class="bemm('panel-title')">
+            {{ name ?? 'Props' }}
+            <small>{{ controls.length }}</small>
           </span>
-
-          <span :class="bemm('control-type')">{{ control.type }}</span>
-
-          <span :class="bemm('control-input')">
-            <InputCheckbox
-              v-if="control.type === 'boolean'"
-              :model-value="Boolean(propValues[control.name])"
-              :label="''"
-              @update:model-value="(value) => setControlValue(control, value)"
-            />
-
-            <InputSelect
-              v-else-if="control.options?.length"
-              :model-value="getSelectValue(control)"
-              :options="getSelectOptions(control)"
-              :allow-null="false"
-              @update:model-value="(value) => handleSelectChange(control, value)"
-            />
-
-            <InputNumber
-              v-else-if="control.type === 'number'"
-              :model-value="Number(propValues[control.name])"
-              :controls="false"
-              @update:model-value="(value) => setControlValue(control, value)"
-            />
-
-            <InputText
-              v-else
-              :model-value="String(propValues[control.name] ?? '')"
-              :controls="false"
-              @update:model-value="(value) => setControlValue(control, value)"
-            />
-          </span>
-
           <button
-            v-if="control.defaultValue !== undefined && propValues[control.name] !== control.defaultValue"
-            :class="bemm('control-reset')"
-            title="Reset to default"
+            :class="bemm('panel-close')"
             type="button"
-            @click="propValues[control.name] = control.defaultValue"
+            @click="panelOpen = false"
           >
-            ↺
+            <Icon name="close" />
           </button>
         </div>
+        <div :class="bemm('panel-body')">
+          <div :class="bemm('controls')">
+            <div
+              v-for="control in controls"
+              :key="control.name"
+              :class="[bemm('control'), bemm('control', control.type)]"
+            >
+              <span :class="bemm('control-label')">
+                {{ control.name }}
+              </span>
+
+              <span :class="bemm('control-type')">{{ control.type }}</span>
+
+              <span :class="bemm('control-input')">
+                <InputCheckbox
+                  v-if="control.type === 'boolean'"
+                  :model-value="Boolean(propValues[control.name])"
+                  :label="''"
+                  @update:model-value="(value) => setControlValue(control, value)"
+                />
+
+                <InputSelect
+                  v-else-if="control.options?.length"
+                  :model-value="getSelectValue(control)"
+                  :options="getSelectOptions(control)"
+                  :allow-null="false"
+                  @update:model-value="(value) => handleSelectChange(control, value)"
+                />
+
+                <InputNumber
+                  v-else-if="control.type === 'number'"
+                  :model-value="Number(propValues[control.name])"
+                  :controls="false"
+                  @update:model-value="(value) => setControlValue(control, value)"
+                />
+
+                <InputText
+                  v-else
+                  :model-value="String(propValues[control.name] ?? '')"
+                  :controls="false"
+                  @update:model-value="(value) => setControlValue(control, value)"
+                />
+              </span>
+
+              <button
+                v-if="control.defaultValue !== undefined && propValues[control.name] !== control.defaultValue"
+                :class="bemm('control-reset')"
+                title="Reset to default"
+                type="button"
+                @click="propValues[control.name] = control.defaultValue"
+              >
+                ↺
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </Collapsible>
+    </Teleport>
 
     <Collapsible
       v-if="generatedCode"
@@ -95,6 +119,7 @@
 import { computed, reactive, ref, watch, onMounted, type Component } from 'vue'
 import { useBemm } from 'bemm'
 import { Collapsible } from '@ui-lib/components/Collapsible'
+import { Icon } from '@ui-lib/components/Icon'
 import { InputCheckbox } from '@ui-lib/components/Form/InputCheckbox'
 import { InputNumber } from '@ui-lib/components/Form/InputNumber'
 import { InputSelect } from '@ui-lib/components/Form/InputSelect'
@@ -115,6 +140,7 @@ const props = defineProps<{
   propOptions?: Record<string, any[]>
   excludeProps?: string[]
   source?: string
+  slotContent?: string
 }>()
 
 const bemm = useBemm('example', { includeBaseClass: true })
@@ -164,7 +190,6 @@ const controls = computed<ControlDef[]>(() => {
       defaultValue: resolveDefault(def.default),
     }))
     .filter((control) => {
-      // Keep array/unknown props controllable when explicit example options are provided.
       if (control.type === 'array' || control.type === 'unknown') {
         return Boolean(control.options?.length)
       }
@@ -174,7 +199,7 @@ const controls = computed<ControlDef[]>(() => {
 
 const propValues = reactive<Record<string, any>>({})
 const modelValue = ref<any>(undefined)
-const controlsOpen = ref(true)
+const panelOpen = ref(false)
 const sourceOpen = ref(false)
 
 const componentKey = computed(() => props.name ?? '')
@@ -328,11 +353,125 @@ const generatedCode = computed(() => {
   display: grid;
   gap: var(--space);
 
+  &__preview-wrapper {
+    position: relative;
+  }
+
   &__preview {
     padding: var(--space);
     border-radius: var(--border-radius);
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+  }
+
+  &__panel-toggle {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-s);
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 82%);
+    border-radius: var(--border-radius-s);
+    background: var(--color-background);
+    color: color-mix(in srgb, var(--color-foreground), transparent 30%);
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family-mono, monospace);
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+
+    .icon {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-foreground), transparent 94%);
+      color: var(--color-foreground);
+      border-color: color-mix(in srgb, var(--color-foreground), transparent 70%);
+    }
+
+    &--open {
+      background: color-mix(in srgb, var(--color-primary), transparent 88%);
+      color: var(--color-primary);
+      border-color: color-mix(in srgb, var(--color-primary), transparent 60%);
+
+      &:hover {
+        background: color-mix(in srgb, var(--color-primary), transparent 80%);
+      }
+    }
+  }
+
+  &__panel {
+    position: fixed;
+    top: var(--space-l, 2rem);
+    right: var(--space, 1rem);
+    width: 22rem;
+    max-height: calc(100vh - 4rem);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius);
+    background: var(--color-background);
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 84%);
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--color-foreground), transparent 80%);
+    z-index: 9999;
+    overflow: hidden;
+  }
+
+  &__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-s) var(--space);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
+    flex-shrink: 0;
+  }
+
+  &__panel-title {
+    font-size: var(--font-size-s);
+    font-weight: 600;
+    font-family: var(--font-family-mono, monospace);
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+
+    small {
+      font-size: var(--font-size-xs);
+      font-weight: 400;
+      color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+      background: color-mix(in srgb, var(--color-foreground), transparent 92%);
+      padding: 0.1em 0.4em;
+      border-radius: var(--border-radius-s);
+    }
+  }
+
+  &__panel-close {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: none;
+    border-radius: var(--border-radius-s);
+    background: transparent;
+    color: color-mix(in srgb, var(--color-foreground), transparent 40%);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+
+    .icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-foreground), transparent 90%);
+      color: var(--color-foreground);
+    }
+  }
+
+  &__panel-body {
+    overflow-y: auto;
+    flex: 1;
   }
 
   &__collapsible {
@@ -347,7 +486,7 @@ const generatedCode = computed(() => {
 
   &__control {
     display: grid;
-    grid-template-columns: minmax(8rem, auto) minmax(4rem, auto) 1fr auto;
+    grid-template-columns: minmax(7rem, auto) minmax(4rem, auto) 1fr auto;
     gap: var(--space-s);
     align-items: center;
     padding: var(--space-xs) 0;
@@ -377,7 +516,7 @@ const generatedCode = computed(() => {
     .input-number,
     .input-select {
       width: 100%;
-      max-width: 18rem;
+      max-width: 10rem;
       margin: 0;
     }
   }
@@ -420,6 +559,12 @@ const generatedCode = computed(() => {
 }
 
 @media (max-width: 640px) {
+  .example__panel {
+    right: var(--space-s, 0.5rem);
+    left: var(--space-s, 0.5rem);
+    width: auto;
+  }
+
   .example__control {
     grid-template-columns: 1fr auto auto;
   }

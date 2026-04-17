@@ -8,6 +8,12 @@ body,
 
 body {
   margin: 0;
+  // Reset website-mode body styles from app.scss — the docs app uses AppLayout
+  // which controls its own background; the radial gradient / fixed attachment
+  // would bleed through otherwise.
+  background: var(--color-background);
+  background-image: none;
+  scroll-snap-type: none;
 }
 
 :root {

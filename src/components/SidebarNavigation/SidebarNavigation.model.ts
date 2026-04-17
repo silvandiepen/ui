@@ -8,6 +8,7 @@ export interface SidebarNavigationItem {
   description?: string
   disabled?: boolean
   href?: string
+  icon?: string
   id: string
   label: string
   labelPrefix?: string
@@ -19,6 +20,7 @@ export interface SidebarNavigationSection {
   collapsible?: boolean
   defaultCollapsed?: boolean
   description?: string
+  icon?: string
   id: string
   items: SidebarNavigationItem[]
   label: string

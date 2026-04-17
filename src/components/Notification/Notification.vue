@@ -75,23 +75,13 @@ function dismiss() {
 @use '../../styles/mixins' as m;
 
 .ui-notification {
-  @include m.component-props((
-    'gap': '8px',
-    'padding-y': '12px',
-    'padding-x': '16px',
-    'border-radius': '8px',
-    'font-size': '0.875rem',
-    'line-height': '1.5',
-    'close-border-radius': '4px',
-  ), 'notification');
-
   display: flex;
   align-items: center;
-  gap: var(--space-s, var(--int-notification-gap));
-  padding: var(--space-s, var(--int-notification-padding-y)) var(--space-m, var(--int-notification-padding-x));
-  border-radius: var(--border-radius, var(--int-notification-border-radius));
-  font-size: var(--font-size-s, var(--int-notification-font-size));
-  line-height: var(--int-notification-line-height);
+  gap: var(--space-s, m.p('gap', var(--space-s)));
+  padding: var(--space-s, m.p('padding-y', var(--space-s))) var(--space-m, m.p('padding-x', var(--space)));
+  border-radius: var(--border-radius, m.p('border-radius', var(--border-radius)));
+  font-size: var(--font-size-s, m.p('font-size', var(--font-size-s)));
+  line-height: m.p('line-height', 1.5);
 }
 
 .ui-notification--type-success {
@@ -133,7 +123,7 @@ function dismiss() {
   cursor: pointer;
   color: currentColor;
   padding: var(--space-xs);
-  border-radius: var(--border-radius-s, var(--int-notification-close-border-radius));
+  border-radius: var(--border-radius-s, m.p('close-border-radius', var(--border-radius-s)));
   display: flex;
   align-items: center;
   opacity: 0.7;

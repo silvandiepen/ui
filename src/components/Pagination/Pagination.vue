@@ -262,10 +262,6 @@ watch(pageCount, () => {
 @use '../../styles/mixins' as m;
 
 .ui-pagination {
-	@include m.component-props((
-		'control-size': '2.25rem',
-	), 'ui-pagination');
-
 	display: flex;
 	align-items: center;
 	gap: var(--space);
@@ -285,7 +281,7 @@ watch(pageCount, () => {
 
 	&__select,
 	&__input {
-		min-height: var(--int-ui-pagination-control-size);
+		min-height: m.p('control-size', calc(var(--space) * 2.25));
 		padding: 0 var(--space-s);
 		border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 82%);
 		border-radius: var(--border-radius);
@@ -301,8 +297,8 @@ watch(pageCount, () => {
 	}
 
 	&__button {
-		min-width: var(--int-ui-pagination-control-size);
-		min-height: var(--int-ui-pagination-control-size);
+		min-width: m.p('control-size', calc(var(--space) * 2.25));
+		min-height: m.p('control-size', calc(var(--space) * 2.25));
 		padding: 0 var(--space-s);
 		border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 82%);
 		border-radius: var(--border-radius);

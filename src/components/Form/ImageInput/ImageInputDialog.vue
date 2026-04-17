@@ -72,22 +72,16 @@ const handleCancel = () => {
 @use '../../../styles/mixins' as m;
 
 .image-input-dialog {
-  @include m.component-props((
-    'min-width': '360px',
-    'max-width': '480px',
-    'preview-height': '160px',
-  ), 'image-input-dialog');
-
   padding: var(--space-l);
-  min-width: var(--int-image-input-dialog-min-width);
-  max-width: var(--int-image-input-dialog-max-width);
+  min-width: m.p('min-width', 360px);
+  max-width: m.p('max-width', 480px);
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
 
   &__preview {
     position: relative;
-    height: var(--int-image-input-dialog-preview-height);
+    height: m.p('preview-height', 160px);
     border-radius: var(--border-radius);
     overflow: hidden;
     background: color-mix(in srgb, var(--color-foreground), transparent 92%);

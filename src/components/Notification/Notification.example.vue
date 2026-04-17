@@ -1,8 +1,11 @@
 <template>
-<div style="display: grid; gap: 0.75rem;">
-    <Notification message="Changes saved successfully." type="success" />
-    <Notification dismissible message="API token needs rotation." type="warning" />
-  </div>
+  <Example
+    :component="Notification"
+    name="Notification"
+    :prop-options="{
+      type: ['info', 'success', 'warning', 'error'],
+    }"
+  />
 </template>
 
 <script lang="ts" setup>

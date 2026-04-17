@@ -53,23 +53,16 @@ const displayValue = computed(() => {
 @use '../../styles/mixins' as m;
 
 .ui-badge {
-	@include m.component-props((
-		'size': '1.5rem',
-		'border-radius': '999px',
-		'line-height': '1',
-		'font-weight': '600',
-	), 'ui-badge');
-
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-width: var(--int-ui-badge-size);
-	height: var(--int-ui-badge-size);
+	min-width: m.p('size', calc(var(--space) * 1.5));
+	height: m.p('size', calc(var(--space) * 1.5));
 	padding: var(--space-xs) var(--space-s);
-	border-radius: var(--int-ui-badge-border-radius);
+	border-radius: m.p('border-radius', 999px);
 	font-size: var(--font-size-xs);
-	line-height: var(--int-ui-badge-line-height);
-	font-weight: var(--int-ui-badge-font-weight);
+	line-height: m.p('line-height', 1);
+	font-weight: m.p('font-weight', 600);
 	background: color-mix(in srgb, var(--badge-color), transparent 85%);
 	color: color-mix(in srgb, var(--badge-color), var(--color-foreground) 25%);
 	border: 1px solid var(--badge-color);

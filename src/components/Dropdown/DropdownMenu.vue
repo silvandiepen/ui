@@ -301,23 +301,17 @@ onUnmounted(() => {
 @use '../../styles/mixins' as m;
 
 .ui-dropdown-menu {
-	@include m.component-props((
-		'min-width': '160px',
-		'gap': '2px',
-		'item-transition': 'background-color 0.12s ease',
-	), 'dropdown-menu');
-
 	$b: &;
 
 	background: var(--color-background);
 	border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
 	border-radius: var(--border-radius-l);
 	box-shadow: var(--shadow-l);
-	min-width: var(--int-dropdown-menu-min-width);
+	min-width: m.p('min-width', 160px);
 	padding: var(--space-xs);
 	display: flex;
 	flex-direction: column;
-	gap: var(--int-dropdown-menu-gap);
+	gap: m.p('gap', 2px);
 	outline: none;
 
 	&__trigger {
@@ -350,7 +344,7 @@ onUnmounted(() => {
 		color: var(--color-foreground);
 		text-align: left;
 		width: 100%;
-		transition: var(--int-dropdown-menu-item-transition);
+		transition: m.p('item-transition', background-color 0.12s ease);
 
 		&:hover,
 		&:focus {

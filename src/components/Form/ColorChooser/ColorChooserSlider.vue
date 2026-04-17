@@ -79,24 +79,16 @@ const onNumberInput = (value: unknown) => {
 @use '../../../styles/mixins' as m;
 
 .color-chooser-slider {
-  @include m.component-props((
-    'input-column-width': '5.5rem',
-    'label-min-width': '1.2rem',
-    'label-font-weight': '600',
-    'thumb-width': '0.9rem',
-    'thumb-height': '0.9rem',
-  ), 'color-chooser-slider');
-
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) var(--int-color-chooser-slider-input-column-width);
+  grid-template-columns: auto minmax(0, 1fr) m.p('input-column-width', calc(var(--space) * 5.5));
   gap: var(--space-s);
   align-items: center;
 
   &__label {
-    min-width: var(--int-color-chooser-slider-label-min-width);
+    min-width: m.p('label-min-width', calc(var(--space) * 1.2));
     font-size: var(--font-size-xs);
     color: color-mix(in srgb, var(--color-foreground), transparent 38%);
-    font-weight: var(--int-color-chooser-slider-label-font-weight);
+    font-weight: m.p('label-font-weight', 600);
   }
 
   &__track {
@@ -127,8 +119,8 @@ const onNumberInput = (value: unknown) => {
     }
 
     &::-moz-range-thumb {
-      width: var(--int-color-chooser-slider-thumb-width);
-      height: var(--int-color-chooser-slider-thumb-height);
+      width: m.p('thumb-width', calc(var(--space) * 0.9));
+      height: m.p('thumb-height', calc(var(--space) * 0.9));
       border-radius: 50%;
       border: 2px solid #fff;
       box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-foreground), transparent 70%);

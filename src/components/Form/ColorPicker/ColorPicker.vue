@@ -201,12 +201,7 @@ const removeCustomColor = (hex: string) => {
 @use '../../../styles/mixins' as m;
 
 .color-picker {
-  @include m.component-props((
-    'size': '2em',
-    'control-frame-display': 'block',
-  ), 'color-picker');
-
-  --color-size: calc(var(--int-color-picker-size) * var(--sizing, 1));
+  --color-size: #{calc(m.p('size', 2em) * var(--sizing, 1))};
 
   @include form.inputBase();
   @include form.inputColorPicker();
@@ -226,7 +221,7 @@ const removeCustomColor = (hex: string) => {
 
   &__control-container {
     &::before {
-      display: var(--int-color-picker-control-frame-display);
+      display: m.p('control-frame-display', block);
     }
   }
 

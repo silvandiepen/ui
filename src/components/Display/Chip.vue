@@ -90,12 +90,6 @@ const hasTooltip = computed(() => {
 @use '../../styles/mixins' as m;
 
 .chip {
-	@include m.component-props((
-		'background-color': 'color-mix(in srgb, var(--chip-color), var(--color-background) 95%)',
-		'text-color': 'color-mix(in srgb, var(--chip-color), var(--color-foreground) 50%)',
-		'border-color': 'color-mix(in srgb, var(--chip-color), var(--color-background) 90%)',
-	), 'chip');
-
 	--color-default: var(--color-primary);
 
 	white-space: nowrap;
@@ -103,9 +97,9 @@ const hasTooltip = computed(() => {
 	text-overflow: ellipsis;
 	font-size: var(--font-size-m);
 	border-radius: var(--border-radius);
-	background-color: var(--int-chip-background-color);
-	color: var(--int-chip-text-color);
-	border: 1px solid var(--int-chip-border-color);
+	background-color: m.p('background-color', color-mix(in srgb, var(--chip-color), var(--color-background) 95%));
+	color: m.p('text-color', color-mix(in srgb, var(--chip-color), var(--color-foreground) 50%));
+	border: 1px solid m.p('border-color', color-mix(in srgb, var(--chip-color), var(--color-background) 90%));
 	padding: var(--space-xs) var(--space-s);
 
 	display: flex;

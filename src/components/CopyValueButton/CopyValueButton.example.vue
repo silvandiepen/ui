@@ -1,8 +1,7 @@
 <template>
-<CopyValueButton
-    label="Copy token"
-    success-title="Token copied"
-    value="ui_release_token_123"
+  <Example
+    :component="CopyValueButton"
+    name="CopyValueButton"
   />
 </template>
 

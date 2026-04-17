@@ -1,23 +1,14 @@
 <template>
-  <div :class="bemm()">
-      <Icon name="search" />
-      <Icon name="settings" size="large" />
-      <Icon name="check" size="xl" />
-    </div>
+  <Example
+    :component="Icon"
+    name="Icon"
+    :prop-options="{
+      name: ['search', 'settings', 'check', 'close', 'home', 'edit', 'trash', 'info', 'sun', 'moon', 'bell', 'star', 'arrow-right', 'arrow-left'],
+      size: ['small', 'medium', 'large', 'xl'],
+    }"
+  />
 </template>
 
 <script setup lang="ts">
-import { useBemm } from 'bemm'
-
 import Icon from './Icon.vue'
-
-const bemm = useBemm('icon-example')
 </script>
-
-<style lang="scss">
-.icon-example {
-  display: flex;
-  align-items: center;
-  gap: var(--space);
-}
-</style>

@@ -187,37 +187,19 @@ function selectRight() {
 @use '../../../styles/mixins' as m;
 
 .input-toggle {
-  @include m.component-props((
-    'height': '1.5rem',
-    'width': '2.55rem',
-    'padding': '0.18rem',
-    'height-small': '1.25rem',
-    'width-small': '2.2rem',
-    'height-large': '1.8rem',
-    'width-large': '3rem',
-    'gap': '0.25rem',
-    'wrapper-gap': '0.5rem',
-    'label-font-size': '0.9em',
-    'description-font-size': '0.8em',
-    'errors-gap': '0.2rem',
-    'side-font-size': '0.85rem',
-    'side-gap': '0.3rem',
-    'side-icon-size': '1rem',
-  ), 'input-toggle');
-
-  --input-toggle-height: var(--int-input-toggle-height);
-  --input-toggle-width: var(--int-input-toggle-width);
-  --input-toggle-padding: var(--int-input-toggle-padding);
+  --input-toggle-height: m.p('height', calc(var(--space) * 1.5));
+  --input-toggle-width: m.p('width', calc(var(--space) * 2.55));
+  --input-toggle-padding: m.p('padding', calc(var(--space-xs) * 0.7));
   --input-toggle-thumb-size: calc(var(--input-toggle-height) - (var(--input-toggle-padding) * 2));
   --input-toggle-active-color: var(--color-primary);
 
   display: inline-flex;
   flex-direction: column;
-  gap: var(--int-input-toggle-gap);
+  gap: m.p('gap', var(--space-xs));
 
   &--small {
-    --input-toggle-height: var(--int-input-toggle-height-small);
-    --input-toggle-width: var(--int-input-toggle-width-small);
+    --input-toggle-height: m.p('height', calc(var(--space) * 1.25));
+    --input-toggle-width: m.p('width', calc(var(--space) * 2.2));
 
     .input-toggle__thumb-icon {
       display: none;
@@ -225,46 +207,46 @@ function selectRight() {
   }
 
   &--large {
-    --input-toggle-height: var(--int-input-toggle-height-large);
-    --input-toggle-width: var(--int-input-toggle-width-large);
+    --input-toggle-height: m.p('height', calc(var(--space) * 1.8));
+    --input-toggle-width: m.p('width', calc(var(--space) * 3));
   }
 
   &__wrapper {
     display: inline-flex;
     align-items: center;
-    gap: var(--int-input-toggle-wrapper-gap);
+    gap: m.p('wrapper-gap', var(--space-s));
   }
 
   &__label {
-    font-size: var(--int-input-toggle-label-font-size);
+    font-size: m.p('label-font-size', 0.9em);
     cursor: pointer;
     user-select: none;
   }
 
   &__description {
-    font-size: var(--int-input-toggle-description-font-size);
+    font-size: m.p('description-font-size', 0.8em);
     color: color-mix(in srgb, var(--color-foreground), transparent 40%);
   }
 
   &__errors {
     display: flex;
     flex-direction: column;
-    gap: var(--int-input-toggle-errors-gap);
+    gap: m.p('errors-gap', var(--space-xs));
   }
 
   &__error {
-    font-size: var(--int-input-toggle-description-font-size);
+    font-size: m.p('description-font-size', 0.8em);
     color: var(--color-error);
   }
 
   &__side {
     display: inline-flex;
     align-items: center;
-    gap: var(--int-input-toggle-side-gap);
+    gap: m.p('side-gap', calc(var(--space-xs) * 1.2));
     border: none;
     background: transparent;
     color: color-mix(in srgb, var(--color-foreground), transparent 50%);
-    font-size: var(--int-input-toggle-side-font-size);
+    font-size: m.p('side-font-size', calc(var(--font-size) * 0.85));
     font-weight: 500;
     cursor: pointer;
     padding: 0;
@@ -281,8 +263,8 @@ function selectRight() {
   }
 
   &__side-icon {
-    width: var(--int-input-toggle-side-icon-size);
-    height: var(--int-input-toggle-side-icon-size);
+    width: m.p('side-icon-size', var(--space));
+    height: m.p('side-icon-size', var(--space));
   }
 
   &__side-label {

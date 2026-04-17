@@ -57,33 +57,22 @@ defineExpose({
 @use '../../styles/mixins' as m;
 
 .platform-header {
-  @include m.component-props((
-    'background':       'color-mix(in srgb, var(--color-accent), transparent 50%)',
-    'border-color':     'color-mix(in srgb, var(--color-foreground), transparent 90%)',
-    'blur':             'blur(18px) saturate(135%)',
-    'z-index':          '120',
-    'padding':          'var(--space) var(--spacing)',
-    'padding-compact':  'var(--space-s) var(--spacing)',
-    'actions-flex':     '0 0 auto',
-    'mobile-columns':   'minmax(0, 1fr) auto',
-  ), 'platform-header');
-
   position: sticky;
   top: 0;
-  z-index: var(--int-platform-header-z-index);
-  padding: var(--int-platform-header-padding);
-  border-bottom: 1px solid var(--int-platform-header-border-color);
-  background: var(--int-platform-header-background);
-  backdrop-filter: var(--int-platform-header-blur);
+  z-index: m.p('z-index', 120);
+  padding: m.p('padding', var(--space) var(--spacing));
+  border-bottom: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 90%));
+  background: m.p('background', color-mix(in srgb, var(--color-accent), transparent 50%));
+  backdrop-filter: m.p('blur', blur(18px) saturate(135%));
 
   &--compact {
-    padding: var(--int-platform-header-padding-compact);
+    padding: m.p('padding-compact', var(--space-s) var(--spacing));
   }
 
   &__inner,
   &__secondary {
     width: 100%;
-    max-width: var(--int-platform-header-max-width, 88rem);
+    max-width: var(--platform-header-max-width, 88rem);
     margin: 0 auto;
   }
 
@@ -116,7 +105,7 @@ defineExpose({
 
   &__actions {
     justify-content: flex-end;
-    flex: var(--int-platform-header-actions-flex);
+    flex: m.p('actions-flex', 0 0 auto);
     min-width: 0;
   }
 
@@ -125,11 +114,11 @@ defineExpose({
   }
 
   @media (max-width: 700px) {
-    padding: var(--int-platform-header-padding-compact);
+    padding: m.p('padding-compact', var(--space-s) var(--spacing));
 
     &__inner {
       display: grid;
-      grid-template-columns: var(--int-platform-header-mobile-columns);
+      grid-template-columns: m.p('mobile-columns', minmax(0, 1fr) auto);
       align-items: center;
       gap: var(--space-s);
     }

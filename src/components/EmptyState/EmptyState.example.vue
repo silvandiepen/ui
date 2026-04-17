@@ -1,18 +1,13 @@
 <template>
-<EmptyState
-    description="Create your first shared component example to populate this area."
-    icon="box"
-    title="No components yet"
-  >
-    <template #actions>
-      <Button>New component</Button>
-      <Button variant="outline">Import existing</Button>
-    </template>
-  </EmptyState>
+  <Example
+    :component="EmptyState"
+    name="EmptyState"
+    :prop-options="{
+      icon: ['', 'box', 'folder', 'search', 'database', 'info'],
+    }"
+  />
 </template>
 
 <script setup lang="ts">
-import { Button } from '../Button'
-
 import EmptyState from './EmptyState.vue'
 </script>

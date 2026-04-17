@@ -143,25 +143,17 @@ const onActionClick = (action: TooltipAction) => {
 @use '../../styles/mixins' as m;
 
 .ui-tooltip {
-	@include m.component-props((
-		'z-index': '100',
-		'line-height': '1.35',
-		'shadow': '0 12px 28px color-mix(in srgb, var(--color-foreground), transparent 80%)',
-		'animation': 'showTooltip 0.2s var(--bezier) forwards',
-		'arrow-size': '8px',
-	), 'ui-tooltip');
-
 	&__panel {
 		position: absolute;
-		z-index: var(--int-ui-tooltip-z-index);
+		z-index: m.p('z-index', 100);
 		background: var(--tooltip-bg);
 		color: var(--tooltip-fg);
 		border-radius: var(--border-radius);
 		padding: var(--space-xs) var(--space-s);
-		box-shadow: var(--int-ui-tooltip-shadow);
+		box-shadow: m.p('shadow', 0 12px 28px color-mix(in srgb, var(--color-foreground), transparent 80%));
 		max-width: var(--tooltip-max-width);
 		font-size: var(--font-size-xs);
-		line-height: var(--int-ui-tooltip-line-height);
+		line-height: m.p('line-height', 1.35);
 		white-space: nowrap;
 		display: inline-flex;
 		flex-direction: column;
@@ -174,7 +166,7 @@ const onActionClick = (action: TooltipAction) => {
 
 		&--open {
 			pointer-events: auto;
-			animation: var(--int-ui-tooltip-animation);
+			animation: m.p('animation', showTooltip 0.2s var(--bezier) forwards);
 		}
 
 		&--parent-hover {
@@ -183,12 +175,12 @@ const onActionClick = (action: TooltipAction) => {
 		}
 
 		&--parent-hover#{&}--open {
-			animation: var(--int-ui-tooltip-animation);
+			animation: m.p('animation', showTooltip 0.2s var(--bezier) forwards);
 			pointer-events: auto;
 		}
 
 		:where(*:hover, *:focus-within, *:active) > &--parent-hover {
-			animation: var(--int-ui-tooltip-animation);
+			animation: m.p('animation', showTooltip 0.2s var(--bezier) forwards);
 			pointer-events: auto;
 		}
 
@@ -237,8 +229,8 @@ const onActionClick = (action: TooltipAction) => {
 
 	&__arrow {
 		position: absolute;
-		width: var(--int-ui-tooltip-arrow-size);
-		height: var(--int-ui-tooltip-arrow-size);
+		width: m.p('arrow-size', 8px);
+		height: m.p('arrow-size', 8px);
 		background: var(--tooltip-bg);
 		transform: rotate(45deg);
 	}

@@ -162,16 +162,10 @@ onMounted(() => {
 .input-textarea {
 	@include form.inputBase();
 
-	@include m.component-props((
-    'control-font-size': '1em',
-    'control-padding-y': '0.75em',
-    'control-padding-x': '1em',
-  ), 'input-textarea');
-
 	&__control {
-		font-size: var(--int-input-textarea-control-font-size);
+		font-size: m.p('control-font-size', 1em);
 		font-family: inherit;
-		padding: var(--int-input-textarea-control-padding-y) var(--int-input-textarea-control-padding-x);
+		padding: m.p('control-padding-y', 0.75em) m.p('control-padding-x', 1em);
 		width: 100%;
 		box-sizing: border-box;
 		overflow-y: auto;

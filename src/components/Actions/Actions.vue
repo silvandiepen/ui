@@ -66,7 +66,7 @@ const actionsClasses = computed(() => {
     bemm(),
     bemm('', props.variant),
     bemm('', `align-${props.align}`),
-    bemm('', `gap-${props.gap}`)
+    bemm('', `size-${props.gap}`)
   ]
 })
 
@@ -109,14 +109,6 @@ const transformedMenuItems = computed(() => {
 @use '../../styles/mixins' as m;
 
 .actions {
-  @include m.component-props((
-    'gap-xs': 'var(--space-xs)',
-    'gap-s':  'var(--space-s)',
-    'gap-m':  'var(--space-m)',
-    'gap-l':  'var(--space-m)',
-    'gap-xl': 'var(--space-l)',
-  ), 'actions');
-
   display: flex;
 
   &--inline {
@@ -160,29 +152,29 @@ const transformedMenuItems = computed(() => {
     justify-content: space-around;
   }
 
-  // Gap variants
-  &--gap-none {
+  // Size variants — control the gap between actions
+  &--size-none {
     gap: 0;
   }
 
-  &--gap-xs {
-    gap: var(--int-actions-gap-xs);
+  &--size-xs {
+    gap: m.p('gap', var(--space-xs));
   }
 
-  &--gap-s {
-    gap: var(--int-actions-gap-s);
+  &--size-s {
+    gap: m.p('gap', var(--space-s));
   }
 
-  &--gap-m {
-    gap: var(--int-actions-gap-m);
+  &--size-m {
+    gap: m.p('gap', var(--space-m));
   }
 
-  &--gap-l {
-    gap: var(--int-actions-gap-l);
+  &--size-l {
+    gap: m.p('gap', var(--space-l));
   }
 
-  &--gap-xl {
-    gap: var(--int-actions-gap-xl);
+  &--size-xl {
+    gap: m.p('gap', var(--space-xl));
   }
 }
 </style>

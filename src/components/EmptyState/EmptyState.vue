@@ -51,12 +51,6 @@ const actionButtonProps = computed(() => {
 @use '../../styles/mixins' as m;
 
 .empty-state {
-  @include m.component-props((
-    'icon-size': '3rem',
-    'description-max-width': '400px',
-    'line-height': '1.5',
-  ), 'empty-state');
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +60,7 @@ const actionButtonProps = computed(() => {
   gap: var(--space-m);
 
   &__icon {
-    font-size: var(--int-empty-state-icon-size);
+    font-size: m.p('icon-size', calc(var(--space) * 3));
     color: var(--color-tertiary);
 
     background-color: color-mix(in srgb, var(--color-tertiary), transparent 80%);
@@ -84,8 +78,8 @@ const actionButtonProps = computed(() => {
     font-size: var(--font-size-m);
     color: var(--color-gray);
     margin: 0;
-    max-width: var(--int-empty-state-description-max-width);
-    line-height: var(--int-empty-state-line-height);
+    max-width: m.p('description-max-width', 400px);
+    line-height: m.p('line-height', 1.5);
   }
 
   &__actions {

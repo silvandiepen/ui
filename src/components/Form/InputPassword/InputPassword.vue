@@ -215,12 +215,6 @@ onMounted(() => {
 .input-password {
 	@include form.inputBase();
 
-	@include m.component-props((
-    'control-padding-right': '2.5rem',
-    'toggle-right': '0.5rem',
-    'toggle-padding': '0.25rem',
-  ), 'input-password');
-
 	&__wrapper {
 		position: relative;
 		display: flex;
@@ -229,16 +223,16 @@ onMounted(() => {
 
 	&__control {
 		width: 100%;
-		padding-right: var(--int-input-password-control-padding-right);
+		padding-right: m.p('control-padding-right', calc(var(--space) * 2.5));
 	}
 
 	&__toggle {
 		position: absolute;
-		right: var(--int-input-password-toggle-right);
+		right: m.p('toggle-right', var(--space-s));
 		z-index: 4;
 		background: none;
 		border: none;
-		padding: var(--int-input-password-toggle-padding);
+		padding: m.p('toggle-padding', var(--space-xs));
 		cursor: pointer;
 		display: flex;
 		align-items: center;

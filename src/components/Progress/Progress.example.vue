@@ -1,8 +1,12 @@
 <template>
-<Progress
-    label="Release progress"
-    :value="68"
-    :details="['14 components reviewed', '6 follow-up items left']"
+  <Example
+    :component="Progress"
+    name="Progress"
+    :prop-options="{
+      variant: ['primary', 'success', 'warning', 'error', 'info'],
+      type: ['linear', 'circular'],
+      size: ['small', 'medium', 'large'],
+    }"
   />
 </template>
 

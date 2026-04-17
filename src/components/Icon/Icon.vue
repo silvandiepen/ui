@@ -59,21 +59,13 @@ watchEffect(async () => {
 @use '../../styles/mixins' as m;
 
 .icon {
-  @include m.component-props((
-    'fill':        'transparent',
-    'size-small':  '1em',
-    'size-medium': '1.25em',
-    'size-large':  '2em',
-    'size-xl':     '4em',
-  ), 'icon');
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
   color: currentColor;
 
-  --icon-fill: var(--int-icon-fill);
+  --icon-fill: #{m.p('fill', transparent)};
 
   // SVG styling
   svg {
@@ -86,23 +78,23 @@ watchEffect(async () => {
 
   // Size variants
   &--small {
-    width: var(--int-icon-size-small);
-    height: var(--int-icon-size-small);
+    width: m.p('size', 1em);
+    height: m.p('size', 1em);
   }
 
   &--medium {
-    width: var(--int-icon-size-medium);
-    height: var(--int-icon-size-medium);
+    width: m.p('size', 1.25em);
+    height: m.p('size', 1.25em);
   }
 
   &--large {
-    width: var(--int-icon-size-large);
-    height: var(--int-icon-size-large);
+    width: m.p('size', 2em);
+    height: m.p('size', 2em);
   }
 
   &--xl {
-    width: var(--int-icon-size-xl);
-    height: var(--int-icon-size-xl);
+    width: m.p('size', 4em);
+    height: m.p('size', 4em);
   }
 }
 </style>

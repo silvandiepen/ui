@@ -50,20 +50,15 @@ function onChange(event: Event) {
 @use '../../styles/mixins' as m;
 
 .ui-textarea {
-  @include m.component-props((
-    'min-height': '7rem',
-    'line-height': '1.5',
-  ), 'ui-textarea');
-
   width: 100%;
-  min-height: var(--int-ui-textarea-min-height);
+  min-height: m.p('min-height', calc(var(--space) * 7));
   padding: calc(var(--space) * 0.92) var(--space);
   border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 84%);
   border-radius: var(--border-radius-xl);
   background: color-mix(in srgb, var(--color-background), transparent 2%);
   color: var(--color-foreground);
   font-size: var(--font-size-m, 1rem);
-  line-height: var(--int-ui-textarea-line-height);
+  line-height: m.p('line-height', 1.5);
   transition:
     border-color 0.15s,
     box-shadow 0.15s,

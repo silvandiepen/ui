@@ -1,9 +1,11 @@
 <template>
-<div style="display: flex; gap: 0.75rem;">
-    <ThemeToggle theme="light" />
-    <ThemeToggle theme="dark" />
-    <ThemeToggle theme="system" />
-  </div>
+  <Example
+    :component="ThemeToggle"
+    name="ThemeToggle"
+    :prop-options="{
+      theme: ['light', 'dark', 'system'],
+    }"
+  />
 </template>
 
 <script lang="ts" setup>

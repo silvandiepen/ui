@@ -122,29 +122,18 @@ watch(
 @use '../../../styles/mixins' as m;
 
 .input-checkbox {
-  @include m.component-props((
-    'size': '1.5rem',
-    'space': '0.18rem',
-    'size-small': '1.2rem',
-    'size-large': '1.8rem',
-    'label-font-size': '0.95em',
-    'label-line-height': '1.2',
-    'disabled-opacity': '0.65',
-    'dot-size': '0.72rem',
-  ), 'input-checkbox');
-
-  --input-checkbox-size: var(--int-input-checkbox-size);
-  --input-checkbox-space: var(--int-input-checkbox-space);
+  --input-checkbox-size: m.p('size', calc(var(--space) * 1.5));
+  --input-checkbox-space: m.p('space', calc(var(--space-xs) * 0.7));
   --input-checkbox-dot-size: calc(var(--input-checkbox-size) - (var(--input-checkbox-space) * 2));
   gap: var(--space-s);
   display: flex;
 
   &--small {
-    --input-checkbox-size: var(--int-input-checkbox-size-small);
+    --input-checkbox-size: m.p('size', calc(var(--space) * 1.2));
   }
 
   &--large {
-    --input-checkbox-size: var(--int-input-checkbox-size-large);
+    --input-checkbox-size: m.p('size', calc(var(--space) * 1.8));
   }
 
   &__control-container {
@@ -155,13 +144,13 @@ watch(
 
     &--disabled {
       cursor: not-allowed;
-      opacity: var(--int-input-checkbox-disabled-opacity);
+      opacity: m.p('disabled-opacity', 0.65);
     }
   }
 
   &__label {
-    font-size: var(--int-input-checkbox-label-font-size);
-    line-height: var(--int-input-checkbox-label-line-height);
+    font-size: m.p('label-font-size', 0.95em);
+    line-height: m.p('label-line-height', 1.2);
 
     &--left {
       order: -1;
@@ -241,8 +230,8 @@ watch(
   }
 
   &__indicator-dot {
-    width: var(--int-input-checkbox-dot-size, 0.72rem);
-    height: var(--int-input-checkbox-dot-size, 0.72rem);
+    width: m.p('dot-size', calc(var(--space) * 0.72));
+    height: m.p('dot-size', calc(var(--space) * 0.72));
     border-radius: calc(var(--border-radius) * 0.45);
     background: currentColor;
   }
@@ -261,15 +250,15 @@ watch(
 
   &__indicator-x {
     position: relative;
-    width: var(--int-input-checkbox-dot-size, 0.72rem);
-    height: var(--int-input-checkbox-dot-size, 0.72rem);
+    width: m.p('dot-size', calc(var(--space) * 0.72));
+    height: m.p('dot-size', calc(var(--space) * 0.72));
   }
 
   &__indicator-x-line {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: var(--int-input-checkbox-dot-size, 0.72rem);
+    width: m.p('dot-size', calc(var(--space) * 0.72));
     height: 2px;
     border-radius: 999px;
     background: currentColor;

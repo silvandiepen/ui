@@ -1,38 +1,15 @@
 <template>
-<div :class="bemm()">
-    <Input
-      v-model="name"
-      label="Project name"
-      placeholder="Shared UI docs"
-      description="Compact text input for shared project metadata."
-    />
-
-    <Input
-      v-model="budget"
-      label="Budget"
-      type="number"
-      :min="0"
-      :step="50"
-      prefix-icon="coins"
-    />
-  </div>
+  <Example
+    :component="Input"
+    name="Input"
+    :prop-options="{
+      type: ['text', 'password', 'email', 'number', 'search', 'url', 'tel'],
+      prefixIcon: ['', 'search', 'user', 'mail', 'lock', 'coins'],
+      suffixIcon: ['', 'search', 'check', 'close', 'calendar'],
+    }"
+  />
 </template>
 
 <script setup lang="ts">
-import { useBemm } from 'bemm'
-import { ref } from 'vue'
-
 import Input from './Input.vue'
-
-const bemm = useBemm('t-input-example')
-
-const name = ref('UI docs')
-const budget = ref<number | string>(250)
 </script>
-
-<style lang="scss">
-.t-input-example {
-  display: grid;
-  gap: var(--space);
-}
-</style>

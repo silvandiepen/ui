@@ -35,19 +35,11 @@ const toolbarStyles = (toolbar: ToolbarInstance) => ({
 @use '../../styles/mixins' as m;
 
 .ui-toolbar-shell {
-	@include m.component-props((
-		'z-index': '70',
-		'max-width': 'min(1280px, 100%)',
-		'blur': '8px',
-		'shadow': '0 18px 48px color-mix(in srgb, var(--color-foreground), transparent 78%)',
-		'slide-offset': '16px',
-	), 'ui-toolbar-shell');
-
 	position: fixed;
 	left: 0;
 	right: 0;
 	bottom: var(--space);
-	z-index: var(--int-ui-toolbar-shell-z-index);
+	z-index: m.p('z-index', 70);
 	pointer-events: none;
 	padding: 0 var(--space);
 
@@ -69,11 +61,11 @@ const toolbarStyles = (toolbar: ToolbarInstance) => ({
 	&__inner {
 		pointer-events: auto;
 		width: fit-content;
-		max-width: var(--int-ui-toolbar-shell-max-width);
+		max-width: m.p('max-width', min(1280px, 100%));
 		border-radius: var(--border-radius-xxl);
 		background: color-mix(in srgb, var(--color-background), transparent 8%);
-		box-shadow: var(--int-ui-toolbar-shell-shadow);
-		backdrop-filter: blur(var(--int-ui-toolbar-shell-blur));
+		box-shadow: m.p('shadow', 0 18px 48px color-mix(in srgb, var(--color-foreground), transparent 78%));
+		backdrop-filter: blur(m.p('blur', 8px));
 		padding: var(--space);
 		overflow: visible;
 	}
@@ -93,6 +85,6 @@ const toolbarStyles = (toolbar: ToolbarInstance) => ({
 .toolbar-shell-enter-from,
 .toolbar-shell-leave-to {
 	opacity: 0;
-	transform: translateY(var(--int-ui-toolbar-shell-slide-offset));
+	transform: translateY(m.p('slide-offset', 16px));
 }
 </style>

@@ -67,14 +67,8 @@ const handleInputChange = (e: Event) => {
 @use '../../../styles/mixins' as m;
 
 .input-radio {
-  @include m.component-props((
-    'size': '1.25em',
-    'dot-size': '0.75em',
-    'label-font-size': '0.875em',
-  ), 'input-radio');
-
-	--input-radio-size: var(--int-input-radio-size);
-	--input-radio-dot-size: var(--int-input-radio-dot-size);
+	--input-radio-size: m.p('size', 1.25em);
+	--input-radio-dot-size: m.p('dot-size', 0.75em);
 
 	display: flex;
 	align-items: center;
@@ -154,7 +148,7 @@ const handleInputChange = (e: Event) => {
 
 	&__label {
 		margin-left: var(--space-xs);
-		font-size: var(--int-input-radio-label-font-size);
+		font-size: m.p('label-font-size', var(--font-size-s));
 		cursor: pointer;
 	}
 }

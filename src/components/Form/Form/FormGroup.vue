@@ -78,14 +78,6 @@ const handleHeaderClick = () => {
 @use '../../../styles/mixins' as m;
 
 .form-group {
-  @include m.component-props((
-    'label-font-size': '1.125rem',
-    'label-font-weight': '600',
-    'toggle-size': '2rem',
-    'description-font-size': '0.875rem',
-    'description-line-height': '1.5',
-  ), 'form-group');
-
   display: flex;
   flex-direction: column;
   gap: var(--form-group-gap, var(--space));
@@ -107,8 +99,8 @@ const handleHeaderClick = () => {
 
   &__label {
     margin: 0;
-    font-size: var(--int-form-group-label-font-size);
-    font-weight: var(--int-form-group-label-font-weight);
+    font-size: m.p('label-font-size', calc(var(--font-size) * 1.125));
+    font-weight: m.p('label-font-weight', 600);
     color: var(--color-foreground);
   }
 
@@ -116,8 +108,8 @@ const handleHeaderClick = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--int-form-group-toggle-size);
-    height: var(--int-form-group-toggle-size);
+    width: m.p('toggle-size', var(--space-l));
+    height: m.p('toggle-size', var(--space-l));
     padding: 0;
     border: none;
     background: transparent;
@@ -139,9 +131,9 @@ const handleHeaderClick = () => {
 
   &__description {
     margin: 0;
-    font-size: var(--int-form-group-description-font-size);
+    font-size: m.p('description-font-size', var(--font-size-s));
     color: var(--color-text-secondary);
-    line-height: var(--int-form-group-description-line-height);
+    line-height: m.p('description-line-height', 1.5);
   }
 
   &__content {

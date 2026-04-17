@@ -519,20 +519,6 @@ function isRangeBoundary(date: Date, boundary: 'start' | 'end'): boolean {
 @use '../../../styles/mixins' as m;
 
 .date-picker {
-	@include m.component-props((
-    'month-label-font-size': '0.8em',
-    'month-label-font-weight': '600',
-    'selector-caption-font-size': '0.65rem',
-    'selector-padding-y': '0.25rem',
-    'selector-padding-x': '0.45rem',
-    'selector-font-size': '0.75rem',
-    'selector-min-width': '6.75rem',
-    'selector-label-gap': '0.15rem',
-    'selector-caption-padding-left': '0.2rem',
-    'weekdays-font-size': '0.7em',
-    'weekdays-font-weight': '600',
-  ), 'date-picker');
-
 	background-color: var(--color-background);
 	border-radius: var(--border-radius);
 	padding: var(--space);
@@ -548,8 +534,8 @@ function isRangeBoundary(date: Date, boundary: 'start' | 'end'): boolean {
 	}
 
 	&__month-label {
-		font-weight: var(--int-date-picker-month-label-font-weight);
-		font-size: var(--int-date-picker-month-label-font-size);
+		font-weight: m.p('month-label-font-weight', 600);
+		font-size: m.p('month-label-font-size', 0.8em);
 		text-align: center;
 		padding-bottom: var(--space-xs);
 		color: color-mix(in srgb, var(--color-foreground), transparent 30%);
@@ -585,8 +571,8 @@ function isRangeBoundary(date: Date, boundary: 'start' | 'end'): boolean {
 			display: none;
 		}
 
-		font-weight: var(--int-date-picker-month-label-font-weight);
-		font-size: var(--int-date-picker-month-label-font-size);
+		font-weight: m.p('month-label-font-weight', 600);
+		font-size: m.p('month-label-font-size', 0.8em);
 		text-align: center;
 		padding-bottom: var(--space-xs);
 		color: color-mix(in srgb, var(--color-foreground), transparent 30%);
@@ -600,23 +586,23 @@ function isRangeBoundary(date: Date, boundary: 'start' | 'end'): boolean {
 
 	&__selector-label {
 		display: grid;
-		gap: var(--int-date-picker-selector-label-gap);
+		gap: m.p('selector-label-gap', var(--space-xs));
 	}
 
 	&__selector-caption {
-		font-size: var(--int-date-picker-selector-caption-font-size);
+		font-size: m.p('selector-caption-font-size', var(--font-size-xs));
 		color: color-mix(in srgb, var(--color-foreground), transparent 40%);
-		padding-left: var(--int-date-picker-selector-caption-padding-left);
+		padding-left: m.p('selector-caption-padding-left', var(--space-xs));
 	}
 
 	&__selector {
 		border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 82%);
 		background: color-mix(in srgb, var(--color-background), var(--color-primary) 2%);
 		border-radius: calc(var(--border-radius) * 0.7);
-		padding: var(--int-date-picker-selector-padding-y) var(--int-date-picker-selector-padding-x);
-		font-size: var(--int-date-picker-selector-font-size);
+		padding: m.p('selector-padding-y', var(--space-xs)) m.p('selector-padding-x', calc(var(--space-xs) * 1.75));
+		font-size: m.p('selector-font-size', var(--font-size-s));
 		color: inherit;
-		min-width: var(--int-date-picker-selector-min-width);
+		min-width: m.p('selector-min-width', calc(var(--space) * 6.75));
 		cursor: pointer;
 
 		&:focus-visible {
@@ -630,8 +616,8 @@ function isRangeBoundary(date: Date, boundary: 'start' | 'end'): boolean {
 		grid-template-columns: repeat(7, 1fr);
 		text-align: center;
 		opacity: 0.4;
-		font-size: var(--int-date-picker-weekdays-font-size);
-		font-weight: var(--int-date-picker-weekdays-font-weight);
+		font-size: m.p('weekdays-font-size', 0.7em);
+		font-weight: m.p('weekdays-font-weight', 600);
 		margin-bottom: var(--space-xs);
 	}
 

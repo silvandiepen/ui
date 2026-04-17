@@ -38,40 +38,30 @@ import { computed } from 'vue'
 @use '../../styles/mixins' as m;
 
 .avatar {
-  @include m.component-props((
-    'background':    'var(--color-primary)',
-    'color':         'white',
-    'border-radius': '50%',
-    'size-small':    '2rem',
-    'size-medium':   '3rem',
-    'size-large':    '4rem',
-    'font-weight':   'var(--font-weight-semibold)',
-  ), 'avatar');
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--avatar-border-radius);
-  background: var(--avatar-background);
-  color: var(--avatar-color);
-  font-weight: var(--avatar-font-weight);
+  border-radius: m.p('border-radius', 50%);
+  background: m.p('background', var(--color-primary));
+  color: m.p('color', white);
+  font-weight: m.p('font-weight', var(--font-weight-semibold));
   overflow: hidden;
 
   &--small {
-    width: var(--avatar-size-small);
-    height: var(--avatar-size-small);
+    width: m.p('size', var(--space));
+    height: m.p('size', var(--space));
     font-size: var(--font-size-xs);
   }
 
   &--medium {
-    width: var(--avatar-size-medium);
-    height: var(--avatar-size-medium);
+    width: m.p('size', var(--space-l));
+    height: m.p('size', var(--space-l));
     font-size: var(--font-size-s);
   }
 
   &--large {
-    width: var(--avatar-size-large);
-    height: var(--avatar-size-large);
+    width: m.p('size', var(--space-xl));
+    height: m.p('size', var(--space-xl));
     font-size: var(--font-size-m);
   }
 

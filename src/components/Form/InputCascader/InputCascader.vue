@@ -231,20 +231,6 @@ onBeforeUnmount(() => {
 @use '../../../styles/mixins' as m;
 
 .input-cascader {
-  @include m.component-props((
-    'trigger-gap': '0.75rem',
-    'trigger-min-height': '3rem',
-    'trigger-padding-y': '0.8rem',
-    'trigger-padding-x': '1rem',
-    'panel-top-offset': '0.5rem',
-    'column-gap': '0.15rem',
-    'column-padding': '0.5rem',
-    'option-gap': '0.65rem',
-    'option-padding-y': '0.55rem',
-    'option-padding-x': '0.7rem',
-    'option-main-gap': '0.55rem',
-  ), 'input-cascader');
-
   position: relative;
 
   &__control {
@@ -256,10 +242,10 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--int-input-cascader-trigger-gap);
+    gap: m.p('trigger-gap', calc(var(--space) * 0.75));
     width: 100%;
-    min-height: var(--int-input-cascader-trigger-min-height);
-    padding: var(--int-input-cascader-trigger-padding-y) var(--int-input-cascader-trigger-padding-x);
+    min-height: m.p('trigger-min-height', calc(var(--space) * 3));
+    padding: m.p('trigger-padding-y', calc(var(--space) * 0.8)) m.p('trigger-padding-x', var(--space));
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 84%);
     border-radius: var(--border-radius-xl);
     background: color-mix(in srgb, var(--color-background), transparent 2%);
@@ -296,7 +282,7 @@ onBeforeUnmount(() => {
 
   &__panel {
     position: absolute;
-    top: calc(100% + var(--int-input-cascader-panel-top-offset));
+    top: calc(100% + m.p('panel-top-offset', var(--space-s)));
     left: 0;
     z-index: 40;
     display: grid;
@@ -313,9 +299,9 @@ onBeforeUnmount(() => {
 
   &__column {
     display: grid;
-    gap: var(--int-input-cascader-column-gap);
+    gap: m.p('column-gap', var(--space-xs));
     min-width: 0;
-    padding: var(--int-input-cascader-column-padding);
+    padding: m.p('column-padding', var(--space-s));
     border-right: 1px solid color-mix(in srgb, var(--color-foreground), transparent 92%);
 
     &:last-child {
@@ -327,9 +313,9 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--int-input-cascader-option-gap);
+    gap: m.p('option-gap', calc(var(--space-s) * 1.3));
     width: 100%;
-    padding: var(--int-input-cascader-option-padding-y) var(--int-input-cascader-option-padding-x);
+    padding: m.p('option-padding-y', calc(var(--space-s) * 1.1)) m.p('option-padding-x', calc(var(--space-s) * 1.4));
     border: 0;
     border-radius: calc(var(--border-radius) * 0.75);
     background: transparent;
@@ -355,7 +341,7 @@ onBeforeUnmount(() => {
   &__option-main {
     display: inline-flex;
     align-items: center;
-    gap: var(--int-input-cascader-option-main-gap);
+    gap: m.p('option-main-gap', calc(var(--space-s) * 1.1));
     min-width: 0;
   }
 

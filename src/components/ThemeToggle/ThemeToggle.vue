@@ -53,10 +53,6 @@ const iconName = computed(() => {
 @use '../../styles/mixins' as m;
 
 .theme-toggle {
-  @include m.component-props((
-    'size': '2.5rem',
-  ), 'theme-toggle');
-
   --icon-fill: color-mix(in srgb, currentColor, transparent 25%);
   --icon-fill-opacity: 1;
   --icon-stroke-color: currentColor;
@@ -65,8 +61,8 @@ const iconName = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--int-theme-toggle-size);
-  height: var(--int-theme-toggle-size);
+  width: m.p('size', calc(var(--space) * 2.5));
+  height: m.p('size', calc(var(--space) * 2.5));
   border: 1px solid var(--border-color, var(--color-accent));
   border-radius: var(--border-radius);
   background: color-mix(in srgb, var(--color-foreground), transparent 97%);

@@ -32,45 +32,30 @@ const blockClasses = computed(() => [
 @use '../../styles/mixins' as m;
 
 .kbd {
-  @include m.component-props((
-    'border-color':  'color-mix(in srgb, var(--color-foreground), transparent 84%)',
-    'border-radius': 'calc(var(--border-radius, 1rem) * 0.55)',
-    'background':    'linear-gradient(180deg, color-mix(in srgb, var(--color-background), white 28%) 0%, color-mix(in srgb, var(--color-background), var(--color-foreground) 4%) 100%)',
-    'box-shadow':    'inset 0 1px 0 color-mix(in srgb, white, transparent 30%)',
-    'color':         'color-mix(in srgb, var(--color-foreground), transparent 12%)',
-    'font-family':   'var(--font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace)',
-    'font-size':     '0.78rem',
-    'min-size':      '1.75rem',
-    'padding':       '0.2rem 0.45rem',
-    'size-small':    '1.45rem',
-    'padding-small': '0.12rem 0.32rem',
-    'font-size-small': '0.68rem',
-  ), 'kbd');
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--int-kbd-min-size);
-  min-height: var(--int-kbd-min-size);
-  padding: var(--int-kbd-padding);
-  border: 1px solid var(--int-kbd-border-color);
+  min-width: m.p('min-size', calc(var(--space) * 1.75));
+  min-height: m.p('min-size', calc(var(--space) * 1.75));
+  padding: m.p('padding', var(--space-xs) calc(var(--space-xs) * 1.75));
+  border: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 84%));
   border-bottom-width: 2px;
-  border-radius: var(--int-kbd-border-radius);
-  background: var(--int-kbd-background);
-  box-shadow: var(--int-kbd-box-shadow);
-  color: var(--int-kbd-color);
-  font-family: var(--int-kbd-font-family);
-  font-size: var(--int-kbd-font-size);
+  border-radius: m.p('border-radius', calc(var(--border-radius, 1rem) * 0.55));
+  background: m.p('background', linear-gradient(180deg, color-mix(in srgb, var(--color-background), white 28%) 0%, color-mix(in srgb, var(--color-background), var(--color-foreground) 4%) 100%));
+  box-shadow: m.p('box-shadow', inset 0 1px 0 color-mix(in srgb, white, transparent 30%));
+  color: m.p('color', color-mix(in srgb, var(--color-foreground), transparent 12%));
+  font-family: m.p('font-family', var(--font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace));
+  font-size: m.p('font-size', var(--font-size-s));
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
 }
 
 .kbd--small {
-  min-width: var(--int-kbd-size-small);
-  min-height: var(--int-kbd-size-small);
-  padding: var(--int-kbd-padding-small);
-  font-size: var(--int-kbd-font-size-small);
+  min-width: m.p('min-size', calc(var(--space) * 1.45));
+  min-height: m.p('min-size', calc(var(--space) * 1.45));
+  padding: m.p('padding', calc(var(--space-xs) * 0.5) calc(var(--space-xs) * 1.2));
+  font-size: m.p('font-size', var(--font-size-xs));
 }
 
 .kbd--subtle {

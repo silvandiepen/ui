@@ -39,10 +39,6 @@ const className = computed(() =>
 @use '../../styles/mixins' as m;
 
 .ui-skeleton {
-	@include m.component-props((
-		'border-radius-round': '999px',
-	), 'ui-skeleton');
-
 	position: relative;
 	display: block;
 	width: var(--skeleton-width);
@@ -52,11 +48,11 @@ const className = computed(() =>
 	border-radius: var(--border-radius);
 
 	&--pill {
-		border-radius: var(--int-ui-skeleton-border-radius-round);
+		border-radius: m.p('border-radius-round', 999px);
 	}
 
 	&--circle {
-		border-radius: var(--int-ui-skeleton-border-radius-round);
+		border-radius: m.p('border-radius-round', 999px);
 	}
 
 	&--animated::after {

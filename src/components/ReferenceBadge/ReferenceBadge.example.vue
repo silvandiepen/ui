@@ -1,9 +1,7 @@
 <template>
-<ReferenceBadge
-    label="ui@main"
-    copy-value="ui@main"
-    href="https://github.com/silvandiepen"
-    tooltip-text="Current shared UI branch"
+  <Example
+    :component="ReferenceBadge"
+    name="ReferenceBadge"
   />
 </template>
 

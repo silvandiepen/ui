@@ -103,24 +103,11 @@ const shuffleArray = (array: number[]): number[] => {
 @use '../../../styles/mixins' as m;
 
 .number-pad {
-  @include m.component-props((
-    'width': '15em',
-    'max-width': '20em',
-    'button-font-size': '1.25em',
-    'button-font-weight': '600',
-    'small-max-width': '15em',
-    'small-button-font-size': '1em',
-    'large-max-width': '25em',
-    'large-button-font-size': '1.5em',
-    'compact-gap': '2px',
-    'icon-font-size': '2em',
-  ), 'number-pad');
-
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-s);
-  width: var(--int-number-pad-width);
-  max-width: var(--int-number-pad-max-width);
+  width: m.p('width', 15em);
+  max-width: m.p('max-width', 20em);
 
   &__button {
     aspect-ratio: 1;
@@ -129,8 +116,8 @@ const shuffleArray = (array: number[]): number[] => {
     border-radius: var(--border-radius);
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-size: var(--int-number-pad-button-font-size);
-    font-weight: var(--int-number-pad-button-font-weight);
+    font-size: m.p('button-font-size', 1.25em);
+    font-weight: m.p('button-font-weight', 600);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -183,7 +170,7 @@ const shuffleArray = (array: number[]): number[] => {
         border-color: var(--color-primary);
       }
       .icon{
-        font-size: var(--int-number-pad-icon-font-size);
+        font-size: m.p('icon-font-size', 2em);
       }
     }
 
@@ -198,7 +185,7 @@ const shuffleArray = (array: number[]): number[] => {
         box-shadow: 0 2px 8px color-mix(in srgb, var(--color-success), transparent 60%);
       }
       .icon{
-        font-size: var(--int-number-pad-icon-font-size);
+        font-size: m.p('icon-font-size', 2em);
       }
     }
   }
@@ -206,27 +193,27 @@ const shuffleArray = (array: number[]): number[] => {
   // Size variants
   &--small {
     gap: var(--space-xs);
-    max-width: var(--int-number-pad-small-max-width);
+    max-width: m.p('max-width', 15em);
 
     .number-pad__button {
       min-height: var(--space-l);
-      font-size: var(--int-number-pad-small-button-font-size);
+      font-size: m.p('button-font-size', 1em);
     }
   }
 
   &--large {
     gap: var(--space);
-    max-width: var(--int-number-pad-large-max-width);
+    max-width: m.p('max-width', 25em);
 
     .number-pad__button {
       min-height: calc(var(--space-xl) * 1.33);
-      font-size: var(--int-number-pad-large-button-font-size);
+      font-size: m.p('button-font-size', 1.5em);
     }
   }
 
   // Variant styles
   &--compact {
-    gap: var(--int-number-pad-compact-gap);
+    gap: m.p('compact-gap', 2px);
 
     .number-pad__button {
       border-radius: var(--border-radius-s);

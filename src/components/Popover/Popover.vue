@@ -162,26 +162,19 @@ const panelStyle = computed(() => {
 @use '../../styles/mixins' as m;
 
 .ui-popover {
-	@include m.component-props((
-		'panel-z-index': '30',
-		'panel-min-width': '180px',
-		'panel-shadow': '0 12px 32px color-mix(in srgb, var(--color-foreground), transparent 88%)',
-		'title-font-weight': '600',
-	), 'ui-popover');
-
 	position: relative;
 	display: inline-flex;
 
 	&__panel {
 		position: absolute;
-		z-index: var(--int-ui-popover-panel-z-index);
+		z-index: m.p('panel-z-index', 30);
 		background: var(--color-background);
 		border: 1px solid
 			color-mix(in srgb, var(--color-foreground), transparent 86%);
 		border-radius: var(--border-radius);
-		box-shadow: var(--int-ui-popover-panel-shadow);
+		box-shadow: m.p('panel-shadow', 0 12px 32px color-mix(in srgb, var(--color-foreground), transparent 88%));
 		padding: var(--space-s);
-		min-width: var(--int-ui-popover-panel-min-width);
+		min-width: m.p('panel-min-width', 180px);
 	}
 
 	&__panel--bottom {
@@ -206,7 +199,7 @@ const panelStyle = computed(() => {
 
 	&__title {
 		font-size: var(--font-size-s);
-		font-weight: var(--int-ui-popover-title-font-weight);
+		font-weight: m.p('title-font-weight', 600);
 		margin-bottom: var(--space-xs);
 	}
 

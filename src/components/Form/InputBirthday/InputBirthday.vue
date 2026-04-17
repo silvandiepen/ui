@@ -387,11 +387,6 @@ initOptions();
 	$b: &;
   @include form.inputBase();
 
-  @include m.component-props((
-    'option-font-size': '0.875em',
-    'options-max-height': '10em',
-  ), 'input-birthday');
-
   &__controls {
     display: flex;
     justify-content: space-between;
@@ -436,7 +431,7 @@ initOptions();
   &__options {
     width: 100%;
     height: fit-content;
-    max-height: var(--int-input-birthday-options-max-height);
+    max-height: m.p('options-max-height', 10em);
     border: none;
 		scrollbar-width: thin;
     scrollbar-color: var(--color-primary) transparent;
@@ -461,7 +456,7 @@ initOptions();
 
   &__option {
     padding: var(--space-xs);
-    font-size: var(--int-input-birthday-option-font-size);
+    font-size: m.p('option-font-size', 0.875em);
     cursor: pointer;
 		border-radius: var(--border-radius);
 

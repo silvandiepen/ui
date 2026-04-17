@@ -479,16 +479,6 @@ watch(model, () => {
   @include form.inputBase();
   position: relative;
 
-  @include m.component-props((
-    'search-padding-y': '0.8rem',
-    'search-padding-x': '0.95rem',
-    'search-left-icon-offset': '2.7rem',
-    'search-icon-left': '1.45rem',
-    'search-icon-font-size': '0.95rem',
-    'option-padding-y': '0.8rem',
-    'option-padding-x': '1rem',
-  ), 'input-custom-select');
-
   // CSS Custom Properties with defaults
   --input-custom-select-dropdown-gap: var(--space-xs);
   --input-custom-select-max-height: 300px;
@@ -567,7 +557,7 @@ watch(model, () => {
 
   &__search-input {
     width: 100%;
-    padding: var(--int-input-custom-select-search-padding-y) var(--int-input-custom-select-search-padding-x) var(--int-input-custom-select-search-padding-y) var(--int-input-custom-select-search-left-icon-offset);
+    padding: m.p('search-padding-y', calc(var(--space) * 0.8)) m.p('search-padding-x', var(--space)) m.p('search-padding-y', calc(var(--space) * 0.8)) m.p('search-left-icon-offset', calc(var(--space) * 2.7));
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
     border-radius: calc(var(--input-border-radius, var(--border-radius)) - 2px);
@@ -592,12 +582,12 @@ watch(model, () => {
 
   &__search-icon {
     position: absolute;
-    left: var(--int-input-custom-select-search-icon-left);
+    left: m.p('search-icon-left', calc(var(--space) * 1.45));
     top: 50%;
     transform: translateY(-50%);
     color: color-mix(in srgb, currentColor, transparent 42%);
     pointer-events: none;
-    font-size: var(--int-input-custom-select-search-icon-font-size);
+    font-size: m.p('search-icon-font-size', var(--font-size));
     z-index: 1;
   }
 
@@ -610,7 +600,7 @@ watch(model, () => {
     display: flex;
     align-items: center;
     gap: var(--space-s);
-    padding: var(--int-input-custom-select-option-padding-y) var(--int-input-custom-select-option-padding-x);
+    padding: m.p('option-padding-y', calc(var(--space) * 0.8)) m.p('option-padding-x', var(--space));
     cursor: pointer;
     transition:
       background-color var(--transition-fast),

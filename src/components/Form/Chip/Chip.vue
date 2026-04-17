@@ -22,21 +22,13 @@ const bemm = useBemm('chip');
 @use '../../../styles/mixins' as m;
 
 .chip {
-  @include m.component-props((
-    'gap': '0.5rem',
-    'padding-y': '0.25rem',
-    'padding-x': '0.75rem',
-    'font-size': '0.875rem',
-    'dot-size': '1rem',
-  ), 'chip');
-
   display: inline-flex;
   align-items: center;
-  gap: var(--int-chip-gap);
-  padding: var(--int-chip-padding-y) var(--int-chip-padding-x);
+  gap: m.p('gap', var(--space-s));
+  padding: m.p('padding-y', var(--space-xs)) m.p('padding-x', calc(var(--space) * 0.75));
   border-radius: var(--border-radius, 4px);
   background-color: var(--color-gray-light, color-mix(in srgb, var(--color-foreground), transparent 92%));
-  font-size: var(--int-chip-font-size);
+  font-size: m.p('font-size', var(--font-size-s));
 
   &__pre {
     display: flex;
@@ -50,8 +42,8 @@ const bemm = useBemm('chip');
 
   // Support for the dot element in InputSelectColor
   .dot {
-    width: var(--int-chip-dot-size);
-    height: var(--int-chip-dot-size);
+    width: m.p('dot-size', var(--space));
+    height: m.p('dot-size', var(--space));
     border-radius: 50%;
     background-color: var(--dot-color, color-mix(in srgb, var(--color-foreground), transparent 72%));
   }
