@@ -60,11 +60,8 @@ const useToastService = () => {
 	const hideToast = (id: string) => {
 		const toast = toasts.value.find((t) => t.id === id);
 		if (toast) {
-			toast.state.closing = true;
-			setTimeout(() => {
-				toast.onClose?.();
-				toasts.value = toasts.value.filter((t) => t.id !== id);
-			}, 300); // Short animation duration for closing
+			toast.onClose?.();
+			toasts.value = toasts.value.filter((t) => t.id !== id);
 		}
 	};
 

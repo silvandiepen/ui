@@ -1,31 +1,27 @@
 <template>
   <Teleport to="body">
-    <TransitionGroup name="toast" tag="div" class="toast-container">
+    <TransitionGroup
+      v-for="group in toastGroups"
+      :key="group.pos"
+      name="toast"
+      tag="div"
+      :class="['toast-container', `toast-container--${group.pos}`]"
+    >
       <div
-        v-for="toast in toasts"
+        v-for="toast in group.toasts"
         :key="toast.id"
-        :class="[bemm(), bemm('', resolveToastType(toast)), bemm('', toast.position || ToastPosition.TOP_RIGHT)]"
+        :class="[bemm(), bemm('', resolveToastType(toast))]"
         :role="getRole(toast.type)"
         :aria-live="getAriaLive(toast.type)"
         :style="`--toast-color: var(--color-${resolveToastColor(toast)})`"
       >
         <div :class="bemm('content')">
-          <Icon
-            :class="bemm('icon')"
-            :name="resolveToastIcon(toast)"
-            size="small"
-          />
-
+          <Icon :class="bemm('icon')" :name="resolveToastIcon(toast)" size="small" />
           <div :class="bemm('body')">
-            <p v-if="toast.title" :class="bemm('title')">
-              {{ toast.title }}
-            </p>
-            <p :class="bemm('message')">
-              {{ toast.message }}
-            </p>
+            <p v-if="toast.title" :class="bemm('title')">{{ toast.title }}</p>
+            <p :class="bemm('message')">{{ toast.message }}</p>
           </div>
         </div>
-
         <button
           v-if="toast.dismissible"
           :class="bemm('close')"
@@ -42,152 +38,165 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useBemm } from "bemm";
+import { computed } from 'vue'
+import { useBemm } from 'bemm'
+import { Icon } from '../Icon'
+import type { ToastInstance } from './Toast.service'
+import { ToastPosition, ToastType } from './Toast.model'
+import { toastService } from './Toast.service'
 
-import { Icon } from "../Icon";
+const { bemm } = useBemm('toast', { includeBaseClass: true })
 
-import type { ToastInstance } from "./Toast.service";
+const toastGroups = computed(() =>
+  Object.values(ToastPosition)
+    .map(pos => ({
+      pos,
+      toasts: toastService.toasts.value.filter(
+        t => (t.position ?? ToastPosition.TOP_RIGHT) === pos,
+      ),
+    }))
+    .filter(g => g.toasts.length > 0),
+)
 
-import { ToastPosition, ToastType } from "./Toast.model";
-import { toastService } from "./Toast.service";
-
-const { bemm } = useBemm("toast", {
-  includeBaseClass: true
-});
-
-const toasts = computed(() => {
-  return toastService.toasts.value;
-});
-
-const getRole = (type?: ToastType) => {
-  return type === ToastType.ERROR ? "alert" : "status";
-};
-
-const getAriaLive = (type?: ToastType) => {
-  return type === ToastType.ERROR ? "assertive" : "polite";
-};
-
-const dismiss = (id: string) => {
-  toastService.hide(id);
-};
-
-const resolveToastType = (toast: ToastInstance) => {
-  return toast.type || ToastType.INFO;
-};
-
-const resolveToastColor = (toast: ToastInstance) => {
-  return resolveToastType(toast) === ToastType.DEFAULT ? "primary" : resolveToastType(toast);
-};
+const getRole = (type?: ToastType) => (type === ToastType.ERROR ? 'alert' : 'status')
+const getAriaLive = (type?: ToastType) => (type === ToastType.ERROR ? 'assertive' : 'polite')
+const dismiss = (id: string) => toastService.hide(id)
+const resolveToastType = (toast: ToastInstance) => toast.type || ToastType.INFO
+const resolveToastColor = (toast: ToastInstance) =>
+  resolveToastType(toast) === ToastType.DEFAULT ? 'primary' : resolveToastType(toast)
 
 const resolveToastIcon = (toast: ToastInstance) => {
-  if (toast.icon?.trim()) {
-    return toast.icon;
-  }
-
+  if (toast.icon?.trim()) return toast.icon
   switch (resolveToastType(toast)) {
-    case ToastType.SUCCESS:
-      return "check-circle";
+    case ToastType.SUCCESS: return 'check-circle'
     case ToastType.ERROR:
-      return "alert-circle";
-    case ToastType.WARNING:
-      return "alert-circle";
-    case ToastType.DEFAULT:
-    case ToastType.INFO:
-    default:
-      return "info-circle";
+    case ToastType.WARNING: return 'alert-circle'
+    default: return 'info-circle'
   }
-};
+}
 </script>
 
 <style lang="scss">
+// ── Containers ───────────────────────────────────────────────────────────────
+
 .toast-container {
   position: fixed;
-  inset: 0;
   z-index: 9999;
+  display: flex;
+  gap: var(--space-xs, 0.5rem);
+  width: min(26rem, calc(100vw - 2rem));
+  padding: var(--space, 1rem);
   pointer-events: none;
+  max-height: calc(100svh - 2rem);
+  overflow: hidden;
 
   > * {
     pointer-events: auto;
+    flex-shrink: 0;
+  }
+
+  // Top positions: column-reverse → newest (last in array) is at the top
+  &--top,
+  &--top-left,
+  &--top-right {
+    flex-direction: column-reverse;
+    top: 0;
+  }
+
+  // Bottom positions: column → newest (last in array) is at the bottom
+  &--bottom,
+  &--bottom-left,
+  &--bottom-right {
+    flex-direction: column;
+    bottom: 0;
+  }
+
+  &--top,
+  &--bottom {
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+  }
+
+  &--top-left,
+  &--bottom-left {
+    left: 0;
+    align-items: flex-start;
+  }
+
+  &--top-right,
+  &--bottom-right {
+    right: 0;
+    align-items: flex-end;
   }
 }
 
-.toast {
-  --toast-border-color: color-mix(
-    in srgb,
-    var(--toast-color),
-    var(--color-background) 44%
-  );
-  --toast-background-color: color-mix(
-    in srgb,
-    var(--toast-color),
-    var(--color-background) 92%
-  );
-  --toast-text-color: color-mix(
-    in srgb,
-    var(--toast-color),
-    var(--color-foreground) 22%
-  );
+// ── Transition animations ─────────────────────────────────────────────────────
 
-  position: fixed;
+.toast-enter-active,
+.toast-leave-active {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.toast-move {
+  transition: transform 0.25s ease;
+}
+
+// Right-side: slide from right
+.toast-container--top-right,
+.toast-container--bottom-right {
+  .toast-enter-from,
+  .toast-leave-to {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+}
+
+// Left-side: slide from left
+.toast-container--top-left,
+.toast-container--bottom-left {
+  .toast-enter-from,
+  .toast-leave-to {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+}
+
+// Top-center: slide from top
+.toast-container--top {
+  .toast-enter-from,
+  .toast-leave-to {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+}
+
+// Bottom-center: slide from bottom
+.toast-container--bottom {
+  .toast-enter-from,
+  .toast-leave-to {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}
+
+// ── Toast item ────────────────────────────────────────────────────────────────
+
+.toast {
+  --toast-border-color: color-mix(in srgb, var(--toast-color), var(--color-background) 44%);
+  --toast-background-color: color-mix(in srgb, var(--toast-color), var(--color-background) 92%);
+  --toast-text-color: color-mix(in srgb, var(--toast-color), var(--color-foreground) 22%);
+
   display: flex;
   align-items: flex-start;
   gap: var(--space-s, 0.75rem);
-  width: min(26rem, calc(100vw - 2rem));
+  width: 100%;
   padding: var(--space-m, 1rem);
-  margin: var(--space-m, 1rem);
   border: 1px solid var(--toast-border-color);
   border-radius: var(--border-radius-m);
   background: var(--toast-background-color);
   color: var(--toast-text-color);
   box-shadow: 0 18px 40px color-mix(in srgb, var(--color-foreground), transparent 90%);
-
-  &-enter-active,
-  &-leave-active {
-    transition: all 0.22s ease;
-  }
-
-  &-enter-from {
-    opacity: 0;
-    transform: translateY(-0.75rem);
-  }
-
-  &-leave-to {
-    opacity: 0;
-    transform: translateY(-0.5rem);
-  }
-
-  &--top {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &--bottom {
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &--top-left {
-    top: 0;
-    left: 0;
-  }
-
-  &--top-right {
-    top: 0;
-    right: 0;
-  }
-
-  &--bottom-left {
-    bottom: 0;
-    left: 0;
-  }
-
-  &--bottom-right {
-    bottom: 0;
-    right: 0;
-  }
 
   &__content {
     flex: 1;
@@ -237,9 +246,7 @@ const resolveToastIcon = (toast: ToastInstance) => {
     background: transparent;
     color: color-mix(in srgb, var(--toast-text-color), transparent 12%);
     cursor: pointer;
-    transition:
-      background 140ms ease,
-      color 140ms ease;
+    transition: background 140ms ease, color 140ms ease;
 
     &:hover {
       background: color-mix(in srgb, var(--toast-color), transparent 90%);
