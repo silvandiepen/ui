@@ -4,7 +4,8 @@
     :class="[
       bemm(),
       compact ? bemm('', 'compact') : '',
-      mobileOpen ? bemm('', 'mobile-open') : ''
+      mobileOpen ? bemm('', 'mobile-open') : '',
+      variant ? bemm('', variant) : '',
     ]"
   >
     <div :class="bemm('inner')" :style="{ '--platform-header-max-width': maxWidth }">
@@ -31,7 +32,7 @@
 import { useBemm } from "bemm";
 import { ref } from "vue";
 
-import type { PlatformHeaderProps } from "./PlatformHeader.model";
+import { PlatformHeaderVariant, type PlatformHeaderProps } from "./PlatformHeader.model";
 
 defineOptions({
   name: "PlatformHeader"
@@ -40,7 +41,8 @@ defineOptions({
 withDefaults(defineProps<PlatformHeaderProps>(), {
   compact: false,
   mobileOpen: false,
-  maxWidth: "88rem"
+  maxWidth: "88rem",
+  variant: PlatformHeaderVariant.DEFAULT,
 });
 
 const headerElement = ref<HTMLElement | null>(null);
@@ -130,6 +132,23 @@ defineExpose({
 
     &__actions {
       justify-content: flex-end;
+    }
+  }
+
+  &--float {
+    padding: var(--space-s) var(--space);
+    border-bottom: none;
+    background: transparent;
+    backdrop-filter: none;
+
+    .platform-header__inner {
+      background: color-mix(in srgb, var(--color-accent), transparent 50%);
+      backdrop-filter: blur(18px) saturate(135%);
+      -webkit-backdrop-filter: blur(18px) saturate(135%);
+      border-radius: var(--border-radius-xl);
+      padding: var(--space-s) var(--space);
+      border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
+      box-shadow: 0 0.5rem 2rem color-mix(in srgb, var(--color-foreground), transparent 88%);
     }
   }
 }

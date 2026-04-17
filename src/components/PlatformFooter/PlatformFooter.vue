@@ -3,7 +3,8 @@
     ref="footerElement"
     :class="[
       bemm(),
-      compact ? bemm('', 'compact') : ''
+      compact ? bemm('', 'compact') : '',
+      variant ? bemm('', variant) : '',
     ]"
   >
     <div :class="bemm('inner')" :style="{ '--platform-footer-max-width': maxWidth }">
@@ -36,7 +37,7 @@
 import { useBemm } from "bemm";
 import { ref } from "vue";
 
-import type { PlatformFooterProps } from "./PlatformFooter.model";
+import { PlatformFooterVariant, type PlatformFooterProps } from "./PlatformFooter.model";
 
 defineOptions({
   name: "PlatformFooter"
@@ -44,7 +45,8 @@ defineOptions({
 
 withDefaults(defineProps<PlatformFooterProps>(), {
   compact: false,
-  maxWidth: "88rem"
+  maxWidth: "88rem",
+  variant: PlatformFooterVariant.DEFAULT,
 });
 
 const footerElement = ref<HTMLElement | null>(null);
@@ -134,6 +136,20 @@ defineExpose({
     &__meta {
       justify-content: flex-start;
       text-align: left;
+    }
+  }
+
+  &--float {
+    padding: var(--space-s) var(--space);
+    border-top: none;
+    background: transparent;
+
+    .platform-footer__inner {
+      background: color-mix(in srgb, var(--color-background), var(--color-primary) 4%);
+      border-radius: var(--border-radius-xl);
+      padding: var(--space) var(--space);
+      border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
+      box-shadow: 0 -0.25rem 2rem color-mix(in srgb, var(--color-foreground), transparent 90%);
     }
   }
 }
