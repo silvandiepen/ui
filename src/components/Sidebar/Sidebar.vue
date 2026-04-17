@@ -198,7 +198,7 @@ onBeforeUnmount(unbindMediaQuery)
       --int-sidebar-container-background: var(--color-background);
       --int-sidebar-container-padding: var(--space);
       --int-sidebar-container-border-radius: var(--border-radius-xl);
-      --int-sidebar-container-box-shadow: 0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 93%);
+      --int-sidebar-container-box-shadow: .125em .25em .75em 0em color-mix(in srgb, var(--color-foreground), transparent 93%);
   }
 
   &__container{

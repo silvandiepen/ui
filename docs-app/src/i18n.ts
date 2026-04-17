@@ -52,6 +52,7 @@ const englishMessages = {
     },
     navigation: {
       composables: 'Composables',
+      formBuilder: 'Form Builder',
       foundationTypes: 'Foundation Types',
       gettingStarted: 'Getting Started',
       guides: 'Guides',
@@ -249,6 +250,7 @@ const dutchMessages = {
     },
     navigation: {
       composables: 'Composables',
+      formBuilder: 'Form Builder',
       gettingStarted: 'Aan de slag',
       guides: 'Gidsen',
       themeBuilder: 'Theme Builder',
@@ -441,6 +443,7 @@ const frenchMessages = {
     },
     navigation: {
       composables: 'Composables',
+      formBuilder: 'Form Builder',
       gettingStarted: 'Bien demarrer',
       guides: 'Guides',
       themeBuilder: 'Theme Builder',

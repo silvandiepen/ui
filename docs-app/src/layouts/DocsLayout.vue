@@ -137,6 +137,12 @@ const navigationSections = computed(() => {
           to: { name: "docs-guide-theme-builder" },
         },
         {
+          id: "guides-form-builder",
+          label: t("docs.navigation.formBuilder"),
+          icon: "layout",
+          to: { name: "docs-guide-form-builder" },
+        },
+        {
           id: "guides-foundation-types",
           label: t("docs.navigation.foundationTypes"),
           icon: "code",

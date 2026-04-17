@@ -4,6 +4,7 @@ import DocsCategoryPage from './pages/DocsCategoryPage.vue'
 import DocsComposablePage from './pages/DocsComposablePage.vue'
 import DocsComposablesPage from './pages/DocsComposablesPage.vue'
 import DocsComponentPage from './pages/DocsComponentPage.vue'
+import DocsFormBuilderPage from './pages/DocsFormBuilderPage.vue'
 import DocsFoundationTypesPage from './pages/DocsFoundationTypesPage.vue'
 import DocsGettingStartedPage from './pages/DocsGettingStartedPage.vue'
 import DocsHomePage from './pages/DocsHomePage.vue'
@@ -32,6 +33,11 @@ export const router = createRouter({
       path: '/guides/theme-builder',
       name: 'docs-guide-theme-builder',
       component: DocsThemeBuilderPage,
+    },
+    {
+      path: '/guides/form-builder',
+      name: 'docs-guide-form-builder',
+      component: DocsFormBuilderPage,
     },
     {
       path: '/guides/foundation-types',
