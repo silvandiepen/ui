@@ -80,6 +80,7 @@ const { locale: docsLocale, setLocale } = useDocsLocale();
 const docsConfig: AppLayoutConfig = {
   header: {
     maxWidth: "88rem",
+    variant: "float",
   },
   sidebar: {
     defaultWidth: 244,

@@ -1,4 +1,5 @@
 import type { SidebarNavigationSection } from '../SidebarNavigation'
+import type { PlatformHeaderVariant } from '../PlatformHeader'
 
 export interface AppLayoutSidebarConfig {
   defaultWidth?: number
@@ -12,6 +13,7 @@ export interface AppLayoutSidebarConfig {
 
 export interface AppLayoutHeaderConfig {
   maxWidth?: string
+  variant?: PlatformHeaderVariant
 }
 
 export interface AppLayoutSplitConfig {

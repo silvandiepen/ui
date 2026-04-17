@@ -49,7 +49,7 @@
 
     <template #end>
       <div :class="bemm('body')">
-        <PlatformHeader :class="bemm('header')" :max-width="header.maxWidth">
+        <PlatformHeader :class="bemm('header')" :max-width="header.maxWidth" :variant="header.variant">
           <template v-if="isMobile || $slots.brand" #brand>
             <button
               v-if="isMobile"
@@ -157,6 +157,7 @@ const sidebar = computed(() => ({
 
 const header = computed(() => ({
   maxWidth: props.config?.header?.maxWidth ?? '88rem',
+  variant: props.config?.header?.variant,
 }))
 
 const split = computed(() => ({

@@ -2,7 +2,7 @@
   <div :class="bemm()">
     <div :class="bemm('preview-wrapper')">
       <div :class="bemm('preview')">
-        <slot>
+        <slot :bindings="nonModelProps">
           <component
             :is="component"
             v-if="component && hasModelValue"
