@@ -65,7 +65,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     exclude: [
-      'src/components/**/*.{spec,test}.ts',
+      'src/components/**/!(FormConfig)*.{spec,test}.ts',
       'node_modules',
       'dist',
     ],
