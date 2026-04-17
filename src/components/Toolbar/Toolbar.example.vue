@@ -1,15 +1,15 @@
 <template>
   <div :class="bemm()">
-      <Toolbar />
+    <Toolbar />
 
-      <Button @click="showToolbar">
-        Show toolbar
-      </Button>
-    </div>
+    <Button @click="showToolbar">
+      Show toolbar
+    </Button>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent } from 'vue'
+import { h, defineComponent } from 'vue'
 import { useBemm } from 'bemm'
 
 import { Button } from '../Button'
@@ -19,24 +19,17 @@ import { toolbarService } from './Toolbar.service'
 const bemm = useBemm('toolbar-example')
 
 const ToolbarPreview = defineComponent({
-  components: {
-    Button,
+  props: {
+    title: { required: true, type: String },
   },
   emits: ['close'],
-  props: {
-    title: {
-      required: true,
-      type: String,
-    },
+  setup(props, { emit }) {
+    return () =>
+      h('div', { class: 'toolbar-example__panel' }, [
+        h('strong', props.title),
+        h(Button, { size: 'small', variant: 'ghost', onClick: () => emit('close') }, () => 'Dismiss'),
+      ])
   },
-  template: `
-    <div class="toolbar-example__panel">
-      <strong>{{ title }}</strong>
-      <Button size="small" variant="ghost" @click="$emit('close')">
-        Dismiss
-      </Button>
-    </div>
-  `,
 })
 
 function showToolbar() {

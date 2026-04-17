@@ -14,6 +14,7 @@
       <Sidebar
         :class="bemm('sidebar')"
         :sticky="false"
+        :variant="'float'"
         :mobile-enabled="false"
       >
         <template v-if="isMobile || $slots['sidebar-header']" #header>

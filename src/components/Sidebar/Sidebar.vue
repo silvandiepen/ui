@@ -5,45 +5,46 @@
       showMobileTrigger ? bemm('', 'mobile') : '',
       showMobileTrigger && mobileOpen ? bemm('', 'mobile-open') : '',
       props.sticky ? bemm('', 'sticky') : '',
+      props.variant ? bemm('', props.variant) : '',
     ]"
     :style="{
       '--sidebar-width': props.width,
     }"
   >
-    <button
-      v-if="showMobileTrigger"
-      type="button"
-      :class="bemm('mobile-trigger')"
-      :aria-label="mobileOpen ? props.mobileCloseLabel : props.mobileOpenLabel"
-      :aria-expanded="`${mobileOpen}`"
-      :aria-controls="mobilePanelId"
-      @click="toggleMobile"
-    >
-      <span :class="bemm('mobile-trigger-arrow')" aria-hidden="true">
-        {{ mobileOpen ? '←' : '→' }}
-      </span>
-    </button>
-
-    <div v-show="panelVisible" :id="mobilePanelId" :class="bemm('panel')">
-      <header
-        v-if="props.title || props.subtitle || $slots.header"
-        :class="bemm('header')"
+    <div :class="bemm('container')">
+      <button
+        v-if="showMobileTrigger"
+        type="button"
+        :class="bemm('mobile-trigger')"
+        :aria-label="mobileOpen ? props.mobileCloseLabel : props.mobileOpenLabel"
+        :aria-expanded="`${mobileOpen}`"
+        :aria-controls="mobilePanelId"
+        @click="toggleMobile"
       >
-        <slot name="header">
-          <div :class="bemm('headline')">
-            <h2 v-if="props.title" :class="bemm('title')">{{ props.title }}</h2>
-            <p v-if="props.subtitle" :class="bemm('subtitle')">{{ props.subtitle }}</p>
-          </div>
-        </slot>
-      </header>
+        <Icon :name="mobileOpen ? Icons.ARROW_LEFT : Icons.ARROW_RIGHT" :class="bemm('mobile-trigger-arrow')" aria-hidden="true" />
+      </button>
 
-      <div :class="bemm('content')">
-        <slot />
+      <div v-show="panelVisible" :id="mobilePanelId" :class="bemm('panel')">
+        <header
+          v-if="props.title || props.subtitle || $slots.header"
+          :class="bemm('header')"
+        >
+          <slot name="header">
+            <div :class="bemm('headline')">
+              <h2 v-if="props.title" :class="bemm('title')">{{ props.title }}</h2>
+              <p v-if="props.subtitle" :class="bemm('subtitle')">{{ props.subtitle }}</p>
+            </div>
+          </slot>
+        </header>
+
+        <div :class="bemm('content')">
+          <slot />
+        </div>
+
+        <footer v-if="$slots.footer" :class="bemm('footer')">
+          <slot name="footer" />
+        </footer>
       </div>
-
-      <footer v-if="$slots.footer" :class="bemm('footer')">
-        <slot name="footer" />
-      </footer>
     </div>
   </aside>
 </template>
@@ -55,7 +56,9 @@ import { routeLocationKey } from 'vue-router'
 
 import { useId } from '@/composables/useId'
 
-import type { SidebarProps } from './Sidebar.model'
+import { SidebarVariant, type SidebarProps } from './Sidebar.model'
+import Icon from '../Icon/Icon.vue'
+import { Icons } from 'open-icon'
 
 defineOptions({ name: 'Sidebar' })
 
@@ -73,6 +76,7 @@ const props = withDefaults(defineProps<SidebarProps>(), {
   subtitle: '',
   title: '',
   width: '100%',
+  variant: SidebarVariant.DEFAULT,
 })
 
 const mobileOpen = ref(props.mobileDefaultOpen)
@@ -170,15 +174,41 @@ onBeforeUnmount(unbindMediaQuery)
   gap: var(--space);
   width: min(100%, var(--sidebar-width, 100%));
   padding: var(--space);
-  border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
-  border-radius: calc(var(--border-radius, 1rem) * 1.2);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--color-background), white 24%), color-mix(in srgb, var(--color-background), var(--color-primary) 3%));
-  box-shadow: m.p('shadow', 0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 93%));
+  border: m.p('border', none);
+  border-radius: m.p("border-radius", 0);
+  background: m.p(
+    "background",
+    color-mix(in srgb, var(--color-background), var(--color-foreground) 5%)
+  );
+  box-shadow: m.p(
+    "shadow",
+    0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 93%)
+  );
 
   &--sticky {
     position: sticky;
     top: var(--space);
+  }
+
+  &--float {
+
+      --int-sidebar-border-radius: var(--border-radius);
+      --int-sidebar-padding: var(--space);
+      --int-sidebar-background: transparent;
+      --int-sidebar-container-background: var(--color-background);
+      --int-sidebar-container-padding: var(--space);
+      --int-sidebar-container-border-radius: var(--border-radius-xl);
+      --int-sidebar-container-box-shadow: 0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 93%);
+  }
+
+  &__container{
+    padding: m.p('padding', 0);
+    border: m.p('border', none);
+    border-radius: m.p('border-radius',0);
+    background: m.p('background', transparent);
+     box-shadow: m.p(
+    "box-shadow",
+    none);
   }
 
   &__header,
@@ -200,7 +230,7 @@ onBeforeUnmount(unbindMediaQuery)
 
   &__title {
     margin: 0;
-    font-size: m.p('title-font-size', var(--font-size));
+    font-size: m.p("title-font-size", var(--font-size));
     font-weight: var(--font-weight-bold);
   }
 
@@ -224,7 +254,8 @@ onBeforeUnmount(unbindMediaQuery)
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 82%);
     background: color-mix(in srgb, var(--color-background), var(--color-primary) 6%);
     color: inherit;
-    border-radius: 0 calc(var(--border-radius, 1rem) * 0.9) calc(var(--border-radius, 1rem) * 0.9) 0;
+    border-radius: 0 calc(var(--border-radius, 1rem) * 0.9)
+      calc(var(--border-radius, 1rem) * 0.9) 0;
     padding: 0;
     text-align: center;
     font-size: 1rem;
@@ -245,7 +276,7 @@ onBeforeUnmount(unbindMediaQuery)
     top: 0;
     left: 0;
     height: 100vh;
-    z-index: m.p('mobile-z-index', 180);
+    z-index: m.p("mobile-z-index", 180);
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -262,7 +293,7 @@ onBeforeUnmount(unbindMediaQuery)
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      z-index: m.p('mobile-trigger-z-index', 182);
+      z-index: m.p("mobile-trigger-z-index", 182);
     }
 
     .sidebar__panel {
@@ -271,16 +302,20 @@ onBeforeUnmount(unbindMediaQuery)
       top: 0;
       left: 0;
       height: 100vh;
-      width: m.p('mobile-panel-width', min(86vw, 22rem));
+      width: m.p("mobile-panel-width", min(86vw, 22rem));
       overflow-y: auto;
       padding: var(--space);
       border-right: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--color-background), white 22%), color-mix(in srgb, var(--color-background), var(--color-primary) 4%));
-      box-shadow: 0 0 0 200vmax color-mix(in srgb, var(--color-foreground), transparent 80%);
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-background), white 22%),
+        color-mix(in srgb, var(--color-background), var(--color-primary) 4%)
+      );
+      box-shadow: 0 0 0 200vmax
+        color-mix(in srgb, var(--color-foreground), transparent 80%);
       transform: translateX(-102%);
-      transition: m.p('mobile-transition', transform 180ms ease-in-out);
-      z-index: m.p('mobile-panel-z-index', 181);
+      transition: m.p("mobile-transition", transform 180ms ease-in-out);
+      z-index: m.p("mobile-panel-z-index", 181);
     }
 
     &.sidebar--mobile-open {

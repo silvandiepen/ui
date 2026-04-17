@@ -1,3 +1,9 @@
+export const SidebarVariant = {
+  DEFAULT: 'default',
+  FLOAT: 'float',
+}
+export type SidebarVariant = (typeof SidebarVariant)[keyof typeof SidebarVariant]
+
 export interface SidebarProps {
   mobileCloseLabel?: string
   mobileDefaultOpen?: boolean
@@ -8,4 +14,5 @@ export interface SidebarProps {
   title?: string
   subtitle?: string
   width?: string
+  variant?: SidebarVariant
 }

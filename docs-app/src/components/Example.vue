@@ -75,7 +75,7 @@
 
                 <InputNumber
                   v-else-if="control.type === 'number'"
-                  :model-value="Number(propValues[control.name])"
+                  :model-value="propValues[control.name] !== undefined ? Number(propValues[control.name]) : undefined"
                   :controls="false"
                   @update:model-value="(value) => setControlValue(control, value)"
                 />
@@ -241,7 +241,7 @@ function initValues() {
       switch (control.type) {
         case 'boolean': propValues[control.name] = false; break
         case 'string': propValues[control.name] = ''; break
-        case 'number': propValues[control.name] = 0; break
+        // Leave optional numbers as undefined — passing 0 can break components (e.g. maxlength=0 blocks input)
       }
     }
   }
@@ -268,7 +268,7 @@ watch([propValues, modelValue], save, { deep: true })
 const nonModelProps = computed(() => {
   const result: Record<string, any> = {}
   for (const [key, value] of Object.entries(propValues)) {
-    result[key] = value
+    if (value !== undefined) result[key] = value
   }
   return result
 })

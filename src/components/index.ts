@@ -11,6 +11,7 @@ export * from './Card'
 export * from './Carousel'
 export * from './Collapsible'
 export * from './Container'
+export * from './Draggable'
 export {
   ContextMenu,
   ContextPanel,
