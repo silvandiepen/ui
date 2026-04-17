@@ -288,6 +288,7 @@ defineExpose({ closeSidebar, openSidebar })
   }
 
   &__body {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -295,7 +296,10 @@ defineExpose({ closeSidebar, openSidebar })
   }
 
   &__header {
-    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 
   &__content {

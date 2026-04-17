@@ -64,7 +64,7 @@ defineExpose({
   z-index: m.p('z-index', 120);
   padding: m.p('padding', var(--space) var(--spacing));
   border-bottom: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 90%));
-  background: m.p('background', color-mix(in srgb, var(--color-accent), transparent 50%));
+  background: m.p('background', color-mix(in srgb, var(--color-background), transparent 50%));
   backdrop-filter: m.p('blur', blur(18px) saturate(135%));
 
   &--compact {
@@ -142,7 +142,7 @@ defineExpose({
     backdrop-filter: none;
 
     .platform-header__inner {
-      background: color-mix(in srgb, var(--color-accent), transparent 50%);
+      background: color-mix(in srgb, var(--color-background), transparent 50%);
       backdrop-filter: blur(18px) saturate(135%);
       -webkit-backdrop-filter: blur(18px) saturate(135%);
       border-radius: var(--border-radius-xl);

@@ -155,9 +155,14 @@
   </div>
 
   <!-- date -->
-  <DatePicker
+  <InputDate
     v-else-if="config.type === 'date'"
-    :model-value="modelValue as string"
+    :model-value="(modelValue as any)"
+    :label="config.label ?? ''"
+    :placeholder="config.placeholder ?? ''"
+    :description="config.hint ?? ''"
+    :disabled="disabled"
+    :error="error ? [error] : []"
     v-bind="config.props ?? {}"
     @update:model-value="$emit('update:modelValue', $event)"
   />
@@ -213,7 +218,7 @@ import InputCheckbox from '../InputCheckbox/InputCheckbox.vue'
 import InputToggle from '../InputToggle/InputToggle.vue'
 import InputSwitch from '../InputSwitch/InputSwitch.vue'
 import InputRadio from '../InputRadio/InputRadio.vue'
-import DatePicker from '../DatePicker/DatePicker.vue'
+import InputDate from '../InputDate/InputDate.vue'
 import InputColor from '../InputColor/InputColor.vue'
 import InputRange from '../InputRange/InputRange.vue'
 import PinInput from '../PinInput/PinInput.vue'
