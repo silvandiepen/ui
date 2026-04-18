@@ -19,7 +19,8 @@
               :disabled="btn.disabled?.()"
               @mousedown.prevent="btn.action()"
             >
-              <Icon :name="btn.icon" :class="bemm('toolbar-icon')" />
+              <Icon v-if="btn.icon" :name="btn.icon" :class="bemm('toolbar-icon')" />
+              <span v-else-if="btn.label" :class="bemm('toolbar-label')">{{ btn.label }}</span>
             </button>
           </div>
           <div v-if="group.id !== toolbarGroups[toolbarGroups.length - 1].id" :class="bemm('toolbar-divider')" />
@@ -128,7 +129,8 @@ onBeforeUnmount(() => editor.value?.destroy())
 
 interface ToolbarButton {
   id: string
-  icon: string
+  icon?: string
+  label?: string
   title: string
   action: () => void
   active?: () => boolean
@@ -146,33 +148,33 @@ const toolbarGroups = computed<ToolbarGroup[]>(() => {
 
   const groups: ToolbarGroup[] = []
 
-  // Headings
+  // Headings — no heading icons in the library, use text labels
   const headingBtns: ToolbarButton[] = []
   if (has('heading')) {
     headingBtns.push(
-      { id: 'h1', icon: 'h1', title: 'Heading 1', action: () => e.chain().focus().toggleHeading({ level: 1 }).run(), active: () => e.isActive('heading', { level: 1 }) },
-      { id: 'h2', icon: 'h2', title: 'Heading 2', action: () => e.chain().focus().toggleHeading({ level: 2 }).run(), active: () => e.isActive('heading', { level: 2 }) },
-      { id: 'h3', icon: 'h3', title: 'Heading 3', action: () => e.chain().focus().toggleHeading({ level: 3 }).run(), active: () => e.isActive('heading', { level: 3 }) },
+      { id: 'h1', label: 'H1', title: 'Heading 1', action: () => e.chain().focus().toggleHeading({ level: 1 }).run(), active: () => e.isActive('heading', { level: 1 }) },
+      { id: 'h2', label: 'H2', title: 'Heading 2', action: () => e.chain().focus().toggleHeading({ level: 2 }).run(), active: () => e.isActive('heading', { level: 2 }) },
+      { id: 'h3', label: 'H3', title: 'Heading 3', action: () => e.chain().focus().toggleHeading({ level: 3 }).run(), active: () => e.isActive('heading', { level: 3 }) },
     )
   }
   if (headingBtns.length) groups.push({ id: 'headings', buttons: headingBtns })
 
   // Inline marks
   const markBtns: ToolbarButton[] = []
-  if (has('bold'))      markBtns.push({ id: 'bold',      icon: 'bold',          title: 'Bold',      action: () => e.chain().focus().toggleBold().run(),      active: () => e.isActive('bold') })
-  if (has('italic'))    markBtns.push({ id: 'italic',    icon: 'italic',        title: 'Italic',    action: () => e.chain().focus().toggleItalic().run(),    active: () => e.isActive('italic') })
-  if (has('underline')) markBtns.push({ id: 'underline', icon: 'underline',     title: 'Underline', action: () => e.chain().focus().toggleUnderline().run(), active: () => e.isActive('underline') })
-  if (has('strike'))    markBtns.push({ id: 'strike',    icon: 'strikethrough', title: 'Strike',    action: () => e.chain().focus().toggleStrike().run(),    active: () => e.isActive('strike') })
-  if (has('code'))      markBtns.push({ id: 'code',      icon: 'code',          title: 'Code',      action: () => e.chain().focus().toggleCode().run(),      active: () => e.isActive('code') })
+  if (has('bold'))      markBtns.push({ id: 'bold',      icon: 'text-bold',         title: 'Bold',      action: () => e.chain().focus().toggleBold().run(),      active: () => e.isActive('bold') })
+  if (has('italic'))    markBtns.push({ id: 'italic',    icon: 'text-italic',       title: 'Italic',    action: () => e.chain().focus().toggleItalic().run(),    active: () => e.isActive('italic') })
+  if (has('underline')) markBtns.push({ id: 'underline', icon: 'text-underline',    title: 'Underline', action: () => e.chain().focus().toggleUnderline().run(), active: () => e.isActive('underline') })
+  if (has('strike'))    markBtns.push({ id: 'strike',    icon: 'text-line-through', title: 'Strike',    action: () => e.chain().focus().toggleStrike().run(),    active: () => e.isActive('strike') })
+  if (has('code'))      markBtns.push({ id: 'code',      icon: 'code-brackets',     title: 'Code',      action: () => e.chain().focus().toggleCode().run(),      active: () => e.isActive('code') })
   if (markBtns.length) groups.push({ id: 'marks', buttons: markBtns })
 
   // Lists + block
   const blockBtns: ToolbarButton[] = []
-  if (has('bulletList'))    blockBtns.push({ id: 'ul',         icon: 'list',          title: 'Bullet list',   action: () => e.chain().focus().toggleBulletList().run(),    active: () => e.isActive('bulletList') })
-  if (has('orderedList'))   blockBtns.push({ id: 'ol',         icon: 'list-ordered',  title: 'Ordered list',  action: () => e.chain().focus().toggleOrderedList().run(),   active: () => e.isActive('orderedList') })
-  if (has('blockquote'))    blockBtns.push({ id: 'blockquote', icon: 'message-square',title: 'Blockquote',    action: () => e.chain().focus().toggleBlockquote().run(),    active: () => e.isActive('blockquote') })
-  if (has('codeBlock'))     blockBtns.push({ id: 'codeBlock',  icon: 'terminal',      title: 'Code block',    action: () => e.chain().focus().toggleCodeBlock().run(),     active: () => e.isActive('codeBlock') })
-  if (has('horizontalRule'))blockBtns.push({ id: 'hr',         icon: 'minus',         title: 'Divider',       action: () => e.chain().focus().setHorizontalRule().run() })
+  if (has('bulletList'))     blockBtns.push({ id: 'ul',         icon: 'text-detail-list', title: 'Bullet list',  action: () => e.chain().focus().toggleBulletList().run(),  active: () => e.isActive('bulletList') })
+  if (has('orderedList'))    blockBtns.push({ id: 'ol',         label: '1.',              title: 'Ordered list', action: () => e.chain().focus().toggleOrderedList().run(), active: () => e.isActive('orderedList') })
+  if (has('blockquote'))     blockBtns.push({ id: 'blockquote', icon: 'speech-balloon',   title: 'Blockquote',   action: () => e.chain().focus().toggleBlockquote().run(),  active: () => e.isActive('blockquote') })
+  if (has('codeBlock'))      blockBtns.push({ id: 'codeBlock',  icon: 'terminal',         title: 'Code block',   action: () => e.chain().focus().toggleCodeBlock().run(),   active: () => e.isActive('codeBlock') })
+  if (has('horizontalRule')) blockBtns.push({ id: 'hr',         icon: 'minus',            title: 'Divider',      action: () => e.chain().focus().setHorizontalRule().run() })
   if (blockBtns.length) groups.push({ id: 'blocks', buttons: blockBtns })
 
   // Link
@@ -198,8 +200,8 @@ const toolbarGroups = computed<ToolbarGroup[]>(() => {
 
   // History
   const historyBtns: ToolbarButton[] = []
-  if (has('undo')) historyBtns.push({ id: 'undo', icon: 'rotate-ccw', title: 'Undo', action: () => e.chain().focus().undo().run(), disabled: () => !e.can().undo() })
-  if (has('redo')) historyBtns.push({ id: 'redo', icon: 'rotate-cw',  title: 'Redo', action: () => e.chain().focus().redo().run(), disabled: () => !e.can().redo() })
+  if (has('undo')) historyBtns.push({ id: 'undo', icon: 'arrow-rotate-bottom-left', title: 'Undo', action: () => e.chain().focus().undo().run(), disabled: () => !e.can().undo() })
+  if (has('redo')) historyBtns.push({ id: 'redo', icon: 'arrow-rotate-top-right',   title: 'Redo', action: () => e.chain().focus().redo().run(), disabled: () => !e.can().redo() })
   if (historyBtns.length) groups.push({ id: 'history', buttons: historyBtns })
 
   return groups
@@ -316,6 +318,14 @@ const toolbarGroups = computed<ToolbarGroup[]>(() => {
   &__toolbar-icon {
     width: 14px;
     height: 14px;
+  }
+
+  &__toolbar-label {
+    font-family: var(--font-family-mono, ui-monospace, monospace);
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 
   // --- Editor content ---

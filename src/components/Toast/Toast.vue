@@ -1,39 +1,39 @@
 <template>
   <Teleport to="body">
-    <TransitionGroup
+    <div
       v-for="group in toastGroups"
       :key="group.pos"
-      name="toast"
-      tag="div"
       :class="['toast-container', `toast-container--${group.pos}`]"
     >
-      <div
-        v-for="toast in group.toasts"
-        :key="toast.id"
-        :class="[bemm(), bemm('', resolveToastType(toast))]"
-        :role="getRole(toast.type)"
-        :aria-live="getAriaLive(toast.type)"
-        :style="`--toast-color: var(--color-${resolveToastColor(toast)})`"
-      >
-        <div :class="bemm('content')">
-          <Icon :class="bemm('icon')" :name="resolveToastIcon(toast)" size="small" />
-          <div :class="bemm('body')">
-            <p v-if="toast.title" :class="bemm('title')">{{ toast.title }}</p>
-            <p :class="bemm('message')">{{ toast.message }}</p>
-          </div>
-        </div>
-        <button
-          v-if="toast.dismissible"
-          :class="bemm('close')"
-          type="button"
-          title="Dismiss notification"
-          aria-label="Dismiss notification"
-          @click="dismiss(toast.id)"
+      <TransitionGroup name="toast">
+        <div
+          v-for="toast in group.toasts"
+          :key="toast.id"
+          :class="[bemm(), bemm('', resolveToastType(toast))]"
+          :role="getRole(toast.type)"
+          :aria-live="getAriaLive(toast.type)"
+          :style="`--toast-color: var(--color-${resolveToastColor(toast)})`"
         >
-          <Icon name="x" size="small" />
-        </button>
-      </div>
-    </TransitionGroup>
+          <div :class="bemm('content')">
+            <Icon :class="bemm('icon')" :name="resolveToastIcon(toast)" size="small" />
+            <div :class="bemm('body')">
+              <p v-if="toast.title" :class="bemm('title')">{{ toast.title }}</p>
+              <p :class="bemm('message')">{{ toast.message }}</p>
+            </div>
+          </div>
+          <button
+            v-if="toast.dismissible"
+            :class="bemm('close')"
+            type="button"
+            title="Dismiss notification"
+            aria-label="Dismiss notification"
+            @click="dismiss(toast.id)"
+          >
+            <Icon name="x" size="small" />
+          </button>
+        </div>
+      </TransitionGroup>
+    </div>
   </Teleport>
 </template>
 
@@ -47,14 +47,21 @@ import { toastService } from './Toast.service'
 
 const { bemm } = useBemm('toast', { includeBaseClass: true })
 
+const TOP_POSITIONS = new Set<string>([
+  ToastPosition.TOP,
+  ToastPosition.TOP_LEFT,
+  ToastPosition.TOP_RIGHT,
+])
+
 const toastGroups = computed(() =>
   Object.values(ToastPosition)
-    .map(pos => ({
-      pos,
-      toasts: toastService.toasts.value.filter(
+    .map(pos => {
+      const toasts = toastService.toasts.value.filter(
         t => (t.position ?? ToastPosition.TOP_RIGHT) === pos,
-      ),
-    }))
+      )
+      // Top positions: reverse so newest (last appended) renders first = visually on top
+      return { pos, toasts: TOP_POSITIONS.has(pos) ? [...toasts].reverse() : toasts }
+    })
     .filter(g => g.toasts.length > 0),
 )
 
@@ -77,12 +84,13 @@ const resolveToastIcon = (toast: ToastInstance) => {
 </script>
 
 <style lang="scss">
-// ── Containers ───────────────────────────────────────────────────────────────
+// ── Containers ────────────────────────────────────────────────────────────────
 
 .toast-container {
   position: fixed;
   z-index: 9999;
   display: flex;
+  flex-direction: column;
   gap: var(--space-xs, 0.5rem);
   width: min(26rem, calc(100vw - 2rem));
   padding: var(--space, 1rem);
@@ -92,43 +100,15 @@ const resolveToastIcon = (toast: ToastInstance) => {
 
   > * {
     pointer-events: auto;
-    flex-shrink: 0;
   }
 
-  // Top positions: column-reverse → newest (last in array) is at the top
-  &--top,
-  &--top-left,
-  &--top-right {
-    flex-direction: column-reverse;
-    top: 0;
-  }
+  &--top    { top: 0; left: 50%; transform: translateX(-50%); align-items: center; }
+  &--top-left  { top: 0; left: 0; align-items: flex-start; }
+  &--top-right { top: 0; right: 0; align-items: flex-end; }
 
-  // Bottom positions: column → newest (last in array) is at the bottom
-  &--bottom,
-  &--bottom-left,
-  &--bottom-right {
-    flex-direction: column;
-    bottom: 0;
-  }
-
-  &--top,
-  &--bottom {
-    left: 50%;
-    transform: translateX(-50%);
-    align-items: center;
-  }
-
-  &--top-left,
-  &--bottom-left {
-    left: 0;
-    align-items: flex-start;
-  }
-
-  &--top-right,
-  &--bottom-right {
-    right: 0;
-    align-items: flex-end;
-  }
+  &--bottom    { bottom: 0; left: 50%; transform: translateX(-50%); align-items: center; flex-direction: column-reverse; }
+  &--bottom-left  { bottom: 0; left: 0; align-items: flex-start; flex-direction: column-reverse; }
+  &--bottom-right { bottom: 0; right: 0; align-items: flex-end; flex-direction: column-reverse; }
 }
 
 // ── Transition animations ─────────────────────────────────────────────────────
@@ -142,7 +122,6 @@ const resolveToastIcon = (toast: ToastInstance) => {
   transition: transform 0.25s ease;
 }
 
-// Right-side: slide from right
 .toast-container--top-right,
 .toast-container--bottom-right {
   .toast-enter-from,
@@ -152,7 +131,6 @@ const resolveToastIcon = (toast: ToastInstance) => {
   }
 }
 
-// Left-side: slide from left
 .toast-container--top-left,
 .toast-container--bottom-left {
   .toast-enter-from,
@@ -162,7 +140,6 @@ const resolveToastIcon = (toast: ToastInstance) => {
   }
 }
 
-// Top-center: slide from top
 .toast-container--top {
   .toast-enter-from,
   .toast-leave-to {
@@ -171,7 +148,6 @@ const resolveToastIcon = (toast: ToastInstance) => {
   }
 }
 
-// Bottom-center: slide from bottom
 .toast-container--bottom {
   .toast-enter-from,
   .toast-leave-to {
