@@ -52,15 +52,18 @@ body {
     background: var(--docs-code-selection);
   }
 
-  code.hljs {
-    display: block;
-    padding: 0;
-    background: transparent;
-    color: var(--docs-code-foreground);
-    font-family: var(--font-family-mono);
-    font-size: 0.95rem;
-    line-height: 1.65;
-  }
+}
+code.hljs {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: var(--docs-code-foreground);
+  font-family: var(--font-family-mono);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.hljs {
+font-family: var(--font-family-mono);
 }
 
 .hljs-comment,

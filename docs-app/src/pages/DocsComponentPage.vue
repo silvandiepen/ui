@@ -28,7 +28,7 @@
       </div>
     </header>
 
-    <Card v-if="asyncExampleComponent" :class="bemm('example-card')" :title="t('docs.component.liveExample')">
+    <Card v-if="asyncExampleComponent"  :variant="CardVariant.ELEVATED" :class="bemm('example-card')" :title="t('docs.component.liveExample')">
     <template #actions>
       <Badge>{{ t('docs.component.renderedFromExample') }}</Badge>
     </template>
@@ -38,7 +38,7 @@
       </Example>
     </Card>
 
-    <Card :class="bemm('usage-card')" :title="t('docs.component.usage')">
+    <Card  :variant="CardVariant.ELEVATED" :class="bemm('usage-card')" :title="t('docs.component.usage')">
       <template #actions>
         <Badge>{{ t('docs.component.preferredImport') }}</Badge>
       </template>
