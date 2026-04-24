@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createMemoryHistory, createRouter } from 'vue-router'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import SidebarNavigation from './SidebarNavigation.vue'
 
@@ -24,6 +24,7 @@ describe('SidebarNavigation', () => {
         plugins: [router],
       },
       props: {
+        showSectionItemCount: true,
         sections: [
           {
             id: 'group',
@@ -92,5 +93,86 @@ describe('SidebarNavigation', () => {
 
     expect(wrapper.find('.sidebar-navigation__items').isVisible()).toBe(true)
     expect(wrapper.find('.sidebar-navigation__section-icon--expanded').exists()).toBe(true)
+  })
+
+  it('runs item action from parent and skips default navigation', async () => {
+    const action = vi.fn()
+
+    const wrapper = mount(SidebarNavigation, {
+      props: {
+        linkMode: 'href',
+        sections: [
+          {
+            id: 'workspace',
+            label: 'Workspace',
+            items: [
+              {
+                id: 'overview',
+                label: 'Overview',
+                href: '/dashboard',
+                action,
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    await wrapper.get('.sidebar-navigation__item').trigger('click')
+
+    expect(action).toHaveBeenCalledTimes(1)
+  })
+
+  it('uses an explicitly passed router prop for navigation and active state', async () => {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/settings', component: { template: '<div />' } },
+      ],
+    })
+
+    await router.push('/settings')
+    await router.isReady()
+
+    const wrapper = mount(SidebarNavigation, {
+      props: {
+        router,
+        sections: [
+          {
+            id: 'account',
+            label: 'Account',
+            items: [
+              {
+                id: 'settings',
+                label: 'Settings',
+                to: '/settings',
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    expect(wrapper.find('.sidebar-navigation__item--active').exists()).toBe(true)
+  })
+
+  it('hides section item count badge by default and shows it when showSectionItemCount is true', async () => {
+    const sections = [
+      {
+        id: 'group',
+        label: 'Group',
+        items: [
+          { id: 'a', label: 'A', href: '#a' },
+          { id: 'b', label: 'B', href: '#b' },
+        ],
+      },
+    ]
+
+    const hidden = mount(SidebarNavigation, { props: { sections } })
+    expect(hidden.find('.badge').exists()).toBe(false)
+
+    const visible = mount(SidebarNavigation, { props: { sections, showSectionItemCount: true } })
+    expect(visible.find('.badge').exists()).toBe(true)
+    expect(visible.find('.badge').text()).toBe('2')
   })
 })

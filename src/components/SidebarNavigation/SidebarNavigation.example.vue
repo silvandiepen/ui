@@ -1,5 +1,5 @@
 <template>
-  <SidebarNavigation :sections="sections" />
+  <SidebarNavigation :sections="sections" show-section-item-count />
 </template>
 
 <script lang="ts" setup>
@@ -82,6 +82,13 @@ const sections: SidebarNavigationSection[] = [
         label: 'Breadcrumb',
         disabled: true,
         href: '#breadcrumb',
+      },
+      {
+        id: 'action-item',
+        icon: 'zap',
+        label: 'Action Item',
+        description: 'Triggers a callback instead of navigating',
+        action: () => alert('Action triggered'),
       },
     ],
   },

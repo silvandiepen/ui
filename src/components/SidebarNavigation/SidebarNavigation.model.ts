@@ -1,8 +1,11 @@
-import type { RouteLocationRaw } from 'vue-router'
+import type { RouteLocationRaw, Router } from 'vue-router'
 
 import type { StatusBadgeTone } from '../StatusBadge'
 
+export type SidebarNavigationLinkMode = 'auto' | 'router' | 'href'
+
 export interface SidebarNavigationItem {
+  action?: (event: MouseEvent) => void | Promise<void>
   badge?: string
   badgeTone?: StatusBadgeTone
   description?: string
@@ -28,6 +31,9 @@ export interface SidebarNavigationSection {
 
 export interface SidebarNavigationProps {
   ariaLabel?: string
+  linkMode?: SidebarNavigationLinkMode
+  router?: Router | null
   settingsKey?: string
+  showSectionItemCount?: boolean
   sections: SidebarNavigationSection[]
 }

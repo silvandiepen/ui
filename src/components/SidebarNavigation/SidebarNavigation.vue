@@ -27,7 +27,7 @@
             </span>
           </span>
           <span :class="bemm('section-meta')">
-            <Badge :size="Size.SMALL">{{ section.items.length }}</Badge>
+            <Badge v-if="showSectionItemCount" :size="Size.SMALL">{{ section.items.length }}</Badge>
             <Icon
               :name="Icons.CHEVRON_DOWN"
               :class="bemm('section-icon', { expanded: isSectionExpanded(section) })"
@@ -48,7 +48,7 @@
               </span>
             </span>
           </span>
-          <Badge>{{ section.items.length }}</Badge>
+          <Badge v-if="showSectionItemCount">{{ section.items.length }}</Badge>
         </div>
       </header>
 
@@ -58,46 +58,42 @@
         :class="bemm('items')"
       >
         <template v-for="item in section.items" :key="item.id">
-          <RouterLink
+          <a
             v-if="item.to"
-            custom
-            :to="item.to"
-            v-slot="{ href, isActive, navigate }"
+            :href="resolveToHref(item.to)"
+            :target="item.target ?? '_self'"
+            :rel="item.target === '_blank' ? 'noreferrer' : undefined"
+            :aria-disabled="item.disabled ? 'true' : undefined"
+            :class="[
+              bemm('item'),
+              isToItemActive(item.to) ? bemm('item', 'active') : '',
+              item.disabled ? bemm('item', 'disabled') : '',
+              item.icon ? bemm('item', 'has-icon') : '',
+            ]"
+            @click="handleToItemClick($event, item)"
           >
-            <a
-              :href="href"
-              :aria-disabled="item.disabled ? 'true' : undefined"
-              :class="[
-                bemm('item'),
-                isActive ? bemm('item', 'active') : '',
-                item.disabled ? bemm('item', 'disabled') : '',
-                item.icon ? bemm('item', 'has-icon') : '',
-              ]"
-              @click="handleNavigate($event, navigate, item.disabled)"
-            >
-              <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
-              <span :class="bemm('item-copy')">
-                <strong :class="bemm('item-label')">
-                  <span
-                    v-if="item.labelPrefix"
-                    :class="bemm('item-label-prefix')"
-                  >
-                    {{ item.labelPrefix }}
-                  </span>
-                  {{ item.label }}
-                </strong>
-                <span v-if="item.description" :class="bemm('item-description')">
-                  {{ item.description }}
+            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
+            <span :class="bemm('item-copy')">
+              <strong :class="bemm('item-label')">
+                <span
+                  v-if="item.labelPrefix"
+                  :class="bemm('item-label-prefix')"
+                >
+                  {{ item.labelPrefix }}
                 </span>
+                {{ item.label }}
+              </strong>
+              <span v-if="item.description" :class="bemm('item-description')">
+                {{ item.description }}
               </span>
+            </span>
 
-              <StatusBadge
-                v-if="item.badge"
-                :label="item.badge"
-                :tone="item.badgeTone ?? Status.INFO"
-              />
-            </a>
-          </RouterLink>
+            <StatusBadge
+              v-if="item.badge"
+              :label="item.badge"
+              :tone="item.badgeTone ?? Status.INFO"
+            />
+          </a>
 
           <a
             v-else-if="item.href"
@@ -107,10 +103,11 @@
             :aria-disabled="item.disabled ? 'true' : undefined"
             :class="[
               bemm('item'),
+              isHrefItemActive(item.href) ? bemm('item', 'active') : '',
               item.disabled ? bemm('item', 'disabled') : '',
               item.icon ? bemm('item', 'has-icon') : '',
             ]"
-            @click="handleDisabledClick($event, item.disabled)"
+            @click="handleHrefItemClick($event, item)"
           >
             <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
             <span :class="bemm('item-copy')">
@@ -144,6 +141,7 @@
               item.disabled ? bemm('item', 'disabled') : '',
               item.icon ? bemm('item', 'has-icon') : '',
             ]"
+            @click="handleButtonItemClick($event, item)"
           >
             <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
             <span :class="bemm('item-copy')">
@@ -174,9 +172,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, getCurrentInstance, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
-import { RouterLink } from 'vue-router'
+import type { RouteLocationRaw, Router } from 'vue-router'
 import { Icons } from 'open-icon'
 import { Size, Status } from '../../types'
 import { useSettingsStore } from '@/stores/settings'
@@ -185,7 +183,10 @@ import { Badge } from '../Badge'
 import { Icon } from '../Icon'
 import { StatusBadge } from '../StatusBadge'
 
-import type { SidebarNavigationProps } from './SidebarNavigation.model'
+import type {
+  SidebarNavigationItem,
+  SidebarNavigationProps,
+} from './SidebarNavigation.model'
 
 defineOptions({
   name: 'SidebarNavigation',
@@ -193,6 +194,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<SidebarNavigationProps>(), {
   ariaLabel: 'Sidebar navigation',
+  linkMode: 'auto',
+  showSectionItemCount: false,
 })
 
 const bemm = useBemm('sidebar-navigation', {
@@ -200,6 +203,26 @@ const bemm = useBemm('sidebar-navigation', {
 })
 const expandedSections = ref<Record<string, boolean>>({})
 const settingsStore = useSettingsStore()
+const currentInstance = getCurrentInstance()
+
+const resolvedRouter = computed<Router | null>(() => {
+  if (props.router) {
+    return props.router
+  }
+
+  return (currentInstance?.proxy?.$router as Router | undefined) ?? null
+})
+
+const currentRoute = computed(() => currentInstance?.proxy?.$route ?? null)
+
+const useRouterNavigation = computed(() => {
+  if (props.linkMode === 'href') {
+    return false
+  }
+
+  return Boolean(resolvedRouter.value)
+})
+
 const navigationSettingsKey = computed(() => {
   if (props.settingsKey) {
     return props.settingsKey
@@ -242,25 +265,113 @@ watch(
   }
 )
 
-function handleNavigate(
-  event: MouseEvent,
-  navigate: (event?: MouseEvent) => void,
-  disabled?: boolean,
-) {
-  if (disabled) {
+function resolveToHref(to: RouteLocationRaw) {
+  if (resolvedRouter.value) {
+    return resolvedRouter.value.resolve(to).href
+  }
+
+  if (typeof to === 'string') {
+    return to
+  }
+
+  return '#'
+}
+
+function isToItemActive(to: RouteLocationRaw) {
+  if (!useRouterNavigation.value || !resolvedRouter.value || !currentRoute.value) {
+    return false
+  }
+
+  const resolvedTarget = resolvedRouter.value.resolve(to)
+
+  return resolvedTarget.fullPath === currentRoute.value.fullPath
+}
+
+function isHrefItemActive(href: string) {
+  if (!useRouterNavigation.value || !resolvedRouter.value || !currentRoute.value) {
+    return false
+  }
+
+  if (isExternalLink(href)) {
+    return false
+  }
+
+  const resolvedTarget = resolvedRouter.value.resolve(href)
+
+  return resolvedTarget.fullPath === currentRoute.value.fullPath
+}
+
+function hasModifierKey(event: MouseEvent) {
+  return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
+}
+
+function isExternalLink(value: string) {
+  return value.startsWith('http://') || value.startsWith('https://') || value.startsWith('mailto:')
+}
+
+function runItemAction(event: MouseEvent, item: SidebarNavigationItem) {
+  if (!item.action) {
+    return false
+  }
+
+  event.preventDefault()
+  void item.action(event)
+  return true
+}
+
+function handleToItemClick(event: MouseEvent, item: SidebarNavigationItem) {
+  if (item.disabled) {
     event.preventDefault()
     return
   }
 
-  navigate(event)
-}
+  if (runItemAction(event, item)) {
+    return
+  }
 
-function handleDisabledClick(event: MouseEvent, disabled?: boolean) {
-  if (!disabled) {
+  if (!item.to || !useRouterNavigation.value || !resolvedRouter.value) {
+    return
+  }
+
+  if (item.target === '_blank' || hasModifierKey(event)) {
     return
   }
 
   event.preventDefault()
+  void resolvedRouter.value.push(item.to)
+}
+
+function handleHrefItemClick(event: MouseEvent, item: SidebarNavigationItem) {
+  if (item.disabled) {
+    event.preventDefault()
+    return
+  }
+
+  if (runItemAction(event, item)) {
+    return
+  }
+
+  if (!item.href || !useRouterNavigation.value || !resolvedRouter.value) {
+    return
+  }
+
+  if (item.target === '_blank' || hasModifierKey(event) || isExternalLink(item.href)) {
+    return
+  }
+
+  event.preventDefault()
+  void resolvedRouter.value.push(item.href)
+}
+
+function handleButtonItemClick(event: MouseEvent, item: SidebarNavigationItem) {
+  if (item.disabled) {
+    event.preventDefault()
+    return
+  }
+
+  if (item.action) {
+    void item.action(event)
+  }
 }
 
 function isSectionCollapsible(section: SidebarNavigationProps['sections'][number]) {
