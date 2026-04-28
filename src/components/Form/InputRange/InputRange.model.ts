@@ -1,4 +1,7 @@
+import type { TestIdProps } from "../../../types";
+
 export interface InputRangeProps {
+  testId?: TestIdProps['testId']
   modelValue?: number | string
   label?: string
   placeholder?: string

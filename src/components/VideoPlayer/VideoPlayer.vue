@@ -6,6 +6,7 @@
       controls ? bemm('', 'has-controls') : '',
       videoVisible ? bemm('', 'video-visible') : ''
     ]"
+    :data-test-id="testId"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
@@ -17,6 +18,7 @@
       :draggable="false"
       :aria-hidden="videoVisible"
       loading="lazy"
+      :data-test-id="getTestId(props.testId, 'image')"
     />
 
     <video
@@ -30,6 +32,7 @@
       :playsinline="playsInline"
       :preload="resolvedPreload"
       :aria-label="alt"
+      :data-test-id="getTestId(props.testId, 'video')"
       @loadeddata="handleLoadedData"
       @play="handlePlay"
       @pause="handlePause"
@@ -43,6 +46,7 @@ import { useBemm } from "bemm";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
 import type { VideoPlayerProps } from "./VideoPlayer.model";
+import { getTestId } from "../../utils/testId";
 
 defineOptions({
   name: "VideoPlayer"

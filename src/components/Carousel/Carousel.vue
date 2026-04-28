@@ -2,15 +2,20 @@
   <div
     :class="carouselClasses"
     :style="carouselStyle"
+    :data-test-id="testId"
     @mouseenter="pauseAutoplay"
     @mouseleave="resumeAutoplay"
   >
     <div
       ref="viewportRef"
       :class="bemm('viewport')"
+      :data-test-id="getTestId(props.testId, 'viewport')"
       @scroll="onScroll"
     >
-      <div :class="bemm('track')">
+      <div
+        :class="bemm('track')"
+        :data-test-id="getTestId(props.testId, 'track')"
+      >
         <slot />
       </div>
     </div>
@@ -20,10 +25,15 @@
       :class="[bemm('nav'), bemm('nav', 'prev')]"
       :disabled="!canScrollPrev"
       aria-label="Previous"
+      :data-test-id="getTestId(props.testId, 'prev')"
       @click="scrollPrev"
     >
       <slot name="prev-icon">
-        <Icon name="chevron-left" size="medium" />
+        <Icon
+          name="chevron-left"
+          size="medium"
+          :data-test-id="getTestId(props.testId, 'prev-icon')"
+        />
       </slot>
     </button>
 
@@ -32,19 +42,29 @@
       :class="[bemm('nav'), bemm('nav', 'next')]"
       :disabled="!canScrollNext"
       aria-label="Next"
+      :data-test-id="getTestId(props.testId, 'next')"
       @click="scrollNext"
     >
       <slot name="next-icon">
-        <Icon name="chevron-right" size="medium" />
+        <Icon
+          name="chevron-right"
+          size="medium"
+          :data-test-id="getTestId(props.testId, 'next-icon')"
+        />
       </slot>
     </button>
 
-    <div v-if="showIndicators && totalPages > 1" :class="[bemm('indicators')]">
+    <div
+      v-if="showIndicators && totalPages > 1"
+      :class="[bemm('indicators')]"
+      :data-test-id="getTestId(props.testId, 'indicators')"
+    >
       <button
         v-for="page in totalPages"
         :key="page"
         :class="[bemm('indicator'), currentPage === page - 1 && bemm('indicator', 'active')]"
         :aria-label="`Go to slide ${page}`"
+        :data-test-id="getTestId(props.testId, `indicator-${page}`)"
         @click="scrollToPage(page - 1)"
       />
     </div>
@@ -56,6 +76,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 import Icon from '../Icon/Icon.vue'
 import type { CarouselEmits, CarouselProps } from './Carousel.model'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<CarouselProps>(), {
   itemsToShow: 1,

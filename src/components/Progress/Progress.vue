@@ -1,20 +1,41 @@
 <template>
-  <div :class="bemm('', [`type-${type}`, `size-${size}`])">
-    <div v-if="type === 'linear' && showBar" :class="bemm('bar')">
+  <div
+    :class="bemm('', [`type-${type}`, `size-${size}`])"
+    :data-test-id="testId"
+  >
+    <div
+      v-if="type === 'linear' && showBar"
+      :class="bemm('bar')"
+      :data-test-id="getTestId(props.testId, 'bar')"
+    >
       <div
         :class="bemm('fill', ['', indeterminate ? 'indeterminate' : '', `variant-${variant}`])"
         :style="!indeterminate ? { width: `${percentage}%` } : undefined"
+        :data-test-id="getTestId(props.testId, 'fill')"
       >
-        <span v-if="showPercentageInBar && !indeterminate" :class="bemm('bar-label')">
+        <span
+          v-if="showPercentageInBar && !indeterminate"
+          :class="bemm('bar-label')"
+          :data-test-id="getTestId(props.testId, 'bar-label')"
+        >
           {{ Math.round(percentage) }}%
         </span>
       </div>
     </div>
 
-    <div v-if="type === 'circular'" :class="bemm('circular')">
-      <svg :class="bemm('circular-svg')" viewBox="0 0 100 100">
+    <div
+      v-if="type === 'circular'"
+      :class="bemm('circular')"
+      :data-test-id="getTestId(props.testId, 'circular')"
+    >
+      <svg
+        :class="bemm('circular-svg')"
+        viewBox="0 0 100 100"
+        :data-test-id="getTestId(props.testId, 'circular-svg')"
+      >
         <circle
           :class="bemm('circular-track')"
+          :data-test-id="getTestId(props.testId, 'circular-track')"
           cx="50"
           cy="50"
           r="45"
@@ -23,6 +44,7 @@
         />
         <circle
           :class="bemm('circular-fill', ['', indeterminate ? 'indeterminate' : '', `variant-${variant}`])"
+          :data-test-id="getTestId(props.testId, 'circular-fill')"
           cx="50"
           cy="50"
           r="45"
@@ -32,29 +54,54 @@
           :style="indeterminate ? { animation: 'circular-indeterminate 1.4s ease-in-out infinite' } : undefined"
         />
       </svg>
-      <div v-if="showPercentage && !indeterminate" :class="bemm('circular-label')">
+      <div
+        v-if="showPercentage && !indeterminate"
+        :class="bemm('circular-label')"
+        :data-test-id="getTestId(props.testId, 'circular-label')"
+      >
         {{ Math.round(percentage) }}%
       </div>
     </div>
 
-    <div v-if="label || showPercentage" :class="bemm('label')">
-      <span v-if="label" :class="bemm('label-text')">{{ label }}</span>
-      <span v-if="showPercentage && !showPercentageInBar" :class="bemm('label-percentage')">
+    <div
+      v-if="label || showPercentage"
+      :class="bemm('label')"
+      :data-test-id="getTestId(props.testId, 'label')"
+    >
+      <span
+        v-if="label"
+        :class="bemm('label-text')"
+        :data-test-id="getTestId(props.testId, 'label-text')"
+      >{{ label }}</span>
+      <span
+        v-if="showPercentage && !showPercentageInBar"
+        :class="bemm('label-percentage')"
+        :data-test-id="getTestId(props.testId, 'label-percentage')"
+      >
         {{ Math.round(percentage) }}%
       </span>
     </div>
 
-    <div v-if="details && details.length > 0" :class="bemm('details')">
+    <div
+      v-if="details && details.length > 0"
+      :class="bemm('details')"
+      :data-test-id="getTestId(props.testId, 'details')"
+    >
       <span
         v-for="(detail, index) in details"
         :key="index"
         :class="bemm('detail')"
+        :data-test-id="getTestId(props.testId, `detail-${index}`)"
       >
         {{ detail }}
       </span>
     </div>
 
-    <div v-if="$slots.default" :class="bemm('content')">
+    <div
+      v-if="$slots.default"
+      :class="bemm('content')"
+      :data-test-id="getTestId(props.testId, 'content')"
+    >
       <slot />
     </div>
   </div>
@@ -65,6 +112,7 @@ import { computed } from 'vue'
 import { useBemm } from 'bemm'
 
 import type { ProgressProps } from './Progress.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'Progress',

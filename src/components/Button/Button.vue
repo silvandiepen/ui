@@ -8,21 +8,50 @@
     :type="buttonType"
     :style="buttonStyles"
     :title="tooltip"
+    :data-test-id="props.testId"
     v-bind="$attrs"
   >
-    <div :class="bemm('container')">
-      <span v-if="icon && !iconAfter" :class="bemm('icon')">
-        <Icon :name="icon" />
+    <div
+      :class="bemm('container')"
+      :data-test-id="getTestId(props.testId, 'container')"
+    >
+      <span
+        v-if="icon && !iconAfter"
+        :class="bemm('icon')"
+        :data-test-id="getTestId(props.testId, 'icon')"
+      >
+        <Icon
+          :name="icon"
+          :data-test-id="getTestId(props.testId, 'icon-svg')"
+        />
       </span>
-      <span v-if="hasSlot && !props.iconOnly" :class="bemm('text')">
+      <span
+        v-if="hasSlot && !props.iconOnly"
+        :class="bemm('text')"
+        :data-test-id="getTestId(props.testId, 'text')"
+      >
         <slot />
       </span>
-      <span v-if="icon && iconAfter" :class="bemm('icon')">
-        <Icon :name="icon" />
+      <span
+        v-if="icon && iconAfter"
+        :class="bemm('icon')"
+        :data-test-id="getTestId(props.testId, 'icon')"
+      >
+        <Icon
+          :name="icon"
+          :data-test-id="getTestId(props.testId, 'icon-svg')"
+        />
       </span>
     </div>
-    <div v-if="loading" :class="bemm('loading')">
-      <span class="spinner" />
+    <div
+      v-if="loading"
+      :class="bemm('loading')"
+      :data-test-id="getTestId(props.testId, 'loading')"
+    >
+      <span
+        class="spinner"
+        :data-test-id="getTestId(props.testId, 'spinner')"
+      />
     </div>
   </component>
 </template>
@@ -31,6 +60,7 @@
 import { computed, useSlots, ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 import Icon from '../Icon/Icon.vue'
+import { getTestId } from '../../utils/testId'
 import {
   ButtonType,
   ButtonSize,

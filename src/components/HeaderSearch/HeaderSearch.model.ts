@@ -1,4 +1,11 @@
+import type { TestIdProps } from "../../types";
+
 export interface HeaderSearchProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements.
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * Enable automatic focus when the search shell expands.
    * @default true

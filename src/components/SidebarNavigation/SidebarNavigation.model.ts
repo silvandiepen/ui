@@ -1,4 +1,5 @@
 import type { RouteLocationRaw, Router } from 'vue-router'
+import type { TestIdProps } from '../../types'
 
 import type { StatusBadgeTone } from '../StatusBadge'
 
@@ -30,6 +31,7 @@ export interface SidebarNavigationSection {
 }
 
 export interface SidebarNavigationProps {
+  testId?: TestIdProps['testId']
   ariaLabel?: string
   linkMode?: SidebarNavigationLinkMode
   router?: Router | null

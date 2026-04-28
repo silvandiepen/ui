@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../../types";
+
 export type SwitchValue = string | number | boolean
 
 export interface SwitchItem {
@@ -8,6 +10,7 @@ export interface SwitchItem {
 }
 
 export interface InputSwitchProps {
+  testId?: TestIdProps['testId']
   modelValue?: SwitchValue
   label?: string
   items: (string | SwitchItem)[]

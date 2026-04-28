@@ -1,5 +1,10 @@
 <template>
-	<span :class="className" :style="cssVars" aria-hidden="true" />
+	<span
+		:class="className"
+		:style="cssVars"
+		:data-test-id="testId"
+		aria-hidden="true"
+	/>
 </template>
 
 <script setup lang="ts">

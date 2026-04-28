@@ -6,12 +6,14 @@
     :label="label"
     :disabled="disabled"
     :error="error"
+    :test-id="testId"
     @touched="$emit('touched', $event)"
   >
-    <template #control="{ disabled: controlDisabled }">
+    <template #control="{ disabled: controlDisabled, testIdPart }">
       <div
         :class="bemm('track')"
         :style="trackStyle"
+        :data-test-id="testIdPart('track')"
         role="radiogroup"
       >
         <button
@@ -23,14 +25,20 @@
             disabled: controlDisabled || item.disabled,
           })"
           :disabled="controlDisabled || item.disabled"
+          :data-test-id="testIdPart(`item-${String(item.value)}`)"
           @click="handleSelect(item.value)"
         >
           <Icon
             v-if="item.icon"
             :name="item.icon"
             :class="bemm('item-icon')"
+            :data-test-id="testIdPart(`item-${String(item.value)}-icon`)"
           />
-          <span v-if="item.label" :class="bemm('item-label')">{{ item.label }}</span>
+          <span
+            v-if="item.label"
+            :class="bemm('item-label')"
+            :data-test-id="testIdPart(`item-${String(item.value)}-label`)"
+          >{{ item.label }}</span>
         </button>
       </div>
     </template>

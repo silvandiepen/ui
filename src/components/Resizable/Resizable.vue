@@ -4,8 +4,12 @@
     :class="blockClasses"
     :style="rootStyles"
     :aria-label="props.ariaLabel"
+    :data-test-id="testId"
   >
-    <div :class="[bemm('pane'), bemm('pane', 'start')]">
+    <div
+      :class="[bemm('pane'), bemm('pane', 'start')]"
+      :data-test-id="getTestId(props.testId, 'start')"
+    >
       <slot name="start" :size="currentSize" />
     </div>
 
@@ -19,15 +23,26 @@
       :aria-valuemin="props.minSize"
       :aria-valuenow="currentSize"
       :tabindex="props.disabled ? -1 : 0"
+      :data-test-id="getTestId(props.testId, 'handle')"
       @keydown="handleHandleKeydown"
       @pointerdown="handlePointerDown"
     >
-      <span :class="bemm('grip')" aria-hidden="true">
-        <span :class="bemm('grip-line')" />
+      <span
+        :class="bemm('grip')"
+        :data-test-id="getTestId(props.testId, 'grip')"
+        aria-hidden="true"
+      >
+        <span
+          :class="bemm('grip-line')"
+          :data-test-id="getTestId(props.testId, 'grip-line')"
+        />
       </span>
     </div>
 
-    <div :class="[bemm('pane'), bemm('pane', 'end')]">
+    <div
+      :class="[bemm('pane'), bemm('pane', 'end')]"
+      :data-test-id="getTestId(props.testId, 'end')"
+    >
       <slot name="end" :size="currentSize" />
     </div>
   </section>
@@ -40,6 +55,7 @@ import { useBemm } from 'bemm'
 import { useSettingsStore } from '@/stores/settings'
 
 import type { ResizableEventContext, ResizableProps, ResizableSource } from './Resizable.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'Resizable',

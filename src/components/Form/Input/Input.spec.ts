@@ -139,6 +139,34 @@ describe('Input.vue', () => {
     expect(wrapper.find('.input__spinner--down').exists()).toBe(true)
   })
 
+  it('renders test ids on interesting input parts', () => {
+    const wrapper = mount(Input, {
+      props: {
+        testId: 'quantity',
+        label: 'Quantity',
+        required: true,
+        prefixIcon: 'minus',
+        suffixIcon: 'plus',
+        type: 'number',
+        showSpinners: true,
+        description: 'Choose a quantity'
+      }
+    })
+
+    expect(wrapper.find('[data-test-id="quantity"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-label"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-required"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-wrapper"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-prefix-icon"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-control"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-suffix-icon"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-spinners"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-increment"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-decrement"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-description"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test-id="quantity-help"]').exists()).toBe(true)
+  })
+
   it('emits update:modelValue on input', async () => {
     const wrapper = mount(Input, {
       props: {

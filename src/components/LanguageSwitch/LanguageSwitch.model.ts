@@ -1,6 +1,7 @@
 import type { ButtonSize, ButtonVariant } from '../Button'
 import type { ContextPanelClickMode, ContextPanelPosition } from '../ContextMenu'
 import type { PopoverPlacement } from '../Popover'
+import type { TestIdProps } from '../../types'
 
 export type LanguageSwitchSurface = 'context-panel' | 'inline' | 'popover'
 export type LanguageSwitchDisplayMode = 'code' | 'label' | 'label-code'
@@ -19,6 +20,7 @@ export interface LanguageSwitchOption {
 }
 
 export interface LanguageSwitchProps {
+  testId?: TestIdProps['testId']
   closeOnSelect?: boolean
   contextPanelClickMode?: ContextPanelClickMode
   contextPanelPosition?: ContextPanelPosition

@@ -2,7 +2,7 @@
  * Button component type definitions and interfaces
  */
 
-import { Colors } from "../../types";
+import type { Colors, TestIdProps } from "../../types";
 
 export const ButtonSize = {
   XSMALL: 'xsmall',
@@ -34,6 +34,9 @@ export type ButtonType = (typeof ButtonType)[keyof typeof ButtonType];
  * Props interface for Button component
  */
 export interface ButtonProps {
+  /** Stable test id rendered on the root and interesting child elements */
+  testId?: TestIdProps['testId'];
+
   /** Button size variant */
   size?: ButtonSize;
   /** Button style variant */

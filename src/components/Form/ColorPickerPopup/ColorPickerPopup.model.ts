@@ -1,4 +1,7 @@
+import type { TestIdProps } from "../../../types";
+
 export interface ColorPickerPopupProps {
+  testId?: TestIdProps['testId']
   modelValue?: string
   colors?: string[]
   columns?: number | 'auto'

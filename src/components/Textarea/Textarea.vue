@@ -4,6 +4,7 @@
     :id="id"
     :class="textareaClasses"
     :value="modelValue"
+    :data-test-id="testId"
     :disabled="disabled"
     :rows="rows"
     @input="onInput"

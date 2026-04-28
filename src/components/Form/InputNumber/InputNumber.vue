@@ -13,6 +13,7 @@
 		:parse-value="parseValue"
 		:format-value="formatValue"
 		:error="errors"
+		:test-id="testId"
 		@change="emit('change', $event)"
 		@touched="emit('touched', $event)"
 	/>
@@ -29,6 +30,7 @@
 		:parse-value="parseValue"
 		:format-value="formatValue"
 		:error="errors"
+		:test-id="testId"
 		@change="emit('change', $event)"
 		@touched="emit('touched', $event)"
 	/>

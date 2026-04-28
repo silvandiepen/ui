@@ -1,9 +1,16 @@
+import type { TestIdProps } from "../../../types";
+
 /**
  * TypeScript interfaces for InputCheckbox component
  * Provides type-safe props and configurations for checkbox input functionality
  */
 
 export interface InputCheckboxProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * The current checked state
    */

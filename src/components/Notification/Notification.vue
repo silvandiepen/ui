@@ -1,7 +1,20 @@
 <template>
-  <div v-if="visible" :class="notificationClasses" role="alert">
-    <Icon v-if="iconName" :name="iconName" :class="bemm('icon')" />
-    <span :class="bemm('message')">
+  <div
+    v-if="visible"
+    :class="notificationClasses"
+    role="alert"
+    :data-test-id="testId"
+  >
+    <Icon
+      v-if="iconName"
+      :name="iconName"
+      :class="bemm('icon')"
+      :data-test-id="getTestId(props.testId, 'icon')"
+    />
+    <span
+      :class="bemm('message')"
+      :data-test-id="getTestId(props.testId, 'message')"
+    >
       <slot>{{ message }}</slot>
     </span>
     <button
@@ -9,9 +22,13 @@
       :class="bemm('close')"
       type="button"
       :aria-label="dismissLabel"
+      :data-test-id="getTestId(props.testId, 'dismiss')"
       @click="dismiss"
     >
-      <Icon :name="Icons.CLOSE" />
+      <Icon
+        :name="Icons.CLOSE"
+        :data-test-id="getTestId(props.testId, 'dismiss-icon')"
+      />
     </button>
   </div>
 </template>
@@ -22,11 +39,14 @@ import { useBemm } from 'bemm';
 import { Icons } from '../../types';
 import Icon from '../Icon/Icon.vue';
 import type { NotificationVariant } from './Notification.model';
+import type { TestIdProps } from '../../types';
+import { getTestId } from '../../utils/testId';
 
 defineOptions({ name: 'SilNotification' });
 
 const props = withDefaults(
   defineProps<{
+    testId?: TestIdProps['testId'];
     message?: string;
     type?: NotificationVariant;
     dismissible?: boolean;

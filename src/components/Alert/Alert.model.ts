@@ -1,4 +1,4 @@
-import { Colors } from "../../types"
+import { Colors, type TestIdProps } from "../../types"
 
 export enum AlertVariant {
   DEFAULT = Colors.PRIMARY,
@@ -9,6 +9,7 @@ export enum AlertVariant {
 }
 
 export interface AlertProps {
+  testId?: TestIdProps['testId']
   variant?: AlertVariant
   title?: string
   description?: string

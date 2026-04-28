@@ -1,18 +1,36 @@
 <template>
-  <span :class="bemm()">
-    <span :class="bemm('surface')" :title="resolvedTooltip">
-      <span :class="bemm('label')">{{ label }}</span>
+  <span
+    :class="bemm()"
+    :data-test-id="testId"
+  >
+    <span
+      :class="bemm('surface')"
+      :title="resolvedTooltip"
+      :data-test-id="getTestId(props.testId, 'surface')"
+    >
+      <span
+        :class="bemm('label')"
+        :data-test-id="getTestId(props.testId, 'label')"
+      >{{ label }}</span>
 
-      <span v-if="copyValue || href" :class="bemm('actions')">
+      <span
+        v-if="copyValue || href"
+        :class="bemm('actions')"
+        :data-test-id="getTestId(props.testId, 'actions')"
+      >
         <button
           v-if="copyValue"
           :class="bemm('action', 'copy')"
           :aria-label="copied ? copiedLabel : resolvedCopyLabel"
           :title="copied ? copiedLabel : resolvedCopyLabel"
           type="button"
+          :data-test-id="getTestId(props.testId, 'copy')"
           @click="copy"
         >
-          <Icon :name="copied ? Icons.CIRCLED_CHECK : Icons.CLIPBOARD" />
+          <Icon
+            :name="copied ? Icons.CIRCLED_CHECK : Icons.CLIPBOARD"
+            :data-test-id="getTestId(props.testId, 'copy-icon')"
+          />
         </button>
 
         <a
@@ -23,8 +41,12 @@
           :title="openLabel"
           rel="noreferrer"
           target="_blank"
+          :data-test-id="getTestId(props.testId, 'open')"
         >
-          <Icon :name="Icons.ARROW_UP_RIGHT" />
+          <Icon
+            :name="Icons.ARROW_UP_RIGHT"
+            :data-test-id="getTestId(props.testId, 'open-icon')"
+          />
         </a>
       </span>
     </span>
@@ -35,6 +57,7 @@
       :text="resolvedTooltip"
       :show-on-parent-hover="true"
       :open="false"
+      :test-id="getTestId(props.testId, 'tooltip')"
     />
   </span>
 </template>
@@ -49,6 +72,7 @@ import { toast } from "../Toast";
 import { Tooltip } from "../Tooltip";
 
 import type { ReferenceBadgeProps } from "./ReferenceBadge.model";
+import { getTestId } from "../../utils/testId";
 
 defineOptions({
   name: "ReferenceBadge"

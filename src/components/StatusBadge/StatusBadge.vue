@@ -1,5 +1,9 @@
 <template>
-  <span :class="bemm()" :style="badgeStyle">
+  <span
+    :class="bemm()"
+    :style="badgeStyle"
+    :data-test-id="testId"
+  >
     {{ label }}
   </span>
 </template>

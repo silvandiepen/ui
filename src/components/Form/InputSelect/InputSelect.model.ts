@@ -1,4 +1,4 @@
-import type { Size } from '../../../types'
+import type { Size, TestIdProps } from '../../../types'
 
 export interface Option {
 	label: string
@@ -15,6 +15,11 @@ export interface OptionGroup {
 }
 
 export interface InputSelectProps {
+	/**
+	 * Stable test id rendered on the root and interesting child elements
+	 */
+	testId?: TestIdProps['testId']
+
 	/**
 	 * The current selected value
 	 */

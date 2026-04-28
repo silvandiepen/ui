@@ -3,7 +3,7 @@
  * Provides type-safe props and configurations for text input functionality
  */
 
-import type { Size, Status } from '../../../types'
+import type { Size, Status, TestIdProps } from '../../../types'
 
 /**
  * Input mode type for different input behaviors on mobile devices
@@ -34,6 +34,9 @@ export type TextInputType =
  * Props interface for InputText component
  */
 export interface InputTextProps {
+  /** Stable test id rendered on the root and interesting child elements */
+  testId?: TestIdProps['testId']
+
   /** Input label text */
   label?: string
 

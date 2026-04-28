@@ -1,16 +1,44 @@
 <template>
-  <div :class="fieldClasses">
-    <label v-if="label" :for="fieldId" :class="bemm('label')">
+  <div
+    :class="fieldClasses"
+    :data-test-id="testId"
+  >
+    <label
+      v-if="label"
+      :for="fieldId"
+      :class="bemm('label')"
+      :data-test-id="getTestId(props.testId, 'label')"
+    >
       {{ label }}
-      <span v-if="required" :class="bemm('required')" aria-hidden="true">*</span>
+      <span
+        v-if="required"
+        :class="bemm('required')"
+        :data-test-id="getTestId(props.testId, 'required')"
+        aria-hidden="true"
+      >*</span>
     </label>
-    <div :class="bemm('control')">
+    <div
+      :class="bemm('control')"
+      :data-test-id="getTestId(props.testId, 'control')"
+    >
       <slot>
-        <span :class="bemm('value')">{{ displayValue }}</span>
+        <span
+          :class="bemm('value')"
+          :data-test-id="getTestId(props.testId, 'value')"
+        >{{ displayValue }}</span>
       </slot>
     </div>
-    <p v-if="hint" :class="bemm('hint')">{{ hint }}</p>
-    <p v-if="error" :class="bemm('error')" role="alert">{{ error }}</p>
+    <p
+      v-if="hint"
+      :class="bemm('hint')"
+      :data-test-id="getTestId(props.testId, 'hint')"
+    >{{ hint }}</p>
+    <p
+      v-if="error"
+      :class="bemm('error')"
+      :data-test-id="getTestId(props.testId, 'error')"
+      role="alert"
+    >{{ error }}</p>
   </div>
 </template>
 
@@ -18,11 +46,14 @@
 import { computed } from 'vue'
 import { useBemm } from 'bemm'
 import { FieldType } from './Field.model'
+import type { TestIdProps } from '../../types'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({ name: 'SilField' })
 
 const props = withDefaults(
   defineProps<{
+    testId?: TestIdProps['testId']
     label?: string
     hint?: string
     error?: string
@@ -39,6 +70,7 @@ const props = withDefaults(
     maxChars?: number
   }>(),
   {
+    testId: undefined,
     label: undefined,
     hint: undefined,
     error: undefined,

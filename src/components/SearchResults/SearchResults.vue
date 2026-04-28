@@ -1,6 +1,13 @@
 <template>
-  <div :class="bemm()">
-    <div v-if="statusLabel" :class="bemm('status')">{{ statusLabel }}</div>
+  <div
+    :class="bemm()"
+    :data-test-id="testId"
+  >
+    <div
+      v-if="statusLabel"
+      :class="bemm('status')"
+      :data-test-id="getTestId(props.testId, 'status')"
+    >{{ statusLabel }}</div>
 
     <template v-if="hasQuery && normalizedResults.length > 0">
       <template v-for="result in normalizedResults" :key="result.id">
@@ -14,13 +21,23 @@
             :is="resolveResultTarget(result) ? RouterLink : 'div'"
             :class="bemm('result')"
             :to="resolveResultTarget(result)"
+            :data-test-id="getTestId(props.testId, `result-${result.id}`)"
             @click="emit('select', result)"
           >
-            <span :class="bemm('result-kind')">
+            <span
+              :class="bemm('result-kind')"
+              :data-test-id="getTestId(props.testId, `result-${result.id}-kind`)"
+            >
               {{ getKindLabel(result.kind) }}
             </span>
-            <strong :class="bemm('result-title')">{{ result.title }}</strong>
-            <span :class="bemm('result-summary')">
+            <strong
+              :class="bemm('result-title')"
+              :data-test-id="getTestId(props.testId, `result-${result.id}-title`)"
+            >{{ result.title }}</strong>
+            <span
+              :class="bemm('result-summary')"
+              :data-test-id="getTestId(props.testId, `result-${result.id}-summary`)"
+            >
               {{ result.summary || result.excerpt }}
             </span>
           </component>
@@ -28,11 +45,19 @@
       </template>
     </template>
 
-    <div v-else-if="!hasQuery && readyLabel" :class="bemm('empty')">
+    <div
+      v-else-if="!hasQuery && readyLabel"
+      :class="bemm('empty')"
+      :data-test-id="getTestId(props.testId, 'ready')"
+    >
       {{ readyLabel }}
     </div>
 
-    <div v-else-if="hasQuery && emptyLabel" :class="bemm('empty')">
+    <div
+      v-else-if="hasQuery && emptyLabel"
+      :class="bemm('empty')"
+      :data-test-id="getTestId(props.testId, 'empty')"
+    >
       {{ emptyLabel }}
     </div>
   </div>
@@ -47,6 +72,7 @@ import { useBemm } from 'bemm'
 import type { SearchResult } from '../../composables'
 
 import type { SearchResultsEmits, SearchResultsProps } from './SearchResults.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'SearchResults',

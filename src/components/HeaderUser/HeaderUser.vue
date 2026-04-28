@@ -5,13 +5,32 @@
     :href="componentTag === 'a' ? href : undefined"
     :type="componentTag === 'button' ? 'button' : undefined"
     :class="bemm()"
+    :data-test-id="testId"
   >
-    <span :class="bemm('avatar')">{{ initials }}</span>
-    <span :class="bemm('copy')">
-      <span :class="bemm('name')">{{ name }}</span>
-      <span v-if="email" :class="bemm('email')">{{ email }}</span>
+    <span
+      :class="bemm('avatar')"
+      :data-test-id="getTestId(props.testId, 'avatar')"
+    >{{ initials }}</span>
+    <span
+      :class="bemm('copy')"
+      :data-test-id="getTestId(props.testId, 'copy')"
+    >
+      <span
+        :class="bemm('name')"
+        :data-test-id="getTestId(props.testId, 'name')"
+      >{{ name }}</span>
+      <span
+        v-if="email"
+        :class="bemm('email')"
+        :data-test-id="getTestId(props.testId, 'email')"
+      >{{ email }}</span>
     </span>
-    <Icon v-if="trailingIcon" :name="trailingIcon" :class="bemm('icon')" />
+    <Icon
+      v-if="trailingIcon"
+      :name="trailingIcon"
+      :class="bemm('icon')"
+      :data-test-id="getTestId(props.testId, 'icon')"
+    />
   </component>
 </template>
 
@@ -20,6 +39,7 @@ import { computed } from 'vue'
 import { useBemm } from 'bemm'
 import { Icon } from '../Icon'
 import type { HeaderUserProps } from './HeaderUser.model'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<HeaderUserProps>(), {
   email: '',

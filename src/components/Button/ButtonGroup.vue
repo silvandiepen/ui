@@ -1,5 +1,8 @@
 <template>
-  <div :class="blockClasses">
+  <div
+    :class="blockClasses"
+    :data-test-id="testId"
+  >
     <slot />
   </div>
 </template>

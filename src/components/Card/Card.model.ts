@@ -1,4 +1,4 @@
-import { Colors } from "../../types"
+import { Colors, type TestIdProps } from "../../types"
 import type { Action } from "../Actions"
 
 
@@ -10,6 +10,7 @@ export const CardVariant = {
 
 export type CardVariant = typeof CardVariant[keyof typeof CardVariant];
 export interface CardProps {
+  testId?: TestIdProps['testId']
   variant?: CardVariant
   color?: Colors
   featured?: boolean

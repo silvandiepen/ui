@@ -20,6 +20,7 @@
     :reset="false"
     :controls="controls"
     :autoFocusNext="autoFocusNext"
+    :test-id="testId"
     :class="[
       bemm(),
       props.block ? bemm('', 'block') : '',
@@ -34,18 +35,20 @@
     @blur="handleBlur"
     @reset="handleReset"
   >
-    <template #control="{ id, value: inputValue, disabled, handleInput, handleTouch, handleFocus: onBaseFocus, handleBlur: onBaseBlur, placeholder: templatePlaceholder }">
+    <template #control="{ id, value: inputValue, disabled, controlTestId, testIdPart, handleInput, handleTouch, handleFocus: onBaseFocus, handleBlur: onBaseBlur, placeholder: templatePlaceholder }">
       <div
         :class="[
           bemm('wrapper'),
           isCollapsed ? bemm('wrapper', 'collapsed') : '',
           isExpanded ? bemm('wrapper', 'expanded') : '',
         ]"
+        :data-test-id="testIdPart('wrapper')"
       >
         <Icon
           v-if="leftIconName && !isCollapsed"
           :name="leftIconName"
           :class="bemm('icon', ['left'])"
+          :data-test-id="testIdPart('left-icon')"
         />
 
         <input
@@ -53,6 +56,7 @@
           ref="control"
           :value="inputValue"
           :class="bemm('control')"
+          :data-test-id="controlTestId"
           :placeholder="isCollapsed ? '' : templatePlaceholder"
           type="search"
           :disabled="disabled"
@@ -70,20 +74,29 @@
           v-if="showRightAction"
           type="button"
           :class="bemm('action')"
+          :data-test-id="testIdPart('action')"
           :aria-label="isCollapsed ? 'Open search' : 'Search'"
           @click="onSearchButtonClick(inputValue)"
         >
-          <Icon v-if="rightIconName" :name="rightIconName" />
+          <Icon
+            v-if="rightIconName"
+            :name="rightIconName"
+            :data-test-id="testIdPart('right-icon')"
+          />
         </button>
 
         <button
           v-if="clearable && inputValue && !isCollapsed"
           type="button"
           :class="bemm('clear')"
+          :data-test-id="testIdPart('clear')"
           aria-label="Clear search"
           @click="handleClear"
         >
-          <Icon name="close" />
+          <Icon
+            name="close"
+            :data-test-id="testIdPart('clear-icon')"
+          />
         </button>
       </div>
     </template>

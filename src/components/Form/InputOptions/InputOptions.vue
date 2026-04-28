@@ -1,5 +1,8 @@
 <template>
-	<div :class="[bemm(), bemm('', direction)]">
+	<div
+		:class="[bemm(), bemm('', direction)]"
+		:data-test-id="testId"
+	>
 		<template v-if="type === 'checkbox'">
 			<InputCheckbox
 				v-for="option in options"
@@ -8,6 +11,7 @@
 				:label="option.label"
 				:disabled="option.disabled || disabled"
 				:name="name"
+				:test-id="getTestId(props.testId, `option-${String(option.value)}`)"
 				@update:model-value="(checked) => toggleOption(option.value, !!checked)"
 			/>
 		</template>
@@ -20,6 +24,7 @@
 				:label="option.label"
 				:disabled="option.disabled || disabled"
 				:name="name"
+				:test-id="getTestId(props.testId, `option-${String(option.value)}`)"
 				@update:model-value="(checked) => toggleOption(option.value, !!checked)"
 			/>
 		</template>
@@ -33,6 +38,7 @@
 				:label="option.label"
 				:name="radioName"
 				:disabled="option.disabled || disabled"
+				:test-id="getTestId(props.testId, `option-${String(option.value)}`)"
 				@update:model-value="(value) => selectRadio(String(value))"
 			/>
 		</template>
@@ -46,6 +52,7 @@ import InputCheckbox from '../InputCheckbox/InputCheckbox.vue'
 import InputRadio from '../InputRadio/InputRadio.vue'
 import InputToggle from '../InputToggle/InputToggle.vue'
 import type { InputOptionsEmits, InputOptionsProps } from './InputOptions.model'
+import { getTestId } from '../../../utils/testId'
 
 const model = defineModel<(string | number)[]>({ default: () => [] })
 

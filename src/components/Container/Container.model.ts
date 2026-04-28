@@ -1,6 +1,8 @@
 import type { Action } from '../Actions'
+import type { TestIdProps } from '../../types'
 
 export interface ContainerProps {
+  testId?: TestIdProps['testId']
   maxWidth?: string
   padding?: string
   fluid?: boolean

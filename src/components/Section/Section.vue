@@ -1,6 +1,14 @@
 <template>
-  <section :class="bemm('', { centered })" :data-variant="variant">
-    <Container v-if="!noContainer" v-bind="containerProps">
+  <section
+    :class="bemm('', { centered })"
+    :data-variant="variant"
+    :data-test-id="testId"
+  >
+    <Container
+      v-if="!noContainer"
+      v-bind="containerProps"
+      :test-id="getTestId(props.testId, 'container')"
+    >
       <slot />
     </Container>
     <slot v-else />
@@ -11,6 +19,7 @@
 import { useBemm } from 'bemm'
 import Container from '../Container/Container.vue'
 import type { SectionProps } from './Section.model'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<SectionProps>(), {
   noContainer: false

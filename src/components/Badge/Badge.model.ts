@@ -1,4 +1,5 @@
 import { Colors } from "../../types/color";
+import type { TestIdProps } from "../../types";
 
 export const BadgeVariant = {
   DEFAULT: 'default',
@@ -19,6 +20,7 @@ export const BadgeSize = {
 export type BadgeSize = (typeof BadgeSize)[keyof typeof BadgeSize];
 
 export interface BadgeProps {
+  testId?: TestIdProps['testId']
   variant?: BadgeVariant
   size?: BadgeSize
   color?: Colors | null

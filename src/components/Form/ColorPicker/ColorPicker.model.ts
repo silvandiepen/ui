@@ -1,6 +1,7 @@
-import { BaseColors, Size } from '../../../types';
+import { BaseColors, Size, type TestIdProps } from '../../../types';
 
 export interface ColorPickerProps {
+  testId?: TestIdProps['testId'];
   block?: string;
   colors?: string[];
   columns?: number | 'auto';

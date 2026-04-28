@@ -1,4 +1,7 @@
+import type { TestIdProps } from '../../../types'
+
 export interface RichTextEditorProps {
+  testId?: TestIdProps['testId']
   modelValue?: string
   placeholder?: string
   label?: string

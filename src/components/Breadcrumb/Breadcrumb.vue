@@ -3,33 +3,59 @@
 		:class="b()"
 		aria-label="Breadcrumb"
 		role="navigation"
+		:data-test-id="testId"
 	>
-		<ul v-if="items && items.length" :class="b('list')">
+		<ul
+			v-if="items && items.length"
+			:class="b('list')"
+			:data-test-id="getTestId(props.testId, 'list')"
+		>
 			<li
 				v-for="(item, index) in items"
 				:key="index"
 				:class="b('item', [index === items.length - 1 ? 'active' : ''])"
 				:aria-current="index === items.length - 1 ? 'page' : undefined"
+				:data-test-id="getTestId(props.testId, `item-${index}`)"
 			>
 				<template v-if="item.to">
-					<router-link :to="item.to" :class="b('link')">{{
+					<router-link
+						:to="item.to"
+						:class="b('link')"
+						:data-test-id="getTestId(props.testId, `link-${index}`)"
+					>{{
 						item.label
 					}}</router-link>
 				</template>
 				<template v-else-if="item.link">
-					<a :href="item.link" :class="b('link')">{{ item.label }}</a>
+					<a
+						:href="item.link"
+						:class="b('link')"
+						:data-test-id="getTestId(props.testId, `link-${index}`)"
+					>{{ item.label }}</a>
 				</template>
 				<template v-else-if="item.action">
-					<button href="#" @click.prevent="item.action" :class="b('link')">
+					<button
+						href="#"
+						:class="b('link')"
+						:data-test-id="getTestId(props.testId, `action-${index}`)"
+						@click.prevent="item.action"
+					>
 						{{ item.label }}
 					</button>
 				</template>
 				<template v-else>
-					<span :class="b('text')">{{ item.label }}</span>
+					<span
+						:class="b('text')"
+						:data-test-id="getTestId(props.testId, `text-${index}`)"
+					>{{ item.label }}</span>
 				</template>
 			</li>
 		</ul>
-		<ul v-else :class="b('list')">
+		<ul
+			v-else
+			:class="b('list')"
+			:data-test-id="getTestId(props.testId, 'list')"
+		>
 			<slot />
 		</ul>
 
@@ -38,6 +64,7 @@
 			:variant="ButtonVariant.GHOST"
 			:icon="Icons.CLIPBOARD"
 			title="Copy current URL"
+			:test-id="getTestId(props.testId, 'copy')"
 			@click="handleCopyBreadcrumb"
 		/>
 	</nav>
@@ -48,6 +75,8 @@ import { useBemm } from 'bemm';
 import { Icons } from 'open-icon';
 import { Utils } from '@/common';
 import type { BreadcrumbItem } from './Breadcrumb.model';
+import type { TestIdProps } from '../../types';
+import { getTestId } from '../../utils/testId';
 import {
 	Button,
 	ButtonSize,
@@ -55,6 +84,10 @@ import {
 } from '@/components/ui/Button';
 
 const props = defineProps({
+	testId: {
+		type: String as () => TestIdProps['testId'],
+		default: undefined,
+	},
 	items: {
 		type: Array as () => BreadcrumbItem[],
 		default: () => [],

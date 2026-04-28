@@ -346,9 +346,10 @@ watch(model, () => {
     :error="error"
     :size="size"
     :disabled="disabled"
+    :test-id="testId"
     @touched="$emit('touched', $event)"
   >
-    <template #control="{ disabled }">
+    <template #control="{ disabled, testIdPart }">
       <div
         ref="triggerRef"
         :class="bemm('wrapper')"
@@ -357,34 +358,39 @@ watch(model, () => {
         :aria-disabled="disabled"
         role="combobox"
         tabindex="0"
+        :data-test-id="testIdPart('wrapper')"
         @click="toggleDropdown"
         @keydown="handleKeydown"
       >
-        <div :class="bemm('trigger')">
-          <div :class="bemm('value')">
+        <div :class="bemm('trigger')" :data-test-id="testIdPart('trigger')">
+          <div :class="bemm('value')" :data-test-id="testIdPart('value')">
             <template v-if="selectedOption">
               <Icon
                 v-if="selectedOption.icon"
                 :name="selectedOption.icon"
                 :class="bemm('option-icon')"
+                :data-test-id="testIdPart('selected-icon')"
               />
               <span
                 v-if="selectedOption.color"
                 :class="bemm('option-color')"
                 :style="{ backgroundColor: selectedOption.color }"
+                :data-test-id="testIdPart('selected-color')"
               />
               <span
                 :class="bemm('option-label')"
+                :data-test-id="testIdPart('selected-label')"
                 v-html="selectedOption.customContent || selectedOption.label"
               />
             </template>
-            <span v-else :class="bemm('placeholder')">
+            <span v-else :class="bemm('placeholder')" :data-test-id="testIdPart('placeholder')">
               {{ placeholder }}
             </span>
           </div>
           <Icon
             name="chevron-down"
             :class="bemm('arrow', { open: isOpen })"
+            :data-test-id="testIdPart('arrow')"
           />
         </div>
 
@@ -396,21 +402,23 @@ watch(model, () => {
             :style="dropdownStyle"
             role="listbox"
             :aria-label="label"
+            :data-test-id="testIdPart('dropdown')"
           >
-          <div v-if="searchable" :class="bemm('search')">
+          <div v-if="searchable" :class="bemm('search')" :data-test-id="testIdPart('search')">
             <input
               ref="searchInputRef"
               v-model="searchQuery"
               type="text"
               :class="bemm('search-input')"
               placeholder="Search..."
+              :data-test-id="testIdPart('search-input')"
               @keydown="handleKeydown"
               @keydown.stop
             />
-            <Icon name="search" :class="bemm('search-icon')" />
+            <Icon name="search" :class="bemm('search-icon')" :data-test-id="testIdPart('search-icon')" />
           </div>
 
-          <div :class="bemm('options')">
+          <div :class="bemm('options')" :data-test-id="testIdPart('options')">
             <div
               v-for="(option, index) in filteredOptions"
               :key="option.value"
@@ -425,6 +433,7 @@ watch(model, () => {
               role="option"
               :aria-selected="option.value === model"
               :aria-disabled="option.disabled"
+              :data-test-id="testIdPart(`option-${option.value}`)"
               @click="!option.disabled && selectOption(option)"
               @mouseenter="selectedIndex = index"
             >
@@ -432,34 +441,39 @@ watch(model, () => {
                 v-if="option.icon"
                 :name="option.icon"
                 :class="bemm('option-icon')"
+                :data-test-id="testIdPart(`option-${option.value}-icon`)"
               />
               <span
                 v-if="option.color"
                 :class="bemm('option-color')"
                 :style="{ backgroundColor: option.color }"
+                :data-test-id="testIdPart(`option-${option.value}-color`)"
               />
               <span
                 :class="bemm('option-content')"
+                :data-test-id="testIdPart(`option-${option.value}-content`)"
                 v-html="option.customContent || option.label"
               />
               <Icon
                 v-if="option.value === model"
                 name="check"
                 :class="bemm('option-check')"
+                :data-test-id="testIdPart(`option-${option.value}-check`)"
               />
             </div>
 
-            <div v-if="filteredOptions.length === 0 && !allowCustom" :class="bemm('no-results')">
+            <div v-if="filteredOptions.length === 0 && !allowCustom" :class="bemm('no-results')" :data-test-id="testIdPart('no-results')">
               No results found
             </div>
 
             <div
               v-if="allowCustom && searchQuery && !filteredOptions.find(o => o.value === searchQuery)"
               :class="bemm('option', { custom: true })"
+              :data-test-id="testIdPart('custom-option')"
               @click="selectCustomValue"
             >
-              <Icon name="add" :class="bemm('option-icon')" />
-              <span :class="bemm('option-content')">
+              <Icon name="add" :class="bemm('option-icon')" :data-test-id="testIdPart('custom-option-icon')" />
+              <span :class="bemm('option-content')" :data-test-id="testIdPart('custom-option-content')">
                 Create "{{ searchQuery }}"
               </span>
             </div>

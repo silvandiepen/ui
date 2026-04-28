@@ -1,54 +1,59 @@
 <template>
-  <nav :aria-label="ariaLabel" :class="bemm()">
+  <nav :aria-label="ariaLabel" :class="bemm()" :data-test-id="testId">
     <section
       v-for="section in sections"
       :key="section.id"
       :class="bemm('section')"
+      :data-test-id="getTestId(props.testId, `section-${section.id}`)"
     >
-      <header :class="bemm('section-header')">
+      <header :class="bemm('section-header')" :data-test-id="getTestId(props.testId, `section-${section.id}-header`)">
         <button
           v-if="isSectionCollapsible(section)"
           type="button"
           :class="bemm('section-toggle')"
           :aria-controls="getSectionItemsId(section)"
           :aria-expanded="isSectionExpanded(section) ? 'true' : 'false'"
+          :data-test-id="getTestId(props.testId, `section-${section.id}-toggle`)"
           @click="toggleSection(section)"
         >
-          <span :class="bemm('section-start')">
-            <Icon v-if="section.icon" :name="section.icon" size="small" :class="bemm('section-icon-custom')" aria-hidden="true" />
-            <span :class="bemm('section-copy')">
-              <span :class="bemm('section-label')">{{ section.label }}</span>
+          <span :class="bemm('section-start')" :data-test-id="getTestId(props.testId, `section-${section.id}-start`)">
+            <Icon v-if="section.icon" :name="section.icon" size="small" :class="bemm('section-icon-custom')" :data-test-id="getTestId(props.testId, `section-${section.id}-icon`)" aria-hidden="true" />
+            <span :class="bemm('section-copy')" :data-test-id="getTestId(props.testId, `section-${section.id}-copy`)">
+              <span :class="bemm('section-label')" :data-test-id="getTestId(props.testId, `section-${section.id}-label`)">{{ section.label }}</span>
               <span
                 v-if="section.description"
                 :class="bemm('section-description')"
+                :data-test-id="getTestId(props.testId, `section-${section.id}-description`)"
               >
                 {{ section.description }}
               </span>
             </span>
           </span>
-          <span :class="bemm('section-meta')">
-            <Badge v-if="showSectionItemCount" :size="Size.SMALL">{{ section.items.length }}</Badge>
+          <span :class="bemm('section-meta')" :data-test-id="getTestId(props.testId, `section-${section.id}-meta`)">
+            <Badge v-if="showSectionItemCount" :size="Size.SMALL" :test-id="getTestId(props.testId, `section-${section.id}-count`)">{{ section.items.length }}</Badge>
             <Icon
               :name="Icons.CHEVRON_DOWN"
               :class="bemm('section-icon', { expanded: isSectionExpanded(section) })"
+              :data-test-id="getTestId(props.testId, `section-${section.id}-chevron`)"
             />
           </span>
         </button>
 
-        <div v-else :class="bemm('section-summary')">
-          <span :class="bemm('section-start')">
-            <Icon v-if="section.icon" :name="section.icon" size="small" :class="bemm('section-icon-custom')" aria-hidden="true" />
-            <span :class="bemm('section-copy')">
-              <span :class="bemm('section-label')">{{ section.label }}</span>
+        <div v-else :class="bemm('section-summary')" :data-test-id="getTestId(props.testId, `section-${section.id}-summary`)">
+          <span :class="bemm('section-start')" :data-test-id="getTestId(props.testId, `section-${section.id}-start`)">
+            <Icon v-if="section.icon" :name="section.icon" size="small" :class="bemm('section-icon-custom')" :data-test-id="getTestId(props.testId, `section-${section.id}-icon`)" aria-hidden="true" />
+            <span :class="bemm('section-copy')" :data-test-id="getTestId(props.testId, `section-${section.id}-copy`)">
+              <span :class="bemm('section-label')" :data-test-id="getTestId(props.testId, `section-${section.id}-label`)">{{ section.label }}</span>
               <span
                 v-if="section.description"
                 :class="bemm('section-description')"
+                :data-test-id="getTestId(props.testId, `section-${section.id}-description`)"
               >
                 {{ section.description }}
               </span>
             </span>
           </span>
-          <Badge v-if="showSectionItemCount">{{ section.items.length }}</Badge>
+          <Badge v-if="showSectionItemCount" :test-id="getTestId(props.testId, `section-${section.id}-count`)">{{ section.items.length }}</Badge>
         </div>
       </header>
 
@@ -56,6 +61,7 @@
         v-show="isSectionExpanded(section)"
         :id="getSectionItemsId(section)"
         :class="bemm('items')"
+        :data-test-id="getTestId(props.testId, `section-${section.id}-items`)"
       >
         <template v-for="item in section.items" :key="item.id">
           <a
@@ -70,11 +76,12 @@
               item.disabled ? bemm('item', 'disabled') : '',
               item.icon ? bemm('item', 'has-icon') : '',
             ]"
+            :data-test-id="getTestId(props.testId, `item-${item.id}`)"
             @click="handleToItemClick($event, item)"
           >
-            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
-            <span :class="bemm('item-copy')">
-              <strong :class="bemm('item-label')">
+            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" :data-test-id="getTestId(props.testId, `item-${item.id}-icon`)" aria-hidden="true" />
+            <span :class="bemm('item-copy')" :data-test-id="getTestId(props.testId, `item-${item.id}-copy`)">
+              <strong :class="bemm('item-label')" :data-test-id="getTestId(props.testId, `item-${item.id}-label`)">
                 <span
                   v-if="item.labelPrefix"
                   :class="bemm('item-label-prefix')"
@@ -107,11 +114,12 @@
               item.disabled ? bemm('item', 'disabled') : '',
               item.icon ? bemm('item', 'has-icon') : '',
             ]"
+            :data-test-id="getTestId(props.testId, `item-${item.id}`)"
             @click="handleHrefItemClick($event, item)"
           >
-            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
-            <span :class="bemm('item-copy')">
-              <strong :class="bemm('item-label')">
+            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" :data-test-id="getTestId(props.testId, `item-${item.id}-icon`)" aria-hidden="true" />
+            <span :class="bemm('item-copy')" :data-test-id="getTestId(props.testId, `item-${item.id}-copy`)">
+              <strong :class="bemm('item-label')" :data-test-id="getTestId(props.testId, `item-${item.id}-label`)">
                 <span
                   v-if="item.labelPrefix"
                   :class="bemm('item-label-prefix')"
@@ -141,11 +149,12 @@
               item.disabled ? bemm('item', 'disabled') : '',
               item.icon ? bemm('item', 'has-icon') : '',
             ]"
+            :data-test-id="getTestId(props.testId, `item-${item.id}`)"
             @click="handleButtonItemClick($event, item)"
           >
-            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" aria-hidden="true" />
-            <span :class="bemm('item-copy')">
-              <strong :class="bemm('item-label')">
+            <Icon v-if="item.icon" :name="item.icon" size="small" :class="bemm('item-icon')" :data-test-id="getTestId(props.testId, `item-${item.id}-icon`)" aria-hidden="true" />
+            <span :class="bemm('item-copy')" :data-test-id="getTestId(props.testId, `item-${item.id}-copy`)">
+              <strong :class="bemm('item-label')" :data-test-id="getTestId(props.testId, `item-${item.id}-label`)">
                 <span
                   v-if="item.labelPrefix"
                   :class="bemm('item-label-prefix')"
@@ -182,6 +191,7 @@ import { useSettingsStore } from '@/stores/settings'
 import { Badge } from '../Badge'
 import { Icon } from '../Icon'
 import { StatusBadge } from '../StatusBadge'
+import { getTestId } from '../../utils/testId'
 
 import type {
   SidebarNavigationItem,
@@ -507,7 +517,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
     padding: m.p('padding', var(--space-s) var(--space));
     border-radius: m.p('border-radius', calc(var(--border-radius, 1rem) * 0.9));
     border: m.p('border', none);
-    background: m.p('background', color-mix(in srgb, var(--color-background), white 48%));
+    background: m.p('background', color-mix(in srgb, var(--color-background), var(--color-background) 48%));
     color: inherit;
     text-decoration: none;
     text-align: left;

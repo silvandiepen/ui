@@ -1,9 +1,16 @@
+import type { TestIdProps } from "../../../types";
+
 /**
  * TypeScript interfaces for InputNumber component
  * Provides type-safe props and configurations for numeric input functionality
  */
 
 export interface InputNumberProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * The current value
    */

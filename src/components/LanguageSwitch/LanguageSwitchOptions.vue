@@ -1,9 +1,13 @@
 <template>
-  <div :class="[bemm(), bemm('', `level-${level}`)]">
+  <div
+    :class="[bemm(), bemm('', `level-${level}`)]"
+    :data-test-id="testId"
+  >
     <div
       v-for="(option, index) in options"
       :key="option.value ?? `${level}-${option.label}-${index}`"
       :class="entryClasses(option)"
+      :data-test-id="getOptionTestId(option, index, 'entry')"
     >
       <button
         v-if="getSelectableOption(option)"
@@ -11,38 +15,62 @@
         :disabled="getSelectableOption(option)?.disabled"
         :aria-expanded="option.children?.length ? shouldShowChildren(option) : undefined"
         :aria-pressed="isOptionActive(option)"
+        :data-test-id="getOptionTestId(option, index)"
         type="button"
         @click="handleSelect(option)"
       >
-        <span :class="bemm('option-main')">
-          <span v-if="showFlags" :class="bemm('flag')">
+        <span
+          :class="bemm('option-main')"
+          :data-test-id="getOptionTestId(option, index, 'main')"
+        >
+          <span
+            v-if="showFlags"
+            :class="bemm('flag')"
+            :data-test-id="getOptionTestId(option, index, 'flag')"
+          >
             <img
               v-if="getLanguageSwitchFlagSrc(option)"
               :src="getLanguageSwitchFlagSrc(option) || undefined"
               :alt="`${option.label} flag`"
               :class="bemm('flag-image')"
+              :data-test-id="getOptionTestId(option, index, 'flag-image')"
             />
             <span
               v-else-if="getLanguageSwitchFlagEmoji(option)"
               :class="bemm('flag-emoji')"
+              :data-test-id="getOptionTestId(option, index, 'flag-emoji')"
             >
               {{ getLanguageSwitchFlagEmoji(option) }}
             </span>
           </span>
 
-          <span :class="bemm('copy')">
-            <strong :class="bemm('label')">{{ option.label }}</strong>
+          <span
+            :class="bemm('copy')"
+            :data-test-id="getOptionTestId(option, index, 'copy')"
+          >
+            <strong
+              :class="bemm('label')"
+              :data-test-id="getOptionTestId(option, index, 'label')"
+            >{{ option.label }}</strong>
             <span
               v-if="showDescriptions && option.description"
               :class="bemm('description')"
+              :data-test-id="getOptionTestId(option, index, 'description')"
             >
               {{ option.description }}
             </span>
           </span>
         </span>
 
-        <span :class="bemm('meta')">
-          <code v-if="getLanguageSwitchOptionCode(option)" :class="bemm('code')">
+        <span
+          :class="bemm('meta')"
+          :data-test-id="getOptionTestId(option, index, 'meta')"
+        >
+          <code
+            v-if="getLanguageSwitchOptionCode(option)"
+            :class="bemm('code')"
+            :data-test-id="getOptionTestId(option, index, 'code')"
+          >
             {{ getLanguageSwitchOptionCode(option) }}
           </code>
           <Icon
@@ -52,11 +80,13 @@
               shouldShowChildren(option) ? bemm('group-indicator', 'open') : '',
             ]"
             name="chevron-down"
+            :data-test-id="getOptionTestId(option, index, 'group-indicator')"
           />
           <Icon
             v-if="showSelectionIndicator && isOptionSelected(option)"
             :class="bemm('indicator')"
             name="check"
+            :data-test-id="getOptionTestId(option, index, 'indicator')"
           />
         </span>
       </button>
@@ -64,28 +94,45 @@
       <div
         v-else
         :class="optionClasses(option)"
+        :data-test-id="getOptionTestId(option, index)"
       >
-        <span :class="bemm('option-main')">
-          <span v-if="showFlags" :class="bemm('flag')">
+        <span
+          :class="bemm('option-main')"
+          :data-test-id="getOptionTestId(option, index, 'main')"
+        >
+          <span
+            v-if="showFlags"
+            :class="bemm('flag')"
+            :data-test-id="getOptionTestId(option, index, 'flag')"
+          >
             <img
               v-if="getLanguageSwitchFlagSrc(option)"
               :src="getLanguageSwitchFlagSrc(option) || undefined"
               :alt="`${option.label} flag`"
               :class="bemm('flag-image')"
+              :data-test-id="getOptionTestId(option, index, 'flag-image')"
             />
             <span
               v-else-if="getLanguageSwitchFlagEmoji(option)"
               :class="bemm('flag-emoji')"
+              :data-test-id="getOptionTestId(option, index, 'flag-emoji')"
             >
               {{ getLanguageSwitchFlagEmoji(option) }}
             </span>
           </span>
 
-          <span :class="bemm('copy')">
-            <strong :class="bemm('label')">{{ option.label }}</strong>
+          <span
+            :class="bemm('copy')"
+            :data-test-id="getOptionTestId(option, index, 'copy')"
+          >
+            <strong
+              :class="bemm('label')"
+              :data-test-id="getOptionTestId(option, index, 'label')"
+            >{{ option.label }}</strong>
             <span
               v-if="showDescriptions && option.description"
               :class="bemm('description')"
+              :data-test-id="getOptionTestId(option, index, 'description')"
             >
               {{ option.description }}
             </span>
@@ -101,6 +148,7 @@
         :show-descriptions="showDescriptions"
         :show-flags="showFlags"
         :show-selection-indicator="showSelectionIndicator"
+        :test-id="getOptionTestId(option, index, 'children')"
         @select="emit('select', $event)"
       />
     </div>
@@ -111,6 +159,7 @@
 import { useBemm } from 'bemm'
 
 import { Icon } from '../Icon'
+import { getTestId } from '../../utils/testId'
 
 import type { LanguageSwitchOption } from './LanguageSwitch.model'
 import {
@@ -132,12 +181,14 @@ const props = withDefaults(defineProps<{
   showDescriptions?: boolean
   showFlags?: boolean
   showSelectionIndicator?: boolean
+  testId?: string
 }>(), {
   activeValue: undefined,
   level: 0,
   showDescriptions: false,
   showFlags: true,
   showSelectionIndicator: true,
+  testId: undefined,
 })
 
 const emit = defineEmits<{
@@ -145,6 +196,11 @@ const emit = defineEmits<{
 }>()
 
 const bemm = useBemm('language-switch-options')
+
+function getOptionTestId(option: LanguageSwitchOption, index: number, part?: string) {
+  const key = option.value ?? option.code ?? `${props.level}-${index}`
+  return getTestId(props.testId, part ? `option-${key}-${part}` : `option-${key}`)
+}
 
 function getSelectableOption(option: LanguageSwitchOption) {
   if (option.value) {

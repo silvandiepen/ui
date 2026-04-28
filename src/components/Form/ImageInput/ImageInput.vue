@@ -7,6 +7,7 @@
     :inline="inline"
     :size="size"
     :description="description"
+    :test-id="testId"
     @change="$emit('change', $event)"
     @touched="$emit('touched', $event)"
   >
@@ -16,15 +17,17 @@
         v-if="modelValue?.url"
         :class="bemm('preview', ['', small ? 'small' : ''])"
         :style="`--current-color: var(--color-${color || 'primary'})`"
+        :data-test-id="getTestId(testId, 'preview')"
         @click="openSelector"
       >
-        <img :src="modelValue.url" :alt="modelValue.alt || placeholder" />
-        <div :class="bemm('actions')">
+        <img :src="modelValue.url" :alt="modelValue.alt || placeholder" :data-test-id="getTestId(testId, 'image')" />
+        <div :class="bemm('actions')" :data-test-id="getTestId(testId, 'actions')">
           <Button
             :icon="Icons.IMAGE"
             size="small"
             :variant="ButtonVariant.OUTLINE"
             :color="Colors.PRIMARY"
+            :test-id="getTestId(testId, 'select-button')"
             @click.stop="openSelector"
           />
           <Button
@@ -33,6 +36,7 @@
             size="small"
             :variant="ButtonVariant.GHOST"
             :color="Colors.ERROR"
+            :test-id="getTestId(testId, 'clear-button')"
             @click.stop="clearImage"
           />
         </div>
@@ -42,10 +46,11 @@
       <div
         v-else
         :class="bemm('placeholder', { small })"
+        :data-test-id="getTestId(testId, 'placeholder')"
         @click="openSelector"
       >
-        <Icon :name="Icons.IMAGE" :size="small ? 'small' : 'large'" />
-        <span v-if="!small">{{ placeholder }}</span>
+        <Icon :name="Icons.IMAGE" :size="small ? 'small' : 'large'" :data-test-id="getTestId(testId, 'placeholder-icon')" />
+        <span v-if="!small" :data-test-id="getTestId(testId, 'placeholder-label')">{{ placeholder }}</span>
       </div>
     </template>
   </InputBase>
@@ -61,6 +66,7 @@ import ImageInputDialog from './ImageInputDialog.vue'
 import { Colors, Size } from '../../../types'
 import { Icons } from 'open-icon'
 import type { ImageValue, ImageInputProps } from './ImageInput.model'
+import { getTestId } from '../../../utils'
 
 const modelValue = defineModel<ImageValue | null>()
 

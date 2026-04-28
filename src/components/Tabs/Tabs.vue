@@ -1,10 +1,14 @@
 <template>
-	<div :class="tabsClasses">
+	<div
+		:class="tabsClasses"
+		:data-test-id="testId"
+	>
 		<TabNavigation
 			:class="[bemm('nav'), props.tabNavClasses, props.tabNavWrapperClasses]"
 			:items="tabItems"
 			:value="activeNavigationId"
 			:vertical="props.vertical"
+			:test-id="getTestId(props.testId, 'navigation')"
 			@input="activateByNavigationId"
 		/>
 
@@ -12,8 +16,12 @@
 			:variant="props.contentCardVariant"
 			:color="props.color"
 			:class="bemm('content-card')"
+			:test-id="getTestId(props.testId, 'content-card')"
 		>
-			<div :class="[bemm('content'), props.tabContentClasses]">
+			<div
+				:class="[bemm('content'), props.tabContentClasses]"
+				:data-test-id="getTestId(props.testId, 'content')"
+			>
 				<slot></slot>
 			</div>
 		</Card>
@@ -30,6 +38,7 @@ import type { ButtonVariant } from '@/components/ui/Button';
 import type { CardProps } from '@/components/ui/Card/Card.model';
 import TabNavigation from './TabNavigation.vue';
 import { useTabsRoot } from './useTabs';
+import { getTestId } from '../../utils/testId';
 
 defineOptions({
 	name: 'ArTabs',
@@ -79,6 +88,10 @@ const props = defineProps({
 	contentCardVariant: {
 		type: String as PropType<CardProps['variant']>,
 		default: 'default',
+	},
+	testId: {
+		type: String,
+		default: undefined,
 	},
 });
 

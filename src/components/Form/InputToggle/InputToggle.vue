@@ -1,42 +1,61 @@
 <template>
   <div
     :class="[bemm(), size ? bemm('', String(size)) : '']"
+    :data-test-id="testId"
   >
-    <div :class="bemm('wrapper')">
+    <div
+      :class="bemm('wrapper')"
+      :data-test-id="getTestId(props.testId, 'wrapper')"
+    >
       <button
         v-if="leftItem"
         type="button"
         :class="bemm('side', { active: isLeft })"
         :disabled="disabled"
+        :data-test-id="getTestId(props.testId, 'left')"
         @click="selectLeft"
       >
         <Icon
           v-if="leftItem.icon"
           :name="leftItem.icon"
           :class="bemm('side-icon')"
+          :data-test-id="getTestId(props.testId, 'left-icon')"
         />
-        <span v-if="leftItem.label" :class="bemm('side-label')">{{ leftItem.label }}</span>
+        <span
+          v-if="leftItem.label"
+          :class="bemm('side-label')"
+          :data-test-id="getTestId(props.testId, 'left-label')"
+        >{{ leftItem.label }}</span>
       </button>
 
       <label
         :class="bemm('control', { disabled })"
         :style="controlStyle"
+        :data-test-id="getTestId(props.testId, 'control')"
       >
         <input
           ref="inputRef"
           :checked="isChecked"
           :class="bemm('input')"
+          :data-test-id="getTestId(props.testId, 'input')"
           :disabled="disabled"
           :name="name"
           type="checkbox"
           @change="handleToggle"
         />
-        <span :class="bemm('track')">
-          <span :class="bemm('thumb')">
+        <span
+          :class="bemm('track')"
+          :data-test-id="getTestId(props.testId, 'track')"
+        >
+          <span
+            :class="bemm('thumb')"
+            :data-test-id="getTestId(props.testId, 'thumb')"
+          >
             <Icon
               v-if="activeIcon"
               :name="activeIcon"
               :class="bemm('thumb-icon')"
+              :data-test-id="getTestId(props.testId, 'thumb-icon')"
             />
           </span>
         </span>
@@ -47,19 +66,26 @@
         type="button"
         :class="bemm('side', { active: !isLeft })"
         :disabled="disabled"
+        :data-test-id="getTestId(props.testId, 'right')"
         @click="selectRight"
       >
         <Icon
           v-if="rightItem.icon"
           :name="rightItem.icon"
           :class="bemm('side-icon')"
+          :data-test-id="getTestId(props.testId, 'right-icon')"
         />
-        <span v-if="rightItem.label" :class="bemm('side-label')">{{ rightItem.label }}</span>
+        <span
+          v-if="rightItem.label"
+          :class="bemm('side-label')"
+          :data-test-id="getTestId(props.testId, 'right-label')"
+        >{{ rightItem.label }}</span>
       </button>
 
       <span
         v-if="label"
         :class="bemm('label')"
+        :data-test-id="getTestId(props.testId, 'label')"
         @click="focusInput"
       >
         {{ label }}
@@ -69,6 +95,7 @@
     <div
       v-if="description"
       :class="bemm('description')"
+      :data-test-id="getTestId(props.testId, 'description')"
     >
       {{ description }}
     </div>
@@ -76,11 +103,13 @@
     <div
       v-if="error.length"
       :class="bemm('errors')"
+      :data-test-id="getTestId(props.testId, 'errors')"
     >
       <span
         v-for="err in error"
         :key="err"
         :class="bemm('error')"
+        :data-test-id="getTestId(props.testId, 'error')"
       >
         {{ err }}
       </span>
@@ -93,6 +122,7 @@ import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 import Icon from '../../Icon/Icon.vue'
 import type { InputToggleEmits, InputToggleProps, ToggleItem, ToggleValue } from './InputToggle.model'
+import { getTestId } from '../../../utils/testId'
 
 const model = defineModel<ToggleValue>({ default: false })
 

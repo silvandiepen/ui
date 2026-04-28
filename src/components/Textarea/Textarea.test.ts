@@ -21,4 +21,14 @@ describe("Textarea", () => {
 
     expect(wrapper.emitted("update:modelValue")?.[0]).toEqual(["Hello"]);
   });
+
+  it("renders a test id on the textarea", () => {
+    const wrapper = mount(Textarea, {
+      props: {
+        testId: "notes"
+      }
+    });
+
+    expect(wrapper.find('textarea[data-test-id="notes"]').exists()).toBe(true);
+  });
 });

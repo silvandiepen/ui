@@ -1,29 +1,61 @@
 <template>
-  <div :class="bemm('', ['', size ? size : '', disabled ? 'disabled' : '', readonly ? 'readonly' : '', hasError ? 'error' : ''])">
-    <label v-if="label" :class="bemm('label')" :for="inputId">
+  <div
+    :class="bemm('', ['', size ? size : '', disabled ? 'disabled' : '', readonly ? 'readonly' : '', hasError ? 'error' : ''])"
+    :data-test-id="testId"
+  >
+    <label
+      v-if="label"
+      :class="bemm('label')"
+      :for="inputId"
+      :data-test-id="getTestId(props.testId, 'label')"
+    >
       {{ label }}
-      <span v-if="required" :class="bemm('required')">*</span>
+      <span
+        v-if="required"
+        :class="bemm('required')"
+        :data-test-id="getTestId(props.testId, 'required')"
+      >*</span>
     </label>
 
-    <div v-if="description && !hasError" :class="bemm('description')">
+    <div
+      v-if="description && !hasError"
+      :class="bemm('description')"
+      :data-test-id="getTestId(props.testId, 'description')"
+    >
       {{ description }}
     </div>
 
-    <div :class="bemm('control-container')">
+    <div
+      :class="bemm('control-container')"
+      :data-test-id="getTestId(props.testId, 'control-container')"
+    >
       <div
         v-if="showValue && valuePosition === 'left'"
         :class="bemm('value', ['left'])"
+        :data-test-id="getTestId(props.testId, 'value-left')"
       >
-        <span v-if="prefix" :class="bemm('prefix')">{{ prefix }}</span>
+        <span
+          v-if="prefix"
+          :class="bemm('prefix')"
+          :data-test-id="getTestId(props.testId, 'prefix')"
+        >{{ prefix }}</span>
         {{ displayValue }}
-        <span v-if="suffix" :class="bemm('suffix')">{{ suffix }}</span>
+        <span
+          v-if="suffix"
+          :class="bemm('suffix')"
+          :data-test-id="getTestId(props.testId, 'suffix')"
+        >{{ suffix }}</span>
       </div>
 
-      <div :class="bemm('track-wrapper')">
+      <div
+        :class="bemm('track-wrapper')"
+        :data-test-id="getTestId(props.testId, 'track-wrapper')"
+      >
         <input
           :id="inputId"
           v-model="internalValue"
           :class="bemm('control')"
+          :data-test-id="getTestId(props.testId, 'control')"
           type="range"
           :min="min"
           :max="max"
@@ -39,23 +71,51 @@
           @focus="handleFocus"
           @blur="handleBlur"
         />
-        <div :class="bemm('track')" />
-        <div :class="bemm('progress')" :style="progressStyle" />
+        <div
+          :class="bemm('track')"
+          :data-test-id="getTestId(props.testId, 'track')"
+        />
+        <div
+          :class="bemm('progress')"
+          :style="progressStyle"
+          :data-test-id="getTestId(props.testId, 'progress')"
+        />
       </div>
 
       <div
         v-if="showValue && valuePosition === 'right'"
         :class="bemm('value', ['right'])"
+        :data-test-id="getTestId(props.testId, 'value-right')"
       >
-        <span v-if="prefix" :class="bemm('prefix')">{{ prefix }}</span>
+        <span
+          v-if="prefix"
+          :class="bemm('prefix')"
+          :data-test-id="getTestId(props.testId, 'prefix')"
+        >{{ prefix }}</span>
         {{ displayValue }}
-        <span v-if="suffix" :class="bemm('suffix')">{{ suffix }}</span>
+        <span
+          v-if="suffix"
+          :class="bemm('suffix')"
+          :data-test-id="getTestId(props.testId, 'suffix')"
+        >{{ suffix }}</span>
       </div>
     </div>
 
-    <div v-if="hasError" :class="bemm('errors')">
-      <div v-for="(err, idx) in errorMessages" :key="idx" :class="bemm('error')">
-        <span :class="bemm('error-text')">{{ err }}</span>
+    <div
+      v-if="hasError"
+      :class="bemm('errors')"
+      :data-test-id="getTestId(props.testId, 'errors')"
+    >
+      <div
+        v-for="(err, idx) in errorMessages"
+        :key="idx"
+        :class="bemm('error')"
+        :data-test-id="getTestId(props.testId, `error-${idx}`)"
+      >
+        <span
+          :class="bemm('error-text')"
+          :data-test-id="getTestId(props.testId, `error-${idx}-text`)"
+        >{{ err }}</span>
       </div>
     </div>
   </div>
@@ -65,6 +125,7 @@
 import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 import type { InputRangeProps, InputRangeEmits } from './InputRange.model'
+import { getTestId } from '../../../utils/testId'
 
 const props = withDefaults(defineProps<InputRangeProps>(), {
   min: 0,

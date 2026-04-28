@@ -6,17 +6,34 @@
       compact ? bemm('', 'compact') : '',
       variant ? bemm('', variant) : '',
     ]"
+    :data-test-id="testId"
   >
-    <div :class="bemm('inner')" :style="{ '--platform-footer-max-width': maxWidth }">
-      <div v-if="$slots.brand" :class="bemm('brand')">
+    <div
+      :class="bemm('inner')"
+      :style="{ '--platform-footer-max-width': maxWidth }"
+      :data-test-id="getTestId(props.testId, 'inner')"
+    >
+      <div
+        v-if="$slots.brand"
+        :class="bemm('brand')"
+        :data-test-id="getTestId(props.testId, 'brand')"
+      >
         <slot name="brand" />
       </div>
 
-      <div v-if="$slots.nav" :class="bemm('nav')">
+      <div
+        v-if="$slots.nav"
+        :class="bemm('nav')"
+        :data-test-id="getTestId(props.testId, 'nav')"
+      >
         <slot name="nav" />
       </div>
 
-      <div v-if="$slots.meta" :class="bemm('meta')">
+      <div
+        v-if="$slots.meta"
+        :class="bemm('meta')"
+        :data-test-id="getTestId(props.testId, 'meta')"
+      >
         <slot name="meta" />
       </div>
     </div>
@@ -25,6 +42,7 @@
       v-if="$slots.secondary || $slots.default"
       :class="bemm('secondary')"
       :style="{ '--platform-footer-max-width': maxWidth }"
+      :data-test-id="getTestId(props.testId, 'secondary')"
     >
       <slot name="secondary">
         <slot />
@@ -38,12 +56,13 @@ import { useBemm } from "bemm";
 import { ref } from "vue";
 
 import { PlatformFooterVariant, type PlatformFooterProps } from "./PlatformFooter.model";
+import { getTestId } from "../../utils/testId";
 
 defineOptions({
   name: "PlatformFooter"
 });
 
-withDefaults(defineProps<PlatformFooterProps>(), {
+const props = withDefaults(defineProps<PlatformFooterProps>(), {
   compact: false,
   maxWidth: "88rem",
   variant: PlatformFooterVariant.DEFAULT,

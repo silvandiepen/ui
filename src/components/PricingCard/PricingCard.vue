@@ -3,43 +3,46 @@
     :class="bemm('',['', plan.popular ? 'highlighted' : '', isCurrentPlan ? 'current' : ''])"
     :badge="getBadgeText()"
     :badge-color="getBadgeColor()"
+    :test-id="testId"
   >
     <template #header>
-      <div :class="bemm('header')">
-        <h3 :class="bemm('name')">{{ t(plan.name) }}</h3>
-        <p :class="bemm('description')">{{ t(plan.description) }}</p>
+      <div :class="bemm('header')" :data-test-id="getTestId(props.testId, 'header')">
+        <h3 :class="bemm('name')" :data-test-id="getTestId(props.testId, 'name')">{{ t(plan.name) }}</h3>
+        <p :class="bemm('description')" :data-test-id="getTestId(props.testId, 'description')">{{ t(plan.description) }}</p>
       </div>
     </template>
 
-    <div :class="bemm('pricing')">
-      <div :class="bemm('price')">
-        <span :class="bemm('amount')">
+    <div :class="bemm('pricing')" :data-test-id="getTestId(props.testId, 'pricing')">
+      <div :class="bemm('price')" :data-test-id="getTestId(props.testId, 'price')">
+        <span :class="bemm('amount')" :data-test-id="getTestId(props.testId, 'amount')">
           {{ formattedPrice }}
         </span>
-        <span v-if="plan.price[billingPeriod] > 0" :class="bemm('period')">
+        <span v-if="plan.price[billingPeriod] > 0" :class="bemm('period')" :data-test-id="getTestId(props.testId, 'period')">
           /{{ billingPeriod === 'yearly' ? 'year' : 'month' }}
         </span>
       </div>
-      <div v-if="billingPeriod === 'yearly' && plan.price.yearly > 0" :class="bemm('monthly-equivalent')">
+      <div v-if="billingPeriod === 'yearly' && plan.price.yearly > 0" :class="bemm('monthly-equivalent')" :data-test-id="getTestId(props.testId, 'monthly-equivalent')">
         {{ formatPriceValue(plan.price.yearly / 12) }}/month
       </div>
-      <div v-if="billingPeriod === 'yearly' && plan.price.yearly > 0 && plan.price.monthly > 0" :class="bemm('savings')">
+      <div v-if="billingPeriod === 'yearly' && plan.price.yearly > 0 && plan.price.monthly > 0" :class="bemm('savings')" :data-test-id="getTestId(props.testId, 'savings')">
         Save {{ formatPriceValue((plan.price.monthly * 12) - plan.price.yearly) }}
       </div>
     </div>
 
-    <div v-if="showFeatures" :class="bemm('features')">
-      <ul :class="bemm('feature-list')">
+    <div v-if="showFeatures" :class="bemm('features')" :data-test-id="getTestId(props.testId, 'features')">
+      <ul :class="bemm('feature-list')" :data-test-id="getTestId(props.testId, 'feature-list')">
         <li
           v-for="feature in displayedFeatures"
           :key="feature.id"
           :class="bemm('feature', ['', feature.included ? 'included' : 'excluded'])"
+          :data-test-id="getTestId(props.testId, `feature-${feature.id}`)"
         >
           <Icon
             :name="feature.included ? 'check' : 'x'"
             :class="bemm('feature-icon', ['', feature.included ? 'included' : 'excluded'])"
+            :data-test-id="getTestId(props.testId, `feature-${feature.id}-icon`)"
           />
-          <span :class="bemm('feature-text')">
+          <span :class="bemm('feature-text')" :data-test-id="getTestId(props.testId, `feature-${feature.id}-text`)">
             {{ feature.name }}
           </span>
         </li>
@@ -47,13 +50,14 @@
     </div>
 
     <template #footer>
-      <div :class="bemm('action')">
+      <div :class="bemm('action')" :data-test-id="getTestId(props.testId, 'action')">
         <Button
           v-if="!isCurrentPlan && onAction"
           :variant="plan.ctaVariant === 'primary' ? 'primary' : 'secondary'"
           :disabled="plan.id === 'enterprise' && !actionText?.includes('Contact')"
           @click="handleAction"
           block
+          :test-id="getTestId(props.testId, 'action-button')"
         >
           {{ getActionText() }}
         </Button>
@@ -62,6 +66,7 @@
           variant="outline"
           disabled
           block
+          :test-id="getTestId(props.testId, 'current-button')"
         >
           {{ t('pricing.current') }}
         </Button>
@@ -78,6 +83,7 @@ import type { PricingCardProps } from './PricingCard.model'
 import { Card } from '../Card'
 import { Button } from '../Button'
 import { Icon } from '../Icon'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<PricingCardProps>(), {
   billingPeriod: 'monthly',

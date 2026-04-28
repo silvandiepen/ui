@@ -1,14 +1,40 @@
 <template>
-  <div :class="blockClasses" :data-variant="variant" :style="styles">
-    <div v-if="badge" :class="bemm('badge')" :style="badgeStyles">
+  <div
+    :class="blockClasses"
+    :data-variant="variant"
+    :style="styles"
+    :data-test-id="testId"
+  >
+    <div
+      v-if="badge"
+      :class="bemm('badge')"
+      :style="badgeStyles"
+      :data-test-id="getTestId(props.testId, 'badge')"
+    >
       {{ badge }}
     </div>
 
     <!-- Header -->
-    <div v-if="showHeader" :class="[bemm('header'), noHeaderPadding && bemm('header', 'no-padding')]">
-      <div v-if="title || description" :class="bemm('headline')">
-        <h3 v-if="title" :class="bemm('title')">{{ title }}</h3>
-        <p v-if="description" :class="bemm('description')">
+    <div
+      v-if="showHeader"
+      :class="[bemm('header'), noHeaderPadding && bemm('header', 'no-padding')]"
+      :data-test-id="getTestId(props.testId, 'header')"
+    >
+      <div
+        v-if="title || description"
+        :class="bemm('headline')"
+        :data-test-id="getTestId(props.testId, 'headline')"
+      >
+        <h3
+          v-if="title"
+          :class="bemm('title')"
+          :data-test-id="getTestId(props.testId, 'title')"
+        >{{ title }}</h3>
+        <p
+          v-if="description"
+          :class="bemm('description')"
+          :data-test-id="getTestId(props.testId, 'description')"
+        >
           {{ description }}
         </p>
       </div>
@@ -21,16 +47,24 @@
         :icon-only="true"
         size="small"
         :class="bemm('header-actions')"
+        :test-id="getTestId(props.testId, 'header-actions')"
       />
     </div>
 
     <!-- Content -->
-    <div :class="[bemm('content'), noContentPadding && bemm('content', 'no-padding')]">
+    <div
+      :class="[bemm('content'), noContentPadding && bemm('content', 'no-padding')]"
+      :data-test-id="getTestId(props.testId, 'content')"
+    >
       <slot />
     </div>
 
     <!-- Footer -->
-    <div v-if="showFooter" :class="[bemm('footer'), noFooterPadding && bemm('footer', 'no-padding')]">
+    <div
+      v-if="showFooter"
+      :class="[bemm('footer'), noFooterPadding && bemm('footer', 'no-padding')]"
+      :data-test-id="getTestId(props.testId, 'footer')"
+    >
       <slot name="footer">
         <Actions
           v-if="footerActions?.length"
@@ -38,6 +72,7 @@
           align="end"
           gap="m"
           :class="bemm('footer-actions')"
+          :test-id="getTestId(props.testId, 'footer-actions')"
         />
       </slot>
     </div>
@@ -49,6 +84,7 @@ import { useBemm } from 'bemm'
 import { computed } from 'vue'
 import type { CardProps } from './Card.model'
 import Actions from '../Actions/Actions.vue'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<CardProps>(), {
   variant: 'default',

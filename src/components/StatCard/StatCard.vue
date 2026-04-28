@@ -1,27 +1,68 @@
 <template>
-  <article :class="blockClasses" :style="blockStyles">
-    <div :class="bemm('top')">
-      <div :class="bemm('value-wrap')">
-        <p :class="bemm('value')">
-          <span v-if="prefix" :class="bemm('affix', 'prefix')">{{ prefix }}</span>
+  <article
+    :class="blockClasses"
+    :style="blockStyles"
+    :data-test-id="testId"
+  >
+    <div
+      :class="bemm('top')"
+      :data-test-id="getTestId(props.testId, 'top')"
+    >
+      <div
+        :class="bemm('value-wrap')"
+        :data-test-id="getTestId(props.testId, 'value-wrap')"
+      >
+        <p
+          :class="bemm('value')"
+          :data-test-id="getTestId(props.testId, 'value')"
+        >
+          <span
+            v-if="prefix"
+            :class="bemm('affix', 'prefix')"
+            :data-test-id="getTestId(props.testId, 'prefix')"
+          >{{ prefix }}</span>
           <slot name="value">{{ displayValue }}</slot>
-          <span v-if="suffix" :class="bemm('affix', 'suffix')">{{ suffix }}</span>
+          <span
+            v-if="suffix"
+            :class="bemm('affix', 'suffix')"
+            :data-test-id="getTestId(props.testId, 'suffix')"
+          >{{ suffix }}</span>
         </p>
       </div>
 
-      <div v-if="hasIcon" :class="bemm('icon')">
+      <div
+        v-if="hasIcon"
+        :class="bemm('icon')"
+        :data-test-id="getTestId(props.testId, 'icon')"
+      >
         <slot name="icon">
-          <Icon v-if="icon" :name="icon" size="large" />
+          <Icon
+            v-if="icon"
+            :name="icon"
+            size="large"
+            :data-test-id="getTestId(props.testId, 'icon-svg')"
+          />
         </slot>
       </div>
     </div>
 
-    <div :class="bemm('body')">
-      <p v-if="label || $slots.label" :class="bemm('label')">
+    <div
+      :class="bemm('body')"
+      :data-test-id="getTestId(props.testId, 'body')"
+    >
+      <p
+        v-if="label || $slots.label"
+        :class="bemm('label')"
+        :data-test-id="getTestId(props.testId, 'label')"
+      >
         <slot name="label">{{ label }}</slot>
       </p>
 
-      <div v-if="description || $slots.default" :class="bemm('description')">
+      <div
+        v-if="description || $slots.default"
+        :class="bemm('description')"
+        :data-test-id="getTestId(props.testId, 'description')"
+      >
         <slot>{{ description }}</slot>
       </div>
     </div>
@@ -34,6 +75,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 
 import Icon from '../Icon/Icon.vue'
 import type { StatCardProps } from './StatCard.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'StatCard'

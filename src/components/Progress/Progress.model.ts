@@ -1,4 +1,7 @@
+import type { TestIdProps } from "../../types";
+
 export interface ProgressProps {
+  testId?: TestIdProps['testId']
   details?: string[]
   indeterminate?: boolean
   label?: string

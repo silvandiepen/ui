@@ -2,6 +2,7 @@
   <div
     ref="rootElement"
     :class="bemm()"
+    :data-test-id="testId"
   >
     <InputBase
       :block="block"
@@ -10,10 +11,11 @@
       :disabled="disabled"
       :error="error"
       :value="selectedLabel"
+      :test-id="testId"
       @touched="$emit('touched', $event)"
     >
-      <template #control="{ id, disabled: controlDisabled }">
-        <div :class="bemm('control')">
+      <template #control="{ id, disabled: controlDisabled, testIdPart }">
+        <div :class="bemm('control')" :data-test-id="testIdPart('cascader-control')">
           <button
             :id="id"
             type="button"
@@ -22,26 +24,30 @@
               disabled: controlDisabled,
             })"
             :disabled="controlDisabled"
+            :data-test-id="testIdPart('trigger')"
             @click="toggleOpen"
           >
-            <span :class="bemm('trigger-text', { placeholder: !selectedLabel })">
+            <span :class="bemm('trigger-text', { placeholder: !selectedLabel })" :data-test-id="testIdPart('trigger-text')">
               {{ selectedLabel || placeholder }}
             </span>
             <Icon
               :class="bemm('trigger-icon')"
               name="arrow-down"
               size="small"
+              :data-test-id="testIdPart('trigger-icon')"
             />
           </button>
 
           <div
             v-if="open"
             :class="bemm('panel')"
+            :data-test-id="testIdPart('panel')"
           >
             <div
               v-for="(column, depth) in columns"
               :key="depth"
               :class="bemm('column')"
+              :data-test-id="testIdPart(`column-${depth}`)"
             >
               <button
                 v-for="option in column"
@@ -52,22 +58,25 @@
                   disabled: option.disabled,
                 })"
                 :disabled="option.disabled"
+                :data-test-id="testIdPart(`option-${depth}-${option.value}`)"
                 @click="handleOptionSelect(option, depth)"
               >
-                <span :class="bemm('option-main')">
+                <span :class="bemm('option-main')" :data-test-id="testIdPart(`option-${depth}-${option.value}-main`)">
                   <Icon
                     v-if="option.icon"
                     :class="bemm('option-icon')"
                     :name="option.icon"
                     size="small"
+                    :data-test-id="testIdPart(`option-${depth}-${option.value}-icon`)"
                   />
-                  <span>{{ option.label }}</span>
+                  <span :data-test-id="testIdPart(`option-${depth}-${option.value}-label`)">{{ option.label }}</span>
                 </span>
                 <Icon
                   v-if="option.children?.length"
                   :class="bemm('option-arrow')"
                   name="arrow-right"
                   size="small"
+                  :data-test-id="testIdPart(`option-${depth}-${option.value}-arrow`)"
                 />
               </button>
             </div>

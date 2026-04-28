@@ -1,5 +1,8 @@
 <template>
-  <section :class="blockClasses">
+  <section
+    :class="blockClasses"
+    :data-test-id="testId"
+  >
     <button
       type="button"
       :class="bemm('header')"
@@ -7,16 +10,32 @@
       :aria-expanded="`${isOpen}`"
       :aria-label="resolvedAriaLabel"
       :disabled="props.disabled"
+      :data-test-id="getTestId(props.testId, 'header')"
       @click="handleHeaderClick"
     >
-      <span :class="bemm('header-main')">
-        <span v-if="hasIcon" :class="bemm('icon')">
+      <span
+        :class="bemm('header-main')"
+        :data-test-id="getTestId(props.testId, 'header-main')"
+      >
+        <span
+          v-if="hasIcon"
+          :class="bemm('icon')"
+          :data-test-id="getTestId(props.testId, 'icon')"
+        >
           <slot name="icon">
-            <Icon v-if="props.icon" :name="props.icon" />
+            <Icon
+              v-if="props.icon"
+              :name="props.icon"
+              :data-test-id="getTestId(props.testId, 'icon-svg')"
+            />
           </slot>
         </span>
 
-        <span v-if="hasLabel" :class="bemm('copy')">
+        <span
+          v-if="hasLabel"
+          :class="bemm('copy')"
+          :data-test-id="getTestId(props.testId, 'label')"
+        >
           <slot name="label">{{ props.label }}</slot>
         </span>
       </span>
@@ -24,6 +43,7 @@
       <span
         :class="indicatorClasses"
         :data-toggle-icon="props.toggleIcon"
+        :data-test-id="getTestId(props.testId, 'indicator')"
         aria-hidden="true"
       />
     </button>
@@ -32,6 +52,7 @@
       v-show="isOpen"
       :id="resolvedContentId"
       :class="bemm('content')"
+      :data-test-id="getTestId(props.testId, 'content')"
     >
       <slot
         :is-open="isOpen"
@@ -52,6 +73,7 @@ import { useId } from '@/composables/useId'
 import { Icon } from '../Icon'
 
 import type { CollapsibleEventContext, CollapsibleProps } from './Collapsible.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'Collapsible',

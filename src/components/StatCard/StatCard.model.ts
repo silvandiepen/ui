@@ -1,6 +1,7 @@
-import type { Color, IconNameOrString } from '../../types'
+import type { Color, IconNameOrString, TestIdProps } from '../../types'
 
 export interface StatCardProps {
+  testId?: TestIdProps['testId']
   value: number | string
   label?: string
   description?: string

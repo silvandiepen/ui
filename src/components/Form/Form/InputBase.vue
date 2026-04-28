@@ -1,25 +1,36 @@
 <!-- InputBase.vue -->
 <template>
-	<div :class="inputClasses">
+	<div
+		:class="inputClasses"
+		:data-test-id="props.testId"
+	>
 		<label
 			v-if="label"
 			:for="ids.id"
 			:class="bemm('label')"
+			:data-test-id="testIdPart('label')"
 		>
 			{{ label }}
 		</label>
 		<div
 			v-if="description"
 			:class="bemm('description')"
+			:data-test-id="testIdPart('description')"
 		>
 			{{ description }}
 		</div>
-		<div :class="bemm('control-container')">
+		<div
+			:class="bemm('control-container')"
+			:data-test-id="testIdPart('control-container')"
+		>
 			<slot
 				:id="ids.id"
 				name="control"
 				:value="internalValue"
 				:disabled="disabled"
+				:test-id="props.testId"
+				:control-test-id="getTestId(props.testId, 'control')"
+				:test-id-part="testIdPart"
 				:handle-input="handleInput"
 				:handle-touch="handleTouch"
 				:handle-focus="handleFocus"
@@ -33,6 +44,7 @@
 					ref="control"
 					:value="internalValue"
 					:class="bemm('control')"
+					:data-test-id="getTestId(props.testId, 'control')"
 					:placeholder="placeholder"
 					:type="type"
 					:disabled="disabled"
@@ -51,24 +63,34 @@
 			<span
 				v-if="status"
 				:class="bemm('status', status)"
+				:data-test-id="testIdPart('status')"
 			>
 				<slot
 					v-if="status == Status.SUCCESS"
 					name="success-icon"
 				>
-					<Icon name="check-circle" />
+					<Icon
+						name="check-circle"
+						:data-test-id="testIdPart('success-icon')"
+					/>
 				</slot>
 				<slot
 					v-if="status == Status.LOADING"
 					name="loading-icon"
 				>
-					<Icon name="loader" />
+					<Icon
+						name="loader"
+						:data-test-id="testIdPart('loading-icon')"
+					/>
 				</slot>
 				<slot
 					v-if="status == Status.ERROR"
 					name="error-icon"
 				>
-					<Icon name="alert-circle" />
+					<Icon
+						name="alert-circle"
+						:data-test-id="testIdPart('error-icon')"
+					/>
 				</slot>
 			</span>
 
@@ -78,6 +100,7 @@
 				:variant="ButtonVariant.GHOST"
 				icon="x"
 				:class="bemm('reset')"
+				:test-id="testIdPart('reset')"
 				@click="handleReset"
 			/>
 		</div>
@@ -85,17 +108,20 @@
 			v-if="instructions"
 			:id="ids.describedBy"
 			:class="bemm('instructions')"
+			:data-test-id="testIdPart('instructions')"
 		>
 			{{ instructions }}
 		</span>
 		<div
 			v-if="validationErrors.length || error.length"
 			:class="bemm('errors')"
+			:data-test-id="testIdPart('errors')"
 		>
 			<div
 				v-for="err in displayErrors"
 				:key="err"
 				:class="bemm('error')"
+				:data-test-id="testIdPart('error')"
 			>
 				<span :class="bemm('error-text')">
 					{{ err }}
@@ -105,6 +131,7 @@
 				v-for="err in validationErrors"
 				:key="err"
 				:class="bemm('error')"
+				:data-test-id="testIdPart('validation-error')"
 			>
 				<span :class="bemm('error-text')">
 					{{ err }}
@@ -119,15 +146,16 @@ import { ref, reactive, onMounted, computed } from 'vue';
 import Button from '../../Button/Button.vue';
 import { ButtonVariant } from '../../Button/Button.model';
 import Icon from '../../Icon/Icon.vue';
-import { Size, Status } from '../../../types';
+import { Size, Status, type TestIdProps } from '../../../types';
 import { useBemm } from 'bemm';
 import { useId } from '../../../composables/useId';
+import { getTestId } from '../../../utils/testId';
 
 const model = defineModel<T>();
 
 type InputMode = 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
 
-type Props = {
+type Props = TestIdProps & {
 	value?: T;
 	label?: string;
 	placeholder?: string;
@@ -164,6 +192,7 @@ const props = withDefaults(defineProps<Props>(), {
 	label: '',
 	placeholder: '',
 	id: '',
+	testId: undefined,
 	describedBy: '',
 	description: '',
 	instructions: '',
@@ -212,6 +241,8 @@ const displayErrors = computed(() => {
 	if (!props.maxErrors) return props.error;
 	return props.error.slice(0, props.maxErrors);
 });
+
+const testIdPart = (part?: string) => getTestId(props.testId, part);
 
 const patternToRegex = (pattern: string): RegExp => {
 	// Convert pattern like "0-9" to "[0-9]"

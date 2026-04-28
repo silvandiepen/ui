@@ -1,4 +1,5 @@
 import type { IconNameOrString } from '../../Icon/Icon.model'
+import type { TestIdProps } from "../../../types";
 
 export type ToggleValue = boolean | string | number
 
@@ -9,6 +10,7 @@ export interface ToggleItem {
 }
 
 export interface InputToggleProps {
+  testId?: TestIdProps['testId']
   modelValue?: ToggleValue
   label?: string
   description?: string

@@ -1,4 +1,11 @@
+import type { TestIdProps } from '../../../types'
+
 export interface FormProps {
+  /**
+   * Test id for the form root.
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * Form ID
    */

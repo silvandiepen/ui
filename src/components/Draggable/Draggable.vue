@@ -1,5 +1,8 @@
 <template>
-  <div :class="bemm()">
+  <div
+    :class="bemm()"
+    :data-test-id="testId"
+  >
     <div
       v-for="(item, index) in modelValue"
       :key="resolveKey(item, index)"
@@ -11,13 +14,21 @@
         props.itemClass && (typeof props.itemClass === 'string' ? props.itemClass : props.itemClass(item, index)),
       ]"
       :draggable="!disabled"
+      :data-test-id="getTestId(props.testId, `item-${index}`)"
       @dragstart="onDragStart(index, $event)"
       @dragover.prevent="onDragOver(index, $event)"
       @drop.prevent="onDrop(index)"
       @dragend="onDragEnd"
     >
-      <span :class="bemm('handle')" aria-hidden="true">
-        <Icon name="grip-vertical" />
+      <span
+        :class="bemm('handle')"
+        :data-test-id="getTestId(props.testId, `item-${index}-handle`)"
+        aria-hidden="true"
+      >
+        <Icon
+          name="grip-vertical"
+          :data-test-id="getTestId(props.testId, `item-${index}-handle-icon`)"
+        />
       </span>
       <slot name="item" :item="item" :index="index" />
     </div>
@@ -29,6 +40,7 @@ import { ref } from 'vue'
 import { useBemm } from 'bemm'
 import { Icon } from '../Icon'
 import type { DraggableProps } from './Draggable.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({ name: 'Draggable' })
 

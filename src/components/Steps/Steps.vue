@@ -1,24 +1,65 @@
 <template>
-  <div :class="bemm()" :data-direction="direction">
+  <div
+    :class="bemm()"
+    :data-direction="direction"
+    :data-test-id="testId"
+  >
     <div
       v-for="(step, index) in steps"
       :key="index"
       :class="bemm('step', [getStepStatus(index)])"
       :style="getStepStyle(step, index)"
+      :data-test-id="getTestId(props.testId, `step-${index}`)"
     >
-      <div :class="bemm('indicator')">
-        <div :class="bemm('circle', [getStepStatus(index)])">
-          <Icon v-if="step.icon" :name="step.icon" />
-          <span v-else-if="getStepStatus(index) === 'completed'" :class="bemm('check')">&#10003;</span>
-          <span v-else-if="showNumber" :class="bemm('number')">{{ index + 1 }}</span>
-          <span v-else :class="bemm('number')">{{ index + 1 }}</span>
+      <div
+        :class="bemm('indicator')"
+        :data-test-id="getTestId(props.testId, `step-${index}-indicator`)"
+      >
+        <div
+          :class="bemm('circle', [getStepStatus(index)])"
+          :data-test-id="getTestId(props.testId, `step-${index}-circle`)"
+        >
+          <Icon
+            v-if="step.icon"
+            :name="step.icon"
+            :data-test-id="getTestId(props.testId, `step-${index}-icon`)"
+          />
+          <span
+            v-else-if="getStepStatus(index) === 'completed'"
+            :class="bemm('check')"
+            :data-test-id="getTestId(props.testId, `step-${index}-check`)"
+          >&#10003;</span>
+          <span
+            v-else-if="showNumber"
+            :class="bemm('number')"
+            :data-test-id="getTestId(props.testId, `step-${index}-number`)"
+          >{{ index + 1 }}</span>
+          <span
+            v-else
+            :class="bemm('number')"
+            :data-test-id="getTestId(props.testId, `step-${index}-number`)"
+          >{{ index + 1 }}</span>
         </div>
-        <div v-if="index < steps.length - 1" :class="bemm('connector', [getStepStatus(index)])" />
+        <div
+          v-if="index < steps.length - 1"
+          :class="bemm('connector', [getStepStatus(index)])"
+          :data-test-id="getTestId(props.testId, `step-${index}-connector`)"
+        />
       </div>
 
-      <div :class="bemm('content')">
-        <span :class="bemm('title')">{{ step.title }}</span>
-        <span v-if="step.description" :class="bemm('description')">{{ step.description }}</span>
+      <div
+        :class="bemm('content')"
+        :data-test-id="getTestId(props.testId, `step-${index}-content`)"
+      >
+        <span
+          :class="bemm('title')"
+          :data-test-id="getTestId(props.testId, `step-${index}-title`)"
+        >{{ step.title }}</span>
+        <span
+          v-if="step.description"
+          :class="bemm('description')"
+          :data-test-id="getTestId(props.testId, `step-${index}-description`)"
+        >{{ step.description }}</span>
       </div>
     </div>
   </div>
@@ -29,6 +70,7 @@ import { computed } from 'vue'
 import { useBemm } from 'bemm'
 import Icon from '../Icon/Icon.vue'
 import type { StepsProps, StepsEmits, StepStatus } from './Steps.model'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<StepsProps>(), {
   currentStep: 0,

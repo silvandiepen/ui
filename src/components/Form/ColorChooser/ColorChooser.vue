@@ -1,35 +1,38 @@
 <template>
-  <div :class="bemm('', [disabled ? 'disabled' : ''])">
-    <div v-if="label" :class="bemm('label')">{{ label }}</div>
-    <div v-if="description" :class="bemm('description')">{{ description }}</div>
-    <div :class="bemm('preview')" :style="{ backgroundColor: previewColor }" />
+  <div
+    :class="bemm('', [disabled ? 'disabled' : ''])"
+    :data-test-id="testId"
+  >
+    <div v-if="label" :class="bemm('label')" :data-test-id="getTestId(props.testId, 'label')">{{ label }}</div>
+    <div v-if="description" :class="bemm('description')" :data-test-id="getTestId(props.testId, 'description')">{{ description }}</div>
+    <div :class="bemm('preview')" :style="{ backgroundColor: previewColor }" :data-test-id="getTestId(props.testId, 'preview')" />
 
-    <div :class="bemm('surface')">
-      <div :class="bemm('picker-row')">
+    <div :class="bemm('surface')" :data-test-id="getTestId(props.testId, 'surface')">
+      <div :class="bemm('picker-row')" :data-test-id="getTestId(props.testId, 'picker-row')">
         <div
           v-if="wheel"
           ref="wheelShellElement"
           :class="bemm('wheel-shell')"
           :style="wheelStyle"
-          data-testid="color-chooser-wheel"
+          :data-test-id="getTestId(props.testId, 'wheel')"
         >
-          <div :class="bemm('wheel-ring')" @pointerdown="handleHuePointerDown" />
-          <div :class="bemm('wheel-hue-marker')" :style="hueMarkerStyle" />
+          <div :class="bemm('wheel-ring')" :data-test-id="getTestId(props.testId, 'wheel-ring')" @pointerdown="handleHuePointerDown" />
+          <div :class="bemm('wheel-hue-marker')" :style="hueMarkerStyle" :data-test-id="getTestId(props.testId, 'wheel-hue-marker')" />
 
           <div
             ref="planeElement"
             :class="bemm('plane')"
             :style="planeStyle"
-            data-testid="color-chooser-plane"
+            :data-test-id="getTestId(props.testId, 'plane')"
             @pointerdown.stop="handlePlanePointerDown"
           >
-            <div :class="bemm('plane-white')" />
-            <div :class="bemm('plane-black')" />
-            <div :class="bemm('plane-marker')" :style="planeMarkerStyle" />
+            <div :class="bemm('plane-white')" :data-test-id="getTestId(props.testId, 'plane-white')" />
+            <div :class="bemm('plane-black')" :data-test-id="getTestId(props.testId, 'plane-black')" />
+            <div :class="bemm('plane-marker')" :style="planeMarkerStyle" :data-test-id="getTestId(props.testId, 'plane-marker')" />
           </div>
         </div>
 
-        <div :class="bemm('sliders')">
+        <div :class="bemm('sliders')" :data-test-id="getTestId(props.testId, 'sliders')">
           <ColorChooserSlider
             :model-value="opacity"
             label="%"
@@ -37,6 +40,7 @@
             :max="100"
             :disabled="disabled"
             :gradient="opacityGradient"
+            :test-id="getTestId(props.testId, 'opacity')"
             @update:model-value="setOpacity"
           />
 
@@ -47,6 +51,7 @@
             :max="100"
             :disabled="disabled"
             :gradient="saturationGradient"
+            :test-id="getTestId(props.testId, 'saturation')"
             @update:model-value="(value) => setHslChannel('s', value)"
           />
 
@@ -57,21 +62,24 @@
             :max="100"
             :disabled="disabled"
             :gradient="lightnessGradient"
+            :test-id="getTestId(props.testId, 'lightness')"
             @update:model-value="(value) => setHslChannel('l', value)"
           />
         </div>
       </div>
 
-      <div :class="bemm('fields')">
+      <div :class="bemm('fields')" :data-test-id="getTestId(props.testId, 'fields')">
         <div
           v-if="showInputModeTabs && availableInputModes.length > 0"
           :class="bemm('mode-tabs')"
+          :data-test-id="getTestId(props.testId, 'mode-tabs')"
         >
           <TabNavigation
             :items="modeTabItems"
             :value="activeInputMode"
             :minimal="true"
             :size="Size.SMALL"
+            :test-id="getTestId(props.testId, 'mode-tabs-nav')"
             @input="handleModeTabInput"
           />
         </div>
@@ -91,6 +99,7 @@
             :controls="false"
             :disabled="disabled"
             :size="Size.SMALL"
+            :test-id="getTestId(props.testId, 'hex')"
             @update:model-value="setFromTextInput"
           />
         </FormField>
@@ -220,9 +229,9 @@
         </FormGroup>
       </div>
 
-      <div v-if="complimentaryColors.length" :class="bemm('complimentary')">
-        <span :class="bemm('complimentary-label')">Complimentary</span>
-        <div :class="bemm('complimentary-list')">
+      <div v-if="complimentaryColors.length" :class="bemm('complimentary')" :data-test-id="getTestId(props.testId, 'complimentary')">
+        <span :class="bemm('complimentary-label')" :data-test-id="getTestId(props.testId, 'complimentary-label')">Complimentary</span>
+        <div :class="bemm('complimentary-list')" :data-test-id="getTestId(props.testId, 'complimentary-list')">
           <button
             v-for="color in complimentaryColors"
             :key="color"
@@ -231,14 +240,15 @@
             :title="color"
             type="button"
             :disabled="disabled"
+            :data-test-id="getTestId(props.testId, `complimentary-${color}`)"
             @click="setFromTextInput(color)"
           />
         </div>
       </div>
 
-      <div v-if="normalizedRecentColors.length" :class="bemm('swatch-group')">
-        <span :class="bemm('complimentary-label')">Recent</span>
-        <div :class="bemm('complimentary-list')">
+      <div v-if="normalizedRecentColors.length" :class="bemm('swatch-group')" :data-test-id="getTestId(props.testId, 'recent')">
+        <span :class="bemm('complimentary-label')" :data-test-id="getTestId(props.testId, 'recent-label')">Recent</span>
+        <div :class="bemm('complimentary-list')" :data-test-id="getTestId(props.testId, 'recent-list')">
           <button
             v-for="color in normalizedRecentColors"
             :key="`recent-${color}`"
@@ -247,14 +257,15 @@
             :title="color"
             type="button"
             :disabled="disabled"
+            :data-test-id="getTestId(props.testId, `recent-${color}`)"
             @click="setFromTextInput(color)"
           />
         </div>
       </div>
 
-      <div v-if="normalizedPaletteColors.length" :class="bemm('swatch-group')">
-        <span :class="bemm('complimentary-label')">Palette</span>
-        <div :class="bemm('complimentary-list')">
+      <div v-if="normalizedPaletteColors.length" :class="bemm('swatch-group')" :data-test-id="getTestId(props.testId, 'palette')">
+        <span :class="bemm('complimentary-label')" :data-test-id="getTestId(props.testId, 'palette-label')">Palette</span>
+        <div :class="bemm('complimentary-list')" :data-test-id="getTestId(props.testId, 'palette-list')">
           <button
             v-for="color in normalizedPaletteColors"
             :key="`palette-${color}`"
@@ -263,6 +274,7 @@
             :title="color"
             type="button"
             :disabled="disabled"
+            :data-test-id="getTestId(props.testId, `palette-${color}`)"
             @click="setFromTextInput(color)"
           />
         </div>
@@ -299,6 +311,7 @@ import {
   sanitizeHsl,
 } from "./ColorChooser.utils";
 import { Size } from "../../../types";
+import { getTestId } from "../../../utils/testId";
 
 const props = withDefaults(defineProps<ColorChooserProps>(), {
   modelValue: "#4b0082",

@@ -1,4 +1,4 @@
-import { Colors } from "../../types"
+import { Colors, type TestIdProps } from "../../types"
 import { ButtonVariant } from "../Button"
 
 export interface Action {
@@ -28,6 +28,7 @@ export interface ContextMenuItem {
 }
 
 export interface ActionsProps {
+  testId?: TestIdProps['testId']
   actions: Action[]
   variant?: 'inline' | 'stacked' | 'justified'
   size?: 'small' | 'medium' | 'large'

@@ -8,6 +8,7 @@
     :min-secondary-size="sidebar.minMainWidth"
     :settings-key="sidebar.settingsKey"
     :disabled="isMobile"
+    :test-id="testId"
     aria-label="Application layout"
   >
     <template #start>
@@ -16,15 +17,17 @@
         :sticky="false"
         :variant="'float'"
         :mobile-enabled="false"
+        :test-id="getTestId(props.testId, 'sidebar')"
       >
         <template v-if="isMobile || $slots['sidebar-header']" #header>
-          <div :class="bemm('sidebar-header-row')">
+          <div :class="bemm('sidebar-header-row')" :data-test-id="getTestId(props.testId, 'sidebar-header')">
             <slot name="sidebar-header" />
             <button
               v-if="isMobile"
               :class="bemm('sidebar-close')"
               type="button"
               aria-label="Close sidebar"
+              :data-test-id="getTestId(props.testId, 'sidebar-close')"
               @click="closeSidebar"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -39,6 +42,7 @@
           :class="bemm('nav')"
           :sections="props.navigation"
           :settings-key="props.navigationSettingsKey"
+          :test-id="getTestId(props.testId, 'navigation')"
         />
 
         <template v-if="$slots['sidebar-footer']" #footer>
@@ -48,8 +52,8 @@
     </template>
 
     <template #end>
-      <div :class="bemm('body')">
-        <PlatformHeader :class="bemm('header')" :max-width="header.maxWidth" :variant="header.variant">
+      <div :class="bemm('body')" :data-test-id="getTestId(props.testId, 'body')">
+        <PlatformHeader :class="bemm('header')" :max-width="header.maxWidth" :variant="header.variant" :test-id="getTestId(props.testId, 'header')">
           <template v-if="isMobile || $slots.brand" #brand>
             <button
               v-if="isMobile"
@@ -57,6 +61,7 @@
               type="button"
               :aria-label="sidebarOpen ? 'Close sidebar' : 'Open sidebar'"
               :aria-expanded="`${sidebarOpen}`"
+              :data-test-id="getTestId(props.testId, 'menu-trigger')"
               @click="toggleSidebar"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -79,20 +84,21 @@
           :min-size="split.minWidth"
           :min-secondary-size="split.minSecondaryWidth"
           :settings-key="split.settingsKey"
+          :test-id="getTestId(props.testId, 'split')"
         >
           <template #start>
-            <div :class="bemm('content')">
+            <div :class="bemm('content')" :data-test-id="getTestId(props.testId, 'content')">
               <slot />
             </div>
           </template>
           <template #end>
-            <div :class="bemm('split-panel')">
+            <div :class="bemm('split-panel')" :data-test-id="getTestId(props.testId, 'split-panel')">
               <slot name="split" />
             </div>
           </template>
         </Resizable>
 
-        <div v-else :class="bemm('content')">
+        <div v-else :class="bemm('content')" :data-test-id="getTestId(props.testId, 'content')">
           <slot />
         </div>
       </div>
@@ -103,6 +109,7 @@
     <div
       v-if="isMobile && sidebarOpen"
       :class="bemm('backdrop')"
+      :data-test-id="getTestId(props.testId, 'backdrop')"
       aria-hidden="true"
       @click="closeSidebar"
     />
@@ -120,6 +127,7 @@ import { Sidebar } from '../Sidebar'
 import { SidebarNavigation } from '../SidebarNavigation'
 
 import type { AppLayoutProps } from './AppLayout.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({ name: 'AppLayout' })
 

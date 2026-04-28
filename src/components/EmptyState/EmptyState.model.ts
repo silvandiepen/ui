@@ -1,6 +1,8 @@
 import type { ButtonProps } from '../Button'
+import type { TestIdProps } from '../../types'
 
 export interface EmptyStateProps {
+  testId?: TestIdProps['testId']
   icon?: string
   title?: string
   description?: string

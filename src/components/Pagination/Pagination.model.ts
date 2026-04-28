@@ -1,6 +1,8 @@
 import type { PaginationItem } from './Pagination.utils';
+import type { TestIdProps } from '../../types';
 
 export type PaginationProps = {
+	testId?: TestIdProps['testId'];
 	currentPage?: number;
 	value?: number;
 	pageSize?: number;

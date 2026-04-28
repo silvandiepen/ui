@@ -1,5 +1,5 @@
 import type { ButtonVariant } from '../Button'
-import type { Colors, IconNameOrString } from '../../types'
+import type { Colors, IconNameOrString, TestIdProps } from '../../types'
 
 export interface SignupProviderAction {
   id: string
@@ -21,6 +21,7 @@ export interface SignupFormValue {
 }
 
 export interface SignupFormProps {
+  testId?: TestIdProps['testId']
   modelValue?: Partial<SignupFormValue>
   eyebrow?: string
   title?: string

@@ -1,5 +1,8 @@
 <template>
-  <div :class="bemm()">
+  <div
+    :class="bemm()"
+    :data-test-id="testId"
+  >
     <Popover
       placement="bottom"
       width="fit-content"
@@ -9,12 +12,18 @@
           type="button"
           :class="bemm('trigger')"
           :aria-label="selectColorLabel"
+          :data-test-id="getTestId(props.testId, 'trigger')"
         >
           <span
             :class="bemm('selected', ['',modelValue ? 'has-color' : 'no-color'])"
             :style="modelValue ? { backgroundColor: currentColor } : {}"
+            :data-test-id="getTestId(props.testId, 'selected')"
           >
-            <span v-if="!modelValue" :class="bemm('placeholder')">
+            <span
+              v-if="!modelValue"
+              :class="bemm('placeholder')"
+              :data-test-id="getTestId(props.testId, 'placeholder')"
+            >
               {{ selectColorLabel }}
             </span>
           </span>
@@ -23,6 +32,7 @@
             :name="Icons.CHEVRON_DOWN"
             size="small"
             :class="bemm('icon')"
+            :data-test-id="getTestId(props.testId, 'icon')"
           />
         </button>
       </template>
@@ -35,6 +45,7 @@
           :label="''"
           inline
           :style="{ '--color-picker-control-frame-display': 'none' }"
+          :test-id="getTestId(props.testId, 'picker')"
           @update:model-value="(color) => handleColorUpdate(color ?? '', close)"
         />
       </template>
@@ -50,9 +61,11 @@ import { Icon } from '../../Icon'
 import { Popover } from '../../Popover'
 import ColorPicker from '../ColorPicker/ColorPicker.vue'
 import { useI18n } from '../../../composables/useI18n';
-import { AllColors } from '../../../types'
+import { AllColors, type TestIdProps } from '../../../types'
+import { getTestId } from '../../../utils/testId'
 
 const props = defineProps<{
+  testId?: TestIdProps['testId']
   modelValue?: string
   colors?: string[]
   columns?: number | 'auto'

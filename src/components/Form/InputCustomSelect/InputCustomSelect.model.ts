@@ -1,4 +1,4 @@
-import type { Size } from '../../../types'
+import type { Size, TestIdProps } from '../../../types'
 
 export interface CustomOption {
   label: string
@@ -12,6 +12,7 @@ export interface CustomOption {
 }
 
 export interface InputCustomSelectProps {
+  testId?: TestIdProps['testId']
   /**
    * The current selected value
    */

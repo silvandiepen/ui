@@ -1,11 +1,15 @@
 <template>
-  <div :class="bemm('',{ [size]: true, [variant]: true })">
+  <div
+    :class="bemm('',{ [size]: true, [variant]: true })"
+    :data-test-id="testId"
+  >
     <button
       v-for="num in numbers"
       :key="num"
       type="button"
       :class="bemm('button', { number: true })"
       :disabled="disabled"
+      :data-test-id="getTestId(props.testId, `number-${num}`)"
       @click="handleNumberClick(num.toString())"
     >
       {{ num }}
@@ -16,10 +20,14 @@
       type="button"
       :class="bemm('button', { clear: true })"
       :disabled="disabled || disableClear"
+      :data-test-id="getTestId(props.testId, 'clear')"
       @click="handleClearClick"
     >
       <slot name="clear">
-        <Icon :name="clearIcon" />
+        <Icon
+          :name="clearIcon"
+          :data-test-id="getTestId(props.testId, 'clear-icon')"
+        />
       </slot>
     </button>
 
@@ -27,6 +35,7 @@
       type="button"
       :class="bemm('button', { number: true, zero: true })"
       :disabled="disabled"
+      :data-test-id="getTestId(props.testId, 'number-0')"
       @click="handleNumberClick('0')"
     >
       0
@@ -37,10 +46,14 @@
       type="button"
       :class="bemm('button',['', 'submit'])"
       :disabled="disabled || disableSubmit"
+      :data-test-id="getTestId(props.testId, 'submit')"
       @click="handleSubmitClick"
     >
       <slot name="submit">
-        <Icon :name="submiIcon" />
+        <Icon
+          :name="submiIcon"
+          :data-test-id="getTestId(props.testId, 'submit-icon')"
+        />
       </slot>
     </button>
   </div>
@@ -52,6 +65,7 @@ import { useBemm } from 'bemm'
 import { Icons } from 'open-icon'
 import Icon from '../../Icon/Icon.vue'
 import type { NumberPadProps, NumberPadEmits } from './NumberPad.model'
+import { getTestId } from '../../../utils/testId'
 
 const props = withDefaults(defineProps<NumberPadProps>(), {
   showClear: true,

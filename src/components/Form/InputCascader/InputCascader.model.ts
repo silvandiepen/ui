@@ -1,4 +1,4 @@
-import type { Size } from '../../../types'
+import type { Size, TestIdProps } from '../../../types'
 
 export interface InputCascaderOption {
   label: string
@@ -9,6 +9,7 @@ export interface InputCascaderOption {
 }
 
 export interface InputCascaderProps {
+  testId?: TestIdProps['testId']
   modelValue?: string[]
   label?: string
   description?: string

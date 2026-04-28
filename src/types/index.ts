@@ -38,8 +38,14 @@ export type NotificationStatus = (typeof NotificationStatus)[keyof typeof Notifi
 
 export interface BaseComponentProps {
   id?: string
+  testId?: string
   class?: string | string[] | Record<string, boolean>
   style?: string | Record<string, string>
+}
+
+export interface TestIdProps {
+  /** Test id rendered as data-test-id on the component root. */
+  testId?: string
 }
 
 export type ComponentSize = Size

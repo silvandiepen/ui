@@ -1,20 +1,21 @@
 <template>
-  <header :class="bemm(['', fixed ? 'fixed' : 'sticky'])">
-    <div :class="bemm('shell')">
+  <header :class="bemm(['', fixed ? 'fixed' : 'sticky'])" :data-test-id="testId">
+    <div :class="bemm('shell')" :data-test-id="getTestId(props.testId, 'shell')">
       <component
         :is="brandComponent"
         :to="brandComponent === 'router-link' ? brandTo : undefined"
         :href="brandComponent === 'a' ? brandHref : undefined"
         :class="bemm('logo')"
         :aria-label="brandAriaLabel"
+        :data-test-id="getTestId(props.testId, 'brand')"
       >
         <slot name="brand-mark" />
-        <span v-if="brandSuffix" :class="bemm('logo-text')">
+        <span v-if="brandSuffix" :class="bemm('logo-text')" :data-test-id="getTestId(props.testId, 'brand-text')">
           {{ brandSuffix }}
         </span>
       </component>
 
-      <nav v-if="navItems.length" :class="bemm('nav')" aria-label="Primary">
+      <nav v-if="navItems.length" :class="bemm('nav')" aria-label="Primary" :data-test-id="getTestId(props.testId, 'nav')">
         <component
           :is="item.to ? 'router-link' : 'a'"
           v-for="item in navItems"
@@ -27,17 +28,18 @@
             bemm('nav-link'),
             isActive(item) ? bemm('nav-link', 'active') : '',
           ]"
+          :data-test-id="getTestId(props.testId, `nav-${item.label}`)"
         >
-          <Icon v-if="item.icon" :name="item.icon" :class="bemm('nav-icon')" />
-          <span>{{ item.label }}</span>
+          <Icon v-if="item.icon" :name="item.icon" :class="bemm('nav-icon')" :data-test-id="getTestId(props.testId, `nav-${item.label}-icon`)" />
+          <span :data-test-id="getTestId(props.testId, `nav-${item.label}-label`)">{{ item.label }}</span>
         </component>
       </nav>
 
-      <div :class="bemm('actions')">
-        <div v-if="$slots.utilities" :class="bemm('utilities')">
+      <div :class="bemm('actions')" :data-test-id="getTestId(props.testId, 'actions')">
+        <div v-if="$slots.utilities" :class="bemm('utilities')" :data-test-id="getTestId(props.testId, 'utilities')">
           <slot name="utilities" />
         </div>
-        <div v-if="$slots.actions" :class="bemm('action-slot')">
+        <div v-if="$slots.actions" :class="bemm('action-slot')" :data-test-id="getTestId(props.testId, 'action-slot')">
           <slot name="actions" />
         </div>
       </div>
@@ -50,6 +52,7 @@ import { computed } from 'vue'
 import { useBemm } from 'bemm'
 import { Icon } from '../Icon'
 import type { FloatingHeaderNavItem, FloatingHeaderProps } from './FloatingHeader.model'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<FloatingHeaderProps>(), {
   navItems: () => [],

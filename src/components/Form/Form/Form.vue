@@ -5,6 +5,7 @@
     :method="method"
     :action="action"
     :class="formClasses"
+    :data-test-id="testId"
     @submit="handleSubmit"
     @reset="handleReset"
   >

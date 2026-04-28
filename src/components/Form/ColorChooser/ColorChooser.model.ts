@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../../types";
+
 export type ColorChooserFormat = 'hex' | 'rgb' | 'hsl'
 export type ColorChooserInputMode = 'hex' | 'rgb' | 'hsl'
 export type ColorChooserComplimentaryType = 'shade' | 'tint' | 'tone' | 'hue'
@@ -20,6 +22,7 @@ export interface ColorChooserRgb {
 }
 
 export interface ColorChooserProps {
+  testId?: TestIdProps['testId']
   modelValue?: string
   label?: string
   description?: string

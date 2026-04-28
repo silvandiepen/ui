@@ -1,6 +1,12 @@
 <template>
-  <div :class="bemm()">
-    <div :class="bemm('display')">
+  <div
+    :class="bemm()"
+    :data-test-id="testId"
+  >
+    <div
+      :class="bemm('display')"
+      :data-test-id="getTestId(props.testId, 'display')"
+    >
       <div
         v-for="(_, index) in length"
         :key="index"
@@ -11,8 +17,13 @@
             error: !!error
           })
         "
+        :data-test-id="getTestId(props.testId, `dot-${index}`)"
       >
-        <span v-if="showValue && modelValue[index]" :class="bemm('value')">
+        <span
+          v-if="showValue && modelValue[index]"
+          :class="bemm('value')"
+          :data-test-id="getTestId(props.testId, `dot-${index}-value`)"
+        >
           {{ mask ? maskCharacter : modelValue[index] }}
         </span>
       </div>
@@ -29,6 +40,7 @@
       :maxlength="length"
       :disabled="disabled"
       :class="bemm('input')"
+      :data-test-id="getTestId(props.testId, 'input')"
       @input="handleInput"
       @keydown="handleKeydown"
       @focus="handleFocus"
@@ -41,6 +53,7 @@
 import { ref, watch, nextTick } from 'vue'
 import { useBemm } from 'bemm'
 import type { PinInputProps, PinInputEmits } from './PinInput.model'
+import { getTestId } from '../../../utils/testId'
 
 const props = withDefaults(defineProps<PinInputProps>(), {
   modelValue: '',

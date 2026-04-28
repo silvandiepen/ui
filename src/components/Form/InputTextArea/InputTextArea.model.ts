@@ -1,9 +1,16 @@
+import type { TestIdProps } from "../../../types";
+
 /**
  * TypeScript interfaces for InputTextArea component
  * Provides type-safe props and configurations for multi-line text input functionality
  */
 
 export interface InputTextAreaProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * The current value
    */

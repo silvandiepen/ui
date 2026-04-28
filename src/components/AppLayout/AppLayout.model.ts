@@ -1,5 +1,6 @@
 import type { SidebarNavigationSection } from '../SidebarNavigation'
 import type { PlatformHeaderVariant } from '../PlatformHeader'
+import type { TestIdProps } from '../../types'
 
 export interface AppLayoutSidebarConfig {
   defaultWidth?: number
@@ -32,6 +33,7 @@ export interface AppLayoutConfig {
 }
 
 export interface AppLayoutProps {
+  testId?: TestIdProps['testId']
   config?: AppLayoutConfig
   navigation?: SidebarNavigationSection[]
   navigationSettingsKey?: string

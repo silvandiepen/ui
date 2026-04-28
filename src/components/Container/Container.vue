@@ -1,41 +1,52 @@
 <template>
-  <div :class="bemm('', ['', fluid ? 'fluid' : ''])" :style="containerStyle">
+  <div
+    :class="bemm('', ['', fluid ? 'fluid' : ''])"
+    :style="containerStyle"
+    :data-test-id="testId"
+  >
     <header v-if="showHeader && (title || subtitle || headerActions?.length || $slots.header || back || next)"
-      :class="bemm('header', { 'no-padding': disableHeaderPadding })">
+      :class="bemm('header', { 'no-padding': disableHeaderPadding })"
+      :data-test-id="getTestId(props.testId, 'header')">
       <Button v-if="back" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROW_LEFT" @click="handleBack"
-        :class="bemm('back-button')" />
+        :class="bemm('back-button')" :test-id="getTestId(props.testId, 'back')" />
 
       <Button v-if="next" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROW_RIGHT" @click="handleNext"
-        :class="bemm('next-button')" />
-      <div :class="bemm('header-left')">
-        <div :class="bemm('header-content')">
-          <div v-if="title || subtitle" :class="bemm('header-text')">
-            <h1 v-if="title" :class="bemm('title')">{{ title }}</h1>
-            <p v-if="subtitle" :class="bemm('subtitle')">{{ subtitle }}</p>
+        :class="bemm('next-button')" :test-id="getTestId(props.testId, 'next')" />
+      <div :class="bemm('header-left')" :data-test-id="getTestId(props.testId, 'header-left')">
+        <div :class="bemm('header-content')" :data-test-id="getTestId(props.testId, 'header-content')">
+          <div v-if="title || subtitle" :class="bemm('header-text')" :data-test-id="getTestId(props.testId, 'header-text')">
+            <h1 v-if="title" :class="bemm('title')" :data-test-id="getTestId(props.testId, 'title')">{{ title }}</h1>
+            <p v-if="subtitle" :class="bemm('subtitle')" :data-test-id="getTestId(props.testId, 'subtitle')">{{ subtitle }}</p>
           </div>
-          <div v-if="$slots.header" :class="bemm('header-slot')">
+          <div v-if="$slots.header" :class="bemm('header-slot')" :data-test-id="getTestId(props.testId, 'header-slot')">
             <slot name="header" />
           </div>
         </div>
       </div>
-      <div :class="bemm('header-right')">
+      <div :class="bemm('header-right')" :data-test-id="getTestId(props.testId, 'header-right')">
         <Actions v-if="headerActions?.length" :actions="headerActions"
           :size="headerActionSize"
           align="end"
           gap="s"
-          :class="bemm('header-actions')" />
+          :class="bemm('header-actions')"
+          :test-id="getTestId(props.testId, 'header-actions')" />
       </div>
     </header>
 
-    <main :class="bemm('content', ['', disableContentPadding ? 'no-padding' : ''])">
+    <main
+      :class="bemm('content', ['', disableContentPadding ? 'no-padding' : ''])"
+      :data-test-id="getTestId(props.testId, 'content')"
+    >
       <slot />
     </main>
 
     <footer v-if="showFooter && (footerActions?.length || $slots.footer)"
-      :class="bemm('footer', { 'no-padding': disableFooterPadding })">
+      :class="bemm('footer', { 'no-padding': disableFooterPadding })"
+      :data-test-id="getTestId(props.testId, 'footer')">
       <slot name="footer" />
       <Actions v-if="footerActions?.length" :actions="footerActions" layout="horizontal" alignment="center"
-        :class="bemm('footer-actions')" />
+        :class="bemm('footer-actions')"
+        :test-id="getTestId(props.testId, 'footer-actions')" />
     </footer>
   </div>
 </template>
@@ -48,6 +59,7 @@ import Actions from '../Actions/Actions.vue'
 import Button from '../Button/Button.vue'
 import { ButtonVariant } from '../Button/Button.model'
 import { Icons } from 'open-icon'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<ContainerProps>(), {
   showHeader: true,

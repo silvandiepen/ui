@@ -10,8 +10,9 @@
     :style="{
       '--sidebar-width': props.width,
     }"
+    :data-test-id="testId"
   >
-    <div :class="bemm('container')">
+    <div :class="bemm('container')" :data-test-id="getTestId(props.testId, 'container')">
       <button
         v-if="showMobileTrigger"
         type="button"
@@ -19,29 +20,31 @@
         :aria-label="mobileOpen ? props.mobileCloseLabel : props.mobileOpenLabel"
         :aria-expanded="`${mobileOpen}`"
         :aria-controls="mobilePanelId"
+        :data-test-id="getTestId(props.testId, 'mobile-trigger')"
         @click="toggleMobile"
       >
-        <Icon :name="mobileOpen ? Icons.ARROW_LEFT : Icons.ARROW_RIGHT" :class="bemm('mobile-trigger-arrow')" aria-hidden="true" />
+        <Icon :name="mobileOpen ? Icons.ARROW_LEFT : Icons.ARROW_RIGHT" :class="bemm('mobile-trigger-arrow')" :data-test-id="getTestId(props.testId, 'mobile-trigger-icon')" aria-hidden="true" />
       </button>
 
-      <div v-show="panelVisible" :id="mobilePanelId" :class="bemm('panel')">
+      <div v-show="panelVisible" :id="mobilePanelId" :class="bemm('panel')" :data-test-id="getTestId(props.testId, 'panel')">
         <header
           v-if="props.title || props.subtitle || $slots.header"
           :class="bemm('header')"
+          :data-test-id="getTestId(props.testId, 'header')"
         >
           <slot name="header">
-            <div :class="bemm('headline')">
-              <h2 v-if="props.title" :class="bemm('title')">{{ props.title }}</h2>
-              <p v-if="props.subtitle" :class="bemm('subtitle')">{{ props.subtitle }}</p>
+            <div :class="bemm('headline')" :data-test-id="getTestId(props.testId, 'headline')">
+              <h2 v-if="props.title" :class="bemm('title')" :data-test-id="getTestId(props.testId, 'title')">{{ props.title }}</h2>
+              <p v-if="props.subtitle" :class="bemm('subtitle')" :data-test-id="getTestId(props.testId, 'subtitle')">{{ props.subtitle }}</p>
             </div>
           </slot>
         </header>
 
-        <div :class="bemm('content')">
+        <div :class="bemm('content')" :data-test-id="getTestId(props.testId, 'content')">
           <slot />
         </div>
 
-        <footer v-if="$slots.footer" :class="bemm('footer')">
+        <footer v-if="$slots.footer" :class="bemm('footer')" :data-test-id="getTestId(props.testId, 'footer')">
           <slot name="footer" />
         </footer>
       </div>
@@ -59,6 +62,7 @@ import { useId } from '@/composables/useId'
 import { SidebarVariant, type SidebarProps } from './Sidebar.model'
 import Icon from '../Icon/Icon.vue'
 import { Icons } from 'open-icon'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({ name: 'Sidebar' })
 

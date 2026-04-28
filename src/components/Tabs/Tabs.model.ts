@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue';
-import type { Colors } from '@/types';
+import type { Colors, TestIdProps } from '@/types';
 import type { ButtonVariant } from '@/components/ui/Button';
 import type { CardProps } from '@/components/ui/Card/Card.model';
 
@@ -23,6 +23,7 @@ export type TabsContext = {
 };
 
 export type TabsRootProps = {
+	testId?: TestIdProps['testId'];
 	type?: string;
 	activeTab?: string;
 	value?: string;
@@ -45,6 +46,7 @@ export type TabPaneProps = {
 	title?: string;
 	id?: string | number | null;
 	icon?: string;
+	testId?: TestIdProps['testId'];
 };
 
 export type TabNavigationItem = {

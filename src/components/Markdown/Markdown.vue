@@ -2,6 +2,7 @@
   <component
     :is="tag"
     :class="bemm()"
+    :data-test-id="testId"
     v-html="renderedContent"
   />
 </template>

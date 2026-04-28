@@ -7,14 +7,16 @@
     :inline="inline"
     :size="size"
     :description="description"
+    :test-id="testId"
     @change="$emit('change', $event)"
     @touched="$emit('touched', $event)"
   >
-    <template #control>
+    <template #control="{ testIdPart }">
       <div
         v-if="colors.length || savedCustomColors.length"
         :class="bemm('grid')"
         :style="gridStyle"
+        :data-test-id="testIdPart('grid')"
       >
         <!-- Preset colors -->
         <button
@@ -26,9 +28,10 @@
           :aria-pressed="modelValue === color"
           type="button"
           :disabled="disabled"
+          :data-test-id="testIdPart(`color-${color}`)"
           @click="selectColor(color)"
         >
-          <Icon v-if="modelValue === color" :class="bemm('icon')" :name="Icons.CHECK_FAT" size="small" />
+          <Icon v-if="modelValue === color" :class="bemm('icon')" :name="Icons.CHECK_FAT" size="small" :data-test-id="testIdPart(`color-${color}-icon`)" />
         </button>
 
         <!-- Saved custom colors -->
@@ -42,45 +45,50 @@
           :aria-pressed="modelValue === hex"
           type="button"
           :disabled="disabled"
+          :data-test-id="testIdPart(`custom-color-${hex}`)"
           @click="selectColor(hex)"
         >
-          <span :class="bemm('color-delete')" @click.stop="removeCustomColor(hex)">
-            <Icon :name="Icons.CLOSE" size="small" />
+          <span :class="bemm('color-delete')" :data-test-id="testIdPart(`custom-color-${hex}-delete`)" @click.stop="removeCustomColor(hex)">
+            <Icon :name="Icons.CLOSE" size="small" :data-test-id="testIdPart(`custom-color-${hex}-delete-icon`)" />
           </span>
-          <Icon v-if="modelValue === hex" :class="bemm('icon')" :name="Icons.CHECK_FAT" size="small" />
+          <Icon v-if="modelValue === hex" :class="bemm('icon')" :name="Icons.CHECK_FAT" size="small" :data-test-id="testIdPart(`custom-color-${hex}-icon`)" />
         </button>
       </div>
 
-      <div v-if="allowCustom" :class="bemm('custom')">
+      <div v-if="allowCustom" :class="bemm('custom')" :data-test-id="testIdPart('custom')">
         <Popover v-model="isCustomPopoverOpen" placement="bottom" :disabled="disabled">
           <template #trigger>
             <button
               type="button"
               :class="bemm('custom-trigger')"
               :disabled="disabled"
+              :data-test-id="testIdPart('custom-trigger')"
               aria-label="Choose a custom color"
             >
               <span
                 :class="bemm('custom-trigger-swatch')"
                 :style="{ backgroundColor: customDraftHex }"
+                :data-test-id="testIdPart('custom-trigger-swatch')"
               />
-              <span :class="bemm('custom-trigger-value')">{{ customDraftHex }}</span>
-              <Icon :name="Icons.PLUS" size="small" />
+              <span :class="bemm('custom-trigger-value')" :data-test-id="testIdPart('custom-trigger-value')">{{ customDraftHex }}</span>
+              <Icon :name="Icons.PLUS" size="small" :data-test-id="testIdPart('custom-trigger-icon')" />
             </button>
           </template>
 
           <template #default="{ close }">
-            <div :class="bemm('custom-popover')">
+            <div :class="bemm('custom-popover')" :data-test-id="testIdPart('custom-popover')">
               <ColorChooser
                 v-model="customDraftHex"
                 :recent-colors="savedCustomColors"
                 :show-hsl-sliders="false"
                 output-format="hex"
+                :test-id="testIdPart('custom-chooser')"
               />
               <button
                 type="button"
                 :class="bemm('custom-apply')"
                 :disabled="disabled || !isValidHex(customDraftHex)"
+                :data-test-id="testIdPart('custom-apply')"
                 @click="addCustomColor(close)"
               >
                 Add custom color

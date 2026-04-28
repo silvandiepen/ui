@@ -1,6 +1,7 @@
-import type { Size, Status } from '../../../types'
+import type { Size, Status, TestIdProps } from '../../../types'
 
 export interface InputSearchProps {
+  testId?: TestIdProps['testId']
   label?: string
   placeholder?: string
   description?: string

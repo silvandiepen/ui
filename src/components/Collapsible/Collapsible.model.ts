@@ -1,4 +1,5 @@
 import type { IconNameOrString } from '../Icon'
+import type { TestIdProps } from '../../types'
 
 export type CollapsibleToggleIcon = 'chevron' | 'plus'
 
@@ -8,6 +9,7 @@ export interface CollapsibleEventContext {
 }
 
 export interface CollapsibleProps {
+  testId?: TestIdProps['testId']
   ariaLabel?: string
   contentId?: string
   defaultOpen?: boolean

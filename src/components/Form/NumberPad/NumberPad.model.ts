@@ -1,6 +1,12 @@
 import { Icons } from 'open-icon'
+import type { TestIdProps } from "../../../types";
 
 export interface NumberPadProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * Show the clear/backspace button
    */

@@ -1,5 +1,12 @@
 <template>
-  <div :class="iconClasses" :aria-hidden="!ariaLabel" :aria-label="ariaLabel" v-bind="$attrs" v-html="iconContent" />
+  <div
+    :class="iconClasses"
+    :aria-hidden="!ariaLabel"
+    :aria-label="ariaLabel"
+    :data-test-id="testId"
+    v-bind="$attrs"
+    v-html="iconContent"
+  />
 </template>
 
 <script setup lang="ts">

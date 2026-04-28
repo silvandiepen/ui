@@ -6,15 +6,17 @@
     :label="''"
     :disabled="disabled"
     :error="error"
+    :test-id="testId"
     @touched="$emit('touched', $event)"
   >
-    <template #control="{ id, disabled: controlDisabled }">
+    <template #control="{ id, disabled: controlDisabled, controlTestId, testIdPart }">
       <label
         :class="bemm('control-container', {
           active: isActive,
           disabled: controlDisabled,
           indeterminate,
         })"
+        :data-test-id="testIdPart('checkbox')"
         :for="id"
         :style="controlStyle"
       >
@@ -23,13 +25,17 @@
           ref="inputElement"
           v-model="model"
           :class="bemm('control')"
+          :data-test-id="controlTestId"
           :disabled="controlDisabled"
           :name="name"
           type="checkbox"
           @change="handleInputChange"
         />
 
-        <span :class="bemm('check-control')">
+        <span
+          :class="bemm('check-control')"
+          :data-test-id="testIdPart('check-control')"
+        >
           <span
             :class="[
               bemm('check-control-dot'),
@@ -62,6 +68,7 @@
             bemm('label'),
             bemm('label', labelPosition),
           ]"
+          :data-test-id="testIdPart('label')"
         >
           {{ label }}
         </span>

@@ -7,22 +7,44 @@
       mobileOpen ? bemm('', 'mobile-open') : '',
       variant ? bemm('', variant) : '',
     ]"
+    :data-test-id="testId"
   >
-    <div :class="bemm('inner')" :style="{ '--platform-header-max-width': maxWidth }">
-      <div v-if="$slots.brand" :class="bemm('brand')">
+    <div
+      :class="bemm('inner')"
+      :style="{ '--platform-header-max-width': maxWidth }"
+      :data-test-id="getTestId(props.testId, 'inner')"
+    >
+      <div
+        v-if="$slots.brand"
+        :class="bemm('brand')"
+        :data-test-id="getTestId(props.testId, 'brand')"
+      >
         <slot name="brand" />
       </div>
 
-      <div v-if="$slots.nav" :class="bemm('nav')">
+      <div
+        v-if="$slots.nav"
+        :class="bemm('nav')"
+        :data-test-id="getTestId(props.testId, 'nav')"
+      >
         <slot name="nav" />
       </div>
 
-      <div v-if="$slots.actions" :class="bemm('actions')">
+      <div
+        v-if="$slots.actions"
+        :class="bemm('actions')"
+        :data-test-id="getTestId(props.testId, 'actions')"
+      >
         <slot name="actions" />
       </div>
     </div>
 
-    <div v-if="$slots.secondary" :class="bemm('secondary')" :style="{ '--platform-header-max-width': maxWidth }">
+    <div
+      v-if="$slots.secondary"
+      :class="bemm('secondary')"
+      :style="{ '--platform-header-max-width': maxWidth }"
+      :data-test-id="getTestId(props.testId, 'secondary')"
+    >
       <slot name="secondary" />
     </div>
   </header>
@@ -33,12 +55,13 @@ import { useBemm } from "bemm";
 import { ref } from "vue";
 
 import { PlatformHeaderVariant, type PlatformHeaderProps } from "./PlatformHeader.model";
+import { getTestId } from "../../utils/testId";
 
 defineOptions({
   name: "PlatformHeader"
 });
 
-withDefaults(defineProps<PlatformHeaderProps>(), {
+const props = withDefaults(defineProps<PlatformHeaderProps>(), {
   compact: false,
   mobileOpen: false,
   maxWidth: "88rem",

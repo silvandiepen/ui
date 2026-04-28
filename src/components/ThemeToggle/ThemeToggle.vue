@@ -3,9 +3,13 @@
     :class="bemm()"
     :aria-label="ariaLabel"
     type="button"
+    :data-test-id="testId"
     @click="$emit('toggle')"
   >
-    <Icon :name="iconName" />
+    <Icon
+      :name="iconName"
+      :data-test-id="getTestId(props.testId, 'icon')"
+    />
   </button>
 </template>
 
@@ -17,6 +21,7 @@ import { Icons } from 'open-icon'
 import { Icon } from '../Icon'
 
 import type { ThemeToggleProps } from './ThemeToggle.model'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'ThemeToggle',

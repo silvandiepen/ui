@@ -4,9 +4,14 @@
     type="button"
     :title="copied ? 'Copied' : resolvedLabel"
     :aria-label="copied ? 'Copied' : resolvedLabel"
+    :data-test-id="testId"
     @click="copyValue"
   >
-    <Icon :name="copied ? 'check' : 'clipboard'" size="small" />
+    <Icon
+      :name="copied ? 'check' : 'clipboard'"
+      size="small"
+      :data-test-id="getTestId(props.testId, 'icon')"
+    />
   </button>
 </template>
 
@@ -18,6 +23,7 @@ import Icon from "../Icon/Icon.vue";
 import { toast } from "../Toast";
 
 import type { CopyValueButtonProps } from "./CopyValueButton.model";
+import { getTestId } from "../../utils/testId";
 
 defineOptions({
   name: "CopyValueButton"

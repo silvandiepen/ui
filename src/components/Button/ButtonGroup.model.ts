@@ -1,6 +1,7 @@
 /**
  * ButtonGroup component type definitions and interfaces
  */
+import type { TestIdProps } from "../../types";
 
 export const ButtonGroupDirection = {
   ROW: 'row',
@@ -37,6 +38,8 @@ export type ButtonGroupJustify = (typeof ButtonGroupJustify)[keyof typeof Button
  * Props interface for ButtonGroup component
  */
 export interface ButtonGroupProps {
+  /** Stable test id rendered on the root element */
+  testId?: TestIdProps['testId'];
   /** Direction of button layout */
   direction?: ButtonGroupDirection | 'row' | 'column';
   /** Whether buttons should fill available width */

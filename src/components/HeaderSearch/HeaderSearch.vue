@@ -7,9 +7,10 @@
       isPanelVisible ? bemm('', 'open') : '',
     ]"
     :style="{ '--header-search-max-width': maxWidth }"
+    :data-test-id="testId"
     @click.stop
   >
-    <div :class="bemm('control')">
+    <div :class="bemm('control')" :data-test-id="getTestId(props.testId, 'control')">
       <Transition name="header-search-control" mode="out-in">
         <button
           v-if="!isExpanded"
@@ -18,13 +19,14 @@
           :aria-label="resolvedOpenLabel"
           :title="resolvedOpenLabel"
           type="button"
+          :data-test-id="getTestId(props.testId, 'trigger')"
           @click="openSearch"
         >
-          <Icon :name="iconName" />
+          <Icon :name="iconName" :data-test-id="getTestId(props.testId, 'trigger-icon')" />
         </button>
 
-        <div v-else :key="'shell'" :class="bemm('shell')">
-          <Icon :name="iconName" :class="bemm('icon')" />
+        <div v-else :key="'shell'" :class="bemm('shell')" :data-test-id="getTestId(props.testId, 'shell')">
+          <Icon :name="iconName" :class="bemm('icon')" :data-test-id="getTestId(props.testId, 'icon')" />
           <input
             ref="inputElement"
             :value="modelValue"
@@ -32,6 +34,7 @@
             :aria-label="resolvedInputLabel"
             :placeholder="placeholder"
             type="search"
+            :data-test-id="getTestId(props.testId, 'input')"
             @input="handleInput"
             @keydown="handleKeydown"
           />
@@ -40,16 +43,17 @@
             :class="bemm('clear')"
             :aria-label="clearLabel"
             type="button"
+            :data-test-id="getTestId(props.testId, 'clear')"
             @click="clearSearch"
           >
-            <Icon name="close" />
+            <Icon name="close" :data-test-id="getTestId(props.testId, 'clear-icon')" />
           </button>
         </div>
       </Transition>
     </div>
 
     <Transition name="header-search-panel">
-      <div v-if="isPanelVisible" :class="bemm('panel')">
+      <div v-if="isPanelVisible" :class="bemm('panel')" :data-test-id="getTestId(props.testId, 'panel')">
         <slot
           name="panel"
           :clearSearch="clearSearch"
@@ -79,6 +83,7 @@ import {
   shouldShowHeaderSearchPanel,
   useHeaderSearchState,
 } from './HeaderSearch.util'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'HeaderSearch',

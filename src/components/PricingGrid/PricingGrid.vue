@@ -1,14 +1,14 @@
 <template>
-  <div :class="bemm(['', `columns-${columns}`])">
-    <div :class="bemm('header')" v-if="$slots.header">
+  <div :class="bemm(['', `columns-${columns}`])" :data-test-id="testId">
+    <div :class="bemm('header')" v-if="$slots.header" :data-test-id="getTestId(props.testId, 'header')">
       <slot name="header" />
     </div>
 
-    <div :class="bemm('toggle')" v-if="$slots.toggle">
+    <div :class="bemm('toggle')" v-if="$slots.toggle" :data-test-id="getTestId(props.testId, 'toggle')">
       <slot name="toggle" :billing-period="billingPeriod" />
     </div>
 
-    <div :class="bemm('grid')">
+    <div :class="bemm('grid')" :data-test-id="getTestId(props.testId, 'grid')">
       <PricingCard
         v-for="plan in displayedPlans"
         :key="plan.id"
@@ -20,10 +20,11 @@
         :action-text="getActionText(plan)"
         :on-action="handleSelectPlan"
         :class="bemm('card')"
+        :test-id="getTestId(props.testId, `plan-${plan.id}`)"
       />
     </div>
 
-    <div :class="bemm('footer')" v-if="$slots.footer">
+    <div :class="bemm('footer')" v-if="$slots.footer" :data-test-id="getTestId(props.testId, 'footer')">
       <slot name="footer" />
     </div>
   </div>
@@ -35,6 +36,7 @@ import { useBemm } from 'bemm'
 import type { PricingGridProps } from './PricingGrid.model'
 import type { Plan } from '../PricingCard/PricingCard.model'
 import { PricingCard } from '../PricingCard'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<PricingGridProps>(), {
   billingPeriod: 'monthly',

@@ -1,7 +1,15 @@
 <template>
-  <kbd :class="blockClasses">
+  <kbd
+    :class="blockClasses"
+    :data-test-id="testId"
+  >
     <slot />
-    <Icon v-if="props.icon" :name="props.icon" :class="bemm('icon')" />
+    <Icon
+      v-if="props.icon"
+      :name="props.icon"
+      :class="bemm('icon')"
+      :data-test-id="getTestId(props.testId, 'icon')"
+    />
   </kbd>
 </template>
 
@@ -11,6 +19,7 @@ import { useBemm } from "bemm";
 
 import Icon from "../Icon/Icon.vue";
 import type { KbdProps } from "./Kbd.model";
+import { getTestId } from "../../utils/testId";
 
 defineOptions({
   name: "Kbd",

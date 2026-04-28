@@ -17,6 +17,7 @@
     :minlength="minlength"
     :autoComplete="autoComplete"
     :autofocus="autofocus"
+    :test-id="testId"
     :inputmode="inputmode"
     :reset="reset"
     :controls="controls"

@@ -1,8 +1,14 @@
 import type { RouteLocationRaw } from 'vue-router'
+import type { TestIdProps } from '../../types'
 
 import type { SearchResult } from '../../composables'
 
 export interface SearchResultsProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements.
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * Text shown when a query has been entered but there are no matches.
    * @default ''

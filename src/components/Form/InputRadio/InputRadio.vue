@@ -4,15 +4,20 @@
 		:block="block"
 		:label="label"
 		:disabled="disabled"
+		:test-id="testId"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
-		<template #control="{ id, disabled }">
-			<div :class="bemm('control-container')">
+		<template #control="{ id, disabled, controlTestId, testIdPart }">
+			<div
+				:class="bemm('control-container')"
+				:data-test-id="testIdPart('radio')"
+			>
 				<input
 					:id="id"
 					:checked="model === value"
 					:class="bemm('control')"
+					:data-test-id="controlTestId"
 					:name="name"
 					:value="value"
 					:disabled="disabled"
@@ -23,8 +28,12 @@
 			<label
 				:for="id"
 				:class="bemm('label')"
+				:data-test-id="testIdPart('control-label')"
 			>
-				<div :class="bemm('control-dot')" />
+				<div
+					:class="bemm('control-dot')"
+					:data-test-id="testIdPart('control-dot')"
+				/>
 			</label>
 		</template>
 	</InputBase>

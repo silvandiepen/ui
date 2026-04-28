@@ -1,8 +1,22 @@
 <template>
-  <div :class="[bemm(), bemm('', surface)]">
-    <div v-if="surface === 'inline'" :class="bemm('panel')">
-      <header v-if="title" :class="bemm('panel-header')">
-        <strong :class="bemm('panel-title')">{{ title }}</strong>
+  <div
+    :class="[bemm(), bemm('', surface)]"
+    :data-test-id="testId"
+  >
+    <div
+      v-if="surface === 'inline'"
+      :class="bemm('panel')"
+      :data-test-id="getTestId(props.testId, 'panel')"
+    >
+      <header
+        v-if="title"
+        :class="bemm('panel-header')"
+        :data-test-id="getTestId(props.testId, 'panel-header')"
+      >
+        <strong
+          :class="bemm('panel-title')"
+          :data-test-id="getTestId(props.testId, 'panel-title')"
+        >{{ title }}</strong>
       </header>
 
       <LanguageSwitchOptions
@@ -11,6 +25,7 @@
         :show-descriptions="showDescriptions"
         :show-flags="showFlags"
         :show-selection-indicator="showSelectionIndicator"
+        :test-id="getTestId(props.testId, 'options')"
         @select="handleSelect"
       />
     </div>
@@ -20,18 +35,36 @@
       :close-on-select="closeOnSelect"
     >
       <template #trigger="{ toggle }">
-        <button :class="bemm('trigger')" type="button" @click="toggle">
+        <button
+          :class="bemm('trigger')"
+          type="button"
+          :data-test-id="getTestId(props.testId, 'trigger')"
+          @click="toggle"
+        >
           {{ triggerValue }}
         </button>
       </template>
 
       <template #menu="{ closeMenu }">
-        <div :class="bemm('simple-menu')">
-          <header v-if="title" :class="bemm('panel-header')">
-            <strong :class="bemm('panel-title')">{{ title }}</strong>
+        <div
+          :class="bemm('simple-menu')"
+          :data-test-id="getTestId(props.testId, 'simple-menu')"
+        >
+          <header
+            v-if="title"
+            :class="bemm('panel-header')"
+            :data-test-id="getTestId(props.testId, 'panel-header')"
+          >
+            <strong
+              :class="bemm('panel-title')"
+              :data-test-id="getTestId(props.testId, 'panel-title')"
+            >{{ title }}</strong>
           </header>
 
-          <div :class="bemm('simple-list')">
+          <div
+            :class="bemm('simple-list')"
+            :data-test-id="getTestId(props.testId, 'simple-list')"
+          >
             <button
               v-for="option in simpleOptions"
               :key="option.value"
@@ -40,14 +73,19 @@
                 option.value === modelValue ? bemm('simple-option', 'active') : '',
               ]"
               :disabled="option.disabled"
+              :data-test-id="getTestId(props.testId, `option-${option.value}`)"
               type="button"
               @click="handleSimpleSelect(option, closeMenu)"
             >
-              <span :class="bemm('simple-option-label')">{{ option.label }}</span>
+              <span
+                :class="bemm('simple-option-label')"
+                :data-test-id="getTestId(props.testId, `option-${option.value}-label`)"
+              >{{ option.label }}</span>
               <Icon
                 v-if="showSelectionIndicator && option.value === modelValue"
                 :class="bemm('simple-option-indicator')"
                 name="check"
+                :data-test-id="getTestId(props.testId, `option-${option.value}-indicator`)"
               />
             </button>
           </div>
@@ -63,14 +101,28 @@
       :width="popoverWidth"
     >
       <template #trigger>
-        <button :class="bemm('trigger')" type="button">
+        <button
+          :class="bemm('trigger')"
+          type="button"
+          :data-test-id="getTestId(props.testId, 'trigger')"
+        >
           {{ triggerValue }}
         </button>
       </template>
 
-      <div :class="bemm('panel')">
-        <header v-if="title" :class="bemm('panel-header')">
-          <strong :class="bemm('panel-title')">{{ title }}</strong>
+      <div
+        :class="bemm('panel')"
+        :data-test-id="getTestId(props.testId, 'panel')"
+      >
+        <header
+          v-if="title"
+          :class="bemm('panel-header')"
+          :data-test-id="getTestId(props.testId, 'panel-header')"
+        >
+          <strong
+            :class="bemm('panel-title')"
+            :data-test-id="getTestId(props.testId, 'panel-title')"
+          >{{ title }}</strong>
         </header>
 
         <LanguageSwitchOptions
@@ -79,6 +131,7 @@
           :show-descriptions="showDescriptions"
           :show-flags="showFlags"
           :show-selection-indicator="showSelectionIndicator"
+          :test-id="getTestId(props.testId, 'options')"
           @select="handleSelect"
         />
       </div>
@@ -91,15 +144,29 @@
       :config="contextPanelConfig"
     >
       <template #default>
-        <button :class="bemm('trigger')" type="button">
+        <button
+          :class="bemm('trigger')"
+          type="button"
+          :data-test-id="getTestId(props.testId, 'trigger')"
+        >
           {{ triggerValue }}
         </button>
       </template>
 
       <template #content>
-        <div :class="bemm('panel')">
-          <header v-if="title" :class="bemm('panel-header')">
-            <strong :class="bemm('panel-title')">{{ title }}</strong>
+        <div
+          :class="bemm('panel')"
+          :data-test-id="getTestId(props.testId, 'panel')"
+        >
+          <header
+            v-if="title"
+            :class="bemm('panel-header')"
+            :data-test-id="getTestId(props.testId, 'panel-header')"
+          >
+            <strong
+              :class="bemm('panel-title')"
+              :data-test-id="getTestId(props.testId, 'panel-title')"
+            >{{ title }}</strong>
           </header>
 
           <LanguageSwitchOptions
@@ -108,6 +175,7 @@
             :show-descriptions="showDescriptions"
             :show-flags="showFlags"
             :show-selection-indicator="showSelectionIndicator"
+            :test-id="getTestId(props.testId, 'options')"
             @select="handleSelect"
           />
         </div>
@@ -136,6 +204,7 @@ import {
   findLanguageSwitchOption,
   getLanguageSwitchOptionCode,
 } from './LanguageSwitch.utils'
+import { getTestId } from '../../utils/testId'
 
 defineOptions({
   name: 'LanguageSwitch',

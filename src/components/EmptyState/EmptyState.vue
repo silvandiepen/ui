@@ -1,19 +1,36 @@
 <template>
-  <div :class="bemm()">
+  <div
+    :class="bemm()"
+    :data-test-id="testId"
+  >
     <Icon
       v-if="icon"
       :name="icon"
       :class="bemm('icon')"
+      :data-test-id="getTestId(props.testId, 'icon')"
     />
-    <h3 v-if="title" :class="bemm('title')">{{ title }}</h3>
-    <p v-if="description || message" :class="bemm('description')">{{ description ?? message }}</p>
-    <div v-if="$slots.default || $slots.actions || action" :class="bemm('actions')">
+    <h3
+      v-if="title"
+      :class="bemm('title')"
+      :data-test-id="getTestId(props.testId, 'title')"
+    >{{ title }}</h3>
+    <p
+      v-if="description || message"
+      :class="bemm('description')"
+      :data-test-id="getTestId(props.testId, 'description')"
+    >{{ description ?? message }}</p>
+    <div
+      v-if="$slots.default || $slots.actions || action"
+      :class="bemm('actions')"
+      :data-test-id="getTestId(props.testId, 'actions')"
+    >
       <slot name="actions">
         <slot />
       </slot>
       <Button
         v-if="action && !$slots.default && !$slots.actions"
         v-bind="actionButtonProps"
+        :test-id="getTestId(props.testId, 'action')"
         @click="action.action"
       >
         {{ action.label }}
@@ -29,6 +46,7 @@ import { useBemm } from 'bemm'
 import Icon from '../Icon/Icon.vue'
 import { Button } from '../Button'
 import type { EmptyStateProps } from './EmptyState.model'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<EmptyStateProps>(), {
   icon: undefined,

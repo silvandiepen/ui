@@ -1,15 +1,22 @@
 <template>
-	<div ref="rootRef" :class="wrapperClasses" role="tablist">
+	<div
+		ref="rootRef"
+		:class="wrapperClasses"
+		:data-test-id="testId"
+		role="tablist"
+	>
 		<span
 			v-if="showHover"
 			:class="bemm('hover')"
 			:style="hoverStyles"
+			:data-test-id="getTestId(props.testId, 'hover')"
 			aria-hidden="true"
 		></span>
 		<span
 			v-if="showIndicator"
 			:class="bemm('indicator')"
 			:style="indicatorStyles"
+			:data-test-id="getTestId(props.testId, 'indicator')"
 			aria-hidden="true"
 		></span>
 
@@ -22,6 +29,7 @@
 			:disabled="item.disabled"
       :aria-label="item.label"
 			:aria-selected="isActive(item)"
+			:data-test-id="getTestId(props.testId, `tab-${String(item.id)}`)"
 			:class="
 				bemm('button', { active: isActive(item), disabled: item.disabled })
 			"
@@ -35,11 +43,21 @@
 			@mouseenter="setHover"
 			@click="select(item)"
 		>
-			<Icon :class="bemm('button-icon')" v-if="item.icon" :name="item.icon" />
-			<span v-if="!props.iconOnly || !item.icon" :class="bemm('button-label')">{{ item.label }}</span>
+			<Icon
+				v-if="item.icon"
+				:class="bemm('button-icon')"
+				:name="item.icon"
+				:data-test-id="getTestId(props.testId, `tab-${String(item.id)}-icon`)"
+			/>
+			<span
+				v-if="!props.iconOnly || !item.icon"
+				:class="bemm('button-label')"
+				:data-test-id="getTestId(props.testId, `tab-${String(item.id)}-label`)"
+			>{{ item.label }}</span>
 			<span
 				v-if="item.badge !== undefined && item.badge !== null"
 				:class="bemm('button-badge')"
+				:data-test-id="getTestId(props.testId, `tab-${String(item.id)}-badge`)"
 			>
 				{{ item.badge }}
 			</span>
@@ -60,6 +78,7 @@ import { useBemm } from 'bemm';
 import { Icon } from '@/components/ui/Icon';
 import type { TabNavigationAlign, TabNavigationItem, TabNavigationVariant } from './Tabs.model';
 import { Size } from '../../types';
+import { getTestId } from '../../utils/testId';
 
 defineOptions({
 	name: 'ArTabNavigation',
@@ -75,6 +94,7 @@ const props = withDefaults(
 		iconOnly?: boolean;
 		align?: TabNavigationAlign;
 		stretch?: boolean;
+		testId?: string;
 	}>(),
 	{
 		value: null,
@@ -85,6 +105,7 @@ const props = withDefaults(
 		iconOnly: false,
 		align: 'left',
 		stretch: false,
+		testId: undefined,
 	}
 );
 

@@ -1,5 +1,8 @@
 <template>
-  <div :class="actionsClasses">
+  <div
+    :class="actionsClasses"
+    :data-test-id="testId"
+  >
     <Button
       v-for="(action, index) in actions"
       :key="`action-${index}`"
@@ -13,6 +16,7 @@
       :icon-only="action.iconOnly"
       :to="action.to"
       :tooltip="action.tooltip || ((iconOnly || action.iconOnly) ? action.label : undefined)"
+      :test-id="getTestId(props.testId, `action-${index}`)"
       @click="action.action"
     >
       <template v-if="!iconOnly">
@@ -35,6 +39,7 @@
         :icon="Icons.THREE_DOTS_HORIZONTAL"
         icon-only
         title="More actions"
+        :test-id="getTestId(props.testId, 'more')"
       />
     </ContextMenu>
   </div>
@@ -49,6 +54,7 @@ import { ButtonVariant } from '../Button'
 import { Size } from '../../types'
 import ContextMenu from '../ContextMenu/ContextMenu.vue'
 import { Icons } from 'open-icon'
+import { getTestId } from '../../utils/testId'
 
 const props = withDefaults(defineProps<ActionsProps>(), {
   variant: 'inline',

@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export const SidebarVariant = {
   DEFAULT: 'default',
   FLOAT: 'float',
@@ -5,6 +7,7 @@ export const SidebarVariant = {
 export type SidebarVariant = (typeof SidebarVariant)[keyof typeof SidebarVariant]
 
 export interface SidebarProps {
+  testId?: TestIdProps['testId']
   mobileCloseLabel?: string
   mobileDefaultOpen?: boolean
   mobileEnabled?: boolean

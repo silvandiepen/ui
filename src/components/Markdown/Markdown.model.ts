@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export type MarkdownHighlightRenderer = (code: string, language?: string | null) => string
 
 export type MarkdownPlugin = (renderer: any, ...options: unknown[]) => void
@@ -23,6 +25,7 @@ export interface MarkdownRendererOptions {
 }
 
 export interface MarkdownProps extends MarkdownRendererOptions {
+  testId?: TestIdProps['testId']
   content: string
   inline?: boolean
   tag?: string

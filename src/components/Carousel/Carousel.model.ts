@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export type CarouselItemsToShow = number | Partial<Record<'default' | 's' | 'm' | 'l' | 'xl', number>>
 
 export type CarouselNavigationPosition = 'inside' | 'outside' | 'overlay'
@@ -5,6 +7,7 @@ export type CarouselIndicatorsPosition = 'inside' | 'outside'
 export type CarouselSnapAlign = 'start' | 'center' | 'end'
 
 export interface CarouselProps {
+  testId?: TestIdProps['testId']
   itemsToShow?: CarouselItemsToShow
   itemsToScroll?: number
   gap?: string

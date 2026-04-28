@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../../types";
+
 export type InputOptionsType = 'checkbox' | 'toggle' | 'radio'
 
 export interface InputOption {
@@ -8,6 +10,7 @@ export interface InputOption {
 }
 
 export interface InputOptionsProps {
+  testId?: TestIdProps['testId']
   modelValue?: (string | number)[]
   options: InputOption[]
   type?: InputOptionsType

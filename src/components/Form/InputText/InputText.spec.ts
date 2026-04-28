@@ -40,6 +40,17 @@ describe('InputText', () => {
     expect(inputBase.props('autofocus')).toBe(props.autofocus)
   })
 
+  it('renders test ids on the root and control', () => {
+    const wrapper = mount(InputText, {
+      props: {
+        testId: 'customer-name'
+      }
+    })
+
+    expect(wrapper.find('[data-test-id="customer-name"]').exists()).toBe(true)
+    expect(wrapper.find('input[data-test-id="customer-name-control"]').exists()).toBe(true)
+  })
+
   it('emits change event when input changes', async () => {
     const wrapper = mount(InputText)
     const inputBase = wrapper.findComponent(InputBase)

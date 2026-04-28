@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export interface FloatingHeaderNavItem {
   label: string
   href?: string
@@ -8,6 +10,7 @@ export interface FloatingHeaderNavItem {
 }
 
 export interface FloatingHeaderProps {
+  testId?: TestIdProps['testId']
   navItems?: FloatingHeaderNavItem[]
   currentPath?: string
   brandHref?: string

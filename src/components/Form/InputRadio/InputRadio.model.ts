@@ -1,9 +1,16 @@
+import type { TestIdProps } from "../../../types";
+
 /**
  * TypeScript interfaces for InputRadio component
  * Provides type-safe props and configurations for radio input functionality
  */
 
 export interface InputRadioProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * The current selected value (for radio group)
    */

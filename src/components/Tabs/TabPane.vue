@@ -3,6 +3,7 @@
 		v-if="tab.active"
 		:id="String(tab.id ?? tab.title ?? '')"
 		:class="paneClasses"
+		:data-test-id="testId"
 	>
 		<slot></slot>
 	</div>
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<TabPaneProps>(), {
 	title: '',
 	id: null,
 	icon: '',
+	testId: undefined,
 });
 
 const bemm = useBemm('ui-tabs', {

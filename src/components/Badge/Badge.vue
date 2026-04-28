@@ -1,5 +1,11 @@
 <template>
-  <span :class="blockClasses" :data-variant="variant" :data-size="size" :style="blockStyles">
+  <span
+    :class="blockClasses"
+    :data-variant="variant"
+    :data-size="size"
+    :style="blockStyles"
+    :data-test-id="testId"
+  >
     <slot />
   </span>
 </template>

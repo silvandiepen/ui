@@ -1,12 +1,25 @@
 <template>
-	<nav :class="bemm('')" aria-label="Pagination">
-		<div v-if="showSizeSelector" :class="bemm('sizes')">
-			<label :class="bemm('label')" for="pagination-size-select">
+	<nav
+		:class="bemm('')"
+		aria-label="Pagination"
+		:data-test-id="testId"
+	>
+		<div
+			v-if="showSizeSelector"
+			:class="bemm('sizes')"
+			:data-test-id="getTestId(props.testId, 'sizes')"
+		>
+			<label
+				:class="bemm('label')"
+				for="pagination-size-select"
+				:data-test-id="getTestId(props.testId, 'size-label')"
+			>
 				Items per page
 			</label>
 			<select
 				id="pagination-size-select"
 				:class="bemm('select')"
+				:data-test-id="getTestId(props.testId, 'size-select')"
 				:value="String(internalPageSize)"
 				@change="onPageSizeChange"
 			>
@@ -20,16 +33,24 @@
 			</select>
 		</div>
 
-		<div :class="bemm('controls')">
+		<div
+			:class="bemm('controls')"
+			:data-test-id="getTestId(props.testId, 'controls')"
+		>
 			<Button
 				v-if="showPrev"
 				variant="ghost"
 				:disabled="isFirstPage"
 				@click="goPrev"
 				:icon="Icons.CHEVRON_LEFT"
+				:test-id="getTestId(props.testId, 'prev')"
 			/>
 
-			<div v-if="showPager" :class="bemm('pager')">
+			<div
+				v-if="showPager"
+				:class="bemm('pager')"
+				:data-test-id="getTestId(props.testId, 'pager')"
+			>
 				<template v-for="(item, index) in visibleItems" :key="`${item}-${index}`">
 					<button
 						v-if="isPageNumber(item)"
@@ -40,11 +61,16 @@
 								item === internalCurrentPage ? 'active' : '',
 							])
 						"
+						:data-test-id="getTestId(props.testId, `page-${item}`)"
 						@click="setPage(item)"
 					>
 						{{ item }}
 					</button>
-					<span v-else :class="bemm('ellipsis')">...</span>
+					<span
+						v-else
+						:class="bemm('ellipsis')"
+						:data-test-id="getTestId(props.testId, `ellipsis-${index}`)"
+					>...</span>
 				</template>
 			</div>
 
@@ -53,17 +79,27 @@
 				variant="ghost"
 				:disabled="isLastPage"
 				:icon="Icons.CHEVRON_RIGHT"
+				:test-id="getTestId(props.testId, 'next')"
 				@click="goNext"
 			/>
 		</div>
 
-		<div v-if="showJumper" :class="bemm('jumper')">
-			<label :class="bemm('label')" for="pagination-jumper">
+		<div
+			v-if="showJumper"
+			:class="bemm('jumper')"
+			:data-test-id="getTestId(props.testId, 'jumper')"
+		>
+			<label
+				:class="bemm('label')"
+				for="pagination-jumper"
+				:data-test-id="getTestId(props.testId, 'jumper-label')"
+			>
 				Go to page
 			</label>
 			<input
 				id="pagination-jumper"
 				:class="bemm('input')"
+				:data-test-id="getTestId(props.testId, 'jumper-input')"
 				type="number"
 				min="1"
 				:max="pageCount"
@@ -91,6 +127,7 @@ import type {
 	PaginationItem,
 	PaginationProps,
 } from './Pagination.model';
+import { getTestId } from '../../utils/testId';
 
 defineOptions({
 	name: 'ArPagination',

@@ -3,9 +3,11 @@ export interface ImageValue {
   alt?: string
 }
 
+import type { TestIdProps } from '../../../types'
 import { Size } from '../../../types'
 
 export interface ImageInputProps {
+  testId?: TestIdProps['testId']
   block?: string
   color?: string
   placeholder?: string

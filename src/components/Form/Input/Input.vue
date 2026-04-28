@@ -1,20 +1,37 @@
 <template>
-  <div :class="inputClasses">
-    <label v-if="label" :for="inputId" :class="bemm('label')">
+  <div
+    :class="inputClasses"
+    :data-test-id="props.testId"
+  >
+    <label
+      v-if="label"
+      :for="inputId"
+      :class="bemm('label')"
+      :data-test-id="getTestId(props.testId, 'label')"
+    >
       {{ label }}
-      <span v-if="required" :class="bemm('required')">*</span>
+      <span
+        v-if="required"
+        :class="bemm('required')"
+        :data-test-id="getTestId(props.testId, 'required')"
+      >*</span>
     </label>
 
-    <div :class="bemm('wrapper')">
+    <div
+      :class="bemm('wrapper')"
+      :data-test-id="getTestId(props.testId, 'wrapper')"
+    >
       <Icon
         v-if="prefixIcon"
         :name="prefixIcon"
         :class="bemm('icon', ['prefix'])"
+        :data-test-id="getTestId(props.testId, 'prefix-icon')"
       />
 
       <input
         :id="inputId"
         :class="bemm('field')"
+        :data-test-id="getTestId(props.testId, 'control')"
         :type="type"
         :value="modelValue"
         :placeholder="placeholder"
@@ -36,34 +53,62 @@
         v-if="suffixIcon"
         :name="suffixIcon"
         :class="bemm('icon', ['suffix'])"
+        :data-test-id="getTestId(props.testId, 'suffix-icon')"
       />
 
-      <div v-if="type === 'number' && showSpinners" :class="bemm('spinners')">
+      <div
+        v-if="type === 'number' && showSpinners"
+        :class="bemm('spinners')"
+        :data-test-id="getTestId(props.testId, 'spinners')"
+      >
         <button
           type="button"
           :class="bemm('spinner', ['up'])"
+          :data-test-id="getTestId(props.testId, 'increment')"
           @click="increment"
           :disabled="disabled || (max !== undefined && Number(modelValue) >= max)"
           aria-label="Increase value"
         >
-          <Icon name="chevron-up" size="small" />
+          <Icon
+            name="chevron-up"
+            size="small"
+            :data-test-id="getTestId(props.testId, 'increment-icon')"
+          />
         </button>
 
         <button
           type="button"
           :class="bemm('spinner', ['down'])"
+          :data-test-id="getTestId(props.testId, 'decrement')"
           @click="decrement"
           :disabled="disabled || (min !== undefined && Number(modelValue) <= min)"
           aria-label="Decrease value"
         >
-          <Icon name="chevron-down" size="small" />
+          <Icon
+            name="chevron-down"
+            size="small"
+            :data-test-id="getTestId(props.testId, 'decrement-icon')"
+          />
         </button>
       </div>
     </div>
 
-    <div v-if="description || hasError" :id="descriptionId" :class="bemm('description')">
-      <span v-if="hasError" :class="bemm('error')">{{ error }}</span>
-      <span v-else-if="description" :class="bemm('help')">{{ description }}</span>
+    <div
+      v-if="description || hasError"
+      :id="descriptionId"
+      :class="bemm('description')"
+      :data-test-id="getTestId(props.testId, 'description')"
+    >
+      <span
+        v-if="hasError"
+        :class="bemm('error')"
+        :data-test-id="getTestId(props.testId, 'error')"
+      >{{ error }}</span>
+      <span
+        v-else-if="description"
+        :class="bemm('help')"
+        :data-test-id="getTestId(props.testId, 'help')"
+      >{{ description }}</span>
     </div>
   </div>
 </template>
@@ -73,6 +118,7 @@ import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 import Icon from '../../Icon/Icon.vue'
 import type { InputProps, InputEmits } from './Input.model'
+import { getTestId } from '../../../utils/testId'
 
 const props = withDefaults(defineProps<InputProps>(), {
   type: 'text',
@@ -94,7 +140,6 @@ const isFocused = ref(false)
 
 // Computed
 const hasError = computed(() => Boolean(props.error))
-
 const inputClasses = computed(() => {
   return bemm('', {
     [props.size]: true,

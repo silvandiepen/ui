@@ -1,10 +1,21 @@
 <template>
-  <div :class="bemm()">
-    <span :class="bemm('label')">{{ label }}</span>
+  <div
+    :class="bemm()"
+    :data-test-id="testId"
+  >
+    <span
+      :class="bemm('label')"
+      :data-test-id="getTestId(props.testId, 'label')"
+    >{{ label }}</span>
 
-    <div :class="bemm('track')" :style="{ '--color-chooser-slider-gradient': gradient }">
+    <div
+      :class="bemm('track')"
+      :style="{ '--color-chooser-slider-gradient': gradient }"
+      :data-test-id="getTestId(props.testId, 'track')"
+    >
       <input
         :class="bemm('input')"
+        :data-test-id="getTestId(props.testId, 'input')"
         type="range"
         :min="min"
         :max="max"
@@ -24,6 +35,7 @@
       :size="Size.SMALL"
       :disabled="disabled"
       :label="''"
+      :test-id="getTestId(props.testId, 'number')"
       @update:model-value="onNumberInput"
     />
   </div>
@@ -34,6 +46,7 @@ import { useBemm } from 'bemm'
 
 import { InputNumber } from '../InputNumber'
 import { Size } from '../../../types';
+import { getTestId } from '../../../utils/testId';
 
 const props = withDefaults(defineProps<{
   modelValue: number
@@ -43,9 +56,11 @@ const props = withDefaults(defineProps<{
   step?: number
   disabled?: boolean
   gradient: string
+  testId?: string
 }>(), {
   step: 1,
   disabled: false,
+  testId: undefined,
 })
 
 const emit = defineEmits<{

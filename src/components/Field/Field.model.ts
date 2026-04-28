@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export const FieldType = {
   TEXT: 'text',
   BOOLEAN: 'boolean',
@@ -7,6 +9,7 @@ export const FieldType = {
 export type FieldType = (typeof FieldType)[keyof typeof FieldType]
 
 export interface FieldProps {
+  testId?: TestIdProps['testId']
   label?: string
   hint?: string
   error?: string

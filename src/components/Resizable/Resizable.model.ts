@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export type ResizableDirection = 'horizontal' | 'vertical'
 
 export type ResizableSource = 'keyboard' | 'pointer' | 'programmatic'
@@ -9,6 +11,7 @@ export interface ResizableEventContext {
 }
 
 export interface ResizableProps {
+  testId?: TestIdProps['testId']
   ariaLabel?: string
   defaultSize?: number
   direction?: ResizableDirection

@@ -1,15 +1,15 @@
 <template>
-  <div :class="bemm()">
-    <label v-if="label" :class="bemm('label')">
+  <div :class="bemm()" :data-test-id="testId">
+    <label v-if="label" :class="bemm('label')" :data-test-id="getTestId(testId, 'label')">
       {{ label }}
-      <span v-if="required" :class="bemm('required')">*</span>
+      <span v-if="required" :class="bemm('required')" :data-test-id="getTestId(testId, 'required')">*</span>
     </label>
 
-    <div :class="bemm('container', { error: !!error, disabled, readonly, focused: isFocused })">
+    <div :class="bemm('container', { error: !!error, disabled, readonly, focused: isFocused })" :data-test-id="getTestId(testId, 'container')">
       <!-- Toolbar -->
-      <div v-if="editor && activeFeatures.length" :class="bemm('toolbar')">
+      <div v-if="editor && activeFeatures.length" :class="bemm('toolbar')" :data-test-id="getTestId(testId, 'toolbar')">
         <template v-for="group in toolbarGroups" :key="group.id">
-          <div :class="bemm('toolbar-group')">
+          <div :class="bemm('toolbar-group')" :data-test-id="getTestId(testId, `toolbar-group-${group.id}`)">
             <button
               v-for="btn in group.buttons"
               :key="btn.id"
@@ -17,13 +17,14 @@
               :class="bemm('toolbar-btn', { active: btn.active?.(), disabled: btn.disabled?.() })"
               :title="btn.title"
               :disabled="btn.disabled?.()"
+              :data-test-id="getTestId(testId, `toolbar-button-${btn.id}`)"
               @mousedown.prevent="btn.action()"
             >
-              <Icon v-if="btn.icon" :name="btn.icon" :class="bemm('toolbar-icon')" />
-              <span v-else-if="btn.label" :class="bemm('toolbar-label')">{{ btn.label }}</span>
+              <Icon v-if="btn.icon" :name="btn.icon" :class="bemm('toolbar-icon')" :data-test-id="getTestId(testId, `toolbar-button-${btn.id}-icon`)" />
+              <span v-else-if="btn.label" :class="bemm('toolbar-label')" :data-test-id="getTestId(testId, `toolbar-button-${btn.id}-label`)">{{ btn.label }}</span>
             </button>
           </div>
-          <div v-if="group.id !== toolbarGroups[toolbarGroups.length - 1].id" :class="bemm('toolbar-divider')" />
+          <div v-if="group.id !== toolbarGroups[toolbarGroups.length - 1].id" :class="bemm('toolbar-divider')" :data-test-id="getTestId(testId, `toolbar-divider-${group.id}`)" />
         </template>
       </div>
 
@@ -32,10 +33,11 @@
         :editor="editor"
         :class="bemm('editor')"
         :style="{ minHeight: height, maxHeight: maxHeight }"
+        :data-test-id="getTestId(testId, 'control')"
       />
     </div>
 
-    <span v-if="error" :class="bemm('error')">{{ error }}</span>
+    <span v-if="error" :class="bemm('error')" :data-test-id="getTestId(testId, 'error')">{{ error }}</span>
   </div>
 </template>
 
@@ -54,6 +56,7 @@ import { common, createLowlight } from 'lowlight'
 import Icon from '../../Icon/Icon.vue'
 import type { RichTextEditorProps, RichTextFeature } from './RichTextEditor.model'
 import { DEFAULT_FEATURES } from './RichTextEditor.model'
+import { getTestId } from '../../../utils'
 
 const lowlight = createLowlight(common)
 

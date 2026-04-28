@@ -1,3 +1,5 @@
+import type { TestIdProps } from "../../types";
+
 export interface PlanFeature {
   id: string
   name: string
@@ -20,6 +22,7 @@ export interface Plan {
 }
 
 export interface PricingCardProps {
+  testId?: TestIdProps['testId']
   plan: Plan
   billingPeriod?: 'monthly' | 'yearly'
   currentPlanId?: string

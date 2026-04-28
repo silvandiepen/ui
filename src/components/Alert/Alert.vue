@@ -1,22 +1,44 @@
 <template>
-  <Card :class="blockClasses" :color="variant as unknown as Colors">
-    <div :class="bemm('container')">
+  <Card
+    :class="blockClasses"
+    :color="variant as unknown as Colors"
+    :test-id="testId"
+  >
+    <div
+      :class="bemm('container')"
+      :data-test-id="getTestId(props.testId, 'container')"
+    >
       <Icon
         :name="iconName"
         :class="bemm('icon')"
+        :data-test-id="getTestId(props.testId, 'icon')"
       />
-      <div :class="bemm('content')">
-        <h4 v-if="title" :class="bemm('title')">{{ title }}</h4>
-        <div :class="bemm('description')">
+      <div
+        :class="bemm('content')"
+        :data-test-id="getTestId(props.testId, 'content')"
+      >
+        <h4
+          v-if="title"
+          :class="bemm('title')"
+          :data-test-id="getTestId(props.testId, 'title')"
+        >{{ title }}</h4>
+        <div
+          :class="bemm('description')"
+          :data-test-id="getTestId(props.testId, 'description')"
+        >
           <slot>{{ description }}</slot>
         </div>
       </div>
       <button
         v-if="dismissible"
         :class="bemm('dismiss')"
+        :data-test-id="getTestId(props.testId, 'dismiss')"
         @click="handleDismiss"
       >
-        <Icon name="close" />
+        <Icon
+          name="close"
+          :data-test-id="getTestId(props.testId, 'dismiss-icon')"
+        />
       </button>
     </div>
   </Card>
@@ -28,9 +50,11 @@ import { useBemm } from 'bemm'
 import Card from '../Card/Card.vue'
 import Icon from '../Icon/Icon.vue'
 import { AlertVariant } from './Alert.model'
-import type { Colors } from '../../types'
+import type { Colors, TestIdProps } from '../../types'
+import { getTestId } from '../../utils/testId'
 
 interface Props {
+  testId?: TestIdProps['testId']
   variant?: AlertVariant
   title?: string
   description?: string

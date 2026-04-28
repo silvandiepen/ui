@@ -1,11 +1,20 @@
 <template>
-	<div :class="scrollerClasses" :style="scrollerStyle">
+	<div
+		:class="scrollerClasses"
+		:style="scrollerStyle"
+		:data-test-id="testId"
+	>
 		<div
 			ref="scrollerRef"
 			:class="bemm('viewport', [mode])"
+			:data-test-id="getTestId(props.testId, 'viewport')"
 			@scroll="updateShadows"
 		>
-			<div ref="trackRef" :class="bemm('track')">
+			<div
+				ref="trackRef"
+				:class="bemm('track')"
+				:data-test-id="getTestId(props.testId, 'track')"
+			>
 				<slot />
 			</div>
 		</div>
@@ -24,6 +33,7 @@ import {
 import { useBemm } from 'bemm';
 import { isNumber, isString } from '@/utils';
 import type { ScrollerProps } from './Scroller.model';
+import { getTestId } from '../../utils/testId';
 
 const props = withDefaults(defineProps<ScrollerProps>(), {
 	horizontal: false,

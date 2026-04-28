@@ -116,6 +116,7 @@ const handleChange = (value: string | null) => {
 		:options="filterableOptions"
 		:placeholder="placeholder || nullLabel"
 		searchable
+		:test-id="testId"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 		@focus="$emit('focus', $event)"
@@ -130,14 +131,16 @@ const handleChange = (value: string | null) => {
 		:error="error"
 		:size="size"
 		:disabled="disabled"
+		:test-id="testId"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
-		<template #control="{ id, value: inputValue, disabled, handleInput }">
+		<template #control="{ id, value: inputValue, disabled, controlTestId, handleInput }">
 			<select
 				:id="id"
 				:value="inputValue ?? ''"
 				:class="bemm('control')"
+				:data-test-id="controlTestId"
 				:disabled="disabled"
 				@input="handleInput"
 				@change="handleInput"
@@ -186,14 +189,16 @@ const handleChange = (value: string | null) => {
 		:error="error"
 		:size="size"
 		:disabled="disabled"
+		:test-id="testId"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
-		<template #control="{ id, value: inputValue, disabled, handleInput }">
+		<template #control="{ id, value: inputValue, disabled, controlTestId, handleInput }">
 			<select
 				:id="id"
 				:value="inputValue ?? ''"
 				:class="bemm('control')"
+				:data-test-id="controlTestId"
 				:disabled="disabled"
 				@change="
 					(e) => {

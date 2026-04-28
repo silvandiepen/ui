@@ -7,16 +7,18 @@
 		:label="label"
 		:description="description"
 		:disabled="disabled"
+		:test-id="testId"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
-		<template #control="{ id, value: inputValue, disabled, handleInput }">
+		<template #control="{ id, value: inputValue, disabled, controlTestId, handleInput }">
 			<textarea
 				:id="id"
 				ref="control"
 				:value="inputValue"
 				:style="textareaStyle"
 				:class="[bemm('control'), { 'no-resize': !allowResize }]"
+				:data-test-id="controlTestId"
 				:placeholder="placeholder"
 				:disabled="disabled"
 				@input="
@@ -35,16 +37,18 @@
 		:label="label"
 		:description="description"
 		:disabled="disabled"
+		:test-id="testId"
 		@change="handleChange"
 		@touched="$emit('touched', $event)"
 	>
-		<template #control="{ id, value: inputValue, disabled, handleInput }">
+		<template #control="{ id, value: inputValue, disabled, controlTestId, handleInput }">
 			<textarea
 				:id="id"
 				ref="control"
 				:value="inputValue"
 				:style="textareaStyle"
 				:class="[bemm('control'), { 'no-resize': !allowResize }]"
+				:data-test-id="controlTestId"
 				:placeholder="placeholder"
 				:disabled="disabled"
 				@input="

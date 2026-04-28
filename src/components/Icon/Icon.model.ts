@@ -1,4 +1,11 @@
+import type { TestIdProps } from "../../types";
+
 export interface IconProps {
+  /**
+   * Stable test id rendered on the icon root
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * Icon name
    */

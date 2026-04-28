@@ -1,4 +1,11 @@
+import type { TestIdProps } from "../../../types";
+
 export interface InputProps {
+  /**
+   * Stable test id rendered on the root and interesting child elements
+   */
+  testId?: TestIdProps['testId']
+
   /**
    * The current value of the input
    */

@@ -1,34 +1,36 @@
 <template>
-  <section :class="[bemm(), color ? bemm('', 'has-color') : '']" :style="blockStyle">
-    <div v-if="$slots.brand" :class="bemm('brand')">
+  <section :class="[bemm(), color ? bemm('', 'has-color') : '']" :style="blockStyle" :data-test-id="testId">
+    <div v-if="$slots.brand" :class="bemm('brand')" :data-test-id="getTestId(testId, 'brand')">
       <slot name="brand" />
     </div>
 
     <slot name="header">
-      <header :class="bemm('header')">
-        <p v-if="eyebrow" :class="bemm('eyebrow')">{{ eyebrow }}</p>
-        <h2 :class="bemm('title')">{{ title }}</h2>
-        <p v-if="description" :class="bemm('description')">{{ description }}</p>
+      <header :class="bemm('header')" :data-test-id="getTestId(testId, 'header')">
+        <p v-if="eyebrow" :class="bemm('eyebrow')" :data-test-id="getTestId(testId, 'eyebrow')">{{ eyebrow }}</p>
+        <h2 :class="bemm('title')" :data-test-id="getTestId(testId, 'title')">{{ title }}</h2>
+        <p v-if="description" :class="bemm('description')" :data-test-id="getTestId(testId, 'description')">{{ description }}</p>
       </header>
     </slot>
 
-    <div v-if="successMessage || errorMessage" :class="bemm('messages')">
+    <div v-if="successMessage || errorMessage" :class="bemm('messages')" :data-test-id="getTestId(testId, 'messages')">
       <Notification
         v-if="successMessage"
         :message="successMessage"
         type="success"
+        :test-id="getTestId(testId, 'success-message')"
       />
       <Notification
         v-if="errorMessage"
         :message="errorMessage"
         type="error"
+        :test-id="getTestId(testId, 'error-message')"
       />
     </div>
 
-    <div v-if="providers.length" :class="bemm('providers')">
-      <p v-if="providersLabel" :class="bemm('providers-label')">{{ providersLabel }}</p>
+    <div v-if="providers.length" :class="bemm('providers')" :data-test-id="getTestId(testId, 'providers')">
+      <p v-if="providersLabel" :class="bemm('providers-label')" :data-test-id="getTestId(testId, 'providers-label')">{{ providersLabel }}</p>
 
-      <div :class="bemm('providers-grid')">
+      <div :class="bemm('providers-grid')" :data-test-id="getTestId(testId, 'providers-grid')">
         <Button
           v-for="provider in providers"
           :key="provider.id"
@@ -38,28 +40,30 @@
           :href="provider.href"
           :icon="provider.icon"
           :variant="provider.variant ?? 'outline'"
+          :test-id="getTestId(testId, `provider-${provider.id}`)"
           @click="handleProviderClick(provider, $event)"
         >
           {{ provider.label }}
         </Button>
       </div>
 
-      <div :class="bemm('divider')">
-        <span :class="bemm('divider-line')" />
-        <span :class="bemm('divider-label')">{{ dividerLabel }}</span>
-        <span :class="bemm('divider-line')" />
+      <div :class="bemm('divider')" :data-test-id="getTestId(testId, 'divider')">
+        <span :class="bemm('divider-line')" :data-test-id="getTestId(testId, 'divider-line-start')" />
+        <span :class="bemm('divider-label')" :data-test-id="getTestId(testId, 'divider-label')">{{ dividerLabel }}</span>
+        <span :class="bemm('divider-line')" :data-test-id="getTestId(testId, 'divider-line-end')" />
       </div>
     </div>
 
-    <form :class="bemm('form')" @submit.prevent="handleSubmit">
+    <form :class="bemm('form')" :data-test-id="getTestId(testId, 'form')" @submit.prevent="handleSubmit">
       <slot name="before-fields" />
 
-      <div v-if="showName" :class="bemm('field')">
-        <label :class="bemm('field-label')" :for="nameFieldId">{{ nameLabel }}</label>
+      <div v-if="showName" :class="bemm('field')" :data-test-id="getTestId(testId, 'name-field')">
+        <label :class="bemm('field-label')" :for="nameFieldId" :data-test-id="getTestId(testId, 'name-label')">{{ nameLabel }}</label>
         <input
           :id="nameFieldId"
           v-model="formState.name"
           :class="bemm('field-control')"
+          :data-test-id="getTestId(testId, 'name-control')"
           :disabled="disabled"
           :placeholder="namePlaceholder"
           autocomplete="name"
@@ -68,13 +72,14 @@
         >
       </div>
 
-      <div :class="bemm('field')">
-        <label :class="bemm('field-label')" :for="emailFieldId">{{ emailLabel }}</label>
+      <div :class="bemm('field')" :data-test-id="getTestId(testId, 'email-field')">
+        <label :class="bemm('field-label')" :for="emailFieldId" :data-test-id="getTestId(testId, 'email-label')">{{ emailLabel }}</label>
         <input
           :id="emailFieldId"
           v-model="formState.email"
           :autocomplete="emailAutoComplete"
           :class="bemm('field-control')"
+          :data-test-id="getTestId(testId, 'email-control')"
           :disabled="disabled"
           :placeholder="emailPlaceholder"
           required
@@ -82,15 +87,16 @@
         >
       </div>
 
-      <div :class="bemm('field')">
-        <label :class="bemm('field-label')" :for="passwordFieldId">{{ passwordLabel }}</label>
+      <div :class="bemm('field')" :data-test-id="getTestId(testId, 'password-field')">
+        <label :class="bemm('field-label')" :for="passwordFieldId" :data-test-id="getTestId(testId, 'password-label')">{{ passwordLabel }}</label>
 
-        <div :class="bemm('field-shell')">
+        <div :class="bemm('field-shell')" :data-test-id="getTestId(testId, 'password-shell')">
           <input
             :id="passwordFieldId"
             v-model="formState.password"
             :autocomplete="passwordAutoComplete"
             :class="[bemm('field-control'), showPasswordToggle ? bemm('field-control', 'has-toggle') : '']"
+            :data-test-id="getTestId(testId, 'password-control')"
             :disabled="disabled"
             :placeholder="passwordPlaceholder"
             required
@@ -100,26 +106,28 @@
           <button
             v-if="showPasswordToggle"
             :class="bemm('toggle-password')"
+            :data-test-id="getTestId(testId, 'password-toggle')"
             type="button"
             @click="isPasswordVisible = !isPasswordVisible"
           >
-            <Icon :name="isPasswordVisible ? Icons.EYE_SLASH : Icons.EYE" />
-            <span :class="bemm('sr-only')">
+            <Icon :name="isPasswordVisible ? Icons.EYE_SLASH : Icons.EYE" :data-test-id="getTestId(testId, 'password-toggle-icon')" />
+            <span :class="bemm('sr-only')" :data-test-id="getTestId(testId, 'password-toggle-label')">
               {{ isPasswordVisible ? 'Hide password' : 'Show password' }}
             </span>
           </button>
         </div>
       </div>
 
-      <div v-if="showConfirmPassword" :class="bemm('field')">
-        <label :class="bemm('field-label')" :for="confirmPasswordFieldId">{{ confirmPasswordLabel }}</label>
+      <div v-if="showConfirmPassword" :class="bemm('field')" :data-test-id="getTestId(testId, 'confirm-password-field')">
+        <label :class="bemm('field-label')" :for="confirmPasswordFieldId" :data-test-id="getTestId(testId, 'confirm-password-label')">{{ confirmPasswordLabel }}</label>
 
-        <div :class="bemm('field-shell')">
+        <div :class="bemm('field-shell')" :data-test-id="getTestId(testId, 'confirm-password-shell')">
           <input
             :id="confirmPasswordFieldId"
             v-model="formState.confirmPassword"
             :autocomplete="confirmPasswordAutoComplete"
             :class="[bemm('field-control'), showPasswordToggle ? bemm('field-control', 'has-toggle') : '']"
+            :data-test-id="getTestId(testId, 'confirm-password-control')"
             :disabled="disabled"
             :placeholder="confirmPasswordPlaceholder"
             required
@@ -129,23 +137,24 @@
           <button
             v-if="showPasswordToggle"
             :class="bemm('toggle-password')"
+            :data-test-id="getTestId(testId, 'confirm-password-toggle')"
             type="button"
             @click="isConfirmPasswordVisible = !isConfirmPasswordVisible"
           >
-            <Icon :name="isConfirmPasswordVisible ? Icons.EYE_SLASH : Icons.EYE" />
-            <span :class="bemm('sr-only')">
+            <Icon :name="isConfirmPasswordVisible ? Icons.EYE_SLASH : Icons.EYE" :data-test-id="getTestId(testId, 'confirm-password-toggle-icon')" />
+            <span :class="bemm('sr-only')" :data-test-id="getTestId(testId, 'confirm-password-toggle-label')">
               {{ isConfirmPasswordVisible ? 'Hide password' : 'Show password' }}
             </span>
           </button>
         </div>
 
-        <p v-if="passwordsMismatch" :class="bemm('field-error')">{{ passwordMismatchMessage }}</p>
+        <p v-if="passwordsMismatch" :class="bemm('field-error')" :data-test-id="getTestId(testId, 'password-mismatch')">{{ passwordMismatchMessage }}</p>
       </div>
 
       <slot name="after-fields" />
 
-      <div v-if="showTerms || showMarketingOptIn" :class="bemm('options')">
-        <div v-if="showTerms" :class="bemm('checkbox')">
+      <div v-if="showTerms || showMarketingOptIn" :class="bemm('options')" :data-test-id="getTestId(testId, 'options')">
+        <div v-if="showTerms" :class="bemm('checkbox')" :data-test-id="getTestId(testId, 'terms-field')">
           <slot name="terms">
             <InputCheckbox
               v-model="formState.acceptTerms"
@@ -153,22 +162,24 @@
               :disabled="disabled"
               :label="termsLabel"
               size="small"
+              :test-id="getTestId(testId, 'terms')"
             />
           </slot>
         </div>
 
-        <div v-if="showMarketingOptIn" :class="bemm('checkbox')">
+        <div v-if="showMarketingOptIn" :class="bemm('checkbox')" :data-test-id="getTestId(testId, 'marketing-field')">
           <InputCheckbox
             v-model="formState.marketingOptIn"
             indicator="check"
             :disabled="disabled"
             :label="marketingLabel"
             size="small"
+            :test-id="getTestId(testId, 'marketing')"
           />
         </div>
       </div>
 
-      <p v-if="legalNote" :class="bemm('legal-note')">{{ legalNote }}</p>
+      <p v-if="legalNote" :class="bemm('legal-note')" :data-test-id="getTestId(testId, 'legal-note')">{{ legalNote }}</p>
 
       <Button
         block
@@ -177,6 +188,7 @@
         :disabled="isSubmitDisabled"
         :loading="loading"
         type="submit"
+        :test-id="getTestId(testId, 'submit')"
       >
         {{ submitLabel }}
       </Button>
@@ -184,13 +196,14 @@
       <slot name="after-submit" />
     </form>
 
-    <footer v-if="alternateLabel || $slots.footer" :class="bemm('footer')">
-      <p v-if="alternateLabel" :class="bemm('alternate')">
-        <span>{{ alternatePrompt }}</span>
+    <footer v-if="alternateLabel || $slots.footer" :class="bemm('footer')" :data-test-id="getTestId(testId, 'footer')">
+      <p v-if="alternateLabel" :class="bemm('alternate')" :data-test-id="getTestId(testId, 'alternate')">
+        <span :data-test-id="getTestId(testId, 'alternate-prompt')">{{ alternatePrompt }}</span>
         <a
           v-if="alternateHref"
           :class="bemm('alternate-link')"
           :href="alternateHref"
+          :data-test-id="getTestId(testId, 'alternate-link')"
           @click="emit('alternate-click', $event)"
         >
           {{ alternateLabel }}
@@ -198,6 +211,7 @@
         <button
           v-else
           :class="[bemm('alternate-link'), bemm('alternate-link', 'button')]"
+          :data-test-id="getTestId(testId, 'alternate-button')"
           type="button"
           @click="emit('alternate-click', $event)"
         >
@@ -220,6 +234,7 @@ import { Icon } from '../Icon'
 import { Notification } from '../Notification'
 import { InputCheckbox } from '../Form'
 import type { SignupFormEmits, SignupFormProps, SignupFormValue, SignupProviderAction } from './SignupForm.model'
+import { getTestId } from '../../utils'
 
 defineOptions({
   name: 'SignupForm'

@@ -1,5 +1,5 @@
 import type { ButtonVariant } from '../Button'
-import type { Colors, IconNameOrString } from '../../types'
+import type { Colors, IconNameOrString, TestIdProps } from '../../types'
 
 export interface AuthProviderAction {
   id: string
@@ -18,6 +18,7 @@ export interface SigninFormValue {
 }
 
 export interface SigninFormProps {
+  testId?: TestIdProps['testId']
   modelValue?: Partial<SigninFormValue>
   eyebrow?: string
   title?: string

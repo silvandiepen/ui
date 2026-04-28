@@ -1,33 +1,35 @@
 <template>
-	<div :class="bemm('')">
-		<div :class="bemm('main')">
-			<div :class="bemm('anchor')" data-row-click-stop>
-				<Icon :name="Icons.CHECK_LIST" :class="bemm('anchor-icon')" />
+	<div :class="bemm('')" :data-test-id="testId">
+		<div :class="bemm('main')" :data-test-id="getTestId(testId, 'main')">
+			<div :class="bemm('anchor')" :data-test-id="getTestId(testId, 'anchor')" data-row-click-stop>
+				<Icon :name="Icons.CHECK_LIST" :class="bemm('anchor-icon')" :data-test-id="getTestId(testId, 'anchor-icon')" />
 				<button
 					type="button"
 					:class="bemm('summary-button')"
 					:aria-expanded="isPanelOpen"
+					:data-test-id="getTestId(testId, 'summary-button')"
 					data-row-click-stop
 					@click.stop.prevent="togglePanel"
 				>
-					<p :class="bemm('summary')">
+					<p :class="bemm('summary')" :data-test-id="getTestId(testId, 'summary')">
 						{{ t('common.table.selectedCount', { count: selectedCount }) }}
 					</p>
 				</button>
 				<Transition name="ar-data-list-selection-toolbar-panel">
-					<div v-if="isPanelOpen" :class="bemm('panel')">
-						<p :class="bemm('panel-title')">
+					<div v-if="isPanelOpen" :class="bemm('panel')" :data-test-id="getTestId(testId, 'panel')">
+						<p :class="bemm('panel-title')" :data-test-id="getTestId(testId, 'panel-title')">
 							{{ t('common.table.selectedItems') }}
 						</p>
-						<ul :class="bemm('list')">
+						<ul :class="bemm('list')" :data-test-id="getTestId(testId, 'list')">
 							<li
 								v-for="(row, index) in selectedPreviewRows"
 								:key="`selected-row-${index}`"
 								:class="bemm('item')"
+								:data-test-id="getTestId(testId, `item-${index}`)"
 							>
-								<div :class="bemm('item-content')">
-									<Icon :name="Icons.CHECK_L" :class="bemm('item-icon')" />
-									<span :class="bemm('item-label')">
+								<div :class="bemm('item-content')" :data-test-id="getTestId(testId, `item-${index}-content`)">
+									<Icon :name="Icons.CHECK_L" :class="bemm('item-icon')" :data-test-id="getTestId(testId, `item-${index}-icon`)" />
+									<span :class="bemm('item-label')" :data-test-id="getTestId(testId, `item-${index}-label`)">
 										{{ resolveSelectedRowLabel(row, index) }}
 									</span>
 								</div>
@@ -36,19 +38,20 @@
 									size="xsmall"
 									:class="bemm('item-remove-button')"
 									:icon="Icons.MULTIPLY_M"
+									:test-id="getTestId(testId, `item-${index}-remove`)"
 									data-row-click-stop
 									@click.stop="onDeselectRow?.(row)"
 								/>
 							</li>
 						</ul>
-						<p v-if="selectedOverflowCount > 0" :class="bemm('more')">
+						<p v-if="selectedOverflowCount > 0" :class="bemm('more')" :data-test-id="getTestId(testId, 'more')">
 							+{{ selectedOverflowCount }} {{ t('common.table.moreSelected') }}
 						</p>
 					</div>
 				</Transition>
 			</div>
 
-			<div :class="bemm('controls')">
+			<div :class="bemm('controls')" :data-test-id="getTestId(testId, 'controls')">
 				<Button
 					v-if="onSelectAllPage"
 					variant="ghost"
@@ -56,6 +59,7 @@
 					:icon="Icons.CHECK_FAT"
 					:tooltip="t('common.table.selectAllPage')"
 					:disabled="disableSelectAllPage"
+					:test-id="getTestId(testId, 'select-all-page')"
 					data-row-click-stop
 					@click.stop="onSelectAllPage?.()"
 				/>
@@ -64,6 +68,7 @@
 					size="small"
 					:icon="Icons.MULTIPLY_M"
 					:tooltip="t('common.table.clearSelection')"
+					:test-id="getTestId(testId, 'clear-selection')"
 					data-row-click-stop
 					@click.stop="onDeselectAll?.()"
 				/>
@@ -74,6 +79,7 @@
 					:class="bemm('single-action')"
 					:icon="singleSelectionAction.icon"
 					:disabled="singleSelectionAction.disabled"
+					:test-id="getTestId(testId, 'single-action')"
 					data-row-click-stop
 					@click.stop="handleSelectionAction(singleSelectionAction)"
 				>
@@ -92,6 +98,7 @@
 							variant="outline"
 							size="small"
 							:icon="Icons.THREE_DOTS_HORIZONTAL"
+							:test-id="getTestId(testId, 'actions-trigger')"
 							data-row-click-stop
 							@click.stop="toggle"
 						>
@@ -112,6 +119,7 @@ import { Button } from '@/components/ui/Button';
 import { DropdownMenu } from '@/components/ui/Dropdown';
 import { Icon } from '@/components/ui/Icon';
 import { Icons } from '@/types';
+import { getTestId } from '@/utils';
 import type { DataListRow } from '@/components/ui/DataList/DataList.model';
 import type { DataListSelectionToolbarProps } from './DataListSelectionToolbar.model';
 import type { DropdownItem } from '@/components/ui/Dropdown';
