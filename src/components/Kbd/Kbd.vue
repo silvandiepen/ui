@@ -72,7 +72,7 @@ const blockClasses = computed(() => [
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
-  aspect-ratio: m.p("aspect-ratio", 1 / 1);
+  aspect-ratio: m.p("aspect-ratio", 1);
 
   &--small {
     --int-kbd-min-size: var(--space);
