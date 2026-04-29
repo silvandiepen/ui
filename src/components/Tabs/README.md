@@ -14,45 +14,41 @@ Standalone tab bar. Use this when you manage your own active state or render con
 
 ### Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `value` | `string \| number \| null` | `null` | Active tab id |
-| `items` | `TabNavigationItem[]` | `[]` | Tab definitions |
-| `variant` | `'pills' \| 'underline'` | `'pills'` | Visual style |
-| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Controls font size, icon size, and button padding |
-| `align` | `'left' \| 'center' \| 'right'` | `'left'` | Horizontal alignment (or cross-axis when `vertical`) |
-| `stretch` | `boolean` | `false` | Tabs fill the full width equally |
-| `iconOnly` | `boolean` | `false` | Show icons only, hide labels |
-| `vertical` | `boolean` | `false` | Stack tabs vertically |
+| Prop       | Type                             | Default    | Description                                          |
+| ---------- | -------------------------------- | ---------- | ---------------------------------------------------- |
+| `value`    | `string \| number \| null`       | `null`     | Active tab id                                        |
+| `items`    | `TabNavigationItem[]`            | `[]`       | Tab definitions                                      |
+| `variant`  | `'pills' \| 'underline'`         | `'pills'`  | Visual style                                         |
+| `size`     | `'small' \| 'medium' \| 'large'` | `'medium'` | Controls font size, icon size, and button padding    |
+| `align`    | `'left' \| 'center' \| 'right'`  | `'left'`   | Horizontal alignment (or cross-axis when `vertical`) |
+| `stretch`  | `boolean`                        | `false`    | Tabs fill the full width equally                     |
+| `iconOnly` | `boolean`                        | `false`    | Show icons only, hide labels                         |
+| `vertical` | `boolean`                        | `false`    | Stack tabs vertically                                |
 
 ### Events
 
-| Event | Payload | Description |
-|---|---|---|
-| `input` | `string \| number` | Emitted on tab select with the item id |
-| `change` | `(id, item)` | Emitted on tab select with id and full item |
+| Event    | Payload            | Description                                 |
+| -------- | ------------------ | ------------------------------------------- |
+| `input`  | `string \| number` | Emitted on tab select with the item id      |
+| `change` | `(id, item)`       | Emitted on tab select with id and full item |
 
 ### Item shape
 
 ```ts
 type TabNavigationItem = {
-  id: string | number
-  label: string
-  icon?: string       // open-icon name
-  badge?: string | number
-  color?: string      // color token name
-  disabled?: boolean
-}
+  id: string | number;
+  label: string;
+  icon?: string; // open-icon name
+  badge?: string | number;
+  color?: string; // color token name
+  disabled?: boolean;
+};
 ```
 
 ### Basic usage
 
 ```vue
-<TabNavigation
-  :items="tabs"
-  :value="activeTab"
-  @input="activeTab = $event"
-/>
+<TabNavigation :items="tabs" :value="activeTab" @input="activeTab = $event" />
 ```
 
 ### With icons, size, and variant
@@ -77,11 +73,11 @@ type TabNavigationItem = {
 
 The `size` prop scales font size, icon size, and button padding together:
 
-| Size | Font | Icon | Padding |
-|---|---|---|---|
-| `small` | `--font-size-sm` | `1em` | xs / s |
-| `medium` | `--font-size` | `1.25em` | s / base |
-| `large` | `--font-size-lg` | `1.5em` | m / l |
+| Size     | Font             | Icon     | Padding  |
+| -------- | ---------------- | -------- | -------- |
+| `small`  | `--font-size-sm` | `1em`    | xs / s   |
+| `medium` | `--font-size`    | `1.25em` | s / base |
+| `large`  | `--font-size-lg` | `1.5em`  | m / l    |
 
 ### Vertical mode
 
@@ -109,13 +105,35 @@ Use `Tabs` when you want content panes managed automatically.
 </Tabs>
 ```
 
+Use sticky underline navigation for settings and other long forms:
+
+```vue
+<Tabs value="project" tab-navigation-variant="underline" sticky-navigation>
+  <TabPane id="project" title="Project" icon="settings">
+    Project settings
+  </TabPane>
+  <TabPane id="locales" title="Locales" icon="location-pin">
+    Locale settings
+  </TabPane>
+</Tabs>
+```
+
 ### TabPane props
 
-| Prop | Type | Description |
-|---|---|---|
-| `id` | `string \| number` | Unique tab identifier |
-| `title` | `string` | Tab label |
-| `icon` | `string` | open-icon name forwarded to TabNavigation |
+| Prop    | Type               | Description                               |
+| ------- | ------------------ | ----------------------------------------- |
+| `id`    | `string \| number` | Unique tab identifier                     |
+| `title` | `string`           | Tab label                                 |
+| `icon`  | `string`           | open-icon name forwarded to TabNavigation |
+
+### Tabs props
+
+| Prop                     | Type                     | Default   | Description                                        |
+| ------------------------ | ------------------------ | --------- | -------------------------------------------------- |
+| `tabNavigationVariant`   | `'pills' \| 'underline'` | `'pills'` | Visual style forwarded to TabNavigation            |
+| `stickyNavigation`       | `boolean`                | `false`   | Keep navigation sticky while scrolling tab content |
+| `stickyNavigationOffset` | `string`                 | `'0'`     | CSS top offset used by `stickyNavigation`          |
+| `vertical`               | `boolean`                | `false`   | Always place navigation on the left                |
 
 ---
 
