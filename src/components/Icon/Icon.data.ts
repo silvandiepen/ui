@@ -1,4 +1,4 @@
-import { Icons, searchIcon } from 'open-icon'
+import { Icons, resolveOpenIconName } from 'open-icon/runtime'
 
 const iconValues = new Set<string>(Object.values(Icons))
 
@@ -76,26 +76,6 @@ const toEnumKey = (iconName: string) =>
     .replace(/^_+|_+$/g, '')
     .toUpperCase()
 
-const findSearchMatch = (iconName: string) => {
-  const searchTokens = iconName
-    .split(/[-_\s]+/)
-    .map((token) => token.trim().toLowerCase())
-    .filter(Boolean)
-
-  if (searchTokens.length === 0) {
-    return null
-  }
-
-  const results = searchIcon(iconName.replace(/[-_]+/g, ' '), 'name') ?? []
-  const exactTokenMatch = results.find((result) => {
-    const iconTokens = result.name.split('-').map((token) => token.toLowerCase())
-
-    return searchTokens.every((token) => iconTokens.includes(token))
-  })
-
-  return exactTokenMatch?.name ?? null
-}
-
 export const resolveIconName = (iconName: string) => {
   const normalizedIconName = legacyIconAliases[iconName] ?? iconName
 
@@ -109,5 +89,6 @@ export const resolveIconName = (iconName: string) => {
     return enumMatch
   }
 
-  return findSearchMatch(normalizedIconName)
+  // Fall back to open-icon's built-in resolver (handles aliases, fuzzy matching, etc.)
+  return resolveOpenIconName(normalizedIconName)
 }

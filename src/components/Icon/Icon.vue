@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from 'vue'
 import { useBemm } from 'bemm'
-import { getIcon } from 'open-icon'
+import { loadIcon } from 'open-icon/runtime'
 import type { IconProps } from './Icon.model'
 import { resolveIconName } from './Icon.data'
 
@@ -50,7 +50,7 @@ watchEffect(async () => {
 
   try {
     if (iconName) {
-      iconContent.value = await getIcon(iconName)
+      iconContent.value = await loadIcon(iconName) ?? ''
     } else {
       console.warn(`Icon "${props.name}" not found`)
       iconContent.value = ''
