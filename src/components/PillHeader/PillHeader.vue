@@ -24,7 +24,7 @@
         @click="isMenuOpen = !isMenuOpen"
       >
         <span class="sr-only">Toggle navigation</span>
-        <Icon :name="isMenuOpen ? closeIcon : menuIcon" :class="bemm('toggle-icon')" />
+        <Icon :name="isMenuOpen ? props.closeIcon : props.menuIcon" :class="bemm('toggle-icon')" />
       </button>
 
       <nav
@@ -80,6 +80,8 @@ const props = withDefaults(defineProps<PillHeaderProps>(), {
   brandSuffix: '',
   brandAriaLabel: 'Home',
   theme: 'dark',
+  menuIcon: Icons.THREE_DOTS_HORIZONTAL,
+  closeIcon: Icons.MULTIPLY_M,
 })
 
 const emit = defineEmits<{
@@ -90,9 +92,6 @@ const { bemm } = useBemm('pill-header')
 
 const isMenuOpen = ref(false)
 const menuId = 'pill-header-navigation'
-
-const menuIcon = Icons.SETTINGS
-const closeIcon = Icons.CLOSET
 
 const brandComponent = computed(() => {
   if (props.brandTo) return 'router-link'

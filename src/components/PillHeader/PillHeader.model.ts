@@ -19,4 +19,6 @@ export interface PillHeaderProps {
   brandSuffix?: string
   brandAriaLabel?: string
   theme?: 'light' | 'dark' | 'system'
+  menuIcon?: string
+  closeIcon?: string
 }
