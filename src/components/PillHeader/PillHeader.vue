@@ -15,18 +15,6 @@
         <span v-if="brandSuffix" :class="bemm('brand-text')">{{ brandSuffix }}</span>
       </component>
 
-      <button
-        :class="[bemm('toggle'), isMenuOpen ? bemm('toggle', 'open') : '']"
-        type="button"
-        :aria-expanded="isMenuOpen"
-        :aria-controls="menuId"
-        :data-test-id="getTestId(props.testId, 'toggle')"
-        @click="isMenuOpen = !isMenuOpen"
-      >
-        <span class="sr-only">Toggle navigation</span>
-        <Icon :name="isMenuOpen ? props.closeIcon : props.menuIcon" :class="bemm('toggle-icon')" />
-      </button>
-
       <nav
         :id="menuId"
         :class="[bemm('nav'), isMenuOpen ? bemm('nav', 'open') : '']"
@@ -51,11 +39,32 @@
           <Icon v-if="item.icon" :name="item.icon" :class="bemm('link-icon')" />
           <span>{{ item.label }}</span>
         </component>
-
-        <div :class="bemm('actions')" :data-test-id="getTestId(props.testId, 'actions')">
-          <slot name="actions" />
-        </div>
       </nav>
+
+      <button
+        :class="[bemm('toggle'), isMenuOpen ? bemm('toggle', 'open') : '']"
+        type="button"
+        :aria-expanded="isMenuOpen"
+        :aria-controls="menuId"
+        :data-test-id="getTestId(props.testId, 'toggle')"
+        @click="isMenuOpen = !isMenuOpen"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <Icon :name="isMenuOpen ? props.closeIcon : props.menuIcon" :class="bemm('toggle-icon')" />
+      </button>
+
+      <div v-if="actions.length" :class="bemm('actions')" :data-test-id="getTestId(props.testId, 'actions')">
+        <button
+          v-for="action in actions"
+          :key="action.label"
+          :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
+          :aria-label="action.label"
+          @click="action.handler"
+        >
+          <Icon v-if="action.icon" :name="action.icon" :class="bemm('action-icon')" />
+          <span :class="bemm('action-label')">{{ action.label }}</span>
+        </button>
+      </div>
     </div>
   </header>
 </template>
@@ -65,7 +74,7 @@ import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 import { Icons } from '../../types'
 import { Icon } from '../Icon'
-import type { PillHeaderNavItem, PillHeaderProps } from './PillHeader.model'
+import type { PillHeaderAction, PillHeaderNavItem, PillHeaderProps } from './PillHeader.model'
 import { getTestId } from '../../utils/testId'
 
 defineOptions({
@@ -74,6 +83,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<PillHeaderProps>(), {
   navItems: () => [],
+  actions: () => [],
   currentPath: undefined,
   currentSection: undefined,
   brandTo: '/',
@@ -182,6 +192,7 @@ function normalizePath(value: string): string {
     background: var(--pill-header-shell-background);
     box-shadow: var(--pill-header-shell-shadow);
     backdrop-filter: var(--pill-header-shell-backdrop);
+    position: relative;
   }
 
   &__brand {
@@ -205,32 +216,6 @@ function normalizePath(value: string): string {
   &__brand-text {
     font-size: inherit;
     font-weight: inherit;
-  }
-
-  &__toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--pill-header-toggle-size);
-    height: var(--pill-header-toggle-size);
-    padding: 0;
-    border: none;
-    border-radius: 999px;
-    background: transparent;
-    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
-    cursor: pointer;
-    transition: color 0.2s ease, background-color 0.2s ease;
-
-    &:hover,
-    &:focus-visible {
-      color: var(--color-foreground);
-      background: var(--pill-header-link-hover-background);
-    }
-  }
-
-  &__toggle-icon {
-    width: 16px;
-    height: 16px;
   }
 
   &__nav {
@@ -294,12 +279,73 @@ function normalizePath(value: string): string {
     opacity: 0.8;
   }
 
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--pill-header-toggle-size);
+    height: var(--pill-header-toggle-size);
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-foreground);
+      background: var(--pill-header-link-hover-background);
+    }
+  }
+
+  &__toggle-icon {
+    width: 16px;
+    height: 16px;
+  }
+
   &__actions {
     display: flex;
     align-items: center;
     gap: 0.25rem;
   }
 
+  &__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    height: var(--pill-header-action-size);
+    padding: 0 0.5rem;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+    font-size: var(--pill-header-link-font-size);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-foreground);
+      background: var(--pill-header-link-hover-background);
+    }
+  }
+
+  &__action-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &__action-label {
+    /* Visible by default */
+  }
+
+  /* --- Desktop (>=768px): nav inline, toggle hidden --- */
   @media (min-width: 768px) {
     &__toggle {
       display: none;
@@ -318,6 +364,18 @@ function normalizePath(value: string): string {
       opacity: 1;
       visibility: visible;
       transform: none;
+    }
+  }
+
+  /* --- Mobile (<768px): actions with icons collapse to icon-only --- */
+  @media (max-width: 767px) {
+    &__action--has-icon &__action-label {
+      display: none;
+    }
+
+    &__action--has-icon {
+      padding: 0;
+      width: var(--pill-header-action-size);
     }
   }
 }

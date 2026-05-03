@@ -10,9 +10,16 @@ export interface PillHeaderNavItem {
   section?: string
 }
 
+export interface PillHeaderAction {
+  label: string
+  icon?: string
+  handler?: () => void
+}
+
 export interface PillHeaderProps {
   testId?: TestIdProps['testId']
   navItems?: PillHeaderNavItem[]
+  actions?: PillHeaderAction[]
   currentPath?: string
   currentSection?: string
   brandTo?: string
