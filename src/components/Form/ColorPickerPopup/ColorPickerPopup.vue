@@ -29,7 +29,7 @@
           </span>
 
           <Icon
-            :name="Icons.CHEVRON_DOWN"
+            :name="Icons.ARROWS_CHEVRON_DOWN"
             size="small"
             :class="bemm('icon')"
             :data-test-id="getTestId(props.testId, 'icon')"

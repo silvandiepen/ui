@@ -38,7 +38,7 @@
 							</span>
 							<span v-if="column.sortable" :class="bemm('sort')">
 								<Icon
-									:name="Icons.CHEVRON_DOWN"
+									:name="Icons.ARROWS_CHEVRON_DOWN"
 									:class="
 										bemm('sort-icon', [
 											isSortedColumn(column) ? 'active' : 'inactive',
@@ -156,7 +156,7 @@
 											:class="bemm('row-actions-trigger')"
 											variant="default"
 											size="small"
-											:icon="Icons.THREE_DOTS_HORIZONTAL"
+											:icon="Icons.SPECIAL_CHARACTERS_THREE_DOTS_HORIZONTAL"
 											data-row-click-stop
 											@click.stop="toggle"
 										/>
@@ -205,7 +205,7 @@
 								variant="outline"
 								:class="bemm('column-menu-reset')"
 								@click="resetColumnPreferences(closeMenu)"
-								:icon="Icons.ARROW_HEADED_RELOAD_LEFT_RIGHT"
+								:icon="Icons.ARROWS_ARROW_HEADED_RELOAD_LEFT_RIGHT"
 								:tooltip="t('common.actions.resetToDefault')"
 							/>
 							<Button
@@ -213,14 +213,14 @@
 								variant="outline"
 								:class="bemm('column-menu-visibility-toggle')"
 								@click="toggleAllColumnsVisibility"
-								:icon="areAllColumnsVisible ? Icons.INVISIBLE : Icons.VISIBLE"
+								:icon="areAllColumnsVisible ? Icons.UI_INVISIBLE_L : Icons.UI_VISIBLE_L"
 								:tooltip="allVisibilityToggleTooltip"
 							/>
 						</div>
 					</div>
 				</template>
 				<template #trigger="{ toggle }">
-					<Button size="small" :icon="Icons.FILE_COLUMNS" @click="toggle" />
+					<Button size="small" :icon="Icons.UI_FILE_COLUMNS" @click="toggle" />
 				</template>
 			</DropdownMenu>
 		</div>

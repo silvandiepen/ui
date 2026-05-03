@@ -37,9 +37,9 @@ const plan = ref('pro')
 const align = ref('left')
 
 const viewItems = [
-  { label: 'Grid', value: 'grid', icon: Icons.BOARD },
-  { label: 'List', value: 'list', icon: Icons.HAMBURGER },
-  { label: 'Table', value: 'table', icon: Icons.TABLES },
+  { label: 'Grid', value: 'grid', icon: Icons.UI_BOARD },
+  { label: 'List', value: 'list', icon: Icons.FOOD_DRINKS_HAMBURGER },
+  { label: 'Table', value: 'table', icon: Icons.UI_TABLES },
 ]
 
 const planItems = [
@@ -49,9 +49,9 @@ const planItems = [
 ]
 
 const alignItems = [
-  { label: '', value: 'left', icon: Icons.TEXT_ALIGN_LEFT },
-  { label: '', value: 'center', icon: Icons.TEXT_ALIGN_CENTER },
-  { label: '', value: 'right', icon: Icons.TEXT_ALIGN_RIGHT },
+  { label: '', value: 'left', icon: Icons.UI_TEXT_ALIGN_LEFT },
+  { label: '', value: 'center', icon: Icons.UI_TEXT_ALIGN_CENTER },
+  { label: '', value: 'right', icon: Icons.UI_TEXT_ALIGN_RIGHT },
 ]
 </script>
 

@@ -99,7 +99,7 @@
             @click="editor.chain().focus().toggleOrderedList().run()"
             :title="t('richtext.orderedList')"
           >
-            <Icon :name="Icons.CHECK_LIST" size="small" />
+            <Icon :name="Icons.UI_CHECK_LIST" size="small" />
           </button>
 
           <button

@@ -9,7 +9,7 @@
         <span v-if="!resolvedHex" :class="bemm('placeholder')">—</span>
       </div>
       <span v-if="modelValue" :class="bemm('value')">{{ modelValue }}</span>
-      <Icon :name="Icons.CHEVRON_DOWN" size="small" :class="bemm('icon')" />
+      <Icon :name="Icons.ARROWS_CHEVRON_DOWN" size="small" :class="bemm('icon')" />
     </div>
   </div>
 </template>

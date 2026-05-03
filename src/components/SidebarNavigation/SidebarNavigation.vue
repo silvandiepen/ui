@@ -32,7 +32,7 @@
           <span :class="bemm('section-meta')" :data-test-id="getTestId(props.testId, `section-${section.id}-meta`)">
             <Badge v-if="showSectionItemCount" :size="Size.SMALL" :test-id="getTestId(props.testId, `section-${section.id}-count`)">{{ section.items.length }}</Badge>
             <Icon
-              :name="Icons.CHEVRON_DOWN"
+              :name="Icons.ARROWS_CHEVRON_DOWN"
               :class="bemm('section-icon', { expanded: isSectionExpanded(section) })"
               :data-test-id="getTestId(props.testId, `section-${section.id}-chevron`)"
             />

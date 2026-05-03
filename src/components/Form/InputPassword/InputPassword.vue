@@ -37,7 +37,7 @@
 						:title="passwordVisibilityLabel"
 						@click="togglePasswordVisibility"
 					>
-						<Icon :name="showPassword ? Icons.EYE_SLASH : Icons.EYE" />
+						<Icon :name="showPassword ? Icons.UI_INVISIBLE_M : Icons.UI_VISIBLE_M" />
 					</button>
 			</div>
 		</template>

@@ -3,7 +3,7 @@
 		<div :class="bemm('header')">
 			<Button
 				:class="bemm('nav-button')"
-				:icon="Icons.ARROW_LEFT"
+				:icon="Icons.ARROWS_ARROW_LEFT"
 				:iconOnly="true"
 				:size="ButtonSize.SMALL"
 				:variant="ButtonVariant.GHOST"
@@ -30,7 +30,7 @@
 			</div>
 			<Button
 				:class="bemm('nav-button')"
-				:icon="Icons.ARROW_RIGHT"
+				:icon="Icons.ARROWS_ARROW_RIGHT"
 				:iconOnly="true"
 				:size="ButtonSize.SMALL"
 				:variant="ButtonVariant.GHOST"

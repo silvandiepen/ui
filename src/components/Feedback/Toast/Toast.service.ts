@@ -1,13 +1,15 @@
 import { ref } from 'vue';
-import type { Icons } from 'open-icon';
+import { Icons } from 'open-icon';
 import type { ToastPosition, ToastType } from './Toast.model';
 import { ToastSettings } from './Toast.model';
 import { NotificationType } from '../../../types';
 
+type IconValue = (typeof Icons)[keyof typeof Icons];
+
 export interface ToastOptions {
 	message: string;
 	title?: string;
-	icon?: Icons;
+	icon?: IconValue;
 	duration?: number;
 	position?: ToastPosition;
 	type?: ToastType;
@@ -31,7 +33,7 @@ export interface ToastInstance {
 	id: string;
 	message: string;
 	title: string;
-	icon: Icons | null;
+	icon: IconValue | null;
 	duration: number;
 	position: ToastPosition;
 	type: ToastType;
@@ -47,7 +49,7 @@ const useToastService = () => {
 	const toasts = ref<ToastInstance[]>([]);
 
 	const showToast = (opts: ToastOptions) => {
-		const options = { ...defaulToastOptions, ...opts };
+		const options = { ...defaulToastOptions, ...opts } as ToastOptions;
 		const id = options.id || crypto.randomUUID();
 
 		const newToast: ToastInstance = {

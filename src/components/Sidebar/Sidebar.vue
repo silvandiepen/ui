@@ -23,7 +23,7 @@
         :data-test-id="getTestId(props.testId, 'mobile-trigger')"
         @click="toggleMobile"
       >
-        <Icon :name="mobileOpen ? Icons.ARROW_LEFT : Icons.ARROW_RIGHT" :class="bemm('mobile-trigger-arrow')" :data-test-id="getTestId(props.testId, 'mobile-trigger-icon')" aria-hidden="true" />
+        <Icon :name="mobileOpen ? Icons.ARROWS_ARROW_LEFT : Icons.ARROWS_ARROW_RIGHT" :class="bemm('mobile-trigger-arrow')" :data-test-id="getTestId(props.testId, 'mobile-trigger-icon')" aria-hidden="true" />
       </button>
 
       <div v-show="panelVisible" :id="mobilePanelId" :class="bemm('panel')" :data-test-id="getTestId(props.testId, 'panel')">

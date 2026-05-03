@@ -15,8 +15,8 @@
       <div :class="bemm('sidebar-footer')">
         <span :class="bemm('sidebar-footer-copy')">Resize</span>
         <div :class="bemm('sidebar-footer-keys')">
-          <Kbd size="small" variant="subtle" :icon="Icons.ARROW_LEFT" />
-          <Kbd size="small" variant="subtle" :icon="Icons.ARROW_RIGHT" />
+          <Kbd size="small" variant="subtle" :icon="Icons.ARROWS_ARROW_LEFT" />
+          <Kbd size="small" variant="subtle" :icon="Icons.ARROWS_ARROW_RIGHT" />
         </div>
       </div>
     </template>

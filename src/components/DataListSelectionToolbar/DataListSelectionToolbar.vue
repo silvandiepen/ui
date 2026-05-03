@@ -2,7 +2,7 @@
 	<div :class="bemm('')" :data-test-id="testId">
 		<div :class="bemm('main')" :data-test-id="getTestId(testId, 'main')">
 			<div :class="bemm('anchor')" :data-test-id="getTestId(testId, 'anchor')" data-row-click-stop>
-				<Icon :name="Icons.CHECK_LIST" :class="bemm('anchor-icon')" :data-test-id="getTestId(testId, 'anchor-icon')" />
+				<Icon :name="Icons.UI_CHECK_LIST" :class="bemm('anchor-icon')" :data-test-id="getTestId(testId, 'anchor-icon')" />
 				<button
 					type="button"
 					:class="bemm('summary-button')"
@@ -28,7 +28,7 @@
 								:data-test-id="getTestId(testId, `item-${index}`)"
 							>
 								<div :class="bemm('item-content')" :data-test-id="getTestId(testId, `item-${index}-content`)">
-									<Icon :name="Icons.CHECK_L" :class="bemm('item-icon')" :data-test-id="getTestId(testId, `item-${index}-icon`)" />
+									<Icon :name="Icons.UI_CHECK_L" :class="bemm('item-icon')" :data-test-id="getTestId(testId, `item-${index}-icon`)" />
 									<span :class="bemm('item-label')" :data-test-id="getTestId(testId, `item-${index}-label`)">
 										{{ resolveSelectedRowLabel(row, index) }}
 									</span>
@@ -37,7 +37,7 @@
 									variant="ghost"
 									size="xsmall"
 									:class="bemm('item-remove-button')"
-									:icon="Icons.MULTIPLY_M"
+									:icon="Icons.UI_MULTIPLY_M"
 									:test-id="getTestId(testId, `item-${index}-remove`)"
 									data-row-click-stop
 									@click.stop="onDeselectRow?.(row)"
@@ -56,7 +56,7 @@
 					v-if="onSelectAllPage"
 					variant="ghost"
 					size="small"
-					:icon="Icons.CHECK_FAT"
+					:icon="Icons.UI_CHECK_FAT"
 					:tooltip="t('common.table.selectAllPage')"
 					:disabled="disableSelectAllPage"
 					:test-id="getTestId(testId, 'select-all-page')"
@@ -66,7 +66,7 @@
 				<Button
 					variant="ghost"
 					size="small"
-					:icon="Icons.MULTIPLY_M"
+					:icon="Icons.UI_MULTIPLY_M"
 					:tooltip="t('common.table.clearSelection')"
 					:test-id="getTestId(testId, 'clear-selection')"
 					data-row-click-stop
@@ -97,7 +97,7 @@
 						<Button
 							variant="outline"
 							size="small"
-							:icon="Icons.THREE_DOTS_HORIZONTAL"
+							:icon="Icons.SPECIAL_CHARACTERS_THREE_DOTS_HORIZONTAL"
 							:test-id="getTestId(testId, 'actions-trigger')"
 							data-row-click-stop
 							@click.stop="toggle"

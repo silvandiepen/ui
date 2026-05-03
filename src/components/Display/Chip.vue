@@ -54,7 +54,7 @@ const props = defineProps({
 	},
 	removeIcon: {
 		type: String as PropType<IconType>,
-		default: Icons.MULTIPLY_M,
+		default: Icons.UI_MULTIPLY_M,
 	},
 	tooltip: {
 		type: [String, Object] as PropType<string | TooltipOptions>,

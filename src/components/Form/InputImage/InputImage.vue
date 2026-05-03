@@ -44,7 +44,7 @@
 				>
 					<Icon
 						:class="bemm('placeholder-icon')"
-						:name="Icons.CAMERA"
+						:name="Icons.MEDIA_CAMERA"
 						color="primary"
 					/>
 					<div :class="bemm('placeholder-text')">

@@ -31,7 +31,7 @@
           :data-test-id="testIdPart(`color-${color}`)"
           @click="selectColor(color)"
         >
-          <Icon v-if="modelValue === color" :class="bemm('icon')" :name="Icons.CHECK_FAT" size="small" :data-test-id="testIdPart(`color-${color}-icon`)" />
+          <Icon v-if="modelValue === color" :class="bemm('icon')" :name="Icons.UI_CHECK_FAT" size="small" :data-test-id="testIdPart(`color-${color}-icon`)" />
         </button>
 
         <!-- Saved custom colors -->
@@ -49,9 +49,9 @@
           @click="selectColor(hex)"
         >
           <span :class="bemm('color-delete')" :data-test-id="testIdPart(`custom-color-${hex}-delete`)" @click.stop="removeCustomColor(hex)">
-            <Icon :name="Icons.CLOSE" size="small" :data-test-id="testIdPart(`custom-color-${hex}-delete-icon`)" />
+            <Icon :name="Icons.UI_MULTIPLY_M" size="small" :data-test-id="testIdPart(`custom-color-${hex}-delete-icon`)" />
           </span>
-          <Icon v-if="modelValue === hex" :class="bemm('icon')" :name="Icons.CHECK_FAT" size="small" :data-test-id="testIdPart(`custom-color-${hex}-icon`)" />
+          <Icon v-if="modelValue === hex" :class="bemm('icon')" :name="Icons.UI_CHECK_FAT" size="small" :data-test-id="testIdPart(`custom-color-${hex}-icon`)" />
         </button>
       </div>
 
@@ -71,7 +71,7 @@
                 :data-test-id="testIdPart('custom-trigger-swatch')"
               />
               <span :class="bemm('custom-trigger-value')" :data-test-id="testIdPart('custom-trigger-value')">{{ customDraftHex }}</span>
-              <Icon :name="Icons.PLUS" size="small" :data-test-id="testIdPart('custom-trigger-icon')" />
+              <Icon :name="Icons.UI_ADD_M" size="small" :data-test-id="testIdPart('custom-trigger-icon')" />
             </button>
           </template>
 

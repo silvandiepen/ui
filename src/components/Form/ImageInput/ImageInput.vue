@@ -23,7 +23,7 @@
         <img :src="modelValue.url" :alt="modelValue.alt || placeholder" :data-test-id="getTestId(testId, 'image')" />
         <div :class="bemm('actions')" :data-test-id="getTestId(testId, 'actions')">
           <Button
-            :icon="Icons.IMAGE"
+            :icon="Icons.MEDIA_IMAGE"
             size="small"
             :variant="ButtonVariant.OUTLINE"
             :color="Colors.PRIMARY"
@@ -32,7 +32,7 @@
           />
           <Button
             v-if="!small"
-            :icon="Icons.TRASH"
+            :icon="Icons.UI_TRASH"
             size="small"
             :variant="ButtonVariant.GHOST"
             :color="Colors.ERROR"
@@ -49,7 +49,7 @@
         :data-test-id="getTestId(testId, 'placeholder')"
         @click="openSelector"
       >
-        <Icon :name="Icons.IMAGE" :size="small ? 'small' : 'large'" :data-test-id="getTestId(testId, 'placeholder-icon')" />
+        <Icon :name="Icons.MEDIA_IMAGE" :size="small ? 'small' : 'large'" :data-test-id="getTestId(testId, 'placeholder-icon')" />
         <span v-if="!small" :data-test-id="getTestId(testId, 'placeholder-label')">{{ placeholder }}</span>
       </div>
     </template>

@@ -50,12 +50,12 @@ export interface NumberPadProps {
   /**
    * Icon to use for the clear button
    */
-  clearIcon?: Icons | string;
+  clearIcon?: (typeof Icons)[keyof typeof Icons] | string;
 
   /**
    * Icon to use for the submit button
    */
-  submiIcon?: Icons | string;
+  submiIcon?: (typeof Icons)[keyof typeof Icons] | string;
 }
 
 export interface NumberPadEmits {

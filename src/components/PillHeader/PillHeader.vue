@@ -80,8 +80,8 @@ const props = withDefaults(defineProps<PillHeaderProps>(), {
   brandSuffix: '',
   brandAriaLabel: 'Home',
   theme: 'dark',
-  menuIcon: Icons.THREE_DOTS_HORIZONTAL,
-  closeIcon: Icons.MULTIPLY_M,
+  menuIcon: Icons.SPECIAL_CHARACTERS_THREE_DOTS_HORIZONTAL,
+  closeIcon: Icons.UI_MULTIPLY_M,
 })
 
 const emit = defineEmits<{

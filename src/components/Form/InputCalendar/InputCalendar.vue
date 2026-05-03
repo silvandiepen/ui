@@ -41,7 +41,7 @@
               :disabled="controlDisabled"
               aria-label="Open calendar"
             >
-              <Icon :name="Icons.CALENDAR" />
+              <Icon :name="Icons.UI_CALENDAR" />
             </button>
           </div>
         </template>

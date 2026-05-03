@@ -42,7 +42,7 @@
 				variant="ghost"
 				:disabled="isFirstPage"
 				@click="goPrev"
-				:icon="Icons.CHEVRON_LEFT"
+				:icon="Icons.ARROWS_CHEVRON_LEFT"
 				:test-id="getTestId(props.testId, 'prev')"
 			/>
 
@@ -78,7 +78,7 @@
 				v-if="showNext"
 				variant="ghost"
 				:disabled="isLastPage"
-				:icon="Icons.CHEVRON_RIGHT"
+				:icon="Icons.ARROWS_CHEVRON_RIGHT"
 				:test-id="getTestId(props.testId, 'next')"
 				@click="goNext"
 			/>

@@ -24,7 +24,7 @@ const props = defineProps({
 	},
 	icon: {
 		type: String as PropType<IconType>,
-		default: Icons.BOX,
+		default: Icons.UI_BOX,
 	},
 	action: {
 		type: Object as PropType<

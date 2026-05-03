@@ -110,7 +110,7 @@
             type="button"
             @click="isPasswordVisible = !isPasswordVisible"
           >
-            <Icon :name="isPasswordVisible ? Icons.EYE_SLASH : Icons.EYE" :data-test-id="getTestId(testId, 'password-toggle-icon')" />
+            <Icon :name="isPasswordVisible ? Icons.UI_INVISIBLE_M : Icons.UI_VISIBLE_M" :data-test-id="getTestId(testId, 'password-toggle-icon')" />
             <span :class="bemm('sr-only')" :data-test-id="getTestId(testId, 'password-toggle-label')">
               {{ isPasswordVisible ? 'Hide password' : 'Show password' }}
             </span>
@@ -141,7 +141,7 @@
             type="button"
             @click="isConfirmPasswordVisible = !isConfirmPasswordVisible"
           >
-            <Icon :name="isConfirmPasswordVisible ? Icons.EYE_SLASH : Icons.EYE" :data-test-id="getTestId(testId, 'confirm-password-toggle-icon')" />
+            <Icon :name="isConfirmPasswordVisible ? Icons.UI_INVISIBLE_M : Icons.UI_VISIBLE_M" :data-test-id="getTestId(testId, 'confirm-password-toggle-icon')" />
             <span :class="bemm('sr-only')" :data-test-id="getTestId(testId, 'confirm-password-toggle-label')">
               {{ isConfirmPasswordVisible ? 'Hide password' : 'Show password' }}
             </span>

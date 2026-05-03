@@ -95,7 +95,7 @@ const props = withDefaults(defineProps<HeaderSearchProps>(), {
   clearOnClose: true,
   closeOnEscape: true,
   closeOnOutsideClick: true,
-  iconName: Icons.SEARCH_M,
+  iconName: Icons.UI_SEARCH_M,
   maxWidth: '36rem',
   modelValue: '',
   openLabel: 'Search',

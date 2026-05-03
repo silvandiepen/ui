@@ -28,7 +28,7 @@
           @click="copy"
         >
           <Icon
-            :name="copied ? Icons.CIRCLED_CHECK : Icons.CLIPBOARD"
+            :name="copied ? Icons.UI_CIRCLED_CHECK : Icons.MEDIA_CLIPBOARD"
             :data-test-id="getTestId(props.testId, 'copy-icon')"
           />
         </button>
@@ -44,7 +44,7 @@
           :data-test-id="getTestId(props.testId, 'open')"
         >
           <Icon
-            :name="Icons.ARROW_UP_RIGHT"
+            :name="Icons.ARROWS_ARROW_UP_RIGHT"
             :data-test-id="getTestId(props.testId, 'open-icon')"
           />
         </a>

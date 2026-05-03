@@ -7,10 +7,10 @@
     <header v-if="showHeader && (title || subtitle || headerActions?.length || $slots.header || back || next)"
       :class="bemm('header', { 'no-padding': disableHeaderPadding })"
       :data-test-id="getTestId(props.testId, 'header')">
-      <Button v-if="back" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROW_LEFT" @click="handleBack"
+      <Button v-if="back" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROWS_ARROW_LEFT" @click="handleBack"
         :class="bemm('back-button')" :test-id="getTestId(props.testId, 'back')" />
 
-      <Button v-if="next" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROW_RIGHT" @click="handleNext"
+      <Button v-if="next" :variant="ButtonVariant.GHOST" size="small" :icon="Icons.ARROWS_ARROW_RIGHT" @click="handleNext"
         :class="bemm('next-button')" :test-id="getTestId(props.testId, 'next')" />
       <div :class="bemm('header-left')" :data-test-id="getTestId(props.testId, 'header-left')">
         <div :class="bemm('header-content')" :data-test-id="getTestId(props.testId, 'header-content')">

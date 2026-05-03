@@ -5,5 +5,5 @@ export interface KbdProps {
   testId?: TestIdProps['testId']
   size?: 'small' | 'medium'
   variant?: 'default' | 'subtle'
-  icon?: Icons | null
+  icon?: (typeof Icons)[keyof typeof Icons] | null
 }

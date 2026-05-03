@@ -73,8 +73,8 @@ const props = withDefaults(defineProps<NumberPadProps>(), {
   disabled: false,
   disableClear: false,
   disableSubmit: false,
-  clearIcon: Icons.CHEVRON_LEFT,
-  submiIcon: Icons.ARROW_RIGHT,
+  clearIcon: Icons.ARROWS_CHEVRON_LEFT,
+  submiIcon: Icons.ARROWS_ARROW_RIGHT,
   size: 'medium',
   variant: 'default'
 })

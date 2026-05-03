@@ -52,18 +52,18 @@ const locked = ref<'public' | 'private'>('public')
 const bookmark = ref<'saved' | 'unsaved'>('unsaved')
 
 const themeItems: ToggleItemPair = [
-  { label: 'Light', value: 'light', icon: Icons.SUN },
-  { label: 'Dark', value: 'dark', icon: Icons.MOON_DARK_MODE },
+  { label: 'Light', value: 'light', icon: Icons.WEATHER_SUN },
+  { label: 'Dark', value: 'dark', icon: Icons.WEATHER_MOON_DARK_MODE },
 ]
 
 const visibilityItems: ToggleItemPair = [
-  { label: 'Public', value: 'public', icon: Icons.VISIBLE_M },
-  { label: 'Private', value: 'private', icon: Icons.INVISIBLE_M },
+  { label: 'Public', value: 'public', icon: Icons.UI_VISIBLE_M },
+  { label: 'Private', value: 'private', icon: Icons.UI_INVISIBLE_M },
 ]
 
 const bookmarkItems: ToggleItemPair = [
-  { label: 'Saved', value: 'saved', icon: Icons.STAR_FAT },
-  { label: 'Unsaved', value: 'unsaved', icon: Icons.STAR_M },
+  { label: 'Saved', value: 'saved', icon: Icons.UI_STAR_FAT },
+  { label: 'Unsaved', value: 'unsaved', icon: Icons.UI_STAR_M },
 ]
 </script>
 

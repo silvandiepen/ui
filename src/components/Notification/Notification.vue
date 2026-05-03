@@ -26,7 +26,7 @@
       @click="dismiss"
     >
       <Icon
-        :name="Icons.CLOSE"
+        :name="Icons.UI_MULTIPLY_M"
         :data-test-id="getTestId(props.testId, 'dismiss-icon')"
       />
     </button>
@@ -71,10 +71,10 @@ const visible = ref(true);
 const bemm = useBemm('ui-notification', { return: 'string', includeBaseClass: true });
 
 const iconMap: Record<string, string> = {
-  success: Icons.CHECK_L,
-  error: Icons.CIRCLED_EXCLAMATION_MARK,
-  warning: Icons.CIRCLED_EXCLAMATION_MARK,
-  info: Icons.CIRCLED_INFO,
+  success: Icons.UI_CHECK_L,
+  error: Icons.UI_CIRCLED_EXCLAMATION_MARK,
+  warning: Icons.UI_CIRCLED_EXCLAMATION_MARK,
+  info: Icons.UI_CIRCLED_INFO,
 };
 
 const iconName = computed(() =>

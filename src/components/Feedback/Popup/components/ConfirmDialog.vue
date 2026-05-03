@@ -14,7 +14,7 @@
         :type="ButtonType.BUTTON"
         :color="Colors.SECONDARY"
         @click="handleCancel"
-        :icon="Icons.ARROW_LEFT"
+        :icon="Icons.ARROWS_ARROW_LEFT"
         :class="bemm('cancel-button')"
       >
         {{ cancelLabel }}
@@ -44,7 +44,7 @@ import { Colors } from '../../../../types';
 interface Props {
   title: string
   message: string
-  icon?: Icons
+  icon?: (typeof Icons)[keyof typeof Icons]
   confirmLabel?: string
   cancelLabel?: string
   confirmColor?: Colors.PRIMARY | Colors.SUCCESS | Colors.ERROR |  Colors.WARNING;
@@ -54,7 +54,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  icon: 'help-circle',
+  icon: Icons.UI_CIRCLED_QUESTION_MARK,
   confirmLabel: 'Confirm',
   cancelLabel: 'Cancel',
   confirmColor: Colors.PRIMARY
@@ -80,13 +80,13 @@ const handleCancel = () => {
 const confirmIcon = (color: string) => {
   switch (color) {
     case 'success':
-      return Icons.CIRCLED_CHECK
+      return Icons.UI_CIRCLED_CHECK
     case 'error':
-      return Icons.MULTIPLY_M
+      return Icons.UI_MULTIPLY_M
     case 'warning':
-      return Icons.CIRCLED_EXCLAMATION_MARK
+      return Icons.UI_CIRCLED_EXCLAMATION_MARK
     default:
-      return Icons.ARROW_RIGHT
+      return Icons.ARROWS_ARROW_RIGHT
   }
 }
 

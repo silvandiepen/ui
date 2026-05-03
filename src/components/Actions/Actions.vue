@@ -36,7 +36,7 @@
       <Button
         :variant="ButtonVariant.GHOST"
         :size="buttonSize"
-        :icon="Icons.THREE_DOTS_HORIZONTAL"
+        :icon="Icons.SPECIAL_CHARACTERS_THREE_DOTS_HORIZONTAL"
         icon-only
         title="More actions"
         :test-id="getTestId(props.testId, 'more')"

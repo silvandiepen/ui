@@ -3,7 +3,7 @@
 		<span :class="bemm('pre')" v-if="pre">{{ pre }}</span>
 		<span :class="bemm('id')">{{ id }}</span>
 		<Icon
-			:name="Icons.CLIPBOARD"
+			:name="Icons.MEDIA_CLIPBOARD"
 			:class="bemm('copy-icon')"
 			@click.native.stop="handleCopyId"
 			title="Copy ID"

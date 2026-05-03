@@ -47,10 +47,10 @@ const ariaLabel = computed(() => {
 
 const iconName = computed(() => {
   if (props.theme === 'system') {
-    return Icons.DESKTOP
+    return Icons.MEDIA_DESKTOP
   }
 
-  return props.theme === 'dark' ? Icons.SUN : Icons.MOON01
+  return props.theme === 'dark' ? Icons.WEATHER_SUN : Icons.WEATHER_MOON
 })
 </script>
 

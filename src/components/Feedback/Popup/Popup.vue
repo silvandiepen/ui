@@ -23,7 +23,7 @@
 								{{ popup.description }}
 							</p>
 							<slot name="header"></slot>
-							<Button v-if="popup.config.canClose" :class="bemm('close')" :icon="Icons.MULTIPLY_M" size="small" variant="ghost"
+							<Button v-if="popup.config.canClose" :class="bemm('close')" :icon="Icons.UI_MULTIPLY_M" size="small" variant="ghost"
 								@click="popupService.close(popup.id)" />
 							<component :is="popup.header" v-if="popup.header" />
 						</header>

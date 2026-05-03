@@ -12,7 +12,7 @@ describe('ThemeToggle', () => {
       },
     })
 
-    expect(wrapper.findComponent({ name: 'Icon' }).props('name')).toBe(Icons.MOON01)
+    expect(wrapper.findComponent({ name: 'Icon' }).props('name')).toBe(Icons.WEATHER_MOON)
   })
 
   it('emits toggle when clicked', async () => {

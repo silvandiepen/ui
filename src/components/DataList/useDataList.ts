@@ -326,7 +326,7 @@ export const useDataList = (
 				type: 'item' as const,
 				key: column.key,
 				label: column.label,
-				icon: isVisible ? Icons.VISIBLE : Icons.INVISIBLE,
+				icon: isVisible ? Icons.UI_VISIBLE_L : Icons.UI_INVISIBLE_L,
 				color: isVisible ? Color.FOREGROUND : Color.GRAY,
 				value: column.key,
 				action: () => toggleColumn(column.key),
@@ -656,7 +656,7 @@ export const useDataList = (
 				: translate('common.actions.select', 'Select'),
 			value: rowSelected ? 'deselect-row' : 'select-row',
 			type: 'item',
-			icon: rowSelected ? Icons.MULTIPLY_M : Icons.CHECK_L,
+			icon: rowSelected ? Icons.UI_MULTIPLY_M : Icons.UI_CHECK_L,
 			action: () => toggleRowSelectionFromContextAction(row),
 		};
 

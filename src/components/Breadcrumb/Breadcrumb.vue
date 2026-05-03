@@ -62,7 +62,7 @@
 		<Button
 			:size="ButtonSize.SMALL"
 			:variant="ButtonVariant.GHOST"
-			:icon="Icons.CLIPBOARD"
+			:icon="Icons.MEDIA_CLIPBOARD"
 			title="Copy current URL"
 			:test-id="getTestId(props.testId, 'copy')"
 			@click="handleCopyBreadcrumb"
