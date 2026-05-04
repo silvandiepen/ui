@@ -21,24 +21,79 @@
         aria-label="Primary"
         :data-test-id="getTestId(props.testId, 'nav')"
       >
-        <component
-          :is="item.to ? 'router-link' : 'a'"
+        <div
           v-for="item in navItems"
-          :key="item.to || item.href || item.label"
-          :to="item.to"
-          :href="item.href"
-          :target="item.external ? '_blank' : undefined"
-          :rel="item.external ? 'noopener noreferrer' : undefined"
+          :key="getItemKey(item)"
           :class="[
-            bemm('link'),
-            isActive(item) ? bemm('link', 'active') : '',
+            bemm('item'),
+            hasSubItems(item) ? bemm('item', 'has-submenu') : '',
+            isSubmenuOpen(item) ? bemm('item', 'open') : '',
           ]"
-          :data-test-id="getTestId(props.testId, `link-${item.label}`)"
-          @click="isMenuOpen = false"
+          @mouseenter="openSubmenu(item)"
+          @mouseleave="closeSubmenu(item)"
         >
-          <Icon v-if="item.icon" :name="item.icon" :class="bemm('link-icon')" />
-          <span>{{ item.label }}</span>
-        </component>
+          <component
+            :is="getItemComponent(item)"
+            :type="getItemComponent(item) === 'button' ? 'button' : undefined"
+            :to="item.to"
+            :href="item.href"
+            :target="getItemTarget(item)"
+            :rel="getItemRel(item)"
+            :disabled="getItemComponent(item) === 'button' ? item.disabled : undefined"
+            :aria-disabled="item.disabled ? 'true' : undefined"
+            :aria-haspopup="hasSubItems(item) ? 'menu' : undefined"
+            :aria-expanded="hasSubItems(item) ? isSubmenuOpen(item) : undefined"
+            :class="[
+              bemm('link'),
+              isActive(item) ? bemm('link', 'active') : '',
+              item.disabled ? bemm('link', 'disabled') : '',
+              hasSubItems(item) ? bemm('link', 'has-submenu') : '',
+            ]"
+            :data-test-id="getTestId(props.testId, `link-${getItemKey(item)}`)"
+            @click="handleItemClick($event, item)"
+          >
+            <Icon v-if="item.icon" :name="item.icon" :class="bemm('link-icon')" aria-hidden="true" />
+            <span>{{ item.label }}</span>
+            <Icon v-if="hasSubItems(item)" :name="Icons.ARROWS_CHEVRON_DOWN" :class="bemm('link-chevron')" aria-hidden="true" />
+          </component>
+
+          <div
+            v-if="hasSubItems(item)"
+            :class="[
+              bemm('submenu'),
+              isSubmenuOpen(item) ? bemm('submenu', 'open') : '',
+            ]"
+            role="menu"
+            :data-test-id="getTestId(props.testId, `submenu-${getItemKey(item)}`)"
+          >
+            <component
+              :is="getItemComponent(subItem)"
+              v-for="subItem in item.items"
+              :key="getItemKey(subItem)"
+              :type="getItemComponent(subItem) === 'button' ? 'button' : undefined"
+              :to="subItem.to"
+              :href="subItem.href"
+              :target="getItemTarget(subItem)"
+              :rel="getItemRel(subItem)"
+              :disabled="getItemComponent(subItem) === 'button' ? subItem.disabled : undefined"
+              :aria-disabled="subItem.disabled ? 'true' : undefined"
+              :class="[
+                bemm('submenu-link'),
+                isActive(subItem) ? bemm('submenu-link', 'active') : '',
+                subItem.disabled ? bemm('submenu-link', 'disabled') : '',
+              ]"
+              role="menuitem"
+              :data-test-id="getTestId(props.testId, `link-${getItemKey(subItem)}`)"
+              @click="handleItemClick($event, subItem)"
+            >
+              <Icon v-if="subItem.icon" :name="subItem.icon" :class="bemm('submenu-icon')" aria-hidden="true" />
+              <span :class="bemm('submenu-copy')">
+                <span :class="bemm('submenu-label')">{{ subItem.label }}</span>
+                <span v-if="subItem.description" :class="bemm('submenu-description')">{{ subItem.description }}</span>
+              </span>
+            </component>
+          </div>
+        </div>
       </nav>
 
       <button
@@ -47,7 +102,7 @@
         :aria-expanded="isMenuOpen"
         :aria-controls="menuId"
         :data-test-id="getTestId(props.testId, 'toggle')"
-        @click="isMenuOpen = !isMenuOpen"
+        @click="toggleMenu"
       >
         <span class="sr-only">Toggle navigation</span>
         <Icon :name="isMenuOpen ? props.closeIcon : props.menuIcon" :class="bemm('toggle-icon')" />
@@ -70,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useBemm } from 'bemm'
 import { Icons } from '../../types'
 import { Icon } from '../Icon'
@@ -101,6 +156,8 @@ const emit = defineEmits<{
 const { bemm } = useBemm('pill-header')
 
 const isMenuOpen = ref(false)
+const openSubmenuKey = ref<string | null>(null)
+const isMobileNavigation = ref(false)
 const menuId = 'pill-header-navigation'
 
 const brandComponent = computed(() => {
@@ -114,8 +171,18 @@ const resolvedCurrentPath = computed(() => {
   return normalizePath(window.location.pathname)
 })
 
+onMounted(() => {
+  updateMobileNavigation()
+  window.addEventListener('resize', updateMobileNavigation)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateMobileNavigation)
+})
+
 function isActive(item: PillHeaderNavItem): boolean {
   if (props.currentSection && item.section === props.currentSection) return true
+  if (item.items?.some((subItem) => isActive(subItem))) return true
 
   const itemPath = normalizeItemPath(item)
   if (!itemPath) return false
@@ -126,6 +193,7 @@ function isActive(item: PillHeaderNavItem): boolean {
 function normalizeItemPath(item: PillHeaderNavItem): string | null {
   const value = item.to || item.href
   if (!value) return null
+  if (typeof value !== 'string') return null
   if (value.startsWith('/')) return normalizePath(value)
   try {
     return normalizePath(new URL(value).pathname)
@@ -139,6 +207,94 @@ function normalizePath(value: string): string {
   if (normalizedValue === '/') return normalizedValue
   return normalizedValue.replace(/\/+$/, '') || '/'
 }
+
+function getItemKey(item: PillHeaderNavItem): string {
+  return item.id ?? item.section ?? String(item.to ?? item.href ?? item.label)
+}
+
+function getItemComponent(item: PillHeaderNavItem): 'router-link' | 'a' | 'button' {
+  if (item.to) return 'router-link'
+  if (item.href) return 'a'
+  return 'button'
+}
+
+function getItemTarget(item: PillHeaderNavItem): '_blank' | '_self' | undefined {
+  if (!item.href && !item.to) return undefined
+  if (item.target) return item.target
+  return item.external ? '_blank' : undefined
+}
+
+function getItemRel(item: PillHeaderNavItem): string | undefined {
+  return getItemTarget(item) === '_blank' ? 'noopener noreferrer' : undefined
+}
+
+function hasSubItems(item: PillHeaderNavItem): boolean {
+  return Boolean(item.items?.length)
+}
+
+function isSubmenuOpen(item: PillHeaderNavItem): boolean {
+  return openSubmenuKey.value === getItemKey(item)
+}
+
+function openSubmenu(item: PillHeaderNavItem) {
+  if (isMobileNavigation.value) return
+  if (!hasSubItems(item)) return
+  openSubmenuKey.value = getItemKey(item)
+}
+
+function closeSubmenu(item: PillHeaderNavItem) {
+  if (isMobileNavigation.value) return
+  if (openSubmenuKey.value !== getItemKey(item)) return
+  openSubmenuKey.value = null
+}
+
+function handleItemClick(event: MouseEvent, item: PillHeaderNavItem) {
+  if (item.disabled) {
+    event.preventDefault()
+    return
+  }
+
+  if (hasSubItems(item) && isMobileNavigation.value) {
+    event.preventDefault()
+    openSubmenuKey.value = isSubmenuOpen(item) ? null : getItemKey(item)
+    return
+  }
+
+  if (item.action) {
+    event.preventDefault()
+    void item.action(event)
+    isMenuOpen.value = false
+    openSubmenuKey.value = null
+    return
+  }
+
+  if (hasSubItems(item) && !item.to && !item.href) {
+    event.preventDefault()
+    openSubmenuKey.value = isSubmenuOpen(item) ? null : getItemKey(item)
+    return
+  }
+
+  isMenuOpen.value = false
+  openSubmenuKey.value = null
+}
+
+function toggleMenu() {
+  isMenuOpen.value = !isMenuOpen.value
+
+  if (!isMenuOpen.value) {
+    openSubmenuKey.value = null
+  }
+}
+
+function updateMobileNavigation() {
+  isMobileNavigation.value = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
+
+  if (!isMobileNavigation.value) {
+    return
+  }
+
+  openSubmenuKey.value = null
+}
 </script>
 
 <style lang="scss">
@@ -149,21 +305,24 @@ function normalizePath(value: string): string {
   --pill-header-padding: 0.75rem clamp(1rem, 3vw, 2rem) 0;
   --pill-header-shell-padding: 0.3rem 0.3rem 0.3rem 1rem;
   --pill-header-shell-radius: 999px;
-  --pill-header-shell-background: color-mix(in srgb, var(--color-background), transparent 90%);
-  --pill-header-shell-shadow: 0 8px 32px color-mix(in srgb, var(--color-foreground), transparent 94%);
+  --pill-header-shell-background: color-mix(in srgb, var(--color-dark), transparent 10%);
+  --pill-header-shell-shadow: 0 8px 32px color-mix(in srgb, var(--color-dark), transparent 94%);
   --pill-header-shell-backdrop: blur(16px);
-  --pill-header-brand-color: var(--color-foreground);
-  --pill-header-link-color: color-mix(in srgb, var(--color-foreground), transparent 45%);
-  --pill-header-link-hover-background: color-mix(in srgb, var(--color-foreground), transparent 92%);
-  --pill-header-link-active-color: var(--color-foreground);
-  --pill-header-link-active-background: color-mix(in srgb, var(--color-foreground), transparent 94%);
-  --pill-header-link-font-size: 0.8rem;
-  --pill-header-brand-font-size: 0.8rem;
-  --pill-header-nav-gap: 0.25rem;
-  --pill-header-link-padding: 0 0.6rem;
-  --pill-header-link-min-height: 2rem;
-  --pill-header-toggle-size: 2.25rem;
-  --pill-header-action-size: 2rem;
+  --pill-header-nav-background: color-mix(in srgb, var(--color-dark), transparent 0%);
+  --pill-header-brand-color: var(--color-light);
+  --pill-header-link-color: color-mix(in srgb, var(--color-light), transparent 33.33%);
+  --pill-header-link-hover-color: var(--color-light);
+  --pill-header-link-hover-background: color-mix(in srgb, var(--color-light), transparent 92%);
+  --pill-header-link-active-color: var(--color-light);
+  --pill-header-link-active-background: color-mix(in srgb, var(--color-light), transparent 94%);
+  --pill-header-link-font-size: var(--font-size-s);
+  --pill-header-brand-font-size: var(--font-size-xs);
+  --pill-header-nav-gap: var(--space-s);
+  --pill-header-link-padding: 0 var(--space-s);
+  --pill-header-link-min-height: var(--space-l);
+  --pill-header-toggle-size: var(--space-l);
+  --pill-header-action-size: var(--space-l);
+
 
   position: sticky;
   top: var(--pill-header-top);
@@ -186,6 +345,7 @@ function normalizePath(value: string): string {
   &__shell {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: var(--pill-header-nav-gap);
     padding: var(--pill-header-shell-padding);
     border-radius: var(--pill-header-shell-radius);
@@ -198,14 +358,14 @@ function normalizePath(value: string): string {
   &__brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-s);
     font-size: var(--pill-header-brand-font-size);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--pill-header-brand-color);
     text-decoration: none;
-    margin-right: 0.25rem;
+    margin-left: calc(var(--space-s) * -1);
 
     &:hover,
     &:focus-visible {
@@ -229,9 +389,8 @@ function normalizePath(value: string): string {
     padding: 0.5rem;
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 92%);
     border-radius: 1rem;
-    background: var(--pill-header-shell-background);
     backdrop-filter: var(--pill-header-shell-backdrop);
-
+    background: var(--pill-header-nav-background);
     opacity: 0;
     visibility: hidden;
     transform: scale(0.95) translateY(-8px);
@@ -248,10 +407,16 @@ function normalizePath(value: string): string {
     }
   }
 
+  &__item {
+    position: relative;
+    display: flex;
+    min-width: 0;
+  }
+
   &__link {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap:var(--space-xs);
     min-height: var(--pill-header-link-min-height);
     padding: var(--pill-header-link-padding);
     border-radius: 999px;
@@ -259,6 +424,72 @@ function normalizePath(value: string): string {
     font-size: var(--pill-header-link-font-size);
     font-weight: 500;
     text-decoration: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--pill-header-link-hover-color);
+      background: var(--pill-header-link-hover-background);
+      text-decoration: none;
+    }
+
+    &--active {
+      color: var(--pill-header-link-active-color);
+      background: var(--pill-header-link-active-background);
+    }
+
+    &--disabled {
+      opacity: 0.45;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+  }
+
+  &__link-icon {
+    font-size: 0.95em;
+    opacity: 0.8;
+  }
+
+  &__link-chevron {
+    width: 12px;
+    height: 12px;
+    opacity: 0.6;
+    transition: transform 160ms ease;
+  }
+
+  &__item--open &__link-chevron {
+    transform: rotate(180deg);
+  }
+
+  &__submenu {
+    display: grid;
+    gap: var(--space-xs);
+    padding: 0.35rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 92%);
+    border-radius: 0.875rem;
+    background: var(--pill-header-shell-background);
+    box-shadow: var(--pill-header-shell-shadow);
+    backdrop-filter: var(--pill-header-shell-backdrop);
+  }
+
+  &__submenu-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    min-height: 2.25rem;
+    padding: 0.45rem 0.65rem;
+    border: 0;
+    border-radius: 0.65rem;
+    background: transparent;
+    color: var(--pill-header-link-color);
+    font-size: var(--pill-header-link-font-size);
+    font-weight: 500;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
     transition: color 0.2s ease, background-color 0.2s ease;
 
     &:hover,
@@ -272,11 +503,38 @@ function normalizePath(value: string): string {
       color: var(--pill-header-link-active-color);
       background: var(--pill-header-link-active-background);
     }
+
+    &--disabled {
+      opacity: 0.45;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
   }
 
-  &__link-icon {
-    font-size: 0.95em;
+  &__submenu-icon {
+    flex-shrink: 0;
+    width: var(--space);
+    height: var(--space);
     opacity: 0.8;
+  }
+
+  &__submenu-copy {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  &__submenu-label,
+  &__submenu-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__submenu-description {
+    color: color-mix(in srgb, var(--color-foreground), transparent 42%);
+    font-size: var(--font-size-s);
+    font-weight: 400;
   }
 
   &__toggle {
@@ -321,7 +579,7 @@ function normalizePath(value: string): string {
     border: none;
     border-radius: 999px;
     background: transparent;
-    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+    color: var(--pill-header-link-color);
     font-size: var(--pill-header-link-font-size);
     font-weight: 500;
     cursor: pointer;
@@ -330,7 +588,7 @@ function normalizePath(value: string): string {
 
     &:hover,
     &:focus-visible {
-      color: var(--color-foreground);
+      color: var(--pill-header-link-hover-color);
       background: var(--pill-header-link-hover-background);
     }
   }
@@ -358,17 +616,63 @@ function normalizePath(value: string): string {
       gap: 2px;
       padding: 0;
       border: 0;
-      background: transparent;
+      // background: transparent;
       backdrop-filter: none;
 
       opacity: 1;
       visibility: visible;
       transform: none;
     }
+
+    &__submenu {
+      position: absolute;
+      top: calc(100% + 0.45rem);
+      left: 0;
+      min-width: 14rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transform-origin: top left;
+      transition:
+        opacity 0.16s ease,
+        transform 0.16s ease,
+        visibility 0.16s;
+    }
+
+    &__item:hover &__submenu,
+    &__item:focus-within &__submenu,
+    &__submenu--open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
   }
 
   /* --- Mobile (<768px): actions with icons collapse to icon-only --- */
   @media (max-width: 767px) {
+    &__item {
+      display: grid;
+    }
+
+    &__link {
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    &__link-chevron {
+      margin-left: auto;
+    }
+
+    &__submenu {
+      display: none;
+      margin: 0.2rem 0 0.35rem;
+      box-shadow: none;
+    }
+
+    &__submenu--open {
+      display: grid;
+    }
+
     &__action--has-icon &__action-label {
       display: none;
     }

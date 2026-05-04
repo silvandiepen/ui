@@ -97,7 +97,7 @@
 
             <StatusBadge
               v-if="item.badge"
-              :label="item.badge"
+              :label="String(item.badge)"
               :tone="item.badgeTone ?? Status.INFO"
             />
           </a>
@@ -135,7 +135,7 @@
 
             <StatusBadge
               v-if="item.badge"
-              :label="item.badge"
+              :label="String(item.badge)"
               :tone="item.badgeTone ?? Status.INFO"
             />
           </a>
@@ -170,7 +170,7 @@
 
             <StatusBadge
               v-if="item.badge"
-              :label="item.badge"
+              :label="String(item.badge)"
               :tone="item.badgeTone ?? Status.INFO"
             />
           </button>

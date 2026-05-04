@@ -19,7 +19,7 @@
         <component
           :is="item.to ? 'router-link' : 'a'"
           v-for="item in navItems"
-          :key="item.to || item.href || item.label"
+          :key="getItemKey(item)"
           :to="item.to"
           :href="item.href"
           :target="item.external ? '_blank' : undefined"
@@ -28,10 +28,10 @@
             bemm('nav-link'),
             isActive(item) ? bemm('nav-link', 'active') : '',
           ]"
-          :data-test-id="getTestId(props.testId, `nav-${item.label}`)"
+          :data-test-id="getTestId(props.testId, `nav-${getItemKey(item)}`)"
         >
-          <Icon v-if="item.icon" :name="item.icon" :class="bemm('nav-icon')" :data-test-id="getTestId(props.testId, `nav-${item.label}-icon`)" />
-          <span :data-test-id="getTestId(props.testId, `nav-${item.label}-label`)">{{ item.label }}</span>
+          <Icon v-if="item.icon" :name="item.icon" :class="bemm('nav-icon')" :data-test-id="getTestId(props.testId, `nav-${getItemKey(item)}-icon`)" />
+          <span :data-test-id="getTestId(props.testId, `nav-${getItemKey(item)}-label`)">{{ item.label }}</span>
         </component>
       </nav>
 
@@ -111,6 +111,10 @@ function normalizeItemPath(item: FloatingHeaderNavItem): string | null {
     return null
   }
 
+  if (typeof value !== 'string') {
+    return null
+  }
+
   if (value.startsWith('/')) {
     return normalizePath(value)
   }
@@ -129,6 +133,10 @@ function normalizePath(value: string): string {
   }
 
   return normalizedValue.replace(/\/+$/, '') || '/'
+}
+
+function getItemKey(item: FloatingHeaderNavItem): string {
+  return item.id ?? item.section ?? String(item.to ?? item.href ?? item.label)
 }
 </script>
 

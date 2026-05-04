@@ -1,13 +1,7 @@
 import type { TestIdProps } from "../../types";
+import type { NavigationItem } from '../Navigation'
 
-export interface FloatingHeaderNavItem {
-  label: string
-  href?: string
-  to?: string
-  icon?: string
-  exact?: boolean
-  external?: boolean
-}
+export interface FloatingHeaderNavItem extends NavigationItem {}
 
 export interface FloatingHeaderProps {
   testId?: TestIdProps['testId']

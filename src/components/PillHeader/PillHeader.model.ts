@@ -1,18 +1,13 @@
-import type { TestIdProps } from '../../types'
+import type { IconNameOrString, TestIdProps } from '../../types'
+import type { NavigationItem } from '../Navigation'
 
-export interface PillHeaderNavItem {
-  label: string
-  to?: string
-  href?: string
-  icon?: string
-  exact?: boolean
-  external?: boolean
-  section?: string
+export interface PillHeaderNavItem extends NavigationItem {
+  items?: PillHeaderNavItem[]
 }
 
 export interface PillHeaderAction {
   label: string
-  icon?: string
+  icon?: IconNameOrString
   handler?: () => void
 }
 
@@ -26,6 +21,6 @@ export interface PillHeaderProps {
   brandSuffix?: string
   brandAriaLabel?: string
   theme?: 'light' | 'dark' | 'system'
-  menuIcon?: string
-  closeIcon?: string
+  menuIcon?: IconNameOrString
+  closeIcon?: IconNameOrString
 }

@@ -74,6 +74,7 @@ export type {
   TooltipTrigger as ToolTipTrigger,
 } from './Feedback'
 export * from './Notification'
+export * from './Navigation'
 export * from './PlatformFooter'
 export * from './PlatformHeader'
 export * from './PillHeader'

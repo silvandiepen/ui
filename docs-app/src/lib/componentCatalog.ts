@@ -353,6 +353,11 @@ const COMPONENT_OVERRIDES: Record<string, UIComponentOverride> = {
     status: 'stable',
     summary: 'Product-neutral header shell with slots for brand, nav, and actions.',
   },
+  PillHeader: {
+    category: 'App Shell',
+    status: 'stable',
+    summary: 'Floating pill-shaped app header with shared navigation items, icons, nested subnavigation, and action buttons.',
+  },
   Popover: {
     category: 'Feedback',
     status: 'stable',

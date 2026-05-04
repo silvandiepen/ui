@@ -24,11 +24,13 @@ This document describes the current shared component surface in `@sil/ui`.
 - `Section`: generic content section wrapper.
 - `PlatformHeader`: neutral header shell with `brand`, `nav`, `actions`, and `secondary` slots.
 - `FloatingHeader`: floating pill-shaped header with brand, navigation, and action slots.
+- `PillHeader`: floating pill-shaped app header using the shared `NavigationItem` contract.
 - `Card`: reusable surface and content container.
 
 ### Data And Navigation
 
 - `Table`: generic table presentation.
+- `NavigationItem`, `NavigationSection`: shared navigation contracts used by app shell and navigation components.
 - `ContextMenu`, `ContextPanel`, `ContextMenuItems`: contextual action primitives.
 - `DropdownMenu`: menu-style dropdown surface.
 

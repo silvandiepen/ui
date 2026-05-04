@@ -1,33 +1,18 @@
 import type { RouteLocationRaw, Router } from 'vue-router'
 import type { TestIdProps } from '../../types'
 
-import type { StatusBadgeTone } from '../StatusBadge'
+import type { NavigationItem, NavigationSection } from '../Navigation'
 
 export type SidebarNavigationLinkMode = 'auto' | 'router' | 'href'
 
-export interface SidebarNavigationItem {
-  action?: (event: MouseEvent) => void | Promise<void>
-  badge?: string
-  badgeTone?: StatusBadgeTone
-  description?: string
-  disabled?: boolean
-  href?: string
-  icon?: string
+export interface SidebarNavigationItem extends NavigationItem {
   id: string
-  label: string
-  labelPrefix?: string
-  target?: '_blank' | '_self'
   to?: RouteLocationRaw
 }
 
-export interface SidebarNavigationSection {
+export interface SidebarNavigationSection extends NavigationSection<SidebarNavigationItem> {
   collapsible?: boolean
   defaultCollapsed?: boolean
-  description?: string
-  icon?: string
-  id: string
-  items: SidebarNavigationItem[]
-  label: string
 }
 
 export interface SidebarNavigationProps {
