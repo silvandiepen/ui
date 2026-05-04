@@ -4,6 +4,7 @@
     name="PillHeader"
     :prop-options="{
       brandSuffix: ['Console', 'Studio', 'Admin'],
+      colorMode: ['auto', 'dark', 'light'],
       currentPath: ['/overview', '/projects/releases', '/team/permissions'],
       navItems: [navigationWithSubmenus, navigationWithExternalLink],
       actions: [actions],
@@ -26,6 +27,7 @@ import { useBemm } from 'bemm'
 import { Icons } from 'open-icon'
 import PillHeader from './PillHeader.vue'
 import type { PillHeaderAction, PillHeaderNavItem } from './PillHeader.model'
+import { Color } from '../../types'
 
 const bemm = useBemm('pill-header-example', { includeBaseClass: true })
 
@@ -83,6 +85,7 @@ const navigationWithSubmenus: PillHeaderNavItem[] = [
         label: 'Permissions',
         icon: Icons.UI_LOCK,
         to: '/team/permissions',
+        color: Color.PRIMARY,
       },
     ],
   },
@@ -107,6 +110,7 @@ const actions: PillHeaderAction[] = [
   {
     label: 'Create',
     icon: Icons.UI_ADD_M,
+    color: Color.PRIMARY,
   },
 ]
 </script>

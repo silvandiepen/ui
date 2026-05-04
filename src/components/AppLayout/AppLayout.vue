@@ -53,7 +53,13 @@
 
     <template #end>
       <div :class="bemm('body')" :data-test-id="getTestId(props.testId, 'body')">
-        <PlatformHeader :class="bemm('header')" :max-width="header.maxWidth" :variant="header.variant" :test-id="getTestId(props.testId, 'header')">
+        <PlatformHeader
+          :class="bemm('header')"
+          :max-width="header.maxWidth"
+          :variant="header.variant"
+          :color-mode="header.colorMode"
+          :test-id="getTestId(props.testId, 'header')"
+        >
           <template v-if="isMobile || $slots.brand" #brand>
             <button
               v-if="isMobile"
@@ -166,6 +172,7 @@ const sidebar = computed(() => ({
 const header = computed(() => ({
   maxWidth: props.config?.header?.maxWidth ?? '88rem',
   variant: props.config?.header?.variant,
+  colorMode: props.config?.header?.colorMode,
 }))
 
 const split = computed(() => ({

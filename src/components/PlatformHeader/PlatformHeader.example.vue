@@ -1,5 +1,12 @@
 <template>
-  <Example :component="PlatformHeader" name="PlatformHeader" :prop-options="{ variant: ['default', 'float'] }">
+  <Example
+    :component="PlatformHeader"
+    name="PlatformHeader"
+    :prop-options="{
+      variant: ['default', 'float'],
+      colorMode: ['auto', 'dark', 'light'],
+    }"
+  >
     <template #default="{ bindings }">
       <PlatformHeader v-bind="bindings">
         <template #brand>

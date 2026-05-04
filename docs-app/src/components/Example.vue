@@ -231,8 +231,10 @@ function save() {
 function initValues() {
   const saved = loadSaved()
   for (const control of controls.value) {
-    if (control.name in saved) {
-      propValues[control.name] = saved[control.name]
+    const savedValue = resolveSavedValue(control, saved)
+
+    if (savedValue !== undefined) {
+      propValues[control.name] = savedValue
     } else if (control.options?.length) {
       propValues[control.name] = control.options[0]
     } else if (control.defaultValue !== undefined) {
@@ -256,6 +258,33 @@ function initValues() {
     } else {
       modelValue.value = ''
     }
+  }
+}
+
+function resolveSavedValue(control: ControlDef, saved: Record<string, any>) {
+  if (!(control.name in saved)) {
+    return undefined
+  }
+
+  if (!control.options?.length) {
+    return saved[control.name]
+  }
+
+  const savedValue = saved[control.name]
+  const matchingOption = control.options.find((option) => areControlValuesEqual(option, savedValue))
+
+  return matchingOption
+}
+
+function areControlValuesEqual(left: any, right: any) {
+  if (Object.is(left, right)) {
+    return true
+  }
+
+  try {
+    return JSON.stringify(left) === JSON.stringify(right)
+  } catch {
+    return false
   }
 }
 

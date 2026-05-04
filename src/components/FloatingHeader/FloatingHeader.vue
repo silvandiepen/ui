@@ -1,5 +1,12 @@
 <template>
-  <header :class="bemm(['', fixed ? 'fixed' : 'sticky'])" :data-test-id="testId">
+  <header
+    :class="[
+      bemm(),
+      bemm('', fixed ? 'fixed' : 'sticky'),
+      bemm('', `color-mode-${colorMode}`),
+    ]"
+    :data-test-id="testId"
+  >
     <div :class="bemm('shell')" :data-test-id="getTestId(props.testId, 'shell')">
       <component
         :is="brandComponent"
@@ -62,6 +69,7 @@ const props = withDefaults(defineProps<FloatingHeaderProps>(), {
   brandSuffix: '',
   brandAriaLabel: 'Home',
   fixed: false,
+  colorMode: 'auto',
 })
 
 const { bemm } = useBemm('floating-header')
@@ -142,20 +150,22 @@ function getItemKey(item: FloatingHeaderNavItem): string {
 
 <style lang="scss">
 .floating-header {
+  --int-floating-header-surface-color: var(--color-background);
+  --int-floating-header-content-color: var(--color-foreground);
   --floating-header-top: 0;
   --floating-header-padding: 1rem clamp(1rem, 3vw, 2rem);
   --floating-header-max-width: max(fit-content, 1024px);
   --floating-header-shell-padding: 0.9rem 1rem;
   --floating-header-shell-radius: 999px;
-  --floating-header-shell-border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
-  --floating-header-shell-background: color-mix(in srgb, var(--color-background), transparent 90%);
-  --floating-header-shell-shadow: 0 18px 42px color-mix(in srgb, var(--color-foreground), transparent 92%);
+  --floating-header-shell-border: 1px solid color-mix(in srgb, var(--int-floating-header-content-color), transparent 90%);
+  --floating-header-shell-background: color-mix(in srgb, var(--int-floating-header-surface-color), transparent 90%);
+  --floating-header-shell-shadow: 0 18px 42px color-mix(in srgb, var(--int-floating-header-content-color), transparent 92%);
   --floating-header-shell-backdrop: blur(16px);
-  --floating-header-link-color: color-mix(in srgb, var(--color-foreground), transparent 40%);
-  --floating-header-link-hover-background: color-mix(in srgb, var(--color-foreground), transparent 94%);
+  --floating-header-link-color: color-mix(in srgb, var(--int-floating-header-content-color), transparent 40%);
+  --floating-header-link-hover-background: color-mix(in srgb, var(--int-floating-header-content-color), transparent 94%);
   --floating-header-link-active-background: color-mix(in srgb, var(--color-primary), transparent 88%);
-  --floating-header-link-active-color: var(--color-foreground);
-  --floating-header-logo-color: var(--color-foreground);
+  --floating-header-link-active-color: var(--int-floating-header-content-color);
+  --floating-header-logo-color: var(--int-floating-header-content-color);
 
   position: fixed;
   width:100%;
@@ -163,6 +173,38 @@ function getItemKey(item: FloatingHeaderNavItem): string {
   z-index: var(--z-sticky, 100);
   padding: var(--floating-header-padding);
   margin: auto;
+
+  &--color-mode-light {
+    --int-floating-header-surface-color: var(--color-light);
+    --int-floating-header-content-color: var(--color-dark);
+  }
+
+  &--color-mode-dark {
+    --int-floating-header-surface-color: var(--color-dark);
+    --int-floating-header-content-color: var(--color-light);
+  }
+
+  &--color-mode-auto {
+    --int-floating-header-surface-color: var(--color-light);
+    --int-floating-header-content-color: var(--color-dark);
+
+    @media (prefers-color-scheme: dark) {
+      --int-floating-header-surface-color: var(--color-dark);
+      --int-floating-header-content-color: var(--color-light);
+    }
+  }
+
+  :root[data-color-mode='dark'] &--color-mode-auto,
+  :root[data-theme='dark'] &--color-mode-auto {
+    --int-floating-header-surface-color: var(--color-dark);
+    --int-floating-header-content-color: var(--color-light);
+  }
+
+  :root[data-color-mode='light'] &--color-mode-auto,
+  :root[data-theme='light'] &--color-mode-auto {
+    --int-floating-header-surface-color: var(--color-light);
+    --int-floating-header-content-color: var(--color-dark);
+  }
 
   &--fixed {
     position: fixed;
@@ -231,7 +273,7 @@ function getItemKey(item: FloatingHeaderNavItem): string {
     &:hover,
     &:focus-visible {
       text-decoration: none;
-      color: var(--color-foreground);
+      color: var(--int-floating-header-content-color);
       background: var(--floating-header-link-hover-background);
     }
 

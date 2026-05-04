@@ -1,6 +1,9 @@
 <template>
   <header
-    :class="bemm()"
+    :class="[
+      bemm(),
+      bemm('', `color-mode-${props.colorMode}`),
+    ]"
     :data-test-id="testId"
   >
     <div :class="bemm('shell')" :data-test-id="getTestId(props.testId, 'shell')">
@@ -24,6 +27,7 @@
         <div
           v-for="item in navItems"
           :key="getItemKey(item)"
+          :style="linkStyles(item)"
           :class="[
             bemm('item'),
             hasSubItems(item) ? bemm('item', 'has-submenu') : '',
@@ -77,6 +81,7 @@
               :rel="getItemRel(subItem)"
               :disabled="getItemComponent(subItem) === 'button' ? subItem.disabled : undefined"
               :aria-disabled="subItem.disabled ? 'true' : undefined"
+              :style="linkStyles(subItem, item)"
               :class="[
                 bemm('submenu-link'),
                 isActive(subItem) ? bemm('submenu-link', 'active') : '',
@@ -112,6 +117,7 @@
         <button
           v-for="action in actions"
           :key="action.label"
+          :style="linkStyles(action)"
           :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
           :aria-label="action.label"
           @click="action.handler"
@@ -144,6 +150,7 @@ const props = withDefaults(defineProps<PillHeaderProps>(), {
   brandTo: '/',
   brandSuffix: '',
   brandAriaLabel: 'Home',
+  colorMode: 'auto',
   theme: 'dark',
   menuIcon: Icons.SPECIAL_CHARACTERS_THREE_DOTS_HORIZONTAL,
   closeIcon: Icons.UI_MULTIPLY_M,
@@ -248,6 +255,26 @@ function closeSubmenu(item: PillHeaderNavItem) {
   openSubmenuKey.value = null
 }
 
+function linkStyles(item: PillHeaderNavItem | PillHeaderAction, parentItem?: PillHeaderNavItem): Record<string, string> | undefined {
+  const color = getNavigationColor(item, parentItem)
+  if (!color) return undefined
+
+  const baseColor = `var(--color-${color})`
+
+  return {
+    '--pill-header-link-background-color': baseColor,
+    '--pill-header-link-color': `var(--color-${color}-contrast)`,
+    '--pill-header-link-hover-color':`var(--color-${color}-contrast)`,
+    '--pill-header-link-hover-background': `color-mix(in srgb, ${baseColor}, transparent 10%)`,
+    '--pill-header-link-active-color': baseColor,
+    '--pill-header-link-active-background': `color-mix(in srgb, ${baseColor}, transparent 87.5%)`,
+  }
+}
+
+function getNavigationColor(item: PillHeaderNavItem | PillHeaderAction, parentItem?: PillHeaderNavItem) {
+  return item.color ?? parentItem?.color ?? props.color
+}
+
 function handleItemClick(event: MouseEvent, item: PillHeaderNavItem) {
   if (item.disabled) {
     event.preventDefault()
@@ -305,16 +332,18 @@ function updateMobileNavigation() {
   --pill-header-padding: 0.75rem clamp(1rem, 3vw, 2rem) 0;
   --pill-header-shell-padding: 0.3rem 0.3rem 0.3rem 1rem;
   --pill-header-shell-radius: 999px;
-  --pill-header-shell-background: color-mix(in srgb, var(--color-dark), transparent 10%);
-  --pill-header-shell-shadow: 0 8px 32px color-mix(in srgb, var(--color-dark), transparent 94%);
+  --int-pill-header-surface-color: var(--color-dark);
+  --int-pill-header-content-color: var(--color-light);
+  --pill-header-shell-background: color-mix(in srgb, var(--int-pill-header-surface-color), transparent 10%);
+  --pill-header-shell-shadow: 0 8px 32px color-mix(in srgb, var(--int-pill-header-surface-color), transparent 94%);
   --pill-header-shell-backdrop: blur(16px);
-  --pill-header-nav-background: color-mix(in srgb, var(--color-dark), transparent 0%);
-  --pill-header-brand-color: var(--color-light);
-  --pill-header-link-color: color-mix(in srgb, var(--color-light), transparent 33.33%);
-  --pill-header-link-hover-color: var(--color-light);
-  --pill-header-link-hover-background: color-mix(in srgb, var(--color-light), transparent 92%);
-  --pill-header-link-active-color: var(--color-light);
-  --pill-header-link-active-background: color-mix(in srgb, var(--color-light), transparent 94%);
+  --pill-header-nav-background: color-mix(in srgb, var(--int-pill-header-surface-color), transparent 0%);
+  --pill-header-brand-color: var(--int-pill-header-content-color);
+  --pill-header-link-color: color-mix(in srgb, var(--int-pill-header-content-color), transparent 33.33%);
+  --pill-header-link-hover-color: var(--int-pill-header-content-color);
+  --pill-header-link-hover-background: color-mix(in srgb, var(--int-pill-header-content-color), transparent 92%);
+  --pill-header-link-active-color: var(--int-pill-header-content-color);
+  --pill-header-link-active-background: color-mix(in srgb, var(--int-pill-header-content-color), transparent 94%);
   --pill-header-link-font-size: var(--font-size-s);
   --pill-header-brand-font-size: var(--font-size-xs);
   --pill-header-nav-gap: var(--space-s);
@@ -330,6 +359,38 @@ function updateMobileNavigation() {
   display: flex;
   justify-content: center;
   padding: var(--pill-header-padding);
+
+  &--color-mode-light {
+    --int-pill-header-surface-color: var(--color-light);
+    --int-pill-header-content-color: var(--color-dark);
+  }
+
+  &--color-mode-dark {
+    --int-pill-header-surface-color: var(--color-dark);
+    --int-pill-header-content-color: var(--color-light);
+  }
+
+  &--color-mode-auto {
+    --int-pill-header-surface-color: var(--color-light);
+    --int-pill-header-content-color: var(--color-dark);
+
+    @media (prefers-color-scheme: dark) {
+      --int-pill-header-surface-color: var(--color-dark);
+      --int-pill-header-content-color: var(--color-light);
+    }
+
+    :root[data-color-mode='dark'] &,
+    :root[data-theme='dark'] & {
+      --int-pill-header-surface-color: var(--color-dark);
+      --int-pill-header-content-color: var(--color-light);
+    }
+
+    :root[data-color-mode='light'] &,
+    :root[data-theme='light'] & {
+      --int-pill-header-surface-color: var(--color-light);
+      --int-pill-header-content-color: var(--color-dark);
+    }
+  }
 
   .sr-only {
     position: absolute;
@@ -425,7 +486,7 @@ function updateMobileNavigation() {
     font-weight: 500;
     text-decoration: none;
     border: 0;
-    background: transparent;
+    background: var(--pill-header-link-background-color, transparent);
     cursor: pointer;
     transition: color 0.2s ease, background-color 0.2s ease;
 
@@ -483,7 +544,7 @@ function updateMobileNavigation() {
     padding: 0.45rem 0.65rem;
     border: 0;
     border-radius: 0.65rem;
-    background: transparent;
+    background: var(--pill-header-link-background-color, transparent);
     color: var(--pill-header-link-color);
     font-size: var(--pill-header-link-font-size);
     font-weight: 500;
@@ -494,7 +555,7 @@ function updateMobileNavigation() {
 
     &:hover,
     &:focus-visible {
-      color: var(--color-foreground);
+      color: var(--pill-header-link-hover-color);
       background: var(--pill-header-link-hover-background);
       text-decoration: none;
     }
@@ -532,7 +593,7 @@ function updateMobileNavigation() {
   }
 
   &__submenu-description {
-    color: color-mix(in srgb, var(--color-foreground), transparent 42%);
+    color: var(--pill-header-link-color);
     font-size: var(--font-size-s);
     font-weight: 400;
   }
@@ -547,13 +608,13 @@ function updateMobileNavigation() {
     border: none;
     border-radius: 999px;
     background: transparent;
-    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+    color: color-mix(in srgb, var(--int-pill-header-content-color), transparent 50%);
     cursor: pointer;
     transition: color 0.2s ease, background-color 0.2s ease;
 
     &:hover,
     &:focus-visible {
-      color: var(--color-foreground);
+      color: var(--int-pill-header-content-color);
       background: var(--pill-header-link-hover-background);
     }
   }
@@ -578,7 +639,7 @@ function updateMobileNavigation() {
     padding: 0 0.5rem;
     border: none;
     border-radius: 999px;
-    background: transparent;
+    background: var(--pill-header-link-background-color, transparent);
     color: var(--pill-header-link-color);
     font-size: var(--pill-header-link-font-size);
     font-weight: 500;

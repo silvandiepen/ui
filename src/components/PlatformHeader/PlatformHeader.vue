@@ -6,6 +6,7 @@
       compact ? bemm('', 'compact') : '',
       mobileOpen ? bemm('', 'mobile-open') : '',
       variant ? bemm('', variant) : '',
+      bemm('', `color-mode-${colorMode}`),
     ]"
     :data-test-id="testId"
   >
@@ -66,6 +67,7 @@ const props = withDefaults(defineProps<PlatformHeaderProps>(), {
   mobileOpen: false,
   maxWidth: "88rem",
   variant: PlatformHeaderVariant.DEFAULT,
+  colorMode: "auto",
 });
 
 const headerElement = ref<HTMLElement | null>(null);
@@ -82,13 +84,49 @@ defineExpose({
 @use '../../styles/mixins' as m;
 
 .platform-header {
+  --int-platform-header-surface-color: var(--color-background);
+  --int-platform-header-content-color: var(--color-foreground);
+
   position: sticky;
   top: 0;
   z-index: m.p('z-index', 120);
   padding: m.p('padding', var(--space) var(--spacing));
-  border-bottom: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 90%));
-  background: m.p('background', color-mix(in srgb, var(--color-background), transparent 50%));
+  color: var(--int-platform-header-content-color);
+  border-bottom: 1px solid m.p('border-color', color-mix(in srgb, var(--int-platform-header-content-color), transparent 90%));
+  background: m.p('background', color-mix(in srgb, var(--int-platform-header-surface-color), transparent 50%));
   backdrop-filter: m.p('blur', blur(18px) saturate(135%));
+
+  &--color-mode-light {
+    --int-platform-header-surface-color: var(--color-light);
+    --int-platform-header-content-color: var(--color-dark);
+  }
+
+  &--color-mode-dark {
+    --int-platform-header-surface-color: var(--color-dark);
+    --int-platform-header-content-color: var(--color-light);
+  }
+
+  &--color-mode-auto {
+    --int-platform-header-surface-color: var(--color-light);
+    --int-platform-header-content-color: var(--color-dark);
+
+    @media (prefers-color-scheme: dark) {
+      --int-platform-header-surface-color: var(--color-dark);
+      --int-platform-header-content-color: var(--color-light);
+    }
+  }
+
+  :root[data-color-mode='dark'] &--color-mode-auto,
+  :root[data-theme='dark'] &--color-mode-auto {
+    --int-platform-header-surface-color: var(--color-dark);
+    --int-platform-header-content-color: var(--color-light);
+  }
+
+  :root[data-color-mode='light'] &--color-mode-auto,
+  :root[data-theme='light'] &--color-mode-auto {
+    --int-platform-header-surface-color: var(--color-light);
+    --int-platform-header-content-color: var(--color-dark);
+  }
 
   &--compact {
     padding: m.p('padding-compact', var(--space-s) var(--spacing));
@@ -165,13 +203,13 @@ defineExpose({
     backdrop-filter: none;
 
     .platform-header__inner {
-      background: color-mix(in srgb, var(--color-background), transparent 50%);
+      background: color-mix(in srgb, var(--int-platform-header-surface-color), transparent 50%);
       backdrop-filter: blur(18px) saturate(135%);
       -webkit-backdrop-filter: blur(18px) saturate(135%);
       border-radius: var(--border-radius-xl);
       padding: var(--space-s) var(--space);
-      border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
-      box-shadow: 0 0.5rem 2rem color-mix(in srgb, var(--color-foreground), transparent 88%);
+      border: 1px solid color-mix(in srgb, var(--int-platform-header-content-color), transparent 90%);
+      box-shadow: 0 0.5rem 2rem color-mix(in srgb, var(--int-platform-header-content-color), transparent 88%);
     }
   }
 }

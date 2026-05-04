@@ -31,4 +31,14 @@ describe("PlatformHeader", () => {
     expect(wrapper.classes()).toContain("platform-header--compact");
     expect(wrapper.classes()).toContain("platform-header--mobile-open");
   });
+
+  it("applies an explicit color mode modifier", () => {
+    const wrapper = mount(PlatformHeader, {
+      props: {
+        colorMode: "dark"
+      }
+    });
+
+    expect(wrapper.classes()).toContain("platform-header--color-mode-dark");
+  });
 });

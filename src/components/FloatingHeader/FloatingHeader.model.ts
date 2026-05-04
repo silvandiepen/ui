@@ -1,7 +1,9 @@
-import type { TestIdProps } from "../../types";
+import type { ColorMode, TestIdProps } from "../../types";
 import type { NavigationItem } from '../Navigation'
 
 export interface FloatingHeaderNavItem extends NavigationItem {}
+
+export type FloatingHeaderColorMode = ColorMode
 
 export interface FloatingHeaderProps {
   testId?: TestIdProps['testId']
@@ -12,4 +14,5 @@ export interface FloatingHeaderProps {
   brandSuffix?: string
   brandAriaLabel?: string
   fixed?: boolean
+  colorMode?: FloatingHeaderColorMode
 }

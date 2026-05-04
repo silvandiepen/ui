@@ -1,5 +1,5 @@
 import type { SidebarNavigationSection } from '../SidebarNavigation'
-import type { PlatformHeaderVariant } from '../PlatformHeader'
+import type { PlatformHeaderColorMode, PlatformHeaderVariant } from '../PlatformHeader'
 import type { TestIdProps } from '../../types'
 
 export interface AppLayoutSidebarConfig {
@@ -15,6 +15,7 @@ export interface AppLayoutSidebarConfig {
 export interface AppLayoutHeaderConfig {
   maxWidth?: string
   variant?: PlatformHeaderVariant
+  colorMode?: PlatformHeaderColorMode
 }
 
 export interface AppLayoutSplitConfig {
