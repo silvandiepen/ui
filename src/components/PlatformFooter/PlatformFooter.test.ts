@@ -40,4 +40,14 @@ describe("PlatformFooter", () => {
 
     expect(wrapper.classes()).toContain("platform-footer--compact");
   });
+
+  it("applies an explicit color mode modifier", () => {
+    const wrapper = mount(PlatformFooter, {
+      props: {
+        colorMode: "dark"
+      }
+    });
+
+    expect(wrapper.classes()).toContain("platform-footer--color-mode-dark");
+  });
 });

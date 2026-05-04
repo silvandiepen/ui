@@ -5,6 +5,7 @@
       bemm(),
       compact ? bemm('', 'compact') : '',
       variant ? bemm('', variant) : '',
+      bemm('', `color-mode-${colorMode}`),
     ]"
     :data-test-id="testId"
   >
@@ -66,6 +67,7 @@ const props = withDefaults(defineProps<PlatformFooterProps>(), {
   compact: false,
   maxWidth: "88rem",
   variant: PlatformFooterVariant.DEFAULT,
+  colorMode: "auto",
 });
 
 const footerElement = ref<HTMLElement | null>(null);
@@ -80,14 +82,50 @@ defineExpose({
 
 <style lang="scss">
 .platform-footer {
+  --int-platform-footer-surface-color: var(--color-background);
+  --int-platform-footer-content-color: var(--color-foreground);
+
   padding: calc(var(--space) * 1.1) var(--spacing);
-  border-top: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
+  color: var(--int-platform-footer-content-color);
+  border-top: 1px solid color-mix(in srgb, var(--int-platform-footer-content-color), transparent 90%);
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-background), transparent 0%),
-      color-mix(in srgb, var(--color-background), var(--color-primary) 4%)
+      color-mix(in srgb, var(--int-platform-footer-surface-color), transparent 0%),
+      color-mix(in srgb, var(--int-platform-footer-surface-color), var(--color-primary) 4%)
     );
+
+  &--color-mode-light {
+    --int-platform-footer-surface-color: var(--color-light);
+    --int-platform-footer-content-color: var(--color-dark);
+  }
+
+  &--color-mode-dark {
+    --int-platform-footer-surface-color: var(--color-dark);
+    --int-platform-footer-content-color: var(--color-light);
+  }
+
+  &--color-mode-auto {
+    --int-platform-footer-surface-color: var(--color-light);
+    --int-platform-footer-content-color: var(--color-dark);
+
+    @media (prefers-color-scheme: dark) {
+      --int-platform-footer-surface-color: var(--color-dark);
+      --int-platform-footer-content-color: var(--color-light);
+    }
+  }
+
+  :root[data-color-mode='dark'] &--color-mode-auto,
+  :root[data-theme='dark'] &--color-mode-auto {
+    --int-platform-footer-surface-color: var(--color-dark);
+    --int-platform-footer-content-color: var(--color-light);
+  }
+
+  :root[data-color-mode='light'] &--color-mode-auto,
+  :root[data-theme='light'] &--color-mode-auto {
+    --int-platform-footer-surface-color: var(--color-light);
+    --int-platform-footer-content-color: var(--color-dark);
+  }
 
   &--compact {
     padding: var(--space-s) var(--spacing);
@@ -136,7 +174,7 @@ defineExpose({
     display: grid;
     gap: calc(var(--space) * 0.45);
     margin-top: calc(var(--space) * 0.8);
-    color: color-mix(in srgb, var(--color-foreground), transparent 32%);
+    color: color-mix(in srgb, var(--int-platform-footer-content-color), transparent 32%);
     font-size: var(--font-size-s);
     line-height: 1.55;
   }
@@ -164,11 +202,11 @@ defineExpose({
     background: transparent;
 
     .platform-footer__inner {
-      background: color-mix(in srgb, var(--color-background), var(--color-primary) 4%);
+      background: color-mix(in srgb, var(--int-platform-footer-surface-color), var(--color-primary) 4%);
       border-radius: var(--border-radius-xl);
       padding: var(--space) var(--space);
-      border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 90%);
-      box-shadow: 0 -0.25rem 2rem color-mix(in srgb, var(--color-foreground), transparent 90%);
+      border: 1px solid color-mix(in srgb, var(--int-platform-footer-content-color), transparent 90%);
+      box-shadow: 0 -0.25rem 2rem color-mix(in srgb, var(--int-platform-footer-content-color), transparent 90%);
     }
   }
 }
