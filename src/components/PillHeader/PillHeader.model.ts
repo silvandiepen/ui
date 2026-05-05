@@ -19,6 +19,7 @@ export interface PillHeaderAction {
     variant?: 'default' | 'primary';
     label: string;
     icon?: IconNameOrString;
+    iconOnly?: boolean;
     handler?: () => void;
     /** When set, renders as a dropdown menu instead of a button */
     items?: PillHeaderActionItem[];

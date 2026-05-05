@@ -125,7 +125,7 @@
             <template #trigger="{ toggle }">
               <button
                 :style="linkStyles(action)"
-                :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '', action.variant === 'primary' ? bemm('action', 'primary') : '']"
+                :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '', action.variant === 'primary' ? bemm('action', 'primary') : '', action.iconOnly ? bemm('action', 'icon-only') : '']"
                 :aria-label="action.label"
                 @click="toggle"
               >
@@ -137,7 +137,7 @@
           <button
             v-else
             :style="linkStyles(action)"
-            :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '', action.variant === 'primary' ? bemm('action', 'primary') : '']"
+            :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '', action.variant === 'primary' ? bemm('action', 'primary') : '', action.iconOnly ? bemm('action', 'icon-only') : '']"
             :aria-label="action.label"
             @click="action.handler"
           >
@@ -723,6 +723,15 @@ function updateMobileNavigation() {
       &:focus-visible {
         background: color-mix(in srgb, var(--color-primary), transparent 15%);
         color: var(--color-primary-contrast, var(--color-light));
+      }
+    }
+
+    &--icon-only {
+      padding: 0;
+      width: var(--pill-header-action-size);
+
+      .pill-header__action-label {
+        display: none;
       }
     }
   }
