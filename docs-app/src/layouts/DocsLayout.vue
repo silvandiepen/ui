@@ -137,6 +137,24 @@ const navigationSections = computed(() => {
           to: { name: "docs-guide-theme-builder" },
         },
         {
+          id: "guides-vite-integration",
+          label: "Vite Integration",
+          icon: "plug",
+          to: {
+            name: "docs-guide",
+            params: { slug: "vite-integration" },
+          },
+        },
+        {
+          id: "guides-component-authoring",
+          label: "Component Authoring",
+          icon: "code",
+          to: {
+            name: "docs-guide",
+            params: { slug: "component-authoring" },
+          },
+        },
+        {
           id: "guides-form-builder",
           label: t("docs.navigation.formBuilder"),
           icon: "layout",

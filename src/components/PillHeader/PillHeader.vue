@@ -441,17 +441,21 @@ function updateMobileNavigation() {
 
   &__nav {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(var(--space-s) * -1);
+    padding: var(--space-s);
+    padding-top: var(--space-xl);
+    z-index: -1;
     right: 0;
-    left: 0;
+    left: calc(var(--space-s) * -1);
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 0.5rem;
     border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 92%);
-    border-radius: 1rem;
+    border-radius: calc(1.75rem);
     backdrop-filter: var(--pill-header-shell-backdrop);
     background: var(--pill-header-nav-background);
+    width: calc(100% + var(--space-s) * 2);
+
     opacity: 0;
     visibility: hidden;
     transform: scale(0.95) translateY(-8px);

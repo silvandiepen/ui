@@ -4,6 +4,9 @@ import { UI_COMPONENT_CATEGORIES } from './componentCategories'
 import { getComposableCatalog, getComposableDocContent } from './composableCatalog'
 import { getComponentCatalog, getDocContent } from './componentRegistry'
 
+import componentAuthoringContent from '../../../docs/COMPONENT_AUTHORING.md?raw'
+import viteIntegrationContent from '../../../docs/VITE_INTEGRATION.md?raw'
+
 type Translate = (key: string, params?: Record<string, unknown>) => string
 
 export function buildDocsSearchSources(t: Translate): ContentSource[] {
@@ -37,6 +40,30 @@ export function buildDocsSearchSources(t: Translate): ContentSource[] {
           route: { name: 'docs-guide-theme-builder' },
           summary: t('docs.themeBuilder.summary'),
           title: t('docs.navigation.themeBuilder'),
+        },
+        {
+          content: viteIntegrationContent,
+          id: 'guide:vite-integration',
+          keywords: ['guide', 'vite', 'integration', 'theme', 'sass', 'plugin'],
+          kind: 'guide',
+          route: {
+            name: 'docs-guide',
+            params: { slug: 'vite-integration' },
+          },
+          summary: 'How to wire @sil/ui into Vue/Vite apps with shared styles and generated theme tokens.',
+          title: 'Vite Integration',
+        },
+        {
+          content: componentAuthoringContent,
+          id: 'guide:component-authoring',
+          keywords: ['guide', 'component', 'authoring', 'bemm', 'classes', 'scoped', 'css'],
+          kind: 'guide',
+          route: {
+            name: 'docs-guide',
+            params: { slug: 'component-authoring' },
+          },
+          summary: 'Rules for shared component structure, global classes, unscoped styles, CSS custom properties, examples, and tests.',
+          title: 'Component Authoring',
         },
         {
           content: [
