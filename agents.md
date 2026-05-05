@@ -33,3 +33,18 @@ The project-facing API. Consuming apps override these to customise the component
 ```
 
 **Rule:** if a custom property is only ever written by the component's own SCSS (e.g. set by a size modifier), prefix it with `--int-`. If it is meant to be set by a consuming project, use the bare component prefix.
+
+## Component Authoring
+
+- Follow `docs/COMPONENT_AUTHORING.md` for shared component structure.
+- Use Vue `<script setup lang="ts">`.
+- Use `bemm` for public component classes.
+- Do not use `<style scoped>` in shared components.
+- Keep shared components product-neutral and push branding or route-specific behavior into app-local wrappers.
+- Reuse shared interfaces for navigation, actions, statuses, sizes, color names, and color modes.
+
+## Vite Integration
+
+- Follow `docs/VITE_INTEGRATION.md` when wiring `@sil/ui` into Vue/Vite apps.
+- Use `ui()` and `defineTheme()` from `@sil/ui/vite`.
+- Leave `injectSharedStyles` enabled unless the consuming app imports `@sil/ui/styles/main.scss` manually.

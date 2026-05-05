@@ -8,11 +8,12 @@
  * @example Vite plugin usage
  * ```ts
  * // vite.config.ts
- * import { UIPlugin } from '@sil/ui/vite'
+ * import { defineConfig } from 'vite'
+ * import { ui, defineTheme } from '@sil/ui/vite'
  *
  * export default defineConfig({
  *   plugins: [
- *     UIPlugin({
+ *     ui({
  *       theme: defineTheme({
  *         colors: {
  *           dark: '#0d1117',

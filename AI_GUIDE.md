@@ -38,9 +38,13 @@ Example:
 - Use TypeScript.
 - Use Vue `<script lang="ts" setup>`.
 - Use `bemm`.
+- Do not use `<style scoped>` in shared components.
+- Write global component classes inside a stable component block.
 - Keep props neutral and product-agnostic.
 - Prefer CSS custom properties for color and variant behavior.
+- Use `--int-<component>-*` for component-internal CSS variables and `--<component>-*` for public project overrides.
 - Prefer composition over duplication.
+- Reuse shared interfaces for common concepts such as navigation, actions, statuses, sizes, and color modes.
 - Add tests for new composables and reusable component logic.
 - Add or update documentation when a component enters the shared public surface.
 
@@ -55,11 +59,43 @@ Example:
 1. Confirm the component is reusable across products.
 2. Check whether an existing shared primitive can be extended instead.
 3. Keep the API neutral.
-4. Add a usage document or extend the component inventory.
-5. Add tests where behavior is non-trivial.
-6. Export it from the correct surface:
+4. Use `bemm` classes and unscoped SCSS.
+5. Add a usage document or extend the component inventory.
+6. Add tests where behavior is non-trivial.
+7. Export it from the correct surface:
    root export if stable
    deep import only if transitional
+
+## Vite Integration
+
+Vue/Vite apps should use the `@sil/ui` Vite plugin when they need shared styles and generated theme tokens:
+
+```ts
+import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
+import { defineTheme, ui } from '@sil/ui/vite'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    ui({
+      theme: defineTheme({
+        colors: {
+          dark: '#101114',
+          light: '#ffffff',
+          primary: '#f40935',
+        },
+      }),
+    }),
+  ],
+})
+```
+
+See [docs/VITE_INTEGRATION.md](./docs/VITE_INTEGRATION.md) for complete integration guidance.
+
+## Component Authoring
+
+See [docs/COMPONENT_AUTHORING.md](./docs/COMPONENT_AUTHORING.md) for the full shared component authoring rules, including class naming, unscoped styles, CSS custom properties, tests, and documentation expectations.
 
 ## Migration Rules
 
