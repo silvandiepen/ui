@@ -7,11 +7,20 @@ export interface PillHeaderNavItem extends NavigationItem {
   items?: PillHeaderNavItem[]
 }
 
+export interface PillHeaderActionItem {
+  label: string
+  icon?: IconNameOrString
+  handler?: () => void
+  danger?: boolean
+}
+
 export interface PillHeaderAction {
   color?: AllColor
   label: string
   icon?: IconNameOrString
   handler?: () => void
+  /** When set, renders as a dropdown menu instead of a button */
+  items?: PillHeaderActionItem[]
 }
 
 export interface PillHeaderProps {

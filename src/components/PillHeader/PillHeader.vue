@@ -114,17 +114,37 @@
       </button>
 
       <div v-if="actions.length" :class="bemm('actions')" :data-test-id="getTestId(props.testId, 'actions')">
-        <button
-          v-for="action in actions"
-          :key="action.label"
-          :style="linkStyles(action)"
-          :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
-          :aria-label="action.label"
-          @click="action.handler"
-        >
-          <Icon v-if="action.icon" :name="action.icon" :class="bemm('action-icon')" />
-          <span :class="bemm('action-label')">{{ action.label }}</span>
-        </button>
+        <template v-for="action in actions" :key="action.label">
+          <DropdownMenu
+            v-if="action.items?.length"
+            :options="toDropdownOptions(action.items)"
+            align="right"
+            :close-on-select="true"
+            @select="onActionSelect"
+          >
+            <template #trigger="{ toggle }">
+              <button
+                :style="linkStyles(action)"
+                :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
+                :aria-label="action.label"
+                @click="toggle"
+              >
+                <Icon v-if="action.icon" :name="action.icon" :class="bemm('action-icon')" />
+                <span :class="bemm('action-label')">{{ action.label }}</span>
+              </button>
+            </template>
+          </DropdownMenu>
+          <button
+            v-else
+            :style="linkStyles(action)"
+            :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
+            :aria-label="action.label"
+            @click="action.handler"
+          >
+            <Icon v-if="action.icon" :name="action.icon" :class="bemm('action-icon')" />
+            <span :class="bemm('action-label')">{{ action.label }}</span>
+          </button>
+        </template>
       </div>
     </div>
   </header>
@@ -135,7 +155,9 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useBemm } from 'bemm'
 import { Icons } from '../../types'
 import { Icon } from '../Icon'
-import type { PillHeaderAction, PillHeaderNavItem, PillHeaderProps } from './PillHeader.model'
+import { DropdownMenu } from '../Dropdown'
+import type { DropdownItem } from '../Dropdown'
+import type { PillHeaderAction, PillHeaderActionItem, PillHeaderNavItem, PillHeaderProps } from './PillHeader.model'
 import { getTestId } from '../../utils/testId'
 
 defineOptions({
@@ -303,6 +325,20 @@ function handleItemClick(event: MouseEvent, item: PillHeaderNavItem) {
 
   isMenuOpen.value = false
   openSubmenuKey.value = null
+}
+
+function toDropdownOptions(items: PillHeaderActionItem[]): DropdownItem[] {
+  return items.map((item) => ({
+    type: 'item' as const,
+    label: item.label,
+    value: item.label,
+    icon: item.icon,
+    action: () => item.handler?.(),
+  }))
+}
+
+function onActionSelect(item: DropdownItem) {
+  item.action?.(item)
 }
 
 function toggleMenu() {
