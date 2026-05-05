@@ -428,6 +428,28 @@ function updateMobileNavigation() {
     }
   }
 
+  &--color-mode-inverse {
+    --int-pill-header-surface-color: var(--color-dark);
+    --int-pill-header-content-color: var(--color-light);
+
+    @media (prefers-color-scheme: dark) {
+      --int-pill-header-surface-color: var(--color-light);
+      --int-pill-header-content-color: var(--color-dark);
+    }
+
+    :root[data-color-mode='dark'] &,
+    :root[data-theme='dark'] & {
+      --int-pill-header-surface-color: var(--color-light);
+      --int-pill-header-content-color: var(--color-dark);
+    }
+
+    :root[data-color-mode='light'] &,
+    :root[data-theme='light'] & {
+      --int-pill-header-surface-color: var(--color-dark);
+      --int-pill-header-content-color: var(--color-light);
+    }
+  }
+
   .sr-only {
     position: absolute;
     width: 1px;

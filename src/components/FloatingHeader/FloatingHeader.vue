@@ -194,6 +194,16 @@ function getItemKey(item: FloatingHeaderNavItem): string {
     }
   }
 
+  &--color-mode-inverse {
+    --int-floating-header-surface-color: var(--color-dark);
+    --int-floating-header-content-color: var(--color-light);
+
+    @media (prefers-color-scheme: dark) {
+      --int-floating-header-surface-color: var(--color-light);
+      --int-floating-header-content-color: var(--color-dark);
+    }
+  }
+
   :root[data-color-mode='dark'] &--color-mode-auto,
   :root[data-theme='dark'] &--color-mode-auto {
     --int-floating-header-surface-color: var(--color-dark);
@@ -204,6 +214,18 @@ function getItemKey(item: FloatingHeaderNavItem): string {
   :root[data-theme='light'] &--color-mode-auto {
     --int-floating-header-surface-color: var(--color-light);
     --int-floating-header-content-color: var(--color-dark);
+  }
+
+  :root[data-color-mode='dark'] &--color-mode-inverse,
+  :root[data-theme='dark'] &--color-mode-inverse {
+    --int-floating-header-surface-color: var(--color-light);
+    --int-floating-header-content-color: var(--color-dark);
+  }
+
+  :root[data-color-mode='light'] &--color-mode-inverse,
+  :root[data-theme='light'] &--color-mode-inverse {
+    --int-floating-header-surface-color: var(--color-dark);
+    --int-floating-header-content-color: var(--color-light);
   }
 
   &--fixed {

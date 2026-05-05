@@ -35,10 +35,10 @@ describe("PlatformHeader", () => {
   it("applies an explicit color mode modifier", () => {
     const wrapper = mount(PlatformHeader, {
       props: {
-        colorMode: "dark"
+        colorMode: "inverse"
       }
     });
 
-    expect(wrapper.classes()).toContain("platform-header--color-mode-dark");
+    expect(wrapper.classes()).toContain("platform-header--color-mode-inverse");
   });
 });

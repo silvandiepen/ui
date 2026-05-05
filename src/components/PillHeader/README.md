@@ -14,7 +14,7 @@ Floating pill-shaped app header for compact product shells.
 />
 ```
 
-`colorMode` defaults to `auto`, which follows the document color mode through `data-color-mode` or `data-theme`, with `prefers-color-scheme` as a fallback. Pass `light` or `dark` to keep the header fixed in that mode.
+`colorMode` defaults to `auto`, which follows the document color mode through `data-color-mode` or `data-theme`, with `prefers-color-scheme` as a fallback. Pass `light` or `dark` to keep the header fixed in that mode, or `inverse` to render light on dark pages and dark on light pages.
 
 `navItems` uses the shared `NavigationItem` contract. Use `id`, `label`, `to` or `href`, optional `icon`, and nested `items` for subnavigation. Items without `to` or `href` render as buttons and can use `action`.
 

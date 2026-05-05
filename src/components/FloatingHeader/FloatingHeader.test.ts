@@ -18,10 +18,10 @@ describe('FloatingHeader', () => {
   it('applies an explicit color mode modifier', () => {
     const wrapper = mount(FloatingHeader, {
       props: {
-        colorMode: 'dark',
+        colorMode: 'inverse',
       },
     })
 
-    expect(wrapper.classes()).toContain('floating-header--color-mode-dark')
+    expect(wrapper.classes()).toContain('floating-header--color-mode-inverse')
   })
 })

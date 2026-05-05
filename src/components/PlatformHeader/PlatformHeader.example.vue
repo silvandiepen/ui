@@ -4,7 +4,7 @@
     name="PlatformHeader"
     :prop-options="{
       variant: ['default', 'float'],
-      colorMode: ['auto', 'dark', 'light'],
+      colorMode: ['auto', 'inverse', 'dark', 'light'],
     }"
   >
     <template #default="{ bindings }">

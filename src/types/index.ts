@@ -68,7 +68,7 @@ export const Color = {
 } as const
 
 export type Color = (typeof Color)[keyof typeof Color]
-export type ColorMode = 'light' | 'dark' | 'auto'
+export type ColorMode = 'light' | 'dark' | 'auto' | 'inverse'
 export type { IconNameOrString, IconName, IconType } from '../components/Icon/Icon.model'
 
 // Color types

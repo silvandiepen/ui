@@ -15,6 +15,16 @@ describe('PillHeader', () => {
     expect(mod).toBeDefined()
   })
 
+  it('applies an explicit inverse color mode modifier', () => {
+    const wrapper = mount(PillHeader, {
+      props: {
+        colorMode: 'inverse',
+      },
+    })
+
+    expect(wrapper.classes()).toContain('pill-header--color-mode-inverse')
+  })
+
   it('renders shared navigation items with icons and nested subnavigation', () => {
     const wrapper = mount(PillHeader, {
       props: {

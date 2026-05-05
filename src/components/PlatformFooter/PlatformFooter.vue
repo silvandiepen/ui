@@ -115,6 +115,16 @@ defineExpose({
     }
   }
 
+  &--color-mode-inverse {
+    --int-platform-footer-surface-color: var(--color-dark);
+    --int-platform-footer-content-color: var(--color-light);
+
+    @media (prefers-color-scheme: dark) {
+      --int-platform-footer-surface-color: var(--color-light);
+      --int-platform-footer-content-color: var(--color-dark);
+    }
+  }
+
   :root[data-color-mode='dark'] &--color-mode-auto,
   :root[data-theme='dark'] &--color-mode-auto {
     --int-platform-footer-surface-color: var(--color-dark);
@@ -125,6 +135,18 @@ defineExpose({
   :root[data-theme='light'] &--color-mode-auto {
     --int-platform-footer-surface-color: var(--color-light);
     --int-platform-footer-content-color: var(--color-dark);
+  }
+
+  :root[data-color-mode='dark'] &--color-mode-inverse,
+  :root[data-theme='dark'] &--color-mode-inverse {
+    --int-platform-footer-surface-color: var(--color-light);
+    --int-platform-footer-content-color: var(--color-dark);
+  }
+
+  :root[data-color-mode='light'] &--color-mode-inverse,
+  :root[data-theme='light'] &--color-mode-inverse {
+    --int-platform-footer-surface-color: var(--color-dark);
+    --int-platform-footer-content-color: var(--color-light);
   }
 
   &--compact {

@@ -4,7 +4,7 @@
     name="PillHeader"
     :prop-options="{
       brandSuffix: ['Console', 'Studio', 'Admin'],
-      colorMode: ['auto', 'dark', 'light'],
+      colorMode: ['auto', 'inverse', 'dark', 'light'],
       currentPath: ['/overview', '/projects/releases', '/team/permissions'],
       navItems: [navigationWithSubmenus, navigationWithExternalLink],
       actions: [actions],
