@@ -15,12 +15,13 @@ export interface PillHeaderActionItem {
 }
 
 export interface PillHeaderAction {
-  color?: AllColor
-  label: string
-  icon?: IconNameOrString
-  handler?: () => void
-  /** When set, renders as a dropdown menu instead of a button */
-  items?: PillHeaderActionItem[]
+    color?: AllColor;
+    variant?: 'default' | 'primary';
+    label: string;
+    icon?: IconNameOrString;
+    handler?: () => void;
+    /** When set, renders as a dropdown menu instead of a button */
+    items?: PillHeaderActionItem[];
 }
 
 export interface PillHeaderProps {

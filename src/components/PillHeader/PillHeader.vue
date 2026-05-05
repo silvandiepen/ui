@@ -125,7 +125,7 @@
             <template #trigger="{ toggle }">
               <button
                 :style="linkStyles(action)"
-                :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
+                :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '', action.variant === 'primary' ? bemm('action', 'primary') : '']"
                 :aria-label="action.label"
                 @click="toggle"
               >
@@ -137,7 +137,7 @@
           <button
             v-else
             :style="linkStyles(action)"
-            :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '']"
+            :class="[bemm('action'), action.icon ? bemm('action', 'has-icon') : '', action.variant === 'primary' ? bemm('action', 'primary') : '']"
             :aria-label="action.label"
             @click="action.handler"
           >
@@ -714,6 +714,17 @@ function updateMobileNavigation() {
       color: var(--pill-header-link-hover-color);
       background: var(--pill-header-link-hover-background);
     }
+
+    &--primary {
+      background: var(--color-primary);
+      color: var(--color-primary-contrast, var(--color-light));
+
+      &:hover,
+      &:focus-visible {
+        background: color-mix(in srgb, var(--color-primary), transparent 15%);
+        color: var(--color-primary-contrast, var(--color-light));
+      }
+    }
   }
 
   &__action-icon {
@@ -796,11 +807,11 @@ function updateMobileNavigation() {
       display: grid;
     }
 
-    &__action--has-icon &__action-label {
+    &__action--has-icon:not(.pill-header__action--primary) &__action-label {
       display: none;
     }
 
-    &__action--has-icon {
+    &__action--has-icon:not(.pill-header__action--primary) {
       padding: 0;
       width: var(--pill-header-action-size);
     }
