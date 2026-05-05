@@ -14,6 +14,9 @@ import {
 
 const SIL_UI_THEME_ID = 'virtual:sil-ui/theme.scss'
 const SIL_UI_THEME_RESOLVED_ID = `\0${SIL_UI_THEME_ID}`
+const SIL_UI_THEME_ENTRY_ID = 'virtual:sil-ui/theme'
+const SIL_UI_THEME_ENTRY_RESOLVED_ID = `\0${SIL_UI_THEME_ENTRY_ID}`
+const SIL_UI_THEME_ENTRY_PUBLIC_PATH = '/@sil-ui/theme.js'
 const SIL_UI_MAIN_STYLES_PATH = normalizePath(fileURLToPath(new URL('../styles/main.scss', import.meta.url)))
 
 export {
@@ -32,6 +35,10 @@ export function ui(options = {}) {
   return {
     name: 'sil-ui-theme',
     resolveId(id) {
+      if (id === SIL_UI_THEME_ENTRY_ID || id === SIL_UI_THEME_ENTRY_PUBLIC_PATH) {
+        return SIL_UI_THEME_ENTRY_RESOLVED_ID
+      }
+
       if (id === SIL_UI_THEME_ID) {
         return SIL_UI_THEME_RESOLVED_ID
       }
@@ -39,6 +46,10 @@ export function ui(options = {}) {
       return null
     },
     load(id) {
+      if (id === SIL_UI_THEME_ENTRY_RESOLVED_ID) {
+        return `import "${SIL_UI_THEME_ID}";`
+      }
+
       if (id !== SIL_UI_THEME_RESOLVED_ID) {
         return null
       }
@@ -49,17 +60,20 @@ export function ui(options = {}) {
 
       return `${sharedStyles}${generateThemeStyles(options.theme)}\n`
     },
-    transformIndexHtml() {
-      return [
-        {
-          tag: 'script',
-          attrs: {
-            type: 'module',
+    transformIndexHtml: {
+      order: 'pre',
+      handler() {
+        return [
+          {
+            tag: 'script',
+            attrs: {
+              src: SIL_UI_THEME_ENTRY_PUBLIC_PATH,
+              type: 'module',
+            },
+            injectTo: 'head-prepend',
           },
-          children: `import "${SIL_UI_THEME_ID}";`,
-          injectTo: 'head-prepend',
-        },
-      ]
+        ]
+      },
     },
   }
 }
