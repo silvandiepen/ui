@@ -96,9 +96,11 @@ Use the two-tier custom property model:
 - `--int-<component>-*` for internal values set by the component itself.
 - `--<component>-*` for public values consuming apps may override.
 
+When an internal value has a public override, define the internal default through the public property without setting the public property itself. This lets consuming apps override the public value from any scope while component modifiers can still override the internal value directly.
+
 ```scss
 .tab-navigation {
-  --int-tab-navigation-font-size: var(--font-size);
+  --int-tab-navigation-font-size: var(--tab-navigation-font-size, var(--font-size));
   --tab-navigation-indicator-color: var(--color-primary);
 
   font-size: var(--int-tab-navigation-font-size);
@@ -113,15 +115,50 @@ If a prop maps a theme color onto an element, set a CSS custom property from Vue
 
 ```vue
 <button
-  :style="item.color ? { '--int-example-item-color': `var(--color-${item.color})` } : undefined"
+  :style="item.color ? { '--example-item-color': `var(--color-${item.color})` } : undefined"
 />
 ```
 
 ```scss
 .example__item {
-  color: var(--int-example-item-color, var(--color-foreground));
+  --int-example-item-color: var(--example-item-color, var(--color-foreground));
+
+  color: var(--int-example-item-color);
+  background: color-mix(in srgb, var(--int-example-item-color), transparent 90%);
 }
 ```
+
+## Color Props
+
+Component color props should use the shared `Colors`, `Color`, `BaseColor`, or `AllColor` types from `src/types`. Do not accept arbitrary color strings for normal component theming.
+
+Pass the color token into CSS once by setting a component custom property:
+
+```ts
+import type { Colors } from '../../types'
+
+interface ExampleProps {
+  color?: Colors
+}
+
+const colorStyles = computed(() =>
+  props.color ? { '--example-color': `var(--color-${props.color})` } : undefined,
+)
+```
+
+Then derive internal values in SCSS:
+
+```scss
+.example {
+  --int-example-color: var(--example-color, var(--color-primary));
+  --int-example-background: color-mix(in srgb, var(--int-example-color), transparent 88%);
+
+  color: var(--int-example-color);
+  background: var(--int-example-background);
+}
+```
+
+Do not generate classes for each color, such as `example--primary` or `example--success`. Color variants should come from the custom property so the component stays tied to the shared color set and can use `color-mix()` consistently.
 
 ## Props And Types
 

@@ -302,7 +302,7 @@ onBeforeUnmount(() => {
 .ui-tab-nav {
   // Internal — set by component logic, not intended for project override
   --int-tab-navigation-border-radius: 999em;
-  --int-tab-navigation-font-size: var(--font-size);
+  --int-tab-navigation-font-size: var(--tab-navigation-font-size, var(--font-size));
   --int-tab-navigation-icon-size: 1.25em;
   --int-tab-navigation-pills-button-padding-y: var(--space-s);
   --int-tab-navigation-pills-button-padding-x: var(--space);
