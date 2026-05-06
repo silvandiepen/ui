@@ -3,6 +3,7 @@
     :class="[
       bemm(),
       bemm('', `color-mode-${props.colorMode}`),
+      isHidden ? bemm('', 'hidden') : '',
     ]"
     :data-test-id="testId"
   >
@@ -187,6 +188,8 @@ const { bemm } = useBemm('pill-header')
 const isMenuOpen = ref(false)
 const openSubmenuKey = ref<string | null>(null)
 const isMobileNavigation = ref(false)
+const isHidden = ref(false)
+const lastScrollY = ref(0)
 const menuId = 'pill-header-navigation'
 
 const brandComponent = computed(() => {
@@ -202,11 +205,14 @@ const resolvedCurrentPath = computed(() => {
 
 onMounted(() => {
   updateMobileNavigation()
+  updateScrollState()
   window.addEventListener('resize', updateMobileNavigation)
+  window.addEventListener('scroll', updateScrollState, { passive: true })
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateMobileNavigation)
+  window.removeEventListener('scroll', updateScrollState)
 })
 
 function isActive(item: PillHeaderNavItem): boolean {
@@ -343,6 +349,7 @@ function onActionSelect(item: DropdownItem) {
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value
+  isHidden.value = false
 
   if (!isMenuOpen.value) {
     openSubmenuKey.value = null
@@ -358,6 +365,24 @@ function updateMobileNavigation() {
 
   openSubmenuKey.value = null
 }
+
+function updateScrollState() {
+  if (typeof window === 'undefined') return
+
+  const currentScrollY = Math.max(window.scrollY, 0)
+  const scrollDelta = currentScrollY - lastScrollY.value
+
+  if (currentScrollY <= 0 || isMenuOpen.value) {
+    isHidden.value = false
+    lastScrollY.value = currentScrollY
+    return
+  }
+
+  if (Math.abs(scrollDelta) < 4) return
+
+  isHidden.value = scrollDelta > 0
+  lastScrollY.value = currentScrollY
+}
 </script>
 
 <style lang="scss">
@@ -365,9 +390,11 @@ function updateMobileNavigation() {
 
 .pill-header {
   --pill-header-top: 0;
+  --pill-header-position: fixed;
   --pill-header-padding: 0.75rem clamp(1rem, 3vw, 2rem) 0;
   --pill-header-shell-padding: 0.3rem 0.3rem 0.3rem 1rem;
   --pill-header-shell-radius: 999px;
+  --int-pill-header-translate-y: 0;
   --int-pill-header-surface-color: var(--color-dark);
   --int-pill-header-content-color: var(--color-light);
   --pill-header-shell-background: color-mix(in srgb, var(--int-pill-header-surface-color), transparent 10%);
@@ -389,12 +416,21 @@ function updateMobileNavigation() {
   --pill-header-action-size: var(--space-l);
 
 
-  position: sticky;
+  position: var(--pill-header-position, fixed);
   top: var(--pill-header-top);
+  left: 0;
   z-index: var(--z-sticky, 100);
   display: flex;
   justify-content: center;
   padding: var(--pill-header-padding);
+  width: 100%;
+  transform: translateY(var(--int-pill-header-translate-y));
+  transition: transform 0.24s ease;
+  will-change: transform;
+
+  &--hidden {
+    --int-pill-header-translate-y: calc(-100% - var(--pill-header-top));
+  }
 
   &--color-mode-light {
     --int-pill-header-surface-color: var(--color-light);
@@ -824,6 +860,10 @@ function updateMobileNavigation() {
       padding: 0;
       width: var(--pill-header-action-size);
     }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 </style>

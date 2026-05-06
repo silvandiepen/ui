@@ -241,7 +241,7 @@ const decrement = () => {
     line-height: m.p('line-height', 1.5);
     transition: all 0.2s ease;
     background: var(--color-background);
-    color: var(--color-background-text);
+    color: var(--input-field-color, var(--color-foreground));
 
     &:focus {
       outline: none;
@@ -255,7 +255,7 @@ const decrement = () => {
 
     &:disabled {
       background: var(--bg-tertiary);
-      color: var(--text-tertiary);
+      color: var(--input-field-disabled-color, var(--text-tertiary));
       cursor: not-allowed;
     }
 

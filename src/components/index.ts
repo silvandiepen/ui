@@ -39,7 +39,7 @@ export * from './Icon'
 export * from './Kbd'
 export * from './Markdown'
 export * from './Dropdown'
-export { Input as TextInput } from './Input'
+export { InputText as TextInput } from './Form'
 export {
   Chip,
   ChipGroup,

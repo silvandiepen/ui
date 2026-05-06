@@ -16,6 +16,8 @@ Floating pill-shaped app header for compact product shells.
 
 `colorMode` defaults to `auto`, which follows the document color mode through `data-color-mode` or `data-theme`, with `prefers-color-scheme` as a fallback. Pass `light` or `dark` to keep the header fixed in that mode, or `inverse` to render light on dark pages and dark on light pages.
 
+`PillHeader` is `position: fixed` by default through `--pill-header-position`. Override `--pill-header-position: sticky` when a page needs sticky positioning. The header hides while scrolling down, returns while scrolling up, and is always visible at the top of the page.
+
 `navItems` uses the shared `NavigationItem` contract. Use `id`, `label`, `to` or `href`, optional `icon`, and nested `items` for subnavigation. Items without `to` or `href` render as buttons and can use `action`.
 
 ```ts

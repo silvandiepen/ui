@@ -58,7 +58,7 @@ const onChange = (e: Event) => emit('change', (e.target as HTMLInputElement).val
   border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 84%);
   border-radius: var(--border-radius-xl);
   background: color-mix(in srgb, var(--color-background), transparent 2%);
-  color: var(--color-foreground);
+  color: var(--input-color, var(--color-foreground));
   font-size: var(--font-size-m, 1rem);
   line-height: 1.5;
   transition:
@@ -76,6 +76,7 @@ const onChange = (e: Event) => emit('change', (e.target as HTMLInputElement).val
 }
 
 .ui-input--is-disabled {
+  color: var(--input-disabled-color, color-mix(in srgb, var(--color-foreground), transparent 45%));
   opacity: 0.5;
   cursor: not-allowed;
 }

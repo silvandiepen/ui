@@ -25,6 +25,37 @@ describe('PillHeader', () => {
     expect(wrapper.classes()).toContain('pill-header--color-mode-inverse')
   })
 
+  it('hides on scroll down, reappears on scroll up, and stays visible at the top', async () => {
+    const wrapper = mount(PillHeader)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 80,
+    })
+    window.dispatchEvent(new Event('scroll'))
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.classes()).toContain('pill-header--hidden')
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 40,
+    })
+    window.dispatchEvent(new Event('scroll'))
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.classes()).not.toContain('pill-header--hidden')
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 0,
+    })
+    window.dispatchEvent(new Event('scroll'))
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.classes()).not.toContain('pill-header--hidden')
+  })
+
   it('renders shared navigation items with icons and nested subnavigation', () => {
     const wrapper = mount(PillHeader, {
       props: {

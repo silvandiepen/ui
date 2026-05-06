@@ -2,6 +2,8 @@
 
 Text and number input used in the shared `T*` form namespace.
 
+For new single-line text fields, prefer `InputText`. This component is kept for legacy `T*` form surfaces and number-spinner behavior.
+
 ## Usage
 
 ```vue
@@ -17,4 +19,4 @@ Text and number input used in the shared `T*` form namespace.
 
 - Supports text-like input types and number fields
 - Emits `update:modelValue`, `focus`, `blur`, and `enter`
-- Prefer the newer shared primitives for brand-new surfaces when the `T*` namespace is not required
+- Prefer `InputText` for brand-new text fields when the `T*` namespace is not required

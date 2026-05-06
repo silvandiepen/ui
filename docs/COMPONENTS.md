@@ -56,13 +56,14 @@ This document describes the current shared component surface in `@sil/ui`.
 ### Forms
 
 - `Form`: form surface exported through the existing `Form` entry.
+- `InputText`: preferred single-line text input for new form UI. Use this before legacy `Input` unless you specifically need the old `T*` namespace surface.
 - `TForm`, `TInput`, `TInputText`, `TInputTextArea`, `TInputSelect`, `TInputCheckbox`, `TToggle`, and related form inputs remain available through the form exports.
 
 ## Transitional Deep Imports
 
 These are shared code, but the API is still being normalized. Prefer root exports for new work when possible.
 
-- `Input`: `@sil/ui/src/components/Input/Input.vue`
+- `Input`: `@sil/ui/src/components/Input/Input.vue` legacy primitive. Prefer the root `InputText` export for regular text fields.
 - `Select`: `@sil/ui/src/components/Select/Select.vue`
 
 ## Usage Pattern
@@ -85,6 +86,6 @@ Prefer shared controls in app-local wrappers:
 
 ```vue
 <Field label="Project Name">
-  <Input v-model="projectName" />
+  <InputText v-model="projectName" />
 </Field>
 ```
