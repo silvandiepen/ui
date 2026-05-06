@@ -1,10 +1,6 @@
 <template>
   <header
-    :class="[
-      bemm(),
-      bemm('', `color-mode-${props.colorMode}`),
-      isHidden ? bemm('', 'hidden') : '',
-    ]"
+    :class="headerClasses"
     :data-test-id="testId"
   >
     <div :class="bemm('shell')" :data-test-id="getTestId(props.testId, 'shell')">
@@ -202,6 +198,14 @@ const resolvedCurrentPath = computed(() => {
   if (typeof window === 'undefined') return '/'
   return normalizePath(window.location.pathname)
 })
+
+const headerClasses = computed(() =>
+  bemm('', {
+    '': true,
+    [`color-mode-${props.colorMode}`]: true,
+    hidden: isHidden.value,
+  }),
+)
 
 onMounted(() => {
   updateMobileNavigation()

@@ -34,10 +34,12 @@ const props = withDefaults(
 
 const { bemm } = useBemm('example')
 
-const classes = computed(() => [
-  bemm(),
-  bemm('', props.tone),
-])
+const classes = computed(() =>
+  bemm('', {
+    '': true,
+    [props.tone]: true,
+  }),
+)
 </script>
 
 <style lang="scss">
@@ -65,11 +67,13 @@ Use `bemm` for block, element, and modifier classes.
 ```ts
 const { bemm } = useBemm('status-badge')
 
-const classes = computed(() => [
-  bemm(),
-  bemm('', props.tone),
-  props.clickable ? bemm('', 'clickable') : undefined,
-])
+const classes = computed(() =>
+  bemm('', {
+    '': true,
+    [props.tone]: true,
+    clickable: props.clickable,
+  }),
+)
 ```
 
 Expected output:
