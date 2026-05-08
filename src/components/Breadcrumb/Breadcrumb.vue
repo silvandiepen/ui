@@ -134,7 +134,7 @@ const handleCopyBreadcrumb = async () => {
 		}
 
 		&::after {
-			content: m.p('separator', '/');
+			content: '/';
 		}
 
 		&:last-child::after {
@@ -153,8 +153,8 @@ const handleCopyBreadcrumb = async () => {
 
 	&__item {
 		&:first-child {
-			color: m.p('first-child-color', var(--color-foreground));
-			font-weight: m.p('first-child-font-weight', var(--font-weight-medium));
+			color: var(--color-foreground);
+			font-weight: var(--font-weight-medium);
 		}
 
 		&--active {
@@ -162,7 +162,7 @@ const handleCopyBreadcrumb = async () => {
 		}
 
 		&::after {
-			content: m.p('separator', '/');
+			content: '/';
 		}
 
 		&:last-child::after {

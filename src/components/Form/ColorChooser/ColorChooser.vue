@@ -793,7 +793,7 @@ onUnmounted(() => {
       position: absolute;
       inset: var(--color-chooser-ring-thickness, 18px);
       border-radius: 50%;
-      background: m.p('surface-background', var(--color-background));
+      background: var(--color-background);
       pointer-events: none;
     }
   }

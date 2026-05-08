@@ -246,7 +246,7 @@ const decrement = () => {
     &:focus {
       outline: none;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 m.p('focus-ring-width', 3px) color-mix(in srgb, var(--color-primary), transparent 90%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary), transparent 90%);
     }
 
     &::placeholder {
@@ -367,7 +367,7 @@ const decrement = () => {
 
   &--has-suffix:not(.input--has-spinners) {
     .input__field {
-      padding-right: m.p('has-icon-padding', calc(var(--space) * 2.5));
+      padding-right: calc(var(--space) * 2.5);
     }
   }
 
@@ -383,7 +383,7 @@ const decrement = () => {
 
       &:focus {
         border-color: var(--color-error);
-        box-shadow: 0 0 0 m.p('focus-ring-width', 3px) color-mix(in srgb, var(--color-error), transparent 90%);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error), transparent 90%);
       }
     }
   }

@@ -120,8 +120,8 @@ const blockClasses = computed(() => {
 
   &::before {
     content: '';
-    width: m.p('arrow-size', 0.75em);
-    height: m.p('arrow-size', 0.75em);
+    width: 0.75em;
+    height: 0.75em;
     display: block;
     position: absolute;
     background-color: inherit;

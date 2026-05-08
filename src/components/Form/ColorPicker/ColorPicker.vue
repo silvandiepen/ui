@@ -229,7 +229,7 @@ const removeCustomColor = (hex: string) => {
 
   &__control-container {
     &::before {
-      display: m.p('control-frame-display', block);
+      display: block;
     }
   }
 

@@ -180,7 +180,7 @@ const onActionClick = (action: TooltipAction) => {
 		}
 
 		:where(*:hover, *:focus-within, *:active) > &--parent-hover {
-			animation: m.p('animation', showTooltip 0.2s var(--bezier) forwards);
+			animation: showTooltip 0.2s var(--bezier) forwards;
 			pointer-events: auto;
 		}
 

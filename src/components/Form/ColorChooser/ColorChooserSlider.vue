@@ -134,8 +134,8 @@ const onNumberInput = (value: unknown) => {
     }
 
     &::-moz-range-thumb {
-      width: m.p('thumb-width', calc(var(--space) * 0.9));
-      height: m.p('thumb-height', calc(var(--space) * 0.9));
+      width: calc(var(--space) * 0.9);
+      height: calc(var(--space) * 0.9);
       border-radius: 50%;
       border: 2px solid #fff;
       box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-foreground), transparent 70%);
