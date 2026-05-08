@@ -190,7 +190,7 @@ const badgeStyles = computed(() => {
   }
 
   &[data-variant="elevated"] {
-    box-shadow: m.p('shadow', 0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%));
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--color-foreground), transparent 95%);
   }
 
   &[data-variant="ghost"] {

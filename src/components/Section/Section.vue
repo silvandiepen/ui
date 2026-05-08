@@ -45,15 +45,15 @@ const containerProps = {
   }
 
   &[data-variant="hero"] {
-    padding: m.p('padding-hero', var(--space-xxl) 0 var(--space-xxl));
-    min-height: m.p('hero-min-height', 80vh);
+    padding: var(--space-xxl) 0 var(--space-xxl);
+    min-height: 80vh;
     display: flex;
     align-items: center;
   }
 
   &[data-variant="cta"] {
-    background: m.p('cta-background', var(--color-primary));
-    color: m.p('cta-color', var(--color-background));
+    background: var(--color-primary);
+    color: var(--color-background);
 
     :deep(*) {
       color: inherit;
@@ -61,7 +61,7 @@ const containerProps = {
   }
 
   &[data-variant="alternate"] {
-    background: m.p('alternate-background', color-mix(in srgb, var(--color-primary), transparent 95%));
+    background: color-mix(in srgb, var(--color-primary), transparent 95%);
   }
 }
 </style>
