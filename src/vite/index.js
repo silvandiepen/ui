@@ -40,12 +40,16 @@ export function ui(options = {}) {
   const THEME_ID = '\0virtual:sil-ui/theme'
   const STYLES_ID = '\0virtual:sil-ui/styles.css'
 
+  const injectSharedStyles = options.injectSharedStyles !== false
+  let isDev = false
+
   return {
     name: 'sil-ui-theme',
     enforce: 'pre',
 
     // Inject sil-ui internal path aliases into the consumer's resolve config
-    config(config) {
+    config(config, { command }) {
+      isDev = command === 'serve'
       const silUiAliases = [
         { find: '@/components/ui', replacement: `${SIL_UI_SRC_PATH}/components` },
         { find: '@/common', replacement: `${SIL_UI_SRC_PATH}/common` },
@@ -78,11 +82,12 @@ export function ui(options = {}) {
     load(id) {
       // Virtual JS module: imports the SCSS styles and CSS theme overrides
       if (id === THEME_ID) {
-        return [
-          `// @sil/ui theme — base styles + theme overrides`,
-          `import "${SIL_UI_MAIN_STYLES_PATH}";`,
-          `import "virtual:sil-ui/styles.css";`,
-        ].join('\n')
+        const lines = [`// @sil/ui theme — ${injectSharedStyles ? 'base styles + ' : ''}theme overrides`]
+        if (injectSharedStyles) {
+          lines.push(`import "${SIL_UI_MAIN_STYLES_PATH}";`)
+        }
+        lines.push(`import "virtual:sil-ui/styles.css";`)
+        return lines.join('\n')
       }
 
       // Virtual CSS module: theme CSS custom properties generated from defineTheme()
@@ -93,10 +98,12 @@ export function ui(options = {}) {
       return null
     },
 
-    // Auto-import theme styles in the consuming app's entry module
+    // Auto-import theme styles in the consuming app's entry module (build only)
+    // In dev, the consumer should import 'virtual:sil-ui/theme' in main.ts
     transformIndexHtml: {
       order: 'pre',
       handler() {
+        if (isDev) return
         return [
           {
             tag: 'script',
