@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [
@@ -31,28 +31,20 @@ export default defineConfig({
     ]
   },
   build: {
+    // Only build type declarations via vite-plugin-dts.
+    // Component source (.vue + .ts) is shipped as-is —
+    // consuming projects compile it through Vite with theme SCSS vars injected by ui().
+    outDir: 'dist',
+    emptyOutDir: false,
+    copyPublicDir: false,
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'SilUI',
-      fileName: 'sil-ui'
+      entry: resolve(__dirname, 'src/vite/index.js'),
+      formats: ['es'],
+      fileName: () => 'vite/index.js',
     },
     rollupOptions: {
-      external: ['vue', 'bemm', 'open-icon'],
-      output: {
-        globals: {
-          vue: 'Vue',
-          bemm: 'bemm',
-          'open-icon': 'openIcon'
-        },
-        // Ensure CSS is extracted
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'style.css'
-          return assetInfo.name
-        }
-      }
+      external: ['node:url', 'node:fs', 'node:crypto', 'node:path'],
     },
-    // Extract CSS to separate file
-    cssCodeSplit: false
   },
   css: {
     preprocessorOptions: {

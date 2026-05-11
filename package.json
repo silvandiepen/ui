@@ -1,6 +1,7 @@
 {
   "name": "@sil/ui",
-  "version": "1.23.6",
+  "version": "1.24.0",
+  "type": "module",
   "description": "Shared UI components for SIL applications",
   "repository": {
     "type": "git",
@@ -10,14 +11,13 @@
   "bugs": {
     "url": "https://github.com/silvandiepen/ui/issues"
   },
-  "main": "./dist/sil-ui.umd.js",
-  "module": "./dist/sil-ui.mjs",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/sil-ui.mjs",
-      "require": "./dist/sil-ui.umd.js"
+      "import": "./src/index.ts"
     },
     "./vite": {
       "types": "./dist/vite/index.d.ts",
@@ -31,17 +31,11 @@
     },
     "./style.css": "./dist/style.css",
     "./styles/index.scss": "./src/styles/index.scss",
-    "./styles/global.scss": "./src/styles/global.scss",
-    "./styles/main.scss": "./src/styles/main.scss",
-    "./src/styles/index.scss": "./src/styles/index.scss",
-    "./src/styles/global.scss": "./src/styles/global.scss",
-    "./src/styles/main.scss": "./src/styles/main.scss"
+    "./styles/main.scss": "./src/styles/main.scss"
   },
   "files": [
     "dist",
-    "src/styles",
-    "src/vite/index.js",
-    "src/vite/theme.js"
+    "src"
   ],
   "publishConfig": {
     "access": "public"
