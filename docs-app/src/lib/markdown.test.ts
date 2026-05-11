@@ -23,15 +23,14 @@ describe('normalizeMarkdownContent', () => {
 })
 
 describe('renderMarkdown', () => {
-  it('renders fenced code blocks through the shared highlighter', () => {
-    const html = renderMarkdown([
+  it('renders fenced code blocks with the code block class', async () => {
+    const html = await renderMarkdown([
       '```ts',
       "const message = 'hello'",
       '```',
     ].join('\n'))
 
     expect(html).toContain('docs-code-block')
-    expect(html).toContain('hljs')
-    expect(html).toContain('language-typescript')
+    expect(html).toContain('language-ts')
   })
 })

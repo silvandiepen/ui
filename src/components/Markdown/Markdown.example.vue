@@ -6,23 +6,24 @@
 import { Markdown } from '.'
 
 const content = [
-  '# UIMarkdown',
+  '# Markdown',
   '',
-  'Render Markdown content with built-in typography, tables, and code highlighting.',
+  'Render Markdown content with built-in typography, tables, and code blocks.',
   '',
   '## Features',
   '',
-  '- Uses `markdown-it` under the hood',
-  '- Supports custom plugins',
-  '- Highlights fenced code blocks',
+  '- Uses `nizel` under the hood',
+  '- Async rendering with Vue reactivity',
+  '- Safe by default (HTML stripped)',
   '',
   '```ts',
-  "import { UIMarkdown } from '@sil/ui'",
+  "import { Markdown } from '@sil/ui'",
   '```',
   '',
   '| Prop | Description |',
   '| --- | --- |',
   '| `content` | Markdown source to render |',
-  '| `plugins` | Optional markdown-it plugins |',
+  '| `inline` | Render inline markdown (no wrapping `<p>`) |',
+  '| `html` | Allow raw HTML in markdown |',
 ].join('\n')
 </script>

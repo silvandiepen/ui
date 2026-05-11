@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { ref, watch } from 'vue'
 import { useBemm } from 'bemm'
 
 import { renderMarkdownContent, renderMarkdownInline } from './markdown'
@@ -20,38 +20,51 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<MarkdownProps>(), {
-  breaks: false,
   content: '',
   html: false,
   inline: false,
   langPrefix: 'language-',
-  linkify: true,
-  plugins: () => [],
   tag: 'article',
-  typographer: true,
 })
 
 const bemm = useBemm('ui-markdown', {
   includeBaseClass: true,
 })
 
-const renderedContent = computed(() => {
-  const options = {
-    breaks: props.breaks,
-    highlight: props.highlight,
-    html: props.html,
-    langPrefix: props.langPrefix,
-    linkify: props.linkify,
-    plugins: props.plugins,
-    typographer: props.typographer,
+const renderedContent = ref('')
+
+async function update() {
+  if (!props.content) {
+    renderedContent.value = ''
+    return
   }
 
-  if (props.inline) {
-    return renderMarkdownInline(props.content, options)
+  try {
+    if (props.inline) {
+      renderedContent.value = await renderMarkdownInline(props.content, {
+        html: props.html,
+        langPrefix: props.langPrefix,
+        nizelOptions: props.nizelOptions,
+      })
+    }
+    else {
+      renderedContent.value = await renderMarkdownContent(props.content, {
+        html: props.html,
+        langPrefix: props.langPrefix,
+        nizelOptions: props.nizelOptions,
+      })
+    }
   }
+  catch {
+    renderedContent.value = ''
+  }
+}
 
-  return renderMarkdownContent(props.content, options)
-})
+watch(
+  () => props.content,
+  update,
+  { immediate: true },
+)
 </script>
 
 <style lang="scss">
@@ -207,12 +220,7 @@ const renderedContent = computed(() => {
       );
     box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-background), transparent 20%);
 
-    &::selection,
-    *::selection {
-      background: var(--markdown-selection);
-    }
-
-    code.hljs {
+    code {
       display: block;
       padding: 0;
       background: transparent;
@@ -221,63 +229,6 @@ const renderedContent = computed(() => {
       font-size: 0.95rem;
       line-height: 1.65;
     }
-  }
-
-  .hljs-comment,
-  .hljs-quote {
-    color: var(--markdown-soft);
-    font-style: italic;
-  }
-
-  .hljs-keyword,
-  .hljs-selector-tag,
-  .hljs-literal,
-  .hljs-name,
-  .hljs-section {
-    color: var(--markdown-code-keyword);
-  }
-
-  .hljs-title,
-  .hljs-title.class_,
-  .hljs-title.class_.inherited__,
-  .hljs-type,
-  .hljs-built_in {
-    color: var(--markdown-code-title);
-  }
-
-  .hljs-attr,
-  .hljs-attribute,
-  .hljs-selector-attr,
-  .hljs-selector-class,
-  .hljs-selector-id,
-  .hljs-variable,
-  .hljs-template-variable {
-    color: var(--markdown-code-attribute);
-  }
-
-  .hljs-string,
-  .hljs-regexp,
-  .hljs-symbol,
-  .hljs-bullet {
-    color: var(--markdown-code-string);
-  }
-
-  .hljs-number,
-  .hljs-meta,
-  .hljs-meta .hljs-keyword,
-  .hljs-link {
-    color: var(--markdown-code-number);
-  }
-
-  .hljs-tag,
-  .hljs-selector-pseudo,
-  .hljs-subst {
-    color: var(--markdown-code-tag);
-  }
-
-  .hljs-doctag,
-  .hljs-formula {
-    color: var(--markdown-code-meta);
   }
 }
 </style>

@@ -1,10 +1,21 @@
-import { createMarkdownRenderer } from '../../../src/components/Markdown'
+import { useNizel } from 'nizel'
+import type { NizelCodeNode } from 'nizel'
 
 import { renderCodeBlock } from './codeBlock'
 
-const renderer = createMarkdownRenderer({
-  highlight(code: string, language?: string | null) {
-    return renderCodeBlock(code, language)
+const renderer = useNizel({
+  frontmatter: false,
+  template: false,
+  toc: false,
+  anchors: false,
+  safe: false,
+  elements: {
+    pre: { class: 'docs-code-block' },
+    code: (node) => ({
+      class: node.type === 'inlineCode'
+        ? undefined
+        : `language-${(node as NizelCodeNode).lang ?? 'plaintext'}`,
+    }),
   },
 })
 
@@ -13,8 +24,8 @@ export interface MarkdownReplacement {
   to: string
 }
 
-export function renderMarkdown(markdown: string): string {
-  return renderer.render(markdown)
+export async function renderMarkdown(markdown: string): Promise<string> {
+  return renderer.html(markdown)
 }
 
 export function normalizeMarkdownContent(

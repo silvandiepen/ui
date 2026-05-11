@@ -1,27 +1,10 @@
 import type { TestIdProps } from "../../types";
-
-export type MarkdownHighlightRenderer = (code: string, language?: string | null) => string
-
-export type MarkdownPlugin = (renderer: any, ...options: unknown[]) => void
-
-export interface MarkdownPluginRegistration {
-  options?: unknown[]
-  plugin: MarkdownPlugin
-}
-
-export interface MarkdownCodeBlockOptions {
-  blockClass?: string
-  langPrefix?: string
-}
+import type { NizelOptions } from 'nizel';
 
 export interface MarkdownRendererOptions {
-  breaks?: boolean
-  highlight?: MarkdownHighlightRenderer
   html?: boolean
   langPrefix?: string
-  linkify?: boolean
-  plugins?: Array<MarkdownPlugin | MarkdownPluginRegistration>
-  typographer?: boolean
+  nizelOptions?: NizelOptions
 }
 
 export interface MarkdownProps extends MarkdownRendererOptions {
