@@ -1,5 +1,5 @@
 import { useNizel } from 'nizel'
-import type { NizelCodeNode } from 'nizel'
+import type { NizelCodeNode, NizelPlugin } from 'nizel'
 
 import type {
   MarkdownRendererOptions,
@@ -7,11 +7,48 @@ import type {
 
 const DEFAULT_LANG_PREFIX = 'language-'
 
+/** Cached plugins — built once, reused across renders. */
+let cachedPlugins: NizelPlugin[] | null = null
+let cachedPluginsPromise: Promise<NizelPlugin[]> | null = null
+
+/**
+ * Builds the nizel plugin list (cached).
+ * If nizel-plugin-shiki is available, it will be loaded for code highlighting.
+ */
+function getPlugins(options: MarkdownRendererOptions): NizelPlugin[] | Promise<NizelPlugin[]> {
+  if (options.highlight === false) return []
+
+  if (cachedPlugins) return cachedPlugins
+  if (cachedPluginsPromise) return cachedPluginsPromise
+
+  cachedPluginsPromise = (async () => {
+    try {
+      const { shikiPlugin, createJavaScriptShikiHighlighter } = await import('nizel-plugin-shiki/javascript')
+
+      const highlighter = await createJavaScriptShikiHighlighter({
+        themes: ['github-dark', 'github-light'],
+        defaultLang: 'plaintext',
+      })
+
+      cachedPlugins = [shikiPlugin({ highlighter })]
+      return cachedPlugins
+    }
+    catch {
+      // nizel-plugin-shiki not installed — skip highlighting
+      cachedPlugins = []
+      return cachedPlugins
+    }
+  })()
+
+  return cachedPluginsPromise
+}
+
 /**
  * Creates a nizel processor instance with the given options.
  */
-export function createMarkdownRenderer(options: MarkdownRendererOptions = {}) {
+export async function createMarkdownRenderer(options: MarkdownRendererOptions = {}) {
   const langPrefix = options.langPrefix ?? DEFAULT_LANG_PREFIX
+  const plugins = await getPlugins(options)
 
   return useNizel({
     frontmatter: false,
@@ -27,6 +64,7 @@ export function createMarkdownRenderer(options: MarkdownRendererOptions = {}) {
           : langPrefix + ((node as NizelCodeNode).lang ?? 'plaintext'),
       }),
     },
+    plugins,
     ...options.nizelOptions,
   })
 }
@@ -35,7 +73,7 @@ export function createMarkdownRenderer(options: MarkdownRendererOptions = {}) {
  * Renders markdown content to HTML (async).
  */
 export async function renderMarkdownContent(content: string, options: MarkdownRendererOptions = {}): Promise<string> {
-  const processor = createMarkdownRenderer(options)
+  const processor = await createMarkdownRenderer(options)
   return processor.html(content)
 }
 
@@ -44,7 +82,7 @@ export async function renderMarkdownContent(content: string, options: MarkdownRe
  * Strips the wrapping <p> tag that nizel adds to inline content.
  */
 export async function renderMarkdownInline(content: string, options: MarkdownRendererOptions = {}): Promise<string> {
-  const processor = createMarkdownRenderer(options)
+  const processor = await createMarkdownRenderer(options)
   const html = await processor.html(content)
   // nizel wraps inline content in <p>...</p> — strip it for inline mode
   return html.replace(/^<p>([\s\S]*?)<\/p>$/, '$1')

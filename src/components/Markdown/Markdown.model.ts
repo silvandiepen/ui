@@ -1,8 +1,9 @@
 import type { TestIdProps } from "../../types";
-import type { NizelOptions } from 'nizel';
+import type { NizelOptions, NizelPlugin } from 'nizel';
 
 export interface MarkdownRendererOptions {
   html?: boolean
+  highlight?: boolean
   langPrefix?: string
   nizelOptions?: NizelOptions
 }
