@@ -1,6 +1,6 @@
 {
   "name": "@sil/ui",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "type": "module",
   "description": "Shared UI components for SIL applications",
   "repository": {
@@ -32,7 +32,12 @@
     "./style.css": "./dist/style.css",
     "./styles": "./src/styles/main.scss",
     "./styles/main.scss": "./src/styles/main.scss",
-    "./defaults": "./src/styles/_defaults.scss"
+    "./defaults": "./src/styles/_defaults.scss",
+    "./styles/_main": "./src/styles/main.scss",
+    "./styles/main": {
+      "sass": "./src/styles/main.scss",
+      "default": "./src/styles/main.scss"
+    }
   },
   "files": [
     "dist",
