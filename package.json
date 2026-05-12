@@ -1,10 +1,6 @@
 {
   "name": "@sil/ui",
-<<<<<<< HEAD
-  "version": "2.2.0",
-=======
-  "version": "2.2.0",
->>>>>>> ec6afb8 (feat: configurable SCSS color variables via $project-colors)
+  "version": "2.3.0",
   "type": "module",
   "description": "Shared UI components for SIL applications",
   "repository": {

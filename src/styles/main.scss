@@ -1,13 +1,19 @@
-// Main styles for @sil/ui
-// Does NOT include _defaults.scss — import it separately (or let it be configured first):
-//   @use '@sil/ui/defaults' with ($project-colors: (...));
-//   @use '@sil/ui/styles';
+// Main styles for @sil/ui — everything EXCEPT defaults.
+// Defaults are loaded separately by the project (or auto-included via @use).
 //
-// Or use the unconfigured version (sensible defaults):
-//   import '@sil/ui/styles' in main.ts — plugin resolves to this file,
-//   which auto-includes defaults.
+// Usage:
+//   1. Simple (defaults as-is):
+//      import '@sil/ui/styles'     // in main.ts → resolved to this file
+//      (defaults are NOT auto-included — you get base styles only)
+//      You need: import '@sil/ui/defaults' or configure via SCSS
+//
+//   2. Custom colors (recommended):
+//      // _tokens.scss:
+//      @use '@sil/ui/defaults' with ($project-colors: (...));
+//      @use '@sil/ui/styles/main';
+//      // main.ts:
+//      import './styles/_tokens.scss'
 
-@use './defaults';
 @use './fonts.scss';
 @use './reset.scss';
 @use './base.scss';
