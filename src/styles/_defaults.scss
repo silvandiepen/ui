@@ -1,0 +1,51 @@
+// @sil/ui — Default CSS Custom Properties
+//
+// This file sets ALL :root CSS custom properties with sensible defaults.
+// Import it in your project's global SCSS to get a working baseline:
+//   @use '@sil/ui/defaults';
+//
+// Then override any variable in your own :root block:
+//   :root { --color-primary: #FF3B1F; }
+//
+// Components use var(--color-primary) etc. but never define them.
+// The cascade ensures your overrides win.
+
+@use 'color/functions';
+@use 'color/variables';
+
+// ── Color tokens ──────────────────────────────────────────────────────
+:root {
+	// Semantic project colors
+	@each $color-name, $color-value in variables.$colors {
+		--color-#{$color-name}: #{$color-value};
+		--color-#{$color-name}-text: #{functions.textColorShade($color-value, $color-name)};
+		--color-#{$color-name}-contrast: #{functions.textColorShade($color-value, $color-name)};
+	}
+
+	// Extended palette (base colors + light/dark variants)
+	@each $color-name, $color-value in variables.$extended-colors {
+		--color-#{$color-name}: #{$color-value};
+		--color-#{$color-name}-text: #{functions.textColorShade($color-value, $color-name)};
+		--color-#{$color-name}-contrast: #{functions.textColorShade($color-value, $color-name)};
+	}
+
+	--color-accent: var(--color-foreground);
+}
+
+// ── Dark / Light mode ─────────────────────────────────────────────────
+@media (prefers-color-scheme: dark) {
+	:root {
+		@include functions.darkModeBase();
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root {
+		@include functions.lightModeBase();
+	}
+}
+[data-theme='dark'] {
+	@include functions.darkModeBase();
+}
+[data-theme='light'] {
+	@include functions.lightModeBase();
+}

@@ -18,7 +18,7 @@ describe('ui vite plugin integration', () => {
     await Promise.all(fixtureRoots.splice(0).map((root) => rm(root, { force: true, recursive: true })))
   })
 
-  it('injects themed shared styles into a Vue/Vite build', async () => {
+  it('resolves @sil/ui/styles to the main SCSS and includes default color tokens', async () => {
     const root = await createVueFixture()
     const outDir = join(root, 'dist')
 
@@ -45,23 +45,7 @@ describe('ui vite plugin integration', () => {
       logLevel: 'silent',
       plugins: [
         vue(),
-        ui({
-          theme: {
-            colors: {
-              dark: '#090b11',
-              light: '#fbfaf7',
-              primary: '#123456',
-              secondary: '#abcdef',
-            },
-            fonts: {
-              body: '"Fixture Sans", system-ui, sans-serif',
-              heading: '"Fixture Display", system-ui, sans-serif',
-            },
-            variables: {
-              'border-radius': '0.875rem',
-            },
-          },
-        }),
+        ui(),
       ],
       resolve: {
         alias: {
@@ -75,15 +59,19 @@ describe('ui vite plugin integration', () => {
     const css = await readCssAsset(outDir)
 
     expect(html).toContain('assets/index.js')
-    expect(css).toMatch(/--font-family:\s*"Fixture Sans", system-ui, sans-serif/)
-    expect(css).toMatch(/--font-family-heading:\s*"Fixture Display", system-ui, sans-serif/)
-    expect(css).toMatch(/--color-primary:\s*#123456/)
+    // Default color tokens from _defaults.scss
+    expect(css).toContain('--color-primary:')
     expect(css).toContain('--color-primary-contrast:')
-    expect(css).toMatch(/--border-radius:\s*0?\.875rem/)
+    expect(css).toContain('--color-dark:')
+    expect(css).toContain('--color-light:')
+    // Base styles (fonts, spacing, etc.)
+    expect(css).toContain('--font-family:')
+    expect(css).toContain('--space:')
+    // Component classes from main.scss
     expect(css).toContain('.button')
   })
 
-  it('can emit only the theme variables when shared styles are disabled', async () => {
+  it('includes dark/light mode media queries', async () => {
     const root = await createVueFixture()
     const outDir = join(root, 'dist')
 
@@ -110,14 +98,7 @@ describe('ui vite plugin integration', () => {
       logLevel: 'silent',
       plugins: [
         vue(),
-        ui({
-          injectSharedStyles: false,
-          theme: {
-            colors: {
-              primary: '#654321',
-            },
-          },
-        }),
+        ui(),
       ],
       resolve: {
         alias: {
@@ -129,8 +110,11 @@ describe('ui vite plugin integration', () => {
 
     const css = await readCssAsset(outDir)
 
-    expect(css).toMatch(/--color-primary:\s*#654321/)
-    expect(css).not.toContain('.button')
+    expect(css).toContain('prefers-color-scheme: dark)')
+    expect(css).toContain('prefers-color-scheme: light)')
+    // Vite may minify quotes: [data-theme='dark'] or [data-theme=dark]
+    expect(css).toMatch(/\[data-theme=["']?dark["']?\]/)
+    expect(css).toMatch(/\[data-theme=["']?light["']?\]/)
   })
 })
 
@@ -178,6 +162,9 @@ async function writeFixtureSource(root: string) {
     [
       "import { createApp } from 'vue'",
       "import App from './App.vue'",
+      '',
+      // Import @sil/ui styles — resolved by the ui() plugin to main.scss
+      "import '@sil/ui/styles'",
       '',
       "createApp(App).mount('#app')",
     ].join('\n'),

@@ -13,8 +13,16 @@ import {
 } from './theme.js'
 
 const SIL_UI_MAIN_STYLES_PATH = normalizePath(fileURLToPath(new URL('../styles/main.scss', import.meta.url)))
-const SIL_UI_SRC_PATH = normalizePath(fileURLToPath(new URL('../../src', import.meta.url)))
+const SIL_UI_SRC_PATH = normalizePath(fileURLToPath(new URL('..', import.meta.url)))
+const SIL_UI_COMPONENTS_PATH = normalizePath(fileURLToPath(new URL('../components', import.meta.url)))
 
+/**
+ * @typedef {object} UIPluginOptions
+ * @property {object} [theme] - @deprecated Theme is now configured via SCSS.
+ * @property {boolean} [injectSharedStyles] - @deprecated Base styles are always available via @sil/ui/styles.
+ */
+
+// Re-export theme utilities for optional use
 export {
   buildThemeConfig,
   DEFAULT_THEME_COLORS,
@@ -28,28 +36,25 @@ export {
 }
 
 /**
- * @param {object} options
- * @param {object} [options.theme] - Theme config from defineTheme()
- * @param {boolean} [options.injectSharedStyles=true] - Whether to include main.scss
- * @param {string[]} [options.icons] - Specific icon names to include (optional)
+ * @sil/ui Vite plugin.
+ *
+ * Resolves internal `@/` aliases so source-shipped components can find
+ * their dependencies. Also resolves `'@sil/ui/styles'` to the main SCSS
+ * entry point.
+ *
+ * Theming is done via plain SCSS — import `@sil/ui/styles` in your main.ts
+ * (or `@sil/ui/defaults` in your global SCSS) and override `:root` CSS custom
+ * properties as needed.
+ *
+ * @param {UIPluginOptions} [options]
  */
-export function ui(options = {}) {
-  const resolvedTheme = buildThemeConfig(options.theme)
-  const themeCss = generateThemeStyles(resolvedTheme)
-
-  const THEME_ID = '\0virtual:sil-ui/theme'
-  const STYLES_ID = '\0virtual:sil-ui/styles.css'
-
-  const injectSharedStyles = options.injectSharedStyles !== false
-  let isDev = false
-
+export function ui(_options = {}) {
   return {
-    name: 'sil-ui-theme',
+    name: 'sil-ui',
     enforce: 'pre',
 
     // Inject sil-ui internal path aliases into the consumer's resolve config
-    config(config, { command }) {
-      isDev = command === 'serve'
+    config(config) {
       const silUiAliases = [
         { find: '@/components/ui', replacement: `${SIL_UI_SRC_PATH}/components` },
         { find: '@/common', replacement: `${SIL_UI_SRC_PATH}/common` },
@@ -67,52 +72,20 @@ export function ui(options = {}) {
       ]
 
       const existing = config.resolve?.alias || []
-      const aliases = Array.isArray(existing) ? [...existing] : Object.entries(existing).map(([find, replacement]) => ({ find, replacement }))
+      const aliases = Array.isArray(existing)
+        ? [...existing]
+        : Object.entries(existing).map(([find, replacement]) => ({ find, replacement }))
 
       config.resolve = config.resolve || {}
       config.resolve.alias = [...silUiAliases, ...aliases]
     },
 
+    // Resolve '@sil/ui/styles' to the actual main.scss path
     resolveId(id) {
-      if (id === 'virtual:sil-ui/theme') return THEME_ID
-      if (id === 'virtual:sil-ui/styles.css' || id === 'virtual:sil-ui/styles') return STYLES_ID
-      return null
-    },
-
-    load(id) {
-      // Virtual JS module: imports the SCSS styles and CSS theme overrides
-      if (id === THEME_ID) {
-        const lines = [`// @sil/ui theme — ${injectSharedStyles ? 'base styles + ' : ''}theme overrides`]
-        if (injectSharedStyles) {
-          lines.push(`import "${SIL_UI_MAIN_STYLES_PATH}";`)
-        }
-        lines.push(`import "virtual:sil-ui/styles.css";`)
-        return lines.join('\n')
+      if (id === '@sil/ui/styles' || id === 'virtual:sil-ui/theme' || id === 'virtual:sil-ui/styles.css') {
+        return SIL_UI_MAIN_STYLES_PATH
       }
-
-      // Virtual CSS module: theme CSS custom properties generated from defineTheme()
-      if (id === STYLES_ID) {
-        return themeCss
-      }
-
       return null
-    },
-
-    // Auto-import theme styles in the consuming app's entry module (build only)
-    // In dev, the consumer should import 'virtual:sil-ui/theme' in main.ts
-    transformIndexHtml: {
-      order: 'pre',
-      handler() {
-        if (isDev) return
-        return [
-          {
-            tag: 'script',
-            attrs: { type: 'module' },
-            children: `import "virtual:sil-ui/theme";`,
-            injectTo: 'head-prepend',
-          },
-        ]
-      },
     },
   }
 }

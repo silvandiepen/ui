@@ -30,8 +30,9 @@
       "default": "./src/vite/theme.js"
     },
     "./style.css": "./dist/style.css",
-    "./styles/index.scss": "./src/styles/index.scss",
-    "./styles/main.scss": "./src/styles/main.scss"
+    "./styles": "./src/styles/main.scss",
+    "./styles/main.scss": "./src/styles/main.scss",
+    "./defaults": "./src/styles/_defaults.scss"
   },
   "files": [
     "dist",
