@@ -2,12 +2,15 @@
 @use 'sass:list';
 @use 'sass:color';
 
+// ── Project colors (configurable) ─────────────────────────────────
+// Override via: @use '@sil/ui/defaults' as defaults with ($colors: (...));
+// or: @use '@sil/ui/defaults' with ($project-colors: (...));
+$project-colors: () !default;
 
 @function extend-colors($colors, $lighten: 33.33%, $darken: 33.33%) {
 	$out: $colors;
 
 	@each $name, $value in $colors {
-		// Prefer color.scale for balanced adjustment
 		$light: color.scale($value, $lightness: $lighten);
 		$dark: color.scale($value, $lightness: -$darken);
 
@@ -18,8 +21,7 @@
 	@return $out;
 }
 
-
-// Base Colors
+// Base Colors (not configurable — these are the raw palette)
 $base-colors: (
 	"red": #f40935,
 	"pink": #e23ea9,
@@ -48,12 +50,8 @@ $base-colors: (
 
 $extended-colors: extend-colors($base-colors);
 
-$base-color-names: map.keys($base-colors);
-
-$extend-color-names: map.keys($extended-colors);
-
-// Project Colors
-$colors: (
+// ── Default semantic colors (can be overridden via $project-colors) ──
+$default-colors: (
 	'dark': #020b22,
 	'light': #ffffff,
 	'accent-dark': #000000,
@@ -63,17 +61,24 @@ $colors: (
 	'tertiary': map.get($extended-colors, 'cobalt'),
 	'quaternary': map.get($extended-colors, 'lime'),
 	'quinary': map.get($extended-colors, 'coral'),
-	//
 	'success': map.get($extended-colors, 'green'),
 	'warning': map.get($extended-colors, 'orange'),
 	'error': map.get($extended-colors, 'red'),
 	'info': map.get($extended-colors, 'skyblue'),
+	'border': #e2e8f0,
 );
 
+// Merge: project overrides win over defaults
+$colors: map.merge($default-colors, $project-colors);
+
+$base-color-names: map.keys($base-colors);
 $color-names: map.keys($colors);
+$extend-color-names: map.keys($extended-colors);
+
+// Extended project colors (with light/dark variants)
+$project-extended: extend-colors($colors);
 
 // Theme Colors
-
 $theme-colors: (
 	background: var(--light),
 	foreground: var(--dark),

@@ -1,17 +1,26 @@
 // @sil/ui — Default CSS Custom Properties
 //
 // This file sets ALL :root CSS custom properties with sensible defaults.
-// Import it in your project's global SCSS to get a working baseline:
-//   @use '@sil/ui/defaults';
 //
-// Then override any variable in your own :root block:
-//   :root { --color-primary: #FF3B1F; }
+// Option 1 — Use defaults as-is (import in main.ts):
+//   import '@sil/ui/styles'
 //
-// Components use var(--color-primary) etc. but never define them.
-// The cascade ensures your overrides win.
+// Option 2 — Override SCSS color variables before generation:
+//   In your SCSS:
+//   @use '@sil/ui/defaults' with ($project-colors: (
+//     'primary': #FF3B1F,
+//     'dark': #061F32,
+//   ));
+//   @use '@sil/ui/styles';  // base styles (picks up configured defaults)
+//
+// With Option 2, the generated :root already has your colors — no cascade override needed.
 
-@use 'color/functions';
+// Forward variables so consumers can configure $project-colors via @use ... with (...)
+@forward 'color/variables' with ($project-colors: () !default);
+
+// Use the same module internally (Sass reuses the already-loaded instance)
 @use 'color/variables';
+@use 'color/functions';
 
 // ── Color tokens ──────────────────────────────────────────────────────
 :root {
