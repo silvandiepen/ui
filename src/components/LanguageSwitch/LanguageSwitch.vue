@@ -24,6 +24,7 @@
         :options="options"
         :show-descriptions="showDescriptions"
         :show-flags="showFlags"
+            :show-native-names="showNativeNames"
         :show-selection-indicator="showSelectionIndicator"
         :test-id="getTestId(props.testId, 'options')"
         @select="handleSelect"
@@ -130,6 +131,7 @@
           :options="options"
           :show-descriptions="showDescriptions"
           :show-flags="showFlags"
+            :show-native-names="showNativeNames"
           :show-selection-indicator="showSelectionIndicator"
           :test-id="getTestId(props.testId, 'options')"
           @select="handleSelect"
@@ -174,6 +176,7 @@
             :options="options"
             :show-descriptions="showDescriptions"
             :show-flags="showFlags"
+            :show-native-names="showNativeNames"
             :show-selection-indicator="showSelectionIndicator"
             :test-id="getTestId(props.testId, 'options')"
             @select="handleSelect"
@@ -222,6 +225,7 @@ const props = withDefaults(defineProps<LanguageSwitchProps>(), {
   popoverWidth: '22rem',
   showDescriptions: false,
   showFlags: true,
+  showNativeNames: true,
   showSelectionIndicator: true,
   surface: 'popover',
   title: '',

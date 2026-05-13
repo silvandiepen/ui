@@ -11,10 +11,12 @@ export interface LanguageSwitchOption {
   children?: LanguageSwitchOption[]
   code?: string
   description?: string
+  direction?: 'ltr' | 'rtl'
   disabled?: boolean
   flagEmoji?: string
   flagSrc?: string
   label: string
+  nativeName?: string
   regionCode?: string
   value?: string
 }
@@ -33,6 +35,7 @@ export interface LanguageSwitchProps {
   popoverWidth?: number | string
   showDescriptions?: boolean
   showFlags?: boolean
+  showNativeNames?: boolean
   showSelectionIndicator?: boolean
   surface?: LanguageSwitchSurface
   title?: string

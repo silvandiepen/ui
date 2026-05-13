@@ -12,6 +12,7 @@
       <button
         v-if="getSelectableOption(option)"
         :class="optionClasses(option)"
+        :dir="option.direction"
         :disabled="getSelectableOption(option)?.disabled"
         :aria-expanded="option.children?.length ? shouldShowChildren(option) : undefined"
         :aria-pressed="isOptionActive(option)"
@@ -52,6 +53,11 @@
               :class="bemm('label')"
               :data-test-id="getOptionTestId(option, index, 'label')"
             >{{ option.label }}</strong>
+            <span
+              v-if="option.nativeName && option.nativeName !== option.label && showNativeNames"
+              :class="bemm('native-name')"
+              :data-test-id="getOptionTestId(option, index, 'native-name')"
+            >{{ option.nativeName }}</span>
             <span
               v-if="showDescriptions && option.description"
               :class="bemm('description')"
@@ -94,6 +100,7 @@
       <div
         v-else
         :class="optionClasses(option)"
+        :dir="option.direction"
         :data-test-id="getOptionTestId(option, index)"
       >
         <span
@@ -130,6 +137,11 @@
               :data-test-id="getOptionTestId(option, index, 'label')"
             >{{ option.label }}</strong>
             <span
+              v-if="option.nativeName && option.nativeName !== option.label && showNativeNames"
+              :class="bemm('native-name')"
+              :data-test-id="getOptionTestId(option, index, 'native-name')"
+            >{{ option.nativeName }}</span>
+            <span
               v-if="showDescriptions && option.description"
               :class="bemm('description')"
               :data-test-id="getOptionTestId(option, index, 'description')"
@@ -147,6 +159,7 @@
         :options="option.children ?? []"
         :show-descriptions="showDescriptions"
         :show-flags="showFlags"
+        :show-native-names="showNativeNames"
         :show-selection-indicator="showSelectionIndicator"
         :test-id="getOptionTestId(option, index, 'children')"
         @select="emit('select', $event)"
@@ -180,6 +193,7 @@ const props = withDefaults(defineProps<{
   options: LanguageSwitchOption[]
   showDescriptions?: boolean
   showFlags?: boolean
+  showNativeNames?: boolean
   showSelectionIndicator?: boolean
   testId?: string
 }>(), {
@@ -187,6 +201,7 @@ const props = withDefaults(defineProps<{
   level: 0,
   showDescriptions: false,
   showFlags: true,
+  showNativeNames: true,
   showSelectionIndicator: true,
   testId: undefined,
 })
@@ -359,6 +374,13 @@ function optionClasses(option: LanguageSwitchOption) {
   &__label {
     font-size: 0.95rem;
     line-height: 1.2;
+  }
+
+  &__native-name {
+    color: color-mix(in srgb, var(--color-foreground), transparent 40%);
+    font-size: 0.84rem;
+    font-style: italic;
+    line-height: 1.3;
   }
 
   &__description {

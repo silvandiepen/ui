@@ -1,6 +1,6 @@
 {
   "name": "@sil/ui",
-  "version": "2.3.2",
+  "version": "2.3.4",
   "type": "module",
   "description": "Shared UI components for SIL applications",
   "repository": {
