@@ -17,7 +17,7 @@
     $lower: string.to-lower-case($char);
     $upper: string.to-upper-case($char);
 
-    $is-separator: $char == " " or $char == "_" or $char == "-" or $char == "." or $char == "#" or $char == ":" or $char == "[" or $char == "]" or $char == "(" or $char == ")" or $char == ",";
+    $is-separator: $char == " " or $char == "_" or $char == "-" or $char == "." or $char == "#" or $char == ":" or $char == "[" or $char == "]" or $char == "(" or $char == ")" or $char == "," or $char == "=" or $char == "'" or $char == '"';
 
     @if $is-separator {
       @if $result != "" and $last-was-separator == false {
