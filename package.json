@@ -29,8 +29,13 @@
       "import": "./src/vite/theme.js",
       "default": "./src/vite/theme.js"
     },
+    "./popup": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/components/Feedback/Popup/index.ts"
+    },
     "./style.css": "./dist/style.css",
-    "./styles": "./src/styles/main.scss",
+    "./styles": "./src/styles/styles.scss",
+    "./styles/styles.scss": "./src/styles/styles.scss",
     "./styles/main.scss": "./src/styles/main.scss",
     "./defaults": "./src/styles/_defaults.scss",
     "./styles/_main": "./src/styles/main.scss",

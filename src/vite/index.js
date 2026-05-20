@@ -12,7 +12,7 @@ import {
   UI_THEME_FONT_PRESETS,
 } from './theme.js'
 
-const SIL_UI_MAIN_STYLES_PATH = normalizePath(fileURLToPath(new URL('../styles/main.scss', import.meta.url)))
+const SIL_UI_STYLES_PATH = normalizePath(fileURLToPath(new URL('../styles/styles.scss', import.meta.url)))
 const SIL_UI_SRC_PATH = normalizePath(fileURLToPath(new URL('..', import.meta.url)))
 const SIL_UI_COMPONENTS_PATH = normalizePath(fileURLToPath(new URL('../components', import.meta.url)))
 
@@ -83,7 +83,7 @@ export function ui(_options = {}) {
     // Resolve '@sil/ui/styles' to the actual main.scss path
     resolveId(id) {
       if (id === '@sil/ui/styles' || id === 'virtual:sil-ui/theme' || id === 'virtual:sil-ui/styles.css') {
-        return SIL_UI_MAIN_STYLES_PATH
+        return SIL_UI_STYLES_PATH
       }
       return null
     },
