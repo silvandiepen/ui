@@ -4,7 +4,31 @@
     :data-test-id="testId"
   >
     <div
-      v-for="(option, index) in options"
+      v-if="filterable && level === 0"
+      :class="bemm('filter')"
+    >
+      <input
+        ref="filterInputRef"
+        v-model="filterQuery"
+        :class="bemm('filter-input')"
+        :placeholder="filterPlaceholder"
+        type="text"
+        autocomplete="off"
+        @keydown.escape="filterQuery = ''"
+      />
+      <span
+        v-if="filterQuery"
+        :class="bemm('filter-clear')"
+        role="button"
+        tabindex="0"
+        @click="filterQuery = ''"
+      >
+        <Icon name="wayfinding/cross" />
+      </span>
+    </div>
+
+    <div
+      v-for="(option, index) in filteredOptions"
       :key="option.value ?? `${level}-${option.label}-${index}`"
       :class="entryClasses(option)"
       :data-test-id="getOptionTestId(option, index, 'entry')"
@@ -40,9 +64,7 @@
               v-else-if="getLanguageSwitchFlagEmoji(option)"
               :class="bemm('flag-emoji')"
               :data-test-id="getOptionTestId(option, index, 'flag-emoji')"
-            >
-              {{ getLanguageSwitchFlagEmoji(option) }}
-            </span>
+            >{{ getLanguageSwitchFlagEmoji(option) }}</span>
           </span>
 
           <span
@@ -123,9 +145,7 @@
               v-else-if="getLanguageSwitchFlagEmoji(option)"
               :class="bemm('flag-emoji')"
               :data-test-id="getOptionTestId(option, index, 'flag-emoji')"
-            >
-              {{ getLanguageSwitchFlagEmoji(option) }}
-            </span>
+            >{{ getLanguageSwitchFlagEmoji(option) }}</span>
           </span>
 
           <span
@@ -165,10 +185,18 @@
         @select="emit('select', $event)"
       />
     </div>
+
+    <div
+      v-if="filterable && level === 0 && filterQuery && filteredOptions.length === 0"
+      :class="bemm('filter-empty')"
+    >
+      No languages found
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useBemm } from 'bemm'
 
 import { Icon } from '../Icon'
@@ -189,6 +217,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<{
   activeValue?: string
+  filterable?: boolean
+  filterPlaceholder?: string
   level?: number
   options: LanguageSwitchOption[]
   showDescriptions?: boolean
@@ -198,6 +228,8 @@ const props = withDefaults(defineProps<{
   testId?: string
 }>(), {
   activeValue: undefined,
+  filterable: false,
+  filterPlaceholder: 'Search language…',
   level: 0,
   showDescriptions: false,
   showFlags: true,
@@ -211,6 +243,31 @@ const emit = defineEmits<{
 }>()
 
 const bemm = useBemm('language-switch-options')
+
+const filterQuery = ref('')
+const filterInputRef = ref<HTMLInputElement | null>(null)
+
+const filteredOptions = computed(() => {
+  if (!props.filterable || props.level !== 0 || !filterQuery.value.trim()) {
+    return props.options
+  }
+
+  const query = filterQuery.value.toLowerCase().trim()
+
+  return props.options.filter((option) => {
+    const label = option.label?.toLowerCase() ?? ''
+    const nativeName = option.nativeName?.toLowerCase() ?? ''
+    const code = option.code?.toLowerCase() ?? ''
+    const value = option.value?.toLowerCase() ?? ''
+
+    return (
+      label.includes(query)
+      || nativeName.includes(query)
+      || code.includes(query)
+      || value.includes(query)
+    )
+  })
+})
 
 function getOptionTestId(option: LanguageSwitchOption, index: number, part?: string) {
   const key = option.value ?? option.code ?? `${props.level}-${index}`
@@ -272,6 +329,64 @@ function optionClasses(option: LanguageSwitchOption) {
 
   &--level-0 {
     gap: 0.55rem;
+  }
+
+  &__filter {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+    margin-bottom: 0.2rem;
+  }
+
+  &__filter-input {
+    flex: 1;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
+    border-radius: 0.6rem;
+    background: color-mix(in srgb, var(--color-background), var(--color-foreground) 2%);
+    color: var(--color-foreground);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 150ms ease;
+
+    &::placeholder {
+      color: color-mix(in srgb, var(--color-foreground), transparent 55%);
+    }
+
+    &:focus {
+      border-color: color-mix(in srgb, var(--color-primary), transparent 40%);
+    }
+  }
+
+  &__filter-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 150ms ease;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .icon {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
+
+  &__filter-empty {
+    padding: 1rem 0;
+    text-align: center;
+    color: color-mix(in srgb, var(--color-foreground), transparent 50%);
+    font-size: 0.88rem;
   }
 
   &__entry {

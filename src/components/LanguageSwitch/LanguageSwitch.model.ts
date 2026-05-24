@@ -27,6 +27,8 @@ export interface LanguageSwitchProps {
   contextPanelClickMode?: ContextPanelClickMode
   contextPanelPosition?: ContextPanelPosition
   displayMode?: LanguageSwitchDisplayMode
+  filterable?: boolean
+  filterPlaceholder?: string
   modelValue?: string
   mode?: LanguageSwitchMode
   options: LanguageSwitchOption[]

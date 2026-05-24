@@ -83,6 +83,15 @@ body {
   scrollbar-width: thin;
 }
 
+/* Form elements: force theme colors so dark-mode browsers don't override text */
+textarea,
+input,
+select {
+  color: var(--color-foreground);
+  background-color: transparent;
+  -webkit-text-fill-color: var(--color-foreground);
+}
+
 body {
   margin: 0;
 }

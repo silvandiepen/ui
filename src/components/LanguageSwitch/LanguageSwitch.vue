@@ -21,6 +21,8 @@
 
       <LanguageSwitchOptions
         :active-value="modelValue"
+        :filterable="filterable"
+        :filter-placeholder="filterPlaceholder"
         :options="options"
         :show-descriptions="showDescriptions"
         :show-flags="showFlags"
@@ -128,6 +130,8 @@
 
         <LanguageSwitchOptions
           :active-value="modelValue"
+          :filterable="filterable"
+          :filter-placeholder="filterPlaceholder"
           :options="options"
           :show-descriptions="showDescriptions"
           :show-flags="showFlags"
@@ -173,6 +177,8 @@
 
           <LanguageSwitchOptions
             :active-value="modelValue"
+            :filterable="filterable"
+            :filter-placeholder="filterPlaceholder"
             :options="options"
             :show-descriptions="showDescriptions"
             :show-flags="showFlags"
@@ -218,6 +224,8 @@ const props = withDefaults(defineProps<LanguageSwitchProps>(), {
   contextPanelClickMode: ContextPanelClickModeEnum.SHORT,
   contextPanelPosition: ContextPanelPositionEnum.BOTTOM_ALIGN_RIGHT,
   displayMode: 'code',
+  filterable: false,
+  filterPlaceholder: 'Search language…',
   modelValue: undefined,
   mode: 'default',
   placeholder: 'Select language',
