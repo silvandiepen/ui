@@ -147,7 +147,11 @@ onUnmounted(() => {
 });
 
 const closePanel = () => (activePanel.value = false);
-const openPanel = () => {
+const openPanel = (opts?: { x?: number; y?: number }) => {
+    if (opts?.x !== undefined && opts?.y !== undefined && position === 'click') {
+        clickX.value = Math.round(opts.x);
+        clickY.value = Math.round(opts.y);
+    }
     setTimeout(() => {
         activePanel.value = true;
     }, 100);

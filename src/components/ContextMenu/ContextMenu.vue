@@ -54,7 +54,7 @@ watch(() => props.config, (newConfig, _oldConfig) => {
 
 defineExpose({
     close: () => contextMenuRef.value?.close(),
-    open: () => contextMenuRef.value?.open(),
+    open: (opts?: { x?: number; y?: number }) => contextMenuRef.value?.open(opts),
     toggle: () => contextMenuRef.value?.toggle(),
 });
 </script>

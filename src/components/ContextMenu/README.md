@@ -345,9 +345,9 @@ import { ref } from 'vue'
 import { ContextMenu } from '@tiko/ui'
 
 const contextMenuRef = ref()
-const triggerRef = ref()
 
 const rightClickMenu = {
+  position: 'click',
   menu: [
     { id: 'cut', label: 'Cut', icon: 'scissors' },
     { id: 'copy', label: 'Copy', icon: 'copy' },
@@ -358,14 +358,7 @@ const rightClickMenu = {
 }
 
 const showContextMenu = (event) => {
-  // Position the hidden trigger at mouse location
-  if (triggerRef.value) {
-    triggerRef.value.style.position = 'fixed'
-    triggerRef.value.style.left = `${event.clientX}px`
-    triggerRef.value.style.top = `${event.clientY}px`
-  }
-
-  contextMenuRef.value?.open()
+  contextMenuRef.value?.open({ x: event.clientX, y: event.clientY })
 }
 </script>
 
@@ -453,6 +446,9 @@ const menuRef = ref()
 
 // Open the menu
 menuRef.value.open()
+
+// Open at specific coordinates (requires position: 'click' in config)
+menuRef.value.open({ x: event.clientX, y: event.clientY })
 
 // Close the menu
 menuRef.value.close()
