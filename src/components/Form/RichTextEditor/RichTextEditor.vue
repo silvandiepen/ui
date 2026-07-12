@@ -42,23 +42,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef, triggerRef, watch } from 'vue'
 import { useBemm } from 'bemm'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent, type AnyExtension } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { common, createLowlight } from 'lowlight'
 
 import Icon from '../../Icon/Icon.vue'
 import type { RichTextEditorProps, RichTextFeature } from './RichTextEditor.model'
 import { DEFAULT_FEATURES } from './RichTextEditor.model'
 import { getTestId } from '../../../utils'
-
-const lowlight = createLowlight(common)
 
 const props = withDefaults(defineProps<RichTextEditorProps>(), {
   modelValue: '',
@@ -83,31 +79,54 @@ const activeFeatures = computed<RichTextFeature[]>(() =>
 
 const has = (f: RichTextFeature) => activeFeatures.value.includes(f)
 
-const editor = useEditor({
-  content: props.modelValue,
-  editable: !props.disabled && !props.readonly,
-  extensions: [
-    StarterKit.configure({
-      codeBlock: false,
-    }),
+// Syntax highlighting (tiptap code-block-lowlight + lowlight + highlight.js) is a
+// heavy dependency chain most consumers of this editor never touch. Import it lazily
+// inside onMounted, only when the codeBlock feature is actually requested, instead of
+// at module scope — otherwise just importing @sil/ui eagerly evaluates it for everyone.
+// This bypasses the `useEditor` composable (which needs its full extension list up
+// front) in favor of driving `@tiptap/core`'s `Editor` directly, mirroring what
+// `useEditor` does internally: a shallowRef updated via `triggerRef` on transactions.
+const editor = shallowRef<Editor>()
+
+function buildExtensions(codeBlockExtension?: AnyExtension): AnyExtension[] {
+  return [
+    StarterKit.configure({ codeBlock: false }),
     Underline,
     Link.configure({ openOnClick: false }),
     Image,
     Placeholder.configure({ placeholder: props.placeholder ?? 'Start typing…' }),
-    CodeBlockLowlight.configure({ lowlight }),
-  ],
-  onUpdate({ editor }) {
-    if (settingContent.value) return
-    emit('update:modelValue', editor.getHTML())
-  },
-  onFocus() {
-    isFocused.value = true
-    emit('focus')
-  },
-  onBlur() {
-    isFocused.value = false
-    emit('blur')
-  },
+    ...(codeBlockExtension ? [codeBlockExtension] : []),
+  ]
+}
+
+onMounted(async () => {
+  let codeBlockExtension: AnyExtension | undefined
+  if (has('codeBlock')) {
+    const [{ default: CodeBlockLowlight }, { common, createLowlight }] = await Promise.all([
+      import('@tiptap/extension-code-block-lowlight'),
+      import('lowlight'),
+    ])
+    codeBlockExtension = CodeBlockLowlight.configure({ lowlight: createLowlight(common) })
+  }
+
+  editor.value = new Editor({
+    content: props.modelValue,
+    editable: !props.disabled && !props.readonly,
+    extensions: buildExtensions(codeBlockExtension),
+    onUpdate: ({ editor }) => {
+      if (settingContent.value) return
+      emit('update:modelValue', editor.getHTML())
+    },
+    onFocus: () => {
+      isFocused.value = true
+      emit('focus')
+    },
+    onBlur: () => {
+      isFocused.value = false
+      emit('blur')
+    },
+    onTransaction: () => triggerRef(editor),
+  })
 })
 
 watch(() => props.modelValue, (val) => {
