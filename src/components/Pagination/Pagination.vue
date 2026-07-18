@@ -11,13 +11,13 @@
 		>
 			<label
 				:class="bemm('label')"
-				for="pagination-size-select"
+				:for="sizeSelectId"
 				:data-test-id="getTestId(props.testId, 'size-label')"
 			>
 				Items per page
 			</label>
 			<select
-				id="pagination-size-select"
+				:id="sizeSelectId"
 				:class="bemm('select')"
 				:data-test-id="getTestId(props.testId, 'size-select')"
 				:value="String(internalPageSize)"
@@ -41,6 +41,7 @@
 				v-if="showPrev"
 				variant="ghost"
 				:disabled="isFirstPage"
+				aria-label="Previous page"
 				@click="goPrev"
 				:icon="Icons.ARROWS_CHEVRON_LEFT"
 				:test-id="getTestId(props.testId, 'prev')"
@@ -61,6 +62,8 @@
 								item === internalCurrentPage ? 'active' : '',
 							])
 						"
+						:aria-current="item === internalCurrentPage ? 'page' : undefined"
+						:aria-label="`Page ${item}`"
 						:data-test-id="getTestId(props.testId, `page-${item}`)"
 						@click="setPage(item)"
 					>
@@ -78,6 +81,7 @@
 				v-if="showNext"
 				variant="ghost"
 				:disabled="isLastPage"
+				aria-label="Next page"
 				:icon="Icons.ARROWS_CHEVRON_RIGHT"
 				:test-id="getTestId(props.testId, 'next')"
 				@click="goNext"
@@ -91,13 +95,13 @@
 		>
 			<label
 				:class="bemm('label')"
-				for="pagination-jumper"
+				:for="jumperId"
 				:data-test-id="getTestId(props.testId, 'jumper-label')"
 			>
 				Go to page
 			</label>
 			<input
-				id="pagination-jumper"
+				:id="jumperId"
 				:class="bemm('input')"
 				:data-test-id="getTestId(props.testId, 'jumper-input')"
 				type="number"
@@ -128,6 +132,7 @@ import type {
 	PaginationProps,
 } from './Pagination.model';
 import { getTestId } from '../../utils/testId';
+import { useId } from '../../composables/useId';
 
 defineOptions({
 	name: 'ArPagination',
@@ -153,6 +158,10 @@ const bemm = useBemm('ui-pagination', {
 	return: 'string',
 	includeBaseClass: true,
 });
+
+// Unique per-instance ids so multiple Paginations on one page don't collide.
+const sizeSelectId = useId();
+const jumperId = useId();
 
 const initialPage = props.currentPage || props.value || 1;
 const initialPageSize =

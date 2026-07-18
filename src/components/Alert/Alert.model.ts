@@ -15,4 +15,6 @@ export interface AlertProps {
   description?: string
   dismissible?: boolean
   icon?: string
+  /** Accessible label for the dismiss button. */
+  dismissLabel?: string
 }
