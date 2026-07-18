@@ -63,22 +63,22 @@ const bemm = useBemm('form-config-step-nav')
 
     &--active {
       .form-config-step-nav__step-number {
-        background-color: var(--color-primary, #3b82f6);
-        color: var(--color-primary-foreground, #fff);
-        border-color: var(--color-primary, #3b82f6);
+        background-color: var(--color-primary);
+        color: var(--color-primary-text);
+        border-color: var(--color-primary);
       }
 
       .form-config-step-nav__step-title {
-        color: var(--color-primary, #3b82f6);
+        color: var(--color-primary);
         font-weight: 600;
       }
     }
 
     &--completed {
       .form-config-step-nav__step-number {
-        background-color: var(--color-primary, #3b82f6);
-        color: var(--color-primary-foreground, #fff);
-        border-color: var(--color-primary, #3b82f6);
+        background-color: var(--color-primary);
+        color: var(--color-primary-text);
+        border-color: var(--color-primary);
         opacity: 0.7;
       }
     }
@@ -125,7 +125,7 @@ const bemm = useBemm('form-config-step-nav')
     transition: background-color 0.2s;
 
     &--completed {
-      background-color: var(--color-primary, #3b82f6);
+      background-color: var(--color-primary);
       opacity: 0.7;
     }
 
