@@ -2,6 +2,8 @@
   <Card
     :class="blockClasses"
     :color="variant as unknown as Colors"
+    :role="ariaRole"
+    :aria-live="ariaLive"
     :test-id="testId"
   >
     <div
@@ -31,7 +33,9 @@
       </div>
       <button
         v-if="dismissible"
+        type="button"
         :class="bemm('dismiss')"
+        :aria-label="dismissLabel"
         :data-test-id="getTestId(props.testId, 'dismiss')"
         @click="handleDismiss"
       >
@@ -60,11 +64,14 @@ interface Props {
   description?: string
   dismissible?: boolean
   icon?: string
+  /** Accessible label for the dismiss button. */
+  dismissLabel?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: AlertVariant.INFO,
-  dismissible: false
+  dismissible: false,
+  dismissLabel: 'Dismiss'
 })
 
 const emit = defineEmits<{
@@ -86,6 +93,14 @@ const iconName = computed(() => {
 
   return iconMap[props.variant]
 })
+
+// Errors interrupt (assertive + alert); other variants announce politely.
+const ariaRole = computed(() => (props.variant === AlertVariant.ERROR ? 'alert' : 'status'))
+const ariaLive = computed(() =>
+  props.variant === AlertVariant.ERROR || props.variant === AlertVariant.WARNING
+    ? 'assertive'
+    : 'polite'
+)
 
 const handleDismiss = () => {
   emit('dismiss')
