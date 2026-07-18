@@ -40,6 +40,11 @@ export interface HeaderSearchProps {
    * Leading icon used for the trigger button and expanded input shell.
    * @default 'button-search2'
    */
+  icon?: string
+
+  /**
+   * @deprecated Use `icon` instead. Kept as an alias for one release.
+   */
   iconName?: string
 
   /**
