@@ -356,7 +356,7 @@ function handleSimpleSelect(
     }
 
     &:focus {
-      outline: 2px solid var(--color-primary);
+      outline: 2px solid var(--color-focus);
       outline-offset: 2px;
     }
   }

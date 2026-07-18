@@ -39,6 +39,10 @@
 	}
 
 	--color-accent: var(--color-foreground);
+
+	// Focus indicator color. Consumers may override; components read this
+	// (never a raw palette color) so keyboard focus stays consistent.
+	--color-focus: var(--color-primary);
 }
 
 // ── Dark / Light mode ─────────────────────────────────────────────────

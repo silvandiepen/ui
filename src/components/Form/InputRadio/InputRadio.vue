@@ -123,7 +123,7 @@ const handleInputChange = (e: Event) => {
 				box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-primary), var(--color-background) 80%);
 
 				[data-contrast-mode] & {
-					outline: 2px solid color-mix(in srgb, var(--primar), var(--color-background) 50%);
+					outline: 2px solid var(--color-focus);
 					box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-primary), var(--color-background) 50%);
 				}
 			}

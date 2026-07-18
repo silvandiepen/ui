@@ -180,3 +180,17 @@
     );
   }
 }
+
+/// Consistent keyboard focus indicator.
+/// Reads the themeable `--color-focus` token (never a raw palette color)
+/// so every interactive component focuses the same way. Applied on
+/// `:focus-visible` by default; pass a selector to change the trigger.
+///
+/// @example
+///   .my-control { @include focus-ring; }
+@mixin focus-ring($selector: '&:focus-visible', $width: 2px, $offset: 2px) {
+  #{$selector} {
+    outline: $width solid var(--color-focus, var(--color-primary));
+    outline-offset: $offset;
+  }
+}
