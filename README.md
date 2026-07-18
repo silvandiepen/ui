@@ -40,7 +40,7 @@ import { Button, Card, Field, PlatformHeader, StatusBadge } from "@sil/ui";
 
 ```ts
 import Input from "@sil/ui/src/components/Input/Input.vue";
-import Select from "@sil/ui/src/components/Select/Select.vue";
+import InputSelect from "@sil/ui/src/components/Form/InputSelect/InputSelect.vue";
 ```
 
 The deep-import pattern above is transitional. Prefer moving components to the root export surface once their API is stable across apps.

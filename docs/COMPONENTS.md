@@ -64,7 +64,7 @@ This document describes the current shared component surface in `@sil/ui`.
 These are shared code, but the API is still being normalized. Prefer root exports for new work when possible.
 
 - `Input`: `@sil/ui/src/components/Input/Input.vue` legacy primitive. Prefer the root `InputText` export for regular text fields.
-- `Select`: `@sil/ui/src/components/Select/Select.vue`
+- `InputSelect`: `@sil/ui/src/components/Form/InputSelect/InputSelect.vue`
 
 ## Usage Pattern
 
