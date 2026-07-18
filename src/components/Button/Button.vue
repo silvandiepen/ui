@@ -8,6 +8,7 @@
     :type="buttonType"
     :style="buttonStyles"
     :title="tooltip"
+    :aria-label="accessibleName"
     :data-test-id="props.testId"
     v-bind="$attrs"
   >
@@ -57,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots, ref, watch } from 'vue'
+import { computed, useSlots, ref, watch, watchEffect } from 'vue'
 import { useBemm } from 'bemm'
 import Icon from '../Icon/Icon.vue'
 import { getTestId } from '../../utils/testId'
@@ -139,6 +140,23 @@ watch(
 )
 
 const hasSlot = computed((): boolean => !!slots?.default)
+
+// Accessible name for the control. Icon-only buttons have no visible text,
+// so fall back to the tooltip and warn in dev when nothing names the button.
+const accessibleName = computed(() =>
+  props.ariaLabel || (props.iconOnly ? props.tooltip : undefined)
+)
+
+if ((import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV) {
+  watchEffect(() => {
+    if (props.iconOnly && !props.ariaLabel && !props.tooltip && !hasSlot.value) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[UIButton] An `iconOnly` button has no accessible name. Set `ariaLabel` (or `tooltip`) so screen readers announce more than "button".'
+      )
+    }
+  })
+}
 
 // Computed properties for component rendering
 const componentTag = computed(() => {

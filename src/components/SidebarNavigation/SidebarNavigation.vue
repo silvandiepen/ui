@@ -458,7 +458,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid var(--color-primary);
+      outline: 2px solid var(--color-focus);
       outline-offset: 2px;
       border-radius: calc(var(--border-radius, 1rem) * 0.4);
     }
@@ -538,7 +538,7 @@ function getSectionItemsId(section: SidebarNavigationProps['sections'][number]) 
     }
 
     &:focus-visible {
-      outline: 2px solid var(--color-primary);
+      outline: 2px solid var(--color-focus);
       outline-offset: 2px;
     }
 

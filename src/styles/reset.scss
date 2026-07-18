@@ -25,3 +25,10 @@ img,
 figure {
 	margin: 0;
 }
+
+/* Baseline keyboard focus indicator. Components may override, but every
+   focusable element gets a consistent, themeable ring by default. */
+:focus-visible {
+	outline: 2px solid var(--color-focus, var(--color-primary));
+	outline-offset: 2px;
+}
