@@ -65,4 +65,9 @@ export interface ButtonProps {
   color?: Colors;
   /** Tooltip text to display on hover */
   tooltip?: string;
+  /**
+   * Accessible name for the control. Required in practice when `iconOnly` is
+   * set (there is no visible text to name the button); falls back to `tooltip`.
+   */
+  ariaLabel?: string;
 }
