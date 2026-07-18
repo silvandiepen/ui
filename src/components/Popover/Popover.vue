@@ -169,8 +169,7 @@ const panelStyle = computed(() => {
 		position: absolute;
 		z-index: m.p('panel-z-index', 30);
 		background: var(--color-background);
-		border: 1px solid
-			color-mix(in srgb, var(--color-foreground), transparent 86%);
+		border: m.p('border', none);
 		border-radius: var(--border-radius);
 		box-shadow: m.p('panel-shadow', 0 12px 32px color-mix(in srgb, var(--color-foreground), transparent 88%));
 		padding: var(--space-s);

@@ -255,6 +255,8 @@ function toSwitchItems(options: FormConfigOption[] | undefined): SwitchItem[] {
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .form-config-field {
   &--section {
     h4 {
@@ -271,7 +273,7 @@ function toSwitchItems(options: FormConfigOption[] | undefined): SwitchItem[] {
 
   &--divider {
     border: none;
-    border-top: var(--border-width, 1px) solid var(--color-border, currentColor);
+    border-top: m.p('divider-border', none);
     margin: 0;
     opacity: 0.2;
   }

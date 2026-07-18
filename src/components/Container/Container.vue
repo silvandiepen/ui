@@ -120,6 +120,8 @@ const containerStyle = computed(() => ({
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .container {
   width: 100%;
   max-width: var(--int-container-max-width);
@@ -133,7 +135,7 @@ const containerStyle = computed(() => ({
 
   &__header {
     padding: var(--int-container-padding);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: m.p('header-border', none);
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: start;
@@ -235,7 +237,7 @@ const containerStyle = computed(() => ({
 
   &__footer {
     padding: var(--int-container-padding);
-    border-top: 1px solid var(--color-border);
+    border-top: m.p('footer-border', none);
     display: flex;
     flex-direction: column;
     gap: var(--space-m);

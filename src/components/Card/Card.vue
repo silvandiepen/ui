@@ -154,7 +154,9 @@ const badgeStyles = computed(() => {
 
 .card {
   background: m.p('background-color', var(--color-background));
-  border: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 75%));
+  // Borderless by default. Opt in with `--card-border` (public) or a
+  // variant that sets `--int-card-border`.
+  border: m.p('border', none);
   color: m.p('text-color', var(--color-foreground));
   border-radius: m.p('radius', var(--border-radius));
   position: relative;
@@ -165,7 +167,6 @@ const badgeStyles = computed(() => {
 
   &--has-color{
     --card-background-color: color-mix(in srgb , var(--card-color), transparent 90%);
-    --card-border-color: color-mix(in srgb , var(--card-color), transparent 25%);
     --card-text-color: color-mix(in srgb , var(--card-color), transparent 0%);
   }
 
@@ -180,8 +181,8 @@ const badgeStyles = computed(() => {
   }
 
   &--featured {
-    border-color: var(--color-primary);
-    border-width: 2px;
+    // Opt-in bordered variant.
+    --int-card-border: 2px solid var(--color-primary);
   }
 
   &--elevated {
@@ -234,7 +235,8 @@ const badgeStyles = computed(() => {
     justify-content: space-between;
     gap: var(--space);
     padding: m.p('header-padding', var(--space) var(--space));
-    border-bottom: 1px solid m.p('header-border-color', color-mix(in srgb, var(--color-foreground), transparent 85%));
+    // Divider off by default; enable with `--card-header-border`.
+    border-bottom: m.p('header-border', none);
     background-color: var(--card-header-background, transparent);
     border-radius: m.p('radius', var(--border-radius)) m.p('radius', var(--border-radius)) 0 0;
 
@@ -272,7 +274,8 @@ const badgeStyles = computed(() => {
     display: flex;
     align-items: center;
     padding: m.p('footer-padding', var(--space-l) var(--space-m));
-    border-top: 1px solid m.p('border-color', color-mix(in srgb, var(--color-foreground), transparent 75%));
+    // Divider off by default; enable with `--card-footer-border`.
+    border-top: m.p('footer-border', none);
 
     &--no-padding {
       padding: 0;

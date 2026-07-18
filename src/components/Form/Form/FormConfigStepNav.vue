@@ -43,6 +43,8 @@ const bemm = useBemm('form-config-step-nav')
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .form-config-step-nav {
   display: flex;
   align-items: center;
@@ -98,6 +100,8 @@ const bemm = useBemm('form-config-step-nav')
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
+    // Step indicator ring is an intrinsic control mark (state shown via
+    // border-color on the modifiers below), not container chrome.
     border: 2px solid currentColor;
     display: flex;
     align-items: center;

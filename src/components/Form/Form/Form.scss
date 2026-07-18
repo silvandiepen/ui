@@ -1,4 +1,5 @@
 @use '../../../styles/media.scss' as media;
+@use '../../../styles/mixins' as m;
 
 @function line-gradient($direction: to right, $color: currentColor, $width: 2px, $position: middle) {
 	@if $position ==start {
@@ -73,7 +74,7 @@
 	&__error {
 		background-color: color-mix(in srgb, var(--color-error), var(--color-background) 80%);
 		border-radius: var(--border-radius);
-		border: 1px solid color-mix(in srgb, var(--color-error), var(--color-background) 50%);
+		border: m.p('border', none);
 		color: color-mix(in srgb, var(--color-error), var(--color-foreground) 50%);
 		animation: popInError 0.3s var(--bezier);
 		transform-origin: 0 0;
@@ -463,7 +464,7 @@
 
 		scrollbar-color: var(--color-accent) var(--color-background);
 		flex-wrap: wrap;
-		border: 1px solid var(--color-accent);
+		border: m.p('border', none);
 		max-height: 200px;
 		scrollbar-gutter: stable;
 		overflow-y: auto;
@@ -481,7 +482,7 @@
 
 	&__control-item {
 		position: relative;
-		border: 1px solid var(--color-accent);
+		border: m.p('border', none);
 		border-radius: var(--border-radius);
 
 		&:hover:not([class*='--active']) #{$b}__control-preview {
@@ -571,7 +572,7 @@
 		max-height: 300px;
 		transition: max-height 0.3s ease-in-out;
 		overflow: hidden;
-		border: 1px solid var(--color-accent);
+		border: m.p('border', none);
 		padding: var(--space-s);
 
 		#{$b}--collapsed & {

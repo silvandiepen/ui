@@ -148,6 +148,8 @@ function rowStyle(index: number) {
 </template>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ikki-sidebar {
   --ikki-sidebar-width: 280px;
   --ikki-sidebar-surface: var(--color-primary);
@@ -343,7 +345,7 @@ function rowStyle(index: number) {
     font-size: var(--font-size-xs);
     color: var(--ikki-sidebar-footer-color);
     padding: var(--space-s) var(--space);
-    border-top: 1px solid var(--ikki-sidebar-footer-color);
+    border-top: m.p('top-border', none);
     flex-shrink: 0;
     border-radius: 0 0 var(--border-radius-l) var(--border-radius-l);
   }

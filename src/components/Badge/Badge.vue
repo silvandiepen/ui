@@ -42,6 +42,8 @@ const blockStyles = computed(()=>{
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .badge {
 
   --badge-background-color: color-mix(in srgb, var(--badge-color, var(--color-primary)), transparent 75%);
@@ -50,6 +52,7 @@ const blockStyles = computed(()=>{
 
   background: var(--badge-background-color);
   color: var(--badge-text-color);
+  border: m.p('border', none);
   display: inline-flex;
   align-items: center;
   padding: var(--badge-padding, var(--space-xs) var(--space-s));
@@ -68,7 +71,7 @@ const blockStyles = computed(()=>{
 
   &[data-variant="outline"] {
     background: transparent;
-    border: 1px solid currentColor;
+    --int-badge-border: 1px solid var(--badge-color, currentColor);
   }
 
   &[data-size="small"] {

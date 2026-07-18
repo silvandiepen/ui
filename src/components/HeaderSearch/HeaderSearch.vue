@@ -219,6 +219,8 @@ defineExpose<HeaderSearchExposed>({
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .header-search {
   position: relative;
   flex: 0 0 auto;
@@ -253,7 +255,7 @@ defineExpose<HeaderSearchExposed>({
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid var(--border-color, var(--color-accent));
+    border: m.p('trigger-border', none);
     border-radius: var(--border-radius);
     background: color-mix(in srgb, var(--color-foreground), transparent 97%);
     color: var(--color-foreground);
@@ -280,7 +282,7 @@ defineExpose<HeaderSearchExposed>({
     width: 100%;
     min-width: 0;
     padding: 0.35rem 0.5rem 0.35rem 0.8rem;
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+    border: m.p('shell-border', none);
     border-radius: 999px;
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 3%);
     transition:
@@ -345,7 +347,7 @@ defineExpose<HeaderSearchExposed>({
     max-height: min(70vh, 34rem);
     overflow: auto;
     padding: 0.55rem;
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+    border: m.p('border', none);
     border-radius: 1rem;
     background: color-mix(in srgb, var(--color-background), var(--color-foreground) 2%);
     box-shadow: 0 1.2rem 3rem color-mix(in srgb, var(--color-foreground), transparent 90%);

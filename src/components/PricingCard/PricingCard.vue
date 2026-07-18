@@ -156,7 +156,8 @@ function getBadgeColor() {
   flex-direction: column;
 
   &--highlighted {
-    border: 2px solid var(--color-primary);
+    // Drives the wrapped Card's public border knob (custom props inherit).
+    --card-border: 2px solid var(--color-primary);
     box-shadow: 0 8px 24px color-mix(in srgb, var(--color-primary), transparent 85%);
   }
 

@@ -149,6 +149,8 @@ function getItemKey(item: FloatingHeaderNavItem): string {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .floating-header {
   --int-floating-header-surface-color: var(--color-background);
   --int-floating-header-content-color: var(--color-foreground);
@@ -157,7 +159,6 @@ function getItemKey(item: FloatingHeaderNavItem): string {
   --floating-header-max-width: max(fit-content, 1024px);
   --floating-header-shell-padding: 0.9rem 1rem;
   --floating-header-shell-radius: 999px;
-  --floating-header-shell-border: 1px solid color-mix(in srgb, var(--int-floating-header-content-color), transparent 90%);
   --floating-header-shell-background: color-mix(in srgb, var(--int-floating-header-surface-color), transparent 90%);
   --floating-header-shell-shadow: 0 18px 42px color-mix(in srgb, var(--int-floating-header-content-color), transparent 92%);
   --floating-header-shell-backdrop: blur(16px);
@@ -242,7 +243,7 @@ function getItemKey(item: FloatingHeaderNavItem): string {
     align-items: center;
     gap: 1rem;
     padding: var(--floating-header-shell-padding);
-    border: var(--floating-header-shell-border);
+    border: m.p('border', none);
     border-radius: var(--floating-header-shell-radius);
     background: var(--floating-header-shell-background);
     box-shadow: var(--floating-header-shell-shadow);

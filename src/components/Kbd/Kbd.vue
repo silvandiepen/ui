@@ -50,8 +50,7 @@ const blockClasses = computed(() => [
   min-width: m.p("min-size", calc(var(--space) * 1.75));
   min-height: m.p("min-size", calc(var(--space) * 1.75));
   padding: m.p("padding", var(--space-xs) calc(var(--space-xs) * 1.75));
-  border: 1px solid
-    m.p("border-color", color-mix(in srgb, var(--color-foreground), transparent 84%));
+  border: m.p("border", none);
   border-bottom-width: 2px;
   border-radius: m.p("border-radius", var(--border-radius-l));
   background: m.p(

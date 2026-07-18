@@ -84,6 +84,8 @@ const resolveToastIcon = (toast: ToastInstance) => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 // ── Containers ────────────────────────────────────────────────────────────────
 
 .toast-container {
@@ -168,7 +170,7 @@ const resolveToastIcon = (toast: ToastInstance) => {
   gap: var(--space-s, 0.75rem);
   width: 100%;
   padding: var(--space-m, 1rem);
-  border: 1px solid var(--toast-border-color);
+  border: m.p('border', none);
   border-radius: var(--border-radius-m);
   background: var(--toast-background-color);
   color: var(--toast-text-color);

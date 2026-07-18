@@ -126,7 +126,7 @@ const shuffleArray = (array: number[]): number[] => {
   &__button {
     aspect-ratio: 1;
     min-height: var(--space-xl);
-    border: 2px solid var(--color-primary);
+    border: m.p('button-border', none);
     border-radius: var(--border-radius);
     background-color: var(--color-background);
     color: var(--color-foreground);

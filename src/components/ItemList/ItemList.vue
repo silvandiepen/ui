@@ -140,6 +140,8 @@ const handleActionClick = (item: ItemListItem, action: ItemListAction) => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-item-list {
 	$b: &;
 
@@ -156,8 +158,7 @@ const handleActionClick = (item: ItemListItem, action: ItemListAction) => {
 		display: flex;
 		align-items: center;
 		gap: var(--space-s);
-		border: 1px solid
-			color-mix(in srgb, var(--color-foreground), transparent 86%);
+		border: m.p('item-border', none);
 		border-radius: var(--border-radius);
 		background: var(--color-background);
 		transition:

@@ -43,16 +43,13 @@ const bemm = useBemm('id-view', {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .id-view {
 	--id-view-background: color-mix(
 		in srgb,
 		var(--color-secondary),
 		var(--color-background) 95%
-	);
-	--id-view-border: color-mix(
-		in srgb,
-		var(--color-secondary),
-		var(--color-background) 80%
 	);
 
 	--id-view-color: color-mix(
@@ -62,7 +59,7 @@ const bemm = useBemm('id-view', {
 	);
 
 	background-color: var(--id-view-background);
-	border: 1px solid var(--id-view-border);
+	border: m.p('border', none);
 	color: var(--id-view-color);
 	font-weight: 600;
 	border-radius: var(--border-radius);

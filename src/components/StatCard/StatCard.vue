@@ -237,6 +237,8 @@ function getFractionDigits(value: number) {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .stat-card {
   --stat-card-color: var(--color-primary);
   --stat-card-border-color: color-mix(in srgb, var(--stat-card-color), transparent 74%);
@@ -260,7 +262,7 @@ function getFractionDigits(value: number) {
   gap: clamp(1rem, 2vw, 1.5rem);
   min-height: 14rem;
   padding: clamp(1.25rem, 2vw, 2rem);
-  border: 1px solid var(--stat-card-border-color);
+  border: m.p('border', none);
   border-radius: var(--border-radius-l);
   background: var(--stat-card-background);
   box-shadow:

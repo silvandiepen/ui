@@ -432,7 +432,7 @@ initOptions();
     width: 100%;
     height: fit-content;
     max-height: m.p('options-max-height', 10em);
-    border: none;
+    border: m.p('options-border', none);
 		scrollbar-width: thin;
     scrollbar-color: var(--color-primary) transparent;
 		position: relative;

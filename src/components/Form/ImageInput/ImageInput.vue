@@ -131,7 +131,7 @@ const clearImage = () => {
     height: m.p('preview-size', 8em);
     border-radius: calc(var(--border-radius) / 2);
     overflow: hidden;
-    border: 1px solid var(--color-accent);
+    border: m.p('preview-border', none);
     background-color: var(--current-color);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -186,7 +186,7 @@ const clearImage = () => {
     gap: m.p('placeholder-gap', var(--space-s));
     padding: m.p('placeholder-padding', var(--space-l));
     background: var(--color-background);
-    border: 2px dashed var(--color-accent);
+    border: m.p('placeholder-border', none);
     border-radius: m.p('placeholder-border-radius', var(--border-radius));
     color: var(--color-text-secondary);
     cursor: pointer;

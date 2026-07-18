@@ -68,7 +68,7 @@ const iconName = computed(() => {
   justify-content: center;
   width: m.p('size', calc(var(--space) * 2.5));
   height: m.p('size', calc(var(--space) * 2.5));
-  border: 1px solid var(--border-color, var(--color-accent));
+  border: m.p('border', none);
   border-radius: var(--border-radius);
   background: color-mix(in srgb, var(--color-foreground), transparent 97%);
   color: var(--color-foreground);
