@@ -926,6 +926,8 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-data-list {
 	$b: &;
 	display: flex;
@@ -956,8 +958,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 	);
 
 	border-radius: var(--border-radius);
-	border: 1px solid
-		var(--datalist-table-border-color, var(--int-datalist-border-color));
+	border: m.p('border', none);
 	box-shadow: 0 0 10px 0
 		color-mix(
 			in srgb,
@@ -1011,7 +1012,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 	}
 
 	&__header {
-		border-bottom: 1px solid var(--int-datalist-border-color);
+		border-bottom: m.p('header-border', none);
 		padding: 0 0 var(--space-xs);
 		border-radius: var(--int-datalist-border-radius)
 			var(--int-datalist-border-radius) 0 0;
@@ -1028,7 +1029,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 
 	&__row {
 		--int-datalist-row-accent: var(--datalist-row-accent, transparent);
-		border-bottom: 1px solid var(--int-datalist-border-color);
+		border-bottom: m.p('row-border', none);
 		cursor: pointer;
 		transition:
 			box-shadow 0.2s ease,
@@ -1212,8 +1213,7 @@ const onRowClick = (event: MouseEvent, row: DataListRow, rowIndex: number) => {
 		justify-content: flex-end;
 		gap: var(--space-xs);
 		padding-top: var(--space-xs);
-		border-top: 1px solid
-			color-mix(in srgb, var(--color-foreground), transparent 90%);
+		border-top: m.p('footer-border', none);
 	}
 
 	&__column-menu-reset,

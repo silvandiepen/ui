@@ -183,10 +183,12 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .collapsible {
   display: grid;
   gap: 0;
-  border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 88%);
+  border: m.p('border', none);
   border-radius: calc(var(--border-radius, 1rem) * 0.9);
   background:
     linear-gradient(
@@ -307,7 +309,7 @@ defineExpose({
 
   &__content {
     padding: 0 1rem 1rem;
-    border-top: 1px solid color-mix(in srgb, var(--color-foreground), transparent 92%);
+    border-top: m.p('content-border', none);
   }
 
   &--open {

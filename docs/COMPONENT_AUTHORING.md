@@ -111,6 +111,43 @@ When an internal value has a public override, define the internal default throug
 }
 ```
 
+### Borders
+
+Shared components are **borderless by default**. A component must not paint a
+border, side border, or divider unless a consumer opts in.
+
+- Never ship a hard-coded default border (`border: 1px solid …`). Route every
+  border through a public custom property that defaults to `none`.
+- Use the `p()` cascade so the border is off by default but overridable:
+
+```scss
+.card {
+  // Off by default; consumer sets `--card-border`, a variant sets `--int-card-border`.
+  border: p('border', none);
+}
+
+.card__header {
+  // Region dividers are borders too — default them off.
+  border-bottom: p('header-border', none);
+}
+
+// Opt-in bordered variant restores it via the internal tier:
+.card--featured {
+  --int-card-border: 2px solid var(--color-primary);
+}
+```
+
+- This applies to every element, not just cards and sections: inputs, list
+  rows, table cells, headers/footers, toolbars, chips, and badges all default
+  to borderless.
+- **The only default-bordered surface in the library is `Button`'s `outline`
+  variant.** It sets `--button-border` on purpose.
+- `outline` (focus rings) is not a border — keep focus indicators; they are an
+  accessibility requirement and unaffected by this rule.
+- Intrinsic control morphology that is not a container/element border — a
+  checkbox box, radio dot, range/slider thumb, color swatch ring, loading
+  spinner ring — is out of scope and may keep its border.
+
 If a prop maps a theme color onto an element, set a CSS custom property from Vue and let SCSS consume it:
 
 ```vue

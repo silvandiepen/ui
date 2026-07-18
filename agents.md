@@ -42,6 +42,7 @@ The project-facing API. Consuming apps override these to customise the component
 - Do not use `<style scoped>` in shared components.
 - Keep shared components product-neutral and push branding or route-specific behavior into app-local wrappers.
 - Reuse shared interfaces for navigation, actions, statuses, sizes, color names, and color modes.
+- **Borderless by default.** Never ship a hard-coded default border or divider. Route every border through a public custom property that defaults to `none` (e.g. `border: p('border', none)`), and let opt-in variants restore it via `--int-<component>-border`. The only exception is `Button`'s `outline` variant. Focus `outline`s and intrinsic control marks (checkbox/radio/thumb) are not borders. See `docs/COMPONENT_AUTHORING.md` → Borders.
 
 ## Vite Integration
 

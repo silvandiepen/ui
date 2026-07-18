@@ -27,9 +27,10 @@ const bemm = useBemm('note-view', {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .note-view {
-	border: 1px solid
-		var(--note-border-color, var(--int-note-border-color, var(--color-primary)));
+	border: m.p('border', none);
 	border-radius: var(
 		--note-border-radius,
 		var(--int-note-border-radius, var(--border-radius))
@@ -69,7 +70,8 @@ const bemm = useBemm('note-view', {
 	}
 
 	&--has-status {
-		--int-note-border-color: var(--note-color);
+		// Opt-in bordered variant: status Notes carry a colored border.
+		--int-note-border: 1px solid var(--note-color);
 		--int-note-background-color: color-mix(
 			in srgb,
 			var(--note-color),

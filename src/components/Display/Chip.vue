@@ -99,7 +99,7 @@ const hasTooltip = computed(() => {
 	border-radius: var(--border-radius);
 	background-color: m.p('background-color', color-mix(in srgb, var(--chip-color), var(--color-background) 95%));
 	color: m.p('text-color', color-mix(in srgb, var(--chip-color), var(--color-foreground) 50%));
-	border: 1px solid m.p('border-color', color-mix(in srgb, var(--chip-color), var(--color-background) 90%));
+	border: m.p('border', none);
 	padding: var(--space-xs) var(--space-s);
 
 	display: flex;

@@ -255,7 +255,7 @@ onBeforeUnmount(unbindMediaQuery)
     display: none;
     width: calc(var(--space) * 1.8);
     height: calc(var(--space) * 3);
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 82%);
+    border: m.p('trigger-border', none);
     background: color-mix(in srgb, var(--color-background), var(--color-primary) 6%);
     color: inherit;
     border-radius: 0 calc(var(--border-radius, 1rem) * 0.9)
@@ -309,7 +309,7 @@ onBeforeUnmount(unbindMediaQuery)
       width: m.p("mobile-panel-width", min(86vw, 22rem));
       overflow-y: auto;
       padding: var(--space);
-      border-right: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
+      border-right: m.p('right-border', none);
       background: linear-gradient(
         180deg,
         color-mix(in srgb, var(--color-background), white 22%),

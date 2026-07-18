@@ -16,6 +16,8 @@
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .table-wrapper {
   overflow-x: auto;
 }
@@ -27,7 +29,7 @@
   th, td {
     padding: var(--space-s) var(--space-m);
     text-align: left;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: m.p('cell-border', none);
   }
   
   th {

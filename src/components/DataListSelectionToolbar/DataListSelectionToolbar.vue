@@ -217,6 +217,8 @@ const handleSelectionAction = (item: DropdownItem) => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .ui-data-list-selection-toolbar {
 	display: inline-flex;
 	width: auto;
@@ -259,8 +261,7 @@ const handleSelectionAction = (item: DropdownItem) => {
 		min-width: 260px;
 		max-width: min(440px, calc(100vw - var(--space) * 2));
 		border-radius: var(--border-radius);
-		border: 1px solid
-			color-mix(in srgb, var(--color-foreground), transparent 80%);
+		border: m.p('border', none);
 		background: color-mix(in srgb, var(--color-background), transparent 4%);
 		box-shadow: 0 14px 34px color-mix(in srgb, var(--color-foreground), transparent 84%);
 		padding: var(--space-s);

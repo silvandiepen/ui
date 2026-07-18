@@ -17,12 +17,14 @@ withDefaults(defineProps<{
 </script>
 
 <style lang="scss">
+@use '../../../styles/mixins' as m;
+
 .form-actions {
   display: flex;
   gap: var(--space-s);
   margin-top: var(--space);
   padding-top: var(--space);
-  border-top: 1px solid var(--color-accent);
+  border-top: m.p('top-border', none);
 
   &--align {
     &-left {

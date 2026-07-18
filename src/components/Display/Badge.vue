@@ -65,7 +65,7 @@ const displayValue = computed(() => {
 	font-weight: m.p('font-weight', 600);
 	background: color-mix(in srgb, var(--badge-color), transparent 85%);
 	color: color-mix(in srgb, var(--badge-color), var(--color-foreground) 25%);
-	border: 1px solid var(--badge-color);
+	border: m.p('border', none);
 	flex-shrink: 0;
 	gap: var(--space);
 

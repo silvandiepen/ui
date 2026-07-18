@@ -140,6 +140,7 @@ const handleChange = (value: string) => {
 
 <style lang="scss">
 @use '../Form/Form.scss' as form;
+@use '../../../styles/mixins' as m;
 
 .input-color {
 	@include form.inputBase();
@@ -187,7 +188,7 @@ const handleChange = (value: string) => {
 
 	&__option {
 		&-container {
-			border-top: 1px solid var(--color-accent);
+			border-top: m.p('option-container-border', none);
 			position: relative;
 			z-index: 2;
 			padding: var(--space-s);

@@ -553,7 +553,7 @@ watch(model, () => {
   &__dropdown {
     position: fixed;
     background: var(--color-background);
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 86%);
+    border: m.p('dropdown-border', none);
     border-radius: var(--input-border-radius, var(--border-radius));
     box-shadow: 0 18px 42px color-mix(in srgb, var(--color-foreground), transparent 84%);
     z-index: 9999;

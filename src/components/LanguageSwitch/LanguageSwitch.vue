@@ -318,6 +318,8 @@ function handleSimpleSelect(
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .language-switch {
   display: inline-flex;
 
@@ -336,7 +338,7 @@ function handleSimpleSelect(
     width: 2.5rem;
     height: 2.5rem;
     padding: 0;
-    border: 1px solid var(--border-color, var(--color-accent));
+    border: m.p('border', none);
     border-radius: var(--border-radius);
     background: color-mix(in srgb, var(--color-foreground), transparent 97%);
     color: var(--color-foreground);

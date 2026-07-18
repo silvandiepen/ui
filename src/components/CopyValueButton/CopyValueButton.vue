@@ -65,9 +65,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
+@use '../../styles/mixins' as m;
+
 .copy-value-button {
   --copy-value-button-color: color-mix(in srgb, var(--color-foreground), transparent 34%);
-  --copy-value-button-border: color-mix(in srgb, var(--color-foreground), transparent 88%);
   --copy-value-button-background: transparent;
 
   display: inline-flex;
@@ -77,7 +78,7 @@ onBeforeUnmount(() => {
   width: 2rem;
   padding: 0;
   border-radius: 999rem;
-  border: 1px solid var(--copy-value-button-border);
+  border: m.p('border', none);
   background: var(--copy-value-button-background);
   color: var(--copy-value-button-color);
   cursor: pointer;
@@ -100,7 +101,7 @@ onBeforeUnmount(() => {
 
   &--copied {
     --copy-value-button-color: var(--color-success);
-    --copy-value-button-border: color-mix(in srgb, var(--color-success), transparent 68%);
+    --int-copy-value-button-border: 1px solid color-mix(in srgb, var(--color-success), transparent 68%);
     --copy-value-button-background: color-mix(in srgb, var(--color-success), transparent 92%);
   }
 }

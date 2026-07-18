@@ -744,7 +744,7 @@ onUnmounted(() => {
   &__surface {
     display: grid;
     gap: var(--space-s);
-    border: 1px solid m.p('surface-border', color-mix(in srgb, var(--color-foreground), transparent 85%));
+    border: m.p('surface-border', none);
     border-radius: m.p('surface-radius', var(--border-radius));
     background: m.p('surface-background', var(--color-background));
     padding: var(--space-s);
@@ -856,7 +856,7 @@ onUnmounted(() => {
     width: 100%;
     height: 2rem;
     border-radius: var(--border-radius-s);
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
+    border: m.p('preview-border', none);
   }
 
   &__field-inline {

@@ -253,7 +253,7 @@ const toolbarGroups = computed<ToolbarGroup[]>(() => {
     display: flex;
     flex-direction: column;
     background: var(--color-background);
-    border: 1px solid color-mix(in srgb, var(--color-foreground), transparent 80%);
+    border: m.p('border', none);
     border-radius: var(--border-radius);
     overflow: hidden;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;

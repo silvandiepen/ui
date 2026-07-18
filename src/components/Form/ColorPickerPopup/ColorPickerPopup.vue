@@ -114,7 +114,7 @@ const handleColorUpdate = (color: string, close: () => void) => {
     gap: m.p('trigger-gap', var(--space-s));
     padding: m.p('trigger-padding', var(--space-s));
     background: var(--color-background);
-    border: 1px solid var(--color-accent);
+    border: m.p('trigger-border', none);
     border-radius: m.p('trigger-border-radius', var(--border-radius));
     cursor: pointer;
     transition: all 0.2s ease;

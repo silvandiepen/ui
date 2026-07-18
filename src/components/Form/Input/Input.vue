@@ -234,7 +234,7 @@ const decrement = () => {
   &__field {
     width: 100%;
     padding: m.p('field-padding', calc(var(--space) * 0.75) var(--space));
-    border: 1px solid var(--color-accent);
+    border: m.p('border', none);
     border-radius: var(--border-radius);
     font-family: inherit;
     font-size: m.p('field-font-size', var(--font-size));
@@ -285,7 +285,7 @@ const decrement = () => {
     flex-direction: column;
     border-radius: var(--border-radius);
     overflow: hidden;
-    border: 1px solid var(--border-primary);
+    border: m.p('border', none);
   }
 
   &__spinner {
@@ -309,7 +309,7 @@ const decrement = () => {
     }
 
     &--up {
-      border-bottom: 1px solid var(--border-primary);
+      border-bottom: m.p('spinner-border', none);
     }
   }
 
