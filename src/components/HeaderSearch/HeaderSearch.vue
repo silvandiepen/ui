@@ -22,11 +22,11 @@
           :data-test-id="getTestId(props.testId, 'trigger')"
           @click="openSearch"
         >
-          <Icon :name="iconName" :data-test-id="getTestId(props.testId, 'trigger-icon')" />
+          <Icon :name="resolvedIcon" :data-test-id="getTestId(props.testId, 'trigger-icon')" />
         </button>
 
         <div v-else :key="'shell'" :class="bemm('shell')" :data-test-id="getTestId(props.testId, 'shell')">
-          <Icon :name="iconName" :class="bemm('icon')" :data-test-id="getTestId(props.testId, 'icon')" />
+          <Icon :name="resolvedIcon" :class="bemm('icon')" :data-test-id="getTestId(props.testId, 'icon')" />
           <input
             ref="inputElement"
             :value="modelValue"
@@ -107,6 +107,9 @@ const emit = defineEmits<HeaderSearchEmits>()
 
 const bemm = useBemm('header-search')
 const slots = useSlots()
+
+// `icon` is canonical; `iconName` kept as a deprecated alias for one release.
+const resolvedIcon = computed(() => props.icon ?? props.iconName)
 
 const searchElement = ref<HTMLElement | null>(null)
 const inputElement = ref<HTMLInputElement | null>(null)
