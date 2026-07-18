@@ -1,6 +1,12 @@
 <template>
   <div
     :class="bemm('', [`type-${type}`, `size-${size}`])"
+    role="progressbar"
+    :aria-valuemin="indeterminate ? undefined : 0"
+    :aria-valuemax="indeterminate ? undefined : 100"
+    :aria-valuenow="indeterminate ? undefined : Math.round(percentage)"
+    :aria-label="label || undefined"
+    :aria-busy="indeterminate ? 'true' : undefined"
     :data-test-id="testId"
   >
     <div
